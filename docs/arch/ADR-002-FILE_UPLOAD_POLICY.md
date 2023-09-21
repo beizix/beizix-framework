@@ -19,8 +19,8 @@
 
 org.beizix 은 `Public`과 `Private` 업로드 방식을 제공하며 properties 설정을 통해 업로드 경로를 지정한다. 
 ```properties
-path.upload.public=${user.home}/recycle/upload/public
-path.upload.private=${user.home}/recycle/upload/private
+path.upload.public=${user.home}/beizix/upload/public
+path.upload.private=${user.home}/beizix/upload/private
 ```
 
 사용자에게 파일을 제공할 때 응답헤더의 `content-disposition` 설정을 통해 `INLINE`과 `ATTACHMENT` 방식을 제공한다. 

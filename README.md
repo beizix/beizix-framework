@@ -69,8 +69,8 @@ org.beizix 실행 시 필요한 자바 VM 옵션은 아래와 같다.
 | VM 변수                                                     | 설명                         | 설정 값                    | 필수여부 |
 |-----------------------------------------------------------|----------------------------|-------------------------|------|
 | -Dspring.profiles.active                                  | Spring active 프로파일         | local, dev, prod        | Y    |
-| -Drecycle.initData.core                                   | 초기 구동 데이터 생성 여부            | true, false             | N    |
-| -Drecycle.admin.singleRole                                | Admin 단일 권한 정책 적용여부        | true, false             | N    |
+| -beizix.initData.core                                   | 초기 구동 데이터 생성 여부            | true, false             | N    |
+| -beizix.admin.singleRole                                | Admin 단일 권한 정책 적용여부        | true, false             | N    |
 | -Dspring.jpa.hibernate.ddl-auto                           | JPA DDL 옵션                 | update, create 등등       | Y    |
 | -Dfile.encoding                                           | 범용 속성                      | `UTF-8`                 | Y    |
 | -Djava.net.preferIPv4Stack                                | 범용 속성                      | true                    | Y    |
@@ -88,11 +88,11 @@ org.beizix 실행 시 필요한 자바 VM 옵션은 아래와 같다.
   org.beizix 은 `local`, `dev`, `prod` 등 세가지 환경에 대한 프로파일이 미리 생성되어있다.
 
 
-* **recycle.initData.core**  
+* **beizix.initData.core**  
   어플리케이션 초기 구동에 필요한 Core 데이터 생성여부.
 
 
-* **recycle.admin.singleRole**  
+* **beizix.admin.singleRole**  
   (Admin 어플리케이션에만 해당)  Admin 단일 권한 정책 적용여부
 
 
@@ -121,9 +121,9 @@ org.beizix 실행 시 필요한 자바 VM 옵션은 아래와 같다.
 
 ```
 -Dspring.profiles.active=local
--Drecycle.initData.core=true
+-Dbeizix.initData.core=true
 -Dspring.jpa.hibernate.ddl-auto=update
--Drecycle.admin.singleRole=false
+-Dbeizix.admin.singleRole=false
 -Dfile.encoding=UTF-8
 -Djava.net.preferIPv4Stack=true
 -Dcom.amazonaws.sdk.disableEc2Metadata=true
@@ -132,7 +132,7 @@ org.beizix 실행 시 필요한 자바 VM 옵션은 아래와 같다.
 -Dserver.port=8080
 -Dserver.forward-headers-strategy=native
 -Dspring.datasource.driver-class-name=org.h2.Driver
--Dspring.datasource.url=jdbc:h2:~/recycle/h2/recycle-h2;AUTO_SERVER=TRUE
+-Dspring.datasource.url=jdbc:h2:~/beizix/h2/beizix-h2;AUTO_SERVER=TRUE
 -Dspring.datasource.username=sa
 -Dspring.datasource.password=
 ```
@@ -141,7 +141,7 @@ org.beizix 실행 시 필요한 자바 VM 옵션은 아래와 같다.
 
 ```
 -Dspring.profiles.active=local
--Drecycle.initData.core=true
+-Dbeizix.initData.core=true
 -Dspring.jpa.hibernate.ddl-auto=update
 -Dfile.encoding=UTF-8
 -Djava.net.preferIPv4Stack=true
@@ -151,7 +151,7 @@ org.beizix 실행 시 필요한 자바 VM 옵션은 아래와 같다.
 -Dserver.port=8081
 -Dserver.forward-headers-strategy=native
 -Dspring.datasource.driver-class-name=org.h2.Driver
--Dspring.datasource.url=jdbc:h2:~/recycle/h2/recycle-h2;AUTO_SERVER=TRUE
+-Dspring.datasource.url=jdbc:h2:~/beizix/h2/beizix-h2;AUTO_SERVER=TRUE
 -Dspring.datasource.username=sa
 -Dspring.datasource.password=
 ```
@@ -187,10 +187,10 @@ org.beizix 은 스프링부트의 JDBC 설정 방식을 그대로 이용한다. 
 `embedded`는 어플리케이션 종료와 함께 휘발되기에 영속성 유지를 위해서는 `server` 모드를 이용해야 한다.
 
 ```properties
-# /home 디렉토리/recycle/h2 경로에 recycle-h2.mv.db 파일이 생성된다
+# /home 디렉토리/beizix/h2 경로에 beizix-h2.mv.db 파일이 생성된다
 # AUTO_SERVER 속성을 이용해 server mode 로 동작한다.
 # 기본 구동시 username 은 sa, 패스워드는 없다.
--Dspring.datasource.url=jdbc:h2:~/recycle/h2/recycle-h2;AUTO_SERVER=TRUE
+-Dspring.datasource.url=jdbc:h2:~/beizix/h2/beizix-h2;AUTO_SERVER=TRUE
 -Dspring.datasource.username=sa
 -Dspring.datasource.password=
 ```

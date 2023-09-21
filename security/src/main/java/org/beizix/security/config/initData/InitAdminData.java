@@ -28,42 +28,42 @@ public class InitAdminData implements ApplicationRunner {
 
     adminSaveService.operate(
         AdminSaveReq.builder()
-            .id("recycle-super")
-            .password("recycle-framework")
-            .email("super@recycle.com")
+            .id("beizix-super")
+            .password("beizix-framework")
+            .email("super@beizix.org")
             .passwordUpdatedAt(LocalDateTime.now())
             .withRoles(
                 Set.of(
                     AdminWithRoleSaveReq.builder()
-                        .admin(new AdminSaveMinimumReq("recycle-super"))
+                        .admin(new AdminSaveMinimumReq("beizix-super"))
                         .role(new RoleSaveMinimumReq("ROLE_SUPER"))
                         .build()))
             .build());
 
     adminSaveService.operate(
         AdminSaveReq.builder()
-            .id("recycle-manager")
-            .password("recycle-framework")
-            .email("manager@recycle.com")
+            .id("beizix-manager")
+            .password("beizix-framework")
+            .email("manager@beizix.org")
             .passwordUpdatedAt(LocalDateTime.now())
             .withRoles(
                 Set.of(
                     AdminWithRoleSaveReq.builder()
-                        .admin(new AdminSaveMinimumReq("recycle-manager"))
+                        .admin(new AdminSaveMinimumReq("beizix-manager"))
                         .role(new RoleSaveMinimumReq("ROLE_MANAGER"))
                         .build()))
             .build());
 
     adminSaveService.operate(
         AdminSaveReq.builder()
-            .id("recycle-staff")
-            .password("recycle-framework")
-            .email("staff@recycle.com")
+            .id("beizix-staff")
+            .password("beizix-framework")
+            .email("staff@beizix.org")
             .passwordUpdatedAt(LocalDateTime.now())
             .withRoles(
                 Set.of(
                     AdminWithRoleSaveReq.builder()
-                        .admin(new AdminSaveMinimumReq("recycle-staff"))
+                        .admin(new AdminSaveMinimumReq("beizix-staff"))
                         .role(new RoleSaveMinimumReq("ROLE_STAFF"))
                         .build()))
             .build());

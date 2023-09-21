@@ -30,7 +30,7 @@ public class InitExBoardData implements ApplicationRunner {
                         .visible(true)
                         .boardStartDate(LocalDateTime.now())
                         .boardEndDate(LocalDateTime.now().plusMonths(2))
-                        .createdBy("recycle-super")
+                        .createdBy("beizix-super")
                         .orderNo(idx)
                         .build()));
   }

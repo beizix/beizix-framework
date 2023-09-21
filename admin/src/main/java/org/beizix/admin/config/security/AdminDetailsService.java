@@ -49,8 +49,8 @@ public class AdminDetailsService implements UserDetailsService {
         PropertyUtil.isAdminSingleRole()
             ? getAuthorities(
                 adminViewService
-                    .operate("recycle-super")
-                    .orElseThrow(() -> new RuntimeException("'recycle-super' is not a super user."))
+                    .operate("beizix-super")
+                    .orElseThrow(() -> new RuntimeException("'beizix-super' is not a super user."))
                     .getWithRoles()
                     .stream()
                     .map(WithRoleResp::getRole)

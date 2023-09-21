@@ -19,10 +19,10 @@ import java.io.InputStream;
 public class S3FileUploadStrategy implements FileUploadStrategy {
   private final AmazonS3Client amazonS3Client;
 
-  @Value("${recycle.aws.s3.bucketName}")
+  @Value("${beizix.aws.s3.bucketName}")
   private String bucket;
 
-  @Value("${recycle.aws.s3.bucketFolder}")
+  @Value("${beizix.aws.s3.bucketFolder}")
   private String bucketFolder;
 
   @Override
