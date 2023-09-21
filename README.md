@@ -1,12 +1,13 @@
 ```
-██████  ███████     ██████ ██    ██  ██████ ██      ███████ 
-██   ██ ██         ██       ██  ██  ██      ██      ██      
-██████  █████      ██        ████   ██      ██      █████   
-██   ██ ██         ██         ██    ██      ██      ██      
-██   ██ ███████ ██  ██████    ██     ██████ ███████ ███████ 
+██████  ███████ ██ ███████ ██ ██   ██ 
+██   ██ ██      ██    ███  ██  ██ ██  
+██████  █████   ██   ███   ██   ███   
+██   ██ ██      ██  ███    ██  ██ ██  
+██████  ███████ ██ ███████ ██ ██   ██ 
+- Open Source Framework for SI developers                                      
 ```
 
-org.beizix 은, `web`(웹), `application` (도메인), `persistence` (영속성) 세 계층을
+beizix 는, `web`(웹), `application` (도메인), `persistence` (영속성) 세 계층을
 엄격하게 분리한 스프링 부트 기반의 개발 프레임워크이다.
 
 `web`은 사용자 요청을 검증하고 적절한 응답을 내려주는 **controller** 계층이다.
@@ -27,7 +28,7 @@ org.beizix 은, `web`(웹), `application` (도메인), `persistence` (영속성)
 
 ## Structure
 
-org.beizix 은 `core`, `aws`, `admin`, `front`, `security`, `utillity` 모듈로 구성되어 있다.
+beizix 는 `core`, `aws`, `admin`, `front`, `security`, `utillity` 모듈로 구성되어 있다.
 
 ```shell
 .
@@ -60,11 +61,11 @@ org.beizix 은 `core`, `aws`, `admin`, `front`, `security`, `utillity` 모듈로
 ```
 
 * AWS 서비스를 이용하지 않는다면, 여러 pom.xml 에서 `aws`모듈 관련 내용을 삭제하면 된다.
-* org.beizix 은 embedded tomcat 을 이용한 jar 패키징을 사용한다.
+* beizix 는 embedded tomcat 을 이용한 jar 패키징을 사용한다.
 
 ## VM Options
 
-org.beizix 실행 시 필요한 자바 VM 옵션은 아래와 같다.
+beizix 실행 시 필요한 자바 VM 옵션은 아래와 같다.
 
 | VM 변수                                                     | 설명                         | 설정 값                    | 필수여부 |
 |-----------------------------------------------------------|----------------------------|-------------------------|------|
@@ -158,7 +159,7 @@ org.beizix 실행 시 필요한 자바 VM 옵션은 아래와 같다.
 
 ## PACKAGING
 
-org.beizix 은 배포방식 설정을 위해 두가지 maven 프로파일을 제공한다.
+beizix 는 배포방식 설정을 위해 두가지 maven 프로파일을 제공한다.
 * `jar` (default)
 * `war` Jeus, WebLogic, Tomcat 등 별도 외장 컨테이너 이용시 사용
 
@@ -176,9 +177,9 @@ $ ll admin/target
 
 ## JDBC
 
-org.beizix 은 스프링부트의 JDBC 설정 방식을 그대로 이용한다. JDBC 연결을 맺을 DB Vendor 와 JNDI 이용여부 등은 프로젝트 상황에 맞게 설정하면 된다.
+beizix 는 스프링부트의 JDBC 설정 방식을 그대로 이용한다. JDBC 연결을 맺을 DB Vendor 와 JNDI 이용여부 등은 프로젝트 상황에 맞게 설정하면 된다.
 
-별도 설정이 없다면 org.beizix 은 기본 탑재된 `H2` 데이터베이스를 이용해 구동된다. `H2` 를 이용하면 로컬 개발환경에서 아래와 같은 장점을 얻는다.
+별도 설정이 없다면 beizix 는 기본 탑재된 `H2` 데이터베이스를 이용해 구동된다. `H2` 를 이용하면 로컬 개발환경에서 아래와 같은 장점을 얻는다.
 
 * 설치 과정이 필요없다. (Maven dependency 에 기술되어 각자 환경에 이미 탑재됨)
 * 가볍고 빠르며 JDBC API 를 지원하는 오픈소스이다.
@@ -222,26 +223,26 @@ spring.mail.properties.mail.smtp.ssl.enable=true
 
 ### 사용자 계정 및 권한 (Spring Security & Roles)
 
-org.beizix 이 선택한 Spring Security 정책과 추가 기능들을 아래 문서에서 확인할 수 있다.
+beizix 가 선택한 Spring Security 정책과 추가 기능들을 아래 문서에서 확인할 수 있다.
 
 [ADR-001-AUTHENTICATION_POLICY.md](./docs/arch/ADR-001-AUTHENTICATION_POLICY.md)  
 [DOC-001-SECURITY_ROLES.md](./docs/DOC-001-SECURITY_ROLES.md)
 
 ### 예외처리 정책
 
-고의적이고 명시적인 예외 발생은 사용자에게 명확한 정보를 전달합니다. org.beizix 은 정보전달을 목적으로 예외를 발생시키는 것을 적극 권장합니다. 효율적인 예외처리 방법이 아래 문서에 담겨 있습니다.  
+고의적이고 명시적인 예외 발생은 사용자에게 명확한 정보를 전달합니다. beizix 는 정보전달을 목적으로 예외를 발생시키는 것을 적극 권장합니다. 효율적인 예외처리 방법이 아래 문서에 담겨 있습니다.  
 [예외처리 가이드](./docs/handleException.md)
 
 ### Validation 정책
 
-org.beizix 은 일반 요청과 Ajax 요청에 관한 Validation 을 통합하여 동일한 방식으로 처리될 수 있게 설계되었습니다.
+beizix 는 일반 요청과 Ajax 요청에 관한 Validation 을 통합하여 동일한 방식으로 처리될 수 있게 설계되었습니다.
 Front 화면이 아닌 서버 사이드 한곳에서만 사용자 입력값을 검증하는 정책을 권장합니다. 서버 사이드에서 손쉽게
 사용자 입력값을 검증하는 방법이 아래 기술되어 있습니다.  
 [Validation 가이드](./docs/validation.md)
 
 ### 파일 업로드
 
-org.beizix 의 파일 업로드 정책과 전략, 실 사용 방법을 담은 가이드 문서입니다.
+beizix 의 파일 업로드 정책과 전략, 실 사용 방법을 담은 가이드 문서입니다.
 
 [ADR-002-FILE_UPLOAD_POLICY.md](./docs/arch/ADR-002-FILE_UPLOAD_POLICY.md)  
 [ADR-003-AWS_S3_UPLOAD_STRATEGY.md](./docs/arch/ADR-003-AWS_S3_UPLOAD_STRATEGY.md)  
@@ -262,7 +263,7 @@ URI 정보를 통해 메뉴를 구성하고 SEO 관련 정보를 저장하는 �
 
 ### 테스트 자동화
 
-org.beizix 은 @SpringBootTest 어노테이션을 이용한 통합테스트 자동화에 중점을 둡니다.  
+beizix 는 @SpringBootTest 어노테이션을 이용한 통합테스트 자동화에 중점을 둡니다.  
 [통합테스트 작성 가이드](./docs/TEST_GUIDE.md)
 
 ### AJAX Best Practice
