@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<!--
+  ██ ██   ██ ███████  █████  ██████  ██
+ ██  ██   ██ ██      ██   ██ ██   ██  ██
+██   ███████ █████   ███████ ██   ██   ██
+ ██  ██   ██ ██      ██   ██ ██   ██  ██
+  ██ ██   ██ ███████ ██   ██ ██████  ██
+-->
+<head th:fragment="head">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title th:text="${currentURI.ogTitle}"></title>
+  <meta name="title" th:content="${currentURI.ogTitle}"/>
+  <meta name="description" th:content="${currentURI.ogDesc}"/>
+  <meta name="keywords" th:content="${currentURI.ogKeywords}"/>
+  <meta property="og:title" th:content="${currentURI.ogTitle}"/>
+  <meta property="og:description" th:content="${currentURI.ogDesc}"/>
+  <meta property="og:keywords" th:content="${currentURI.ogKeywords}"/>
+  <meta property="og:image" th:content="${currentURI.ogImage}"/>
+
+  <script th:src="@{/static/library/jquery/jquery-3.6.0.min.js}"></script>
+  <script th:inline="javascript" th:each="flashMsg : ${session.flashAlertMessages}"
+          th:if="${session.flashAlertMessages != null}">
+      $(function () {
+          const flashAlertMessage = [[${flashMsg}]];
+          if (flashAlertMessage) {
+              alert(flashAlertMessage);
+          }
+      });
+  </script>
+
+  <script th:inline="javascript" th:if="${session.flashAlertMessages != null}">
+      [[${#session.removeAttribute('flashAlertMessages')}]]
+  </script>
+
+  <style type="text/css">
+      .active {
+          font-weight: bold;
+      }
+  </style>
+</head>
+
+<body>
+
+<!--
+  ██ ███    ██  █████  ██    ██ ██                 ██   ██ ███████  █████  ██████  ███████ ██████
+ ██  ████   ██ ██   ██ ██    ██  ██                ██   ██ ██      ██   ██ ██   ██ ██      ██   ██
+██   ██ ██  ██ ███████ ██    ██   ██     █████     ███████ █████   ███████ ██   ██ █████   ██████
+ ██  ██  ██ ██ ██   ██  ██  ██   ██                ██   ██ ██      ██   ██ ██   ██ ██      ██   ██
+  ██ ██   ████ ██   ██   ████   ██                 ██   ██ ███████ ██   ██ ██████  ███████ ██   ██
+-->
+<nav th:fragment="header">
+  <section style="background:#eee; border-radius: 1px;">
+    <h2>Header 영역</h2>
+
+    <p>
+      <strong>Current Locale</strong> :
+      <select name="localeSelect" onchange="localeChange(this);">
+        <option>언어 설정</option>
+        <option value="ko_KR" th:selected="${#locale.toString() == 'ko_KR'}">ko_KR</option>
+        <option value="en_US" th:selected="${#locale.toString() == 'en_US'}">en_US</option>
+      </select>
+    </p>
+
+    <p>
+      <strong>Current Device</strong> : [[${currentDevice}]]
+    </p>
+
+    <script th:inline="javascript">
+        function localeChange(oj) {
+            if (!oj.value) return;
+
+            location.href = new Uri(location.href).replaceQueryParam('lang', oj.value);
+        }
+    </script>
+    <ul th:if="${topNode != null}">
+      <li>
+        <a th:href="${topNode.uri}"
+           th:classappend="${topNode.uri eq currentURI.uri} ? 'active'">[[${#messages.msg(topNode.id)}]]</a>
+      </li>
+      <li th:each="menu : ${topNode.nodes}" th:if="${menu.showOnNavi}">
+        <!-- 자식 nodes 가 없는 경우 -->
+        <a th:if="${#lists.size(menu.nodes) == 0}"
+           th:classappend="${currentURI.id == menu.id}? 'active'" th:href="${menu.uri}"
+           th:text="${#messages.msg(menu.id)}">메뉴명</a>
+        <!-- 자식 nodes 가 있는 경우 -->
+        <a th:if="${#lists.size(menu.nodes) > 0}"
+           th:classappend="${@coreUtil.containsCurrentURI(menuHierarchy, menu.id)}? 'active'"
+           th:href="${menu.uri}" th:text="${#messages.msg(menu.id)}">메뉴명</a>
+        <ul th:if="${#lists.size(menu.nodes) > 0}">
+          <li th:each="child : ${menu.nodes}" th:if="${child.showOnNavi}">
+            <a class="dropdown-item"
+               th:classappend="${@coreUtil.containsCurrentURI(menuHierarchy, child.id)}? 'active'"
+               th:href="${child.uri}" th:text="${#messages.msg(child.id)}">메뉴명</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+</nav>
+
+<!--
+██████  ██████  ███████  █████  ██████   ██████ ██████  ██    ██ ███    ███ ██████
+██   ██ ██   ██ ██      ██   ██ ██   ██ ██      ██   ██ ██    ██ ████  ████ ██   ██
+██████  ██████  █████   ███████ ██   ██ ██      ██████  ██    ██ ██ ████ ██ ██████
+██   ██ ██   ██ ██      ██   ██ ██   ██ ██      ██   ██ ██    ██ ██  ██  ██ ██   ██
+██████  ██   ██ ███████ ██   ██ ██████   ██████ ██   ██  ██████  ██      ██ ██████
+-->
+<div th:fragment="breadcrumb">
+  <div style="background:#eee;">
+    <h2>Breadcrumb 영역</h2>
+    <nav>
+      <ol>
+        <li th:each="item, status : ${menuHierarchy}"
+            th:classappend="${item.id == currentURI.id}? 'active'">
+          <a th:if="${item.id != currentURI.id}" th:href="${item.uri}">
+            <span th:remove="tag" th:text="${@coreUtil.getUriTitle(item)}"></span>
+          </a>
+          <span th:if="${item.id == currentURI.id}" th:text="${@coreUtil.getUriTitle(item)}" th:remove="tag"></span>
+        </li>
+      </ol>
+    </nav>
+  </div>
+</div>
+
+<!--
+██████   █████   ██████  ███████     ██   ██ ███████  █████  ██████  ██ ███    ██  ██████
+██   ██ ██   ██ ██       ██          ██   ██ ██      ██   ██ ██   ██ ██ ████   ██ ██
+██████  ███████ ██   ███ █████       ███████ █████   ███████ ██   ██ ██ ██ ██  ██ ██   ███
+██      ██   ██ ██    ██ ██          ██   ██ ██      ██   ██ ██   ██ ██ ██  ██ ██ ██    ██
+██      ██   ██  ██████  ███████     ██   ██ ███████ ██   ██ ██████  ██ ██   ████  ██████
+-->
+<div th:fragment="pageHeading">
+  <h1 th:text="${#messages.msg(currentURI.id)}"></h1>
+</div>
+
+<!--
+ ██████  ██████  ███████ ██████   █████  ████████ ██  ██████  ███    ██     ███    ███ ███████  ██████
+██    ██ ██   ██ ██      ██   ██ ██   ██    ██    ██ ██    ██ ████   ██     ████  ████ ██      ██
+██    ██ ██████  █████   ██████  ███████    ██    ██ ██    ██ ██ ██  ██     ██ ████ ██ ███████ ██   ███
+██    ██ ██      ██      ██   ██ ██   ██    ██    ██ ██    ██ ██  ██ ██     ██  ██  ██      ██ ██    ██
+ ██████  ██      ███████ ██   ██ ██   ██    ██    ██  ██████  ██   ████     ██      ██ ███████  ██████
+-->
+<div th:fragment="operationMessage" th:if="${not #strings.isEmpty(operationMessage)}" class="row">
+  <div class="alert alert-info fw-bold" th:utext="${operationMessage}">
+  </div>
+</div>
+
+<!--
+  ██ ███████  ██████ ██████  ██ ██████  ████████ ██
+ ██  ██      ██      ██   ██ ██ ██   ██    ██     ██
+██   ███████ ██      ██████  ██ ██████     ██      ██
+ ██       ██ ██      ██   ██ ██ ██         ██     ██
+  ██ ███████  ██████ ██   ██ ██ ██         ██    ██
+-->
+<div th:fragment="script-block">
+  <script th:src="@{/static/library/jsUri/Uri.js}"></script>
+  <script th:src="@{/static/library/jsRender/jsrender.min.js}"></script>
+  <script th:src="@{/static/ui/utilize.js}"></script>
+  <script th:src="@{/static/library/jquery/jquery-serializeObject.min.js}"></script>
+</div>
+
+<!--
+███████  ██████   ██████  ████████ ███████ ██████
+██      ██    ██ ██    ██    ██    ██      ██   ██
+█████   ██    ██ ██    ██    ██    █████   ██████
+██      ██    ██ ██    ██    ██    ██      ██   ██
+██       ██████   ██████     ██    ███████ ██   ██
+-->
+<div th:fragment="footer">
+  <footer>
+    <div>
+      <span>&copy; 2022 All rights reserved by org.beizix</span>
+    </div>
+  </footer>
+</div>
+
+</body>
+
+</html>

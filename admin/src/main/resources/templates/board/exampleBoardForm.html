@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/layout}">
+
+<section layout:fragment="content">
+  <form
+          th:action="${dto.id != null ? '/board/exampleBoard/update/' + dto.id : '/board/exampleBoard/create'}"
+          method="post"
+          enctype="multipart/form-data" class="fw-bold" name="updateForm"
+          th:object="${dto}">
+    <input type="hidden" name="id" th:value="${dto.id}"/>
+
+    <div class="container">
+      <div class="row mb-3">
+        <label class="col-sm-2 col-form-label" for="title">Title *</label>
+        <div class="col-sm-6">
+          <input id="title" class="form-control unescapeText" th:field="*{title}"
+                 th:classappend="${#fields.hasErrors('title')} ? 'is-invalid'"/>
+          <div class="invalid-feedback fw-bold" th:if="${#fields.hasErrors('title')}"
+               th:errors="*{title}">
+            에러 메세지
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <label class="col-sm-2 col-form-label" for="boardStartDate">게시일 *</label>
+        <div class="col-sm-3 ">
+          <input id="boardStartDate" class="form-control flatpickr" th:field="*{boardStartDate}"
+                 type="text" placeholder="게시일을 선택하세요"
+                 th:classappend="${#fields.hasErrors('boardStartDate')} ? 'is-invalid'"/>
+          <div class="invalid-feedback fw-bold" th:if="${#fields.hasErrors('boardStartDate')}"
+               th:errors="*{boardStartDate}">
+            에러 메세지
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <input id="boardEndDate" class="form-control flatpickr" th:field="*{boardEndDate}"
+                 type="text" placeholder="종료일을 선택하세요"
+                 th:classappend="${#fields.hasErrors('boardEndDate')} ? 'is-invalid'"/>
+          <div class="invalid-feedback fw-bold" th:if="${#fields.hasErrors('boardEndDate')}"
+               th:errors="*{boardEndDate}">
+            에러 메세지
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <label class="col-sm-2 col-form-label" for="open">공개여부</label>
+        <div class="col-sm-4">
+          <select class="form-select d-inline w-25" th:field="*{visible}" id="open">
+            <option value="true">Y</option>
+            <option value="false">N</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="representImgFile" class="form-label d-block">대표 이미지</label>
+        <input class="form-control w-50 d-inline-block mb-2" type="file" id="representImgFile"
+               th:field="*{representImgFile}">
+        <div class="invalid-feedback fw-bold" th:if="${#fields.hasErrors('representImgFile')}"
+             th:errors="*{representImgFile}">
+          에러 메세지
+        </div>
+        <input type="text" class="form-control w-50" th:field="*{repImgAlt}"
+               placeholder="alt text"/>
+        <!-- 수정화면시, 이미지 표시 -->
+        <div class="col-sm-6" th:with="repImg=${dto.representImage}"
+             th:if="${dto.representImage != null}">
+          <div>
+            <a th:text="${repImg.originName}"
+               class="text-decoration-none"></a>
+          </div>
+          <div class="mt-2">
+            <img th:src="${@fileUrlService.operate('INLINE', repImg)}"
+                 style="max-width: 100%"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="col-sm-2 col-form-label" for="content">내용 *</label>
+        <div class="col-sm-10">
+              <textarea class="form-control" id="content" rows="10" th:field="*{content}"
+                        th:classappend="${#fields.hasErrors('content')} ? 'is-invalid'"></textarea>
+          <div class="invalid-feedback fw-bold" th:if="${#fields.hasErrors('content')}"
+               th:errors="*{content}">
+            에러 메세지
+          </div>
+        </div>
+      </div>
+
+      <hr/>
+
+      <div th:if="${dto.id != null}" class="row mb-3 pt-3">
+        <label class="col-sm-2 col-form-label" style="padding-top: 0;">다건 파일 첨부</label>
+        <div class="col-sm-6">
+          <div th:each="item, status : ${dto.attachments}">
+            <a th:href="${@fileUrlService.operate('ATTACHMENT', item.fileUploadInfo)}"
+               th:text="${item.fileUploadInfo.originName}"
+               th:attr="data-file-seq=${item.id}"
+               data-posting-type='public'
+               class="text-decoration-none"></a>
+            <a href="javascript:void(0);" onclick="removeFile(this);" data-posting-type='public'
+               th:attr="data-del-file-seq=${item.id}"><i
+                    class="bi bi-file-excel"></i></a>
+            <a href="javascript:void(0);" onclick="cancelRemove(this);" data-posting-type='public'
+               style="display: none;"
+               th:attr="data-cancel-file-seq=${item.id}"
+               class="text-decoration-none"> (취소)</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3 publicFileInputs">
+        <label for="formFile1" class="form-label d-block">다건 파일 첨부</label>
+        <input class="form-control w-50 d-inline-block mb-2" type="file" name="multipartAttachments"
+               id="formFile1">
+        <button type="button" class="btn btn-success d-inline-block align-top"
+                onclick="addFileInput('public');">추가
+        </button>
+      </div>
+
+      <hr/>
+
+      <div class="mb-3 privateFileInputs">
+        <label for="filePrivate" class="form-label d-block">private 파일 첨부 (외부 비공개)</label>
+        <div class="row mb-2">
+          <a th:if="${dto.id != null and dto.privateAttachment != null}"
+             th:href="${@fileUrlService.operate('ATTACHMENT', dto.privateAttachment)}"
+             th:text="${dto.privateAttachment.originName}"
+             class="text-decoration-none"></a>
+        </div>
+        <input class="form-control w-50 d-inline-block mb-2" type="file"
+               name="multipartPrivateAttachment"
+               id="filePrivate">
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary float-end">저장</button>
+    <button type="button" class="btn btn-light" onclick="gotoList();return false;">목록으로 이동</button>
+  </form>
+
+  <!-- 이전 목록페이지의 검색 및 정렬조건 폼 -->
+  <form th:if="${dto.id != null}" th:action="@{/board/exampleBoard}" name="prevParamForm"
+        method="get"
+        th:object="${paramDto}">
+    <input type="hidden" th:field="*{searchField}">
+    <input type="hidden" th:field="*{searchValue}">
+    <input type="hidden" th:field="*{searchOpen}">
+    <input type="hidden" th:field="*{page}">
+    <input type="hidden" th:field="*{size}">
+    <input type="hidden" th:field="*{sort}">
+  </form>
+
+  <script>
+      function gotoList() {
+          document.prevParamForm ? document.prevParamForm.submit()
+              : location.href = '/board/exampleBoard';
+      }
+
+      function removeFile(oj) {
+          const fileSeq = $(oj).data('del-file-seq');
+          const postingType = $(oj).attr('data-posting-type');
+          const el = $('a[data-file-seq=' + fileSeq + '][data-posting-type=' + postingType + ']');
+          el.addClass('text-decoration-line-through');
+          $(oj).hide();
+
+          const cancelEl = $(
+              'a[data-cancel-file-seq=' + fileSeq + '][data-posting-type=' + postingType + ']');
+          cancelEl.show();
+
+          const f = document.updateForm;
+          let input = $('<input type="hidden">');
+          input.attr('name', 'removeAttachmentIds');
+          input.val(fileSeq);
+          input.attr('id', 'del_' + postingType + '_' + fileSeq);
+          $(f).append(input);
+      }
+
+      function cancelRemove(oj) {
+          const fileSeq = $(oj).data('cancel-file-seq');
+          const postingType = $(oj).attr('data-posting-type');
+          const el = $('a[data-file-seq=' + fileSeq + '][data-posting-type=' + postingType + ']');
+          el.removeClass('text-decoration-line-through');
+
+          $('#del_' + postingType + '_' + fileSeq).remove();
+
+          $('a[data-del-file-seq=' + fileSeq + '][data-posting-type=' + postingType + ']').show();
+
+          $(oj).hide();
+      }
+
+      function addFileInput(type) {
+          let tmpl = $.templates('#fileInputTmpl');
+          switch (type) {
+              case 'public':
+                  $('.publicFileInputs').append(tmpl.render({'name': 'multipartAttachments'}));
+                  break;
+              case 'private':
+                  $('.privateFileInputs').append(tmpl.render({'name': 'privateFiles'}));
+                  break;
+          }
+      }
+  </script>
+
+  <script id="fileInputTmpl" type="text/x-jsrender">
+		<input class="form-control w-50 mb-2" type="file" name="{{:name}}"/>
+
+
+  </script>
+
+  <!-- web editor - tinymce -->
+  <script src="/static/library/tinymce/6.0.3/tinymce.min.js" referrerpolicy="origin"></script>
+  <script src="/static/ui/editorImageUpload.js"></script>
+  <script th:inline="javascript">
+      tinymce.init({
+          selector: '#content',
+          plugins: 'preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons',
+          toolbar: 'undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
+          // toolbar_mode: 'floating',
+          // images_upload_url: '/editorImage/upload',
+          language: 'ko_KR',
+          images_upload_handler: editorImageUpload,
+          relative_urls: false,
+          height: 600,
+          quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
+          toolbar_mode: 'sliding',
+          skin: 'oxide-dark',
+          content_css: 'dark',
+          quickbars_insert_toolbar: '',
+          setup: function (editor) {
+              editor.on('init', function (e) {
+                  let content = [[${dto.content}]];
+                  if (content) {
+                      tinymce.activeEditor.setContent(utilize.unescape(content));
+                  }
+              });
+          },
+          // Tinymce 는 HTML 입력 시 validation 이 동작되기에 필요에 따라 허용 옵션을 지정해줘야 한다.
+          // https://www.tiny.cloud/docs/tinymce/6/content-filtering/#valid_children
+          valid_children: '+a[div|span]',
+          // https://www.tiny.cloud/docs/tinymce/6/content-filtering/#extended_valid_elements
+          extended_valid_elements: '#span[*]',
+      });
+
+      // date time picker
+      $(".flatpickr").flatpickr({
+          enableTime: true,
+          dateFormat: "Y-m-d\\TH:i",
+          monthSelectorType: 'static',
+          time_24hr: true
+      });
+  </script>
+</section>
+
+</html>

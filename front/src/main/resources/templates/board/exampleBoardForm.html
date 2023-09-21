@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/layout}">
+
+<section layout:fragment="content">
+  <form th:action="@{/board/exampleBoard/} + ${formDto.editMode ? 'update' : 'create'}" method="post"
+        enctype="multipart/form-data" name="updateForm"
+        th:object="${formDto}">
+    <input type="hidden" name="editMode" th:value="${formDto.editMode}"/>
+    <input type="hidden" name="id" th:if="${formDto.editMode}" th:value="${formDto.id}"/>
+
+    <div>
+      <h1 th:text="${formDto.title}">
+      </h1>
+
+      <div>
+        <label >게시일 *</label>
+        <div>
+          <span th:text="${formDto.boardStartDate}"></span> ~ <span th:text="${formDto.boardEndDate}"></span>
+        </div>
+      </div>
+
+      <div>
+        <label>공개여부</label>
+        <div th:text="${formDto.visible}">
+      </div>
+
+      <div th:utext="${formDto.content}">
+
+      </div>
+
+      <div th:if="${formDto.editMode}">
+        <label for="content" style="padding-top: 0;">public 파일</label>
+        <div>
+          <div th:each="item, status : ${formDto.uploadedFiles}">
+            <a th:href="${@commonUtil.getPublicIOPath(item)}" th:text="${item.originalFilename}"
+               th:attr="data-file-seq=${item.seq}"
+            ></a>
+            <a href="javascript:void(0);" onclick="removeFile(this);" th:attr="data-del-file-seq=${item.seq}"><i
+            ></i></a>
+            <a href="javascript:void(0);" onclick="cancelRemove(this);" style="display: none;"
+               th:attr="data-cancel-file-seq=${item.seq}"
+            > (취소)</a>
+          </div>
+        </div>
+      </div>
+
+      <div th:if="${formDto.editMode}">
+        <label for="content" style="padding-top: 0;">private 파일</label>
+        <div>
+          <div th:each="item, status : ${formDto.uploadedPrivates}">
+            <a th:href="${@commonUtil.getPrivateIOPath(item)}" th:text="${item.originalFilename}"
+               th:attr="data-file-seq=${item.seq}"
+            ></a>
+            <a href="javascript:void(0);" onclick="removeFile(this);" th:attr="data-del-file-seq=${item.seq}"><i
+            ></i></a>
+            <a href="javascript:void(0);" onclick="cancelRemove(this);" style="display: none;"
+               th:attr="data-cancel-file-seq=${item.seq}"
+            > (취소)</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <button type="button" onclick="gotoList();return false;">목록으로 이동</button>
+  </form>
+
+  <!-- 이전 목록페이지의 검색 및 정렬조건 폼 -->
+  <form th:if="${formDto.editMode}" th:action="@{/board/exampleBoard}" name="prevParamForm" method="get"
+        th:object="${paramDto}">
+    <input type="hidden" th:field="*{searchField}">
+    <input type="hidden" th:field="*{searchValue}">
+    <input type="hidden" th:field="*{searchOpen}">
+    <input type="hidden" th:field="*{page}">
+    <input type="hidden" th:field="*{size}">
+    <input type="hidden" th:field="*{sort}">
+  </form>
+
+  <script>
+      function gotoList() {
+          document.prevParamForm ? document.prevParamForm.submit() : location.href = '/board/exampleBoard';
+      }
+
+      function removeFile(oj) {
+          const fileSeq = $(oj).data('del-file-seq');
+          const el = $('a[data-file-seq=' + fileSeq + ']');
+          el.addClass('text-decoration-line-through');
+          $(oj).hide();
+
+          const cancelEl = $('a[data-cancel-file-seq=' + fileSeq + ']');
+          cancelEl.show();
+
+          const f = document.updateForm;
+          let input = $('<input type="hidden" name="delFileSeq">');
+          input.val(fileSeq);
+          input.attr('id', 'del_' + fileSeq);
+          $(f).append(input);
+      }
+
+      function cancelRemove(oj) {
+          const fileSeq = $(oj).data('cancel-file-seq');
+          const el = $('a[data-file-seq=' + fileSeq + ']');
+          el.removeClass('text-decoration-line-through');
+
+          $('#del_' + fileSeq).remove();
+
+          $('a[data-del-file-seq=' + fileSeq + ']').show();
+
+          $(oj).hide();
+      }
+
+      function addFileInput(type) {
+          let tmpl = $.templates('#fileInputTmpl');
+          switch (type) {
+              case 'public':
+                  $('.publicFileInputs').append(tmpl.render({'name': 'multipartFiles'}));
+                  break;
+              case 'private':
+                  $('.privateFileInputs').append(tmpl.render({'name': 'privateFiles'}));
+                  break;
+          }
+      }
+  </script>
+
+  <script id="fileInputTmpl" type="text/x-jsrender">
+		<input type="file" name="{{:name}}"/>
+
+
+
+
+  </script>
+</section>
+
+</html>

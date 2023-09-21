@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/layout}">
+
+<section layout:fragment="content">
+
+  <form th:action="@{/addons/email/form}" method="post" enctype="multipart/form-data"
+        th:object="${formDto}" class="fw-bold">
+
+    <div class="row mb-3">
+      <label class="col-sm-2 col-form-label" for="id">To *</label>
+      <div class="col-sm-4">
+        <input id="id" type="email" class="form-control" th:field="*{to}"
+               th:classappend="${#fields.hasErrors('to')} ? 'is-invalid'"/>
+        <div class="invalid-feedback fw-bold" th:if="${#fields.hasErrors('to')}" th:errors="*{to}">
+          에러 메세지
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label class="col-sm-2 col-form-label" for="subject">Subject *</label>
+      <div class="col-sm-4">
+        <input id="subject" class="form-control" th:field="*{subject}"
+               th:classappend="${#fields.hasErrors('subject')} ? 'is-invalid'"/>
+        <div class="invalid-feedback fw-bold" th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}">
+          에러 메세지
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label class="col-sm-2 col-form-label" for="msgType">Message Type *</label>
+      <div class="col-sm-4">
+        <input id="msgType" name="msgType" type="radio" class="form-check-input" value="HTML" checked/>
+        <label class="form-check-label" for="msgType">HTML</label>
+        <input id="msgType2" name="msgType" type="radio" class="form-check-input" value="TEXT"/>
+        <label class="form-check-label" for="msgType2">TEXT</label>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label class="col-sm-2 col-form-label" for="message">Message *</label>
+      <div class="col-sm-4">
+        <textarea id="message" type="text" class="form-control" th:field="*{message}"
+                  th:classappend="${#fields.hasErrors('message')} ? 'is-invalid'"></textarea>
+        <div class="invalid-feedback fw-bold" th:if="${#fields.hasErrors('message')}" th:errors="*{message}">
+          에러 메세지
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3 publicFileInputs">
+      <label for="formFile1" class="form-label d-block">파일 첨부</label>
+      <input class="form-control w-50 d-inline-block mb-2" type="file" name="multipartFiles" id="formFile1">
+      <button type="button" class="btn btn-success d-inline-block align-top" onclick="addFileInput('public');">추가
+      </button>
+    </div>
+
+    <button type="submit" class="btn btn-primary">발송</button>
+  </form>
+
+  <script>
+      function addFileInput(type) {
+          let tmpl = $.templates('#fileInputTmpl');
+          switch (type) {
+              case 'public':
+                  $('.publicFileInputs').append(tmpl.render({'name': 'multipartFiles'}));
+                  break;
+              case 'private':
+                  $('.privateFileInputs').append(tmpl.render({'name': 'privateFiles'}));
+                  break;
+          }
+      }
+  </script>
+
+  <script id="fileInputTmpl" type="text/x-jsrender">
+		<input class="form-control w-50 mb-2" type="file" name="{{:name}}"/>
+
+  </script>
+</section>
+
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/layout}">
+
+<section layout:fragment="content">
+
+  <form method="get" name="paramForm" th:action="@{/analysis/operationlog}"
+        th:object="${paramDto}" onsubmit="goSearch();">
+    <input type="hidden" name="page"
+           th:value="${items.pageable.pageNumber}"/>
+    <input type="hidden"
+           name="sort" th:value="${items.pageable.sort}"/>
+
+    <div class="row bg-secondary p-2 mb-2" style="--bs-bg-opacity: .2;">
+      <div class="col">
+        <label class="col-form-label" for="searchAppType">App Type</label>
+        <select class="form-select d-inline" th:field="*{searchAppType}" style="width: 110px;"
+                id="searchAppType">
+          <option value="" selected>전체</option>
+          <option th:each="appType : ${T(org.beizix.core.config.enums.AppType).values()}" th:value="${appType.name}">
+            [[${appType.name}]]
+          </option>
+        </select>
+      </div>
+
+      <div class="col">
+        <label class="col-form-label" for="searchOperationType">Operation Type</label>
+        <select class="form-select d-inline" th:field="*{searchOperationType}" style="width: 110px;"
+                id="searchOperationType">
+          <option value="" selected>전체</option>
+          <option th:each="operationType : ${T(org.beizix.core.config.enums.OperationLogType).values()}"
+                  th:value="${operationType.name}">[[${operationType.name}]] ([[${operationType.desc}]])
+          </option>
+        </select>
+      </div>
+
+      <div class="col-auto">
+        <label class="col-form-label" for="searchField">검색필드</label>
+        <select class="form-select d-inline w-auto" th:field="*{searchField}"
+                id="searchField">
+          <option value="" selected>선택</option>
+          <option value="id">로그 ID</option>
+          <option value="operatorId">수행자</option>
+          <option value="targetId">피수행자</option>
+        </select>
+        <label>
+          <input type="text" class="form-control d-inline"
+                 th:field="*{searchValue}" placeholder="검색어를 입력하세요."
+                 style="">
+        </label>
+      </div>
+      <div class="col text-end">
+        <button type="button" class="btn btn-secondary"
+                onclick="goSearch();">검색
+        </button>
+        <button type="button" class="btn btn-light" onclick="goInit();">초기화
+        </button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col text-start">
+        <div class="fw-bolder text-muted">
+          Total: <span th:text="${items.totalElements}"></span>
+        </div>
+      </div>
+      <div class="col text-end">
+        <i class="bi bi-list-ol"></i> <label> <select
+              class="form-select form-select-sm" th:field="*{size}"
+              onchange="goSearch()">
+        <option
+                th:each="item : ${@uiCodeListService.operate('code.pageable.rows')}"
+                th:value="${item.codeValue}" th:text="${item.codeText}"></option>
+      </select>
+      </label>
+      </div>
+    </div>
+
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col"><a href="#" class="orderable"
+                           data-sort-field="id">로그 ID</a></th>
+        <th scope="col"><a href="#" class="orderable"
+                           data-sort-field="appType">App Type</a></th>
+        <th scope="col"><a href="#" class="orderable"
+                           data-sort-field="operationType">Operation Type</a></th>
+        <th scope="col"><a href="#" class="orderable"
+                           data-sort-field="ip">IP</a></th>
+        <th scope="col"><a href="#" class="orderable"
+                           data-sort-field="operatedAt">수행일</a></th>
+        <th scope="col"><a href="#" class="orderable"
+                           data-sort-field="operatorId">수행자</a></th>
+        <th scope="col"><a href="#" class="orderable"
+                           data-sort-field="targetId">피수행자</a></th>
+      </tr>
+      </thead>
+      <tbody class="sortable">
+
+      <div th:remove="tag" th:each="item, status : ${items}">
+        <tr>
+          <td scope="row">[[${status.count + (items.pageable.pageNumber * items.pageable.pageSize)}]]</td>
+          <th class="bg-info">[[${item.id}]]</th>
+          <td>[[${item.appType}]]</td>
+          <td>[[${item.operationLogType}]]</td>
+          <td>
+            <span th:remove="tag" th:if="${not #strings.isEmpty(item.ip)}">[[${item.ip}]]</span>
+            <span th:remove="tag" th:if="${#strings.isEmpty(item.ip)}"><i class="bi bi-slash-circle"></i></span>
+          </td>
+          <td>[[${#temporals.format(item.operatedAt, 'yyyy-MM-dd HH:mm')}]]</td>
+          <td>[[${item.operatorId}]]</td>
+          <td>
+            <span th:remove="tag" th:if="${not #strings.isEmpty(item.targetId)}">[[${item.targetId}]]</span>
+            <span th:remove="tag" th:if="${#strings.isEmpty(item.targetId)}"><i class="bi bi-slash-circle"></i></span>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td colspan="8"><i class="bi bi-arrow-right"></i> [[${item.taskDesc}]]</td>
+        </tr>
+      </div>
+
+      </tbody>
+    </table>
+
+  </form>
+
+  <div th:replace="common/list-components :: pagination(${items})"></div>
+
+  <div class="row">
+    <div class="col text-start">
+      <button type="button" class="btn btn-success" onclick="goExcel();">엑셀 다운로드</button>
+    </div>
+    <div class="col text-end">
+    </div>
+  </div>
+
+  <div th:replace="common/list-components :: listColumnOrder(${items})"></div>
+
+  <script th:inline="javascript">
+      // 검색
+      function goSearch() {
+          const f = document.paramForm;
+          f.action = '/analysis/operationlog';
+          f.page.value = 0;
+          f.sort.value = convertToPageableSortValue(f.sort.value);
+          f.method = 'get';
+          f.submit();
+      }
+
+      // 초기화
+      function goInit() {
+          const f = document.paramForm;
+          f.searchField.value = '';
+          f.searchValue.value = '';
+          f.searchAppType.value = '';
+          f.searchOperationType.value = '';
+      }
+
+      function goExcel() {
+          const f = document.paramForm;
+          f.sort.value = convertToPageableSortValue(f.sort.value);
+          f.action = '/analysis/operationlog/excel';
+          f.method = 'get';
+          f.submit();
+      }
+  </script>
+</section>
+
+
+</html>

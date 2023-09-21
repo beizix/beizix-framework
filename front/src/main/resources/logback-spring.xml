@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+참고문서
+https://docs.spring.io/spring-boot/docs/1.5.x/reference/html/howto-logging.html
+스프링부트 Git Repository
+https://github.com/spring-projects/spring-boot/tree/main/spring-boot-project/spring-boot/src/main/resources/org/springframework/boot/logging/logback
+에러 로그파일 생성
+https://goddaehee.tistory.com/206
+-->
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+<!--    <springProperty scope="context" name="ACTIVE_PROFILE" source="spring.profiles.active"/>-->
+<!--    <property resource="application-${ACTIVE_PROFILE}.properties"/>-->
+
+    <property name="APP_LOG_FILE" value="front-recycle"/>
+
+    <property name="LOG_FILE" value="${LOG_PATH}/${APP_LOG_FILE}.log"/>
+    <property name="LOGBACK_ROLLINGPOLICY_FILE_NAME_PATTERN" value="${LOG_PATH}/${APP_LOG_FILE}.%d{yyyy-MM-dd}.%i.log"/>
+    <property name="LOG_FILE_ERROR" value="${LOG_PATH}/${APP_LOG_FILE}-ERROR"/>
+
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+    <include resource="org/springframework/boot/logging/logback/file-appender.xml"/>
+
+    <!-- ERROR 출력의 경우 (운영 관리의 편리함을 위해) 별도 파일을 추가로 생성해준다. -->
+    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>error</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <file>${LOG_FILE_ERROR}.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>${FILE_LOG_CHARSET}</charset>
+        </encoder>
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FILE_ERROR}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- 일자별 로그파일 최대 보관주기(~일), 해당 설정일 이상된 파일은 자동으로 제거-->
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="ERROR"/>
+    </root>
+
+    <!-- 시작시 불필요한 오류 제거 (EC2 Metadata Service) -->
+    <logger name="com.amazonaws.util.EC2MetadataUtils" level="ERROR"/>
+
+</configuration>

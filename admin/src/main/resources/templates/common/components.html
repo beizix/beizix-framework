@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<!--
+  ██ ██   ██ ███████  █████  ██████  ██
+ ██  ██   ██ ██      ██   ██ ██   ██  ██
+██   ███████ █████   ███████ ██   ██   ██
+ ██  ██   ██ ██      ██   ██ ██   ██  ██
+  ██ ██   ██ ███████ ██   ██ ██████  ██
+-->
+<head th:fragment="head">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+  <meta name="robots" content="noindex, nofollow"/>
+
+  <title th:if="${currentURI != null}" th:text="${currentURI.ogTitle}"></title>
+  <meta th:if="${currentURI != null}" name="title" th:content="${currentURI.ogTitle}"/>
+  <meta th:if="${currentURI != null}" name="description" th:content="${currentURI.ogDesc}"/>
+  <meta th:if="${currentURI != null}" name="keywords" th:content="${currentURI.ogKeywords}"/>
+  <meta th:if="${currentURI != null}" property="og:title" th:content="${currentURI.ogTitle}"/>
+  <meta th:if="${currentURI != null}" property="og:description" th:content="${currentURI.ogDesc}"/>
+  <meta th:if="${currentURI != null}" property="og:keywords" th:content="${currentURI.ogKeywords}"/>
+  <meta th:if="${currentURI != null}" property="og:image" th:content="${currentURI.ogImage}"/>
+
+  <link rel="stylesheet" th:href="@{/static/library/bootstrap/bootstrap.min.css}"/>
+  <link rel="stylesheet" th:href="@{/static/library/bootstrap/bootstrap-icons.css}"/>
+  <script th:src="@{/static/library/jquery/jquery-3.6.0.min.js}"></script>
+
+  <link rel="stylesheet" th:href="@{/static/library/jquery-ui/jquery-ui.min.css}"/>
+  <script th:src="@{/static/library/jquery-ui/jquery-ui.min.js}"></script>
+
+  <link rel="stylesheet" th:href="@{/static/library/bootstrap-treeview/bootstrap-treeview.min.css}">
+  <script type="text/javascript" th:src="@{/static/library/bootstrap-treeview/bootstrap-treeview.min.js}"></script>
+
+  <link rel="stylesheet" th:href="@{/static/library/flatpickr/flatpickr.min.css}">
+  <link rel="stylesheet" th:href="@{/static/library/flatpickr/flatpickr.dark.css}">
+  <script th:src="@{/static/library/flatpickr/flatpickr.min.js}"></script>
+
+  <script th:src="@{/static/ui/navbar/recycle-navbar.js}"></script>
+  <link rel="stylesheet" th:href="@{/static/ui/navbar/recycle-navbar.css}"/>
+
+  <script th:inline="javascript" th:each="flashMsg : ${session.flashAlertMessages}"
+          th:if="${session.flashAlertMessages != null}">
+      $(function () {
+          const flashAlertMessage = [[${flashMsg}]];
+          if (flashAlertMessage) {
+              alert(flashAlertMessage);
+          }
+      });
+  </script>
+
+  <script th:inline="javascript" th:if="${session.flashAlertMessages != null}">
+      [[${#session.removeAttribute('flashAlertMessages')}]]
+  </script>
+</head>
+
+<body>
+
+<!--
+  ██ ███    ██  █████  ██    ██ ██                 ██   ██ ███████  █████  ██████  ███████ ██████
+ ██  ████   ██ ██   ██ ██    ██  ██                ██   ██ ██      ██   ██ ██   ██ ██      ██   ██
+██   ██ ██  ██ ███████ ██    ██   ██     █████     ███████ █████   ███████ ██   ██ █████   ██████
+ ██  ██  ██ ██ ██   ██  ██  ██   ██                ██   ██ ██      ██   ██ ██   ██ ██      ██   ██
+  ██ ██   ████ ██   ██   ████   ██                 ██   ██ ███████ ██   ██ ██████  ███████ ██   ██
+-->
+<nav class="navbar navbar-dark bg-dark navbar-expand-lg mb-3" th:fragment="header">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#"><i class="bi bi-server fs-4"></i></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0" th:if="${topNode != null}">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" th:href="${topNode.uri}" th:text="#{uri}">Home</a>
+        </li>
+
+        <li class="nav-item" th:each="menu : ${topNode.nodes}" th:if="${menu.showOnNavi}"
+            th:classappend="${#lists.size(menu.nodes) > 0} ? 'dropdown'">
+
+          <!-- 자식 nodes 가 없는 경우 -->
+          <a th:if="${#lists.size(menu.nodes) == 0}" class="nav-link"
+             th:classappend="${currentURI.id == menu.id}? 'active'" th:href="${menu.uri}"
+             th:text="${#messages.msg(menu.id)}">메뉴명</a>
+
+          <!-- 자식 nodes 가 있는 경우 -->
+          <th:block th:if="${#lists.size(menu.nodes) > 0}">
+            <a class="nav-link dropdown-toggle"
+               th:classappend="${@coreUtil.containsCurrentURI(menuHierarchy, menu.id)}? 'active'"
+               th:href="${menu.uri}" th:text="${#messages.msg(menu.id)}"
+               roleDto="button"
+               data-bs-toggle="dropdown" aria-expanded="false">메뉴명</a>
+
+            <th:block th:include="this :: subMenuFrag" th:with="subMenus = ${menu.nodes}, addSubMenuClass = false">
+            </th:block>
+          </th:block>
+        </li>
+
+        <!-- submenu fragment -->
+        <th:block th:fragment="subMenuFrag">
+          <ul th:if="${@coreUtil.shouldDisplaySubNodes(subMenus)}" class="dropdown-menu"
+              aria-labelledby="navbarDropdown" th:classappend="${addSubMenuClass ? 'submenu' : ''}">
+            <li th:each="child : ${subMenus}" th:if="${child.showOnNavi}">
+              <a class="dropdown-item"
+                 th:classappend="${@coreUtil.containsCurrentURI(menuHierarchy, child.id)}? 'active'"
+                 th:href="${@coreUtil.shouldDisplaySubNodes(child.nodes) ? 'javascript:void(0)' : child.uri}">
+                [[${#messages.msg(child.id)}]]
+                <i th:if="${@coreUtil.shouldDisplaySubNodes(child.nodes)}" class="bi bi-arrow-right-circle-fill"></i>
+              </a>
+
+              <th:block th:include="this :: subMenuFrag" th:with="subMenus = ${child.nodes}, addSubMenuClass = true">
+              </th:block>
+            </li>
+          </ul>
+        </th:block>
+      </ul>
+      <div class="d-flex">
+        <span class="text-white me-1" th:text="#{greeting} + ','">안녕하세요</span>
+        <a href="#" class="d-flex align-items-center text-white link-dark text-decoration-none dropdown-toggle"
+           id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+          <strong sec:authentication="name">로그인 사용자명</strong>
+        </a>
+        <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2" style="left:auto;right:0;">
+          <li th:each="authority : ${#authentication.getAuthorities()}">
+            <span class="dropdown-item text-muted" th:text="${authority}"></span>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li><a class="dropdown-item" href="/logout">Sign out</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!--
+██████  ██████  ███████  █████  ██████   ██████ ██████  ██    ██ ███    ███ ██████
+██   ██ ██   ██ ██      ██   ██ ██   ██ ██      ██   ██ ██    ██ ████  ████ ██   ██
+██████  ██████  █████   ███████ ██   ██ ██      ██████  ██    ██ ██ ████ ██ ██████
+██   ██ ██   ██ ██      ██   ██ ██   ██ ██      ██   ██ ██    ██ ██  ██  ██ ██   ██
+██████  ██   ██ ███████ ██   ██ ██████   ██████ ██   ██  ██████  ██      ██ ██████
+-->
+<div th:fragment="breadcrumb" class="row">
+  <div class="col">
+    <nav aria-label="breadcrumb" class="float-end" style="--bs-breadcrumb-divider: '>';">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item" th:each="item, status : ${menuHierarchy}"
+            th:classappend="${item.id == currentURI.id}? 'active'">
+          <a th:if="${item.id != currentURI.id}" th:href="${item.uri}" class="text-decoration-none">
+            <span th:if="${status.first}" th:remove="tag"><i class="bi bi-house-fill"></i></span>
+            <span th:if="${!status.first}" th:remove="tag" th:text="${@coreUtil.getUriTitle(item)}"></span>
+          </a>
+          <span th:if="${item.id == currentURI.id}" th:text="${@coreUtil.getUriTitle(item)}" th:remove="tag"></span>
+        </li>
+      </ol>
+    </nav>
+  </div>
+</div>
+
+<!--
+██████   █████   ██████  ███████     ██   ██ ███████  █████  ██████  ██ ███    ██  ██████
+██   ██ ██   ██ ██       ██          ██   ██ ██      ██   ██ ██   ██ ██ ████   ██ ██
+██████  ███████ ██   ███ █████       ███████ █████   ███████ ██   ██ ██ ██ ██  ██ ██   ███
+██      ██   ██ ██    ██ ██          ██   ██ ██      ██   ██ ██   ██ ██ ██  ██ ██ ██    ██
+██      ██   ██  ██████  ███████     ██   ██ ███████ ██   ██ ██████  ██ ██   ████  ██████
+-->
+<div th:fragment="pageHeading" class="bd-title mb-3 row fs-3">
+  <div class="col"><i class="bi bi-list"></i> <span th:text="${#messages.msg(currentURI.id)}"></span></div>
+</div>
+
+<!--
+ ██████  ██████  ███████ ██████   █████  ████████ ██  ██████  ███    ██     ███    ███ ███████  ██████
+██    ██ ██   ██ ██      ██   ██ ██   ██    ██    ██ ██    ██ ████   ██     ████  ████ ██      ██
+██    ██ ██████  █████   ██████  ███████    ██    ██ ██    ██ ██ ██  ██     ██ ████ ██ ███████ ██   ███
+██    ██ ██      ██      ██   ██ ██   ██    ██    ██ ██    ██ ██  ██ ██     ██  ██  ██      ██ ██    ██
+ ██████  ██      ███████ ██   ██ ██   ██    ██    ██  ██████  ██   ████     ██      ██ ███████  ██████
+-->
+<div th:fragment="operationMessage" th:if="${not #strings.isEmpty(operationMessage)}" class="row">
+  <div class="alert alert-info fw-bold" th:utext="${operationMessage}">
+  </div>
+</div>
+
+<!--
+  ██ ███████  ██████ ██████  ██ ██████  ████████ ██
+ ██  ██      ██      ██   ██ ██ ██   ██    ██     ██
+██   ███████ ██      ██████  ██ ██████     ██      ██
+ ██       ██ ██      ██   ██ ██ ██         ██     ██
+  ██ ███████  ██████ ██   ██ ██ ██         ██    ██
+-->
+<div th:fragment="script-block">
+  <script th:src="@{/static/library/jsUri/Uri.js}"></script>
+  <script th:src="@{/static/library/jsRender/jsrender.min.js}"></script>
+  <script th:src="@{/static/library/bootstrap/bootstrap.min.js}"></script>
+  <script th:src="@{/static/ui/utilize.js}"></script>
+  <script th:src="@{/static/library/jquery/jquery-serializeObject.min.js}"></script>
+</div>
+
+<!--
+███████  ██████   ██████  ████████ ███████ ██████
+██      ██    ██ ██    ██    ██    ██      ██   ██
+█████   ██    ██ ██    ██    ██    █████   ██████
+██      ██    ██ ██    ██    ██    ██      ██   ██
+██       ██████   ██████     ██    ███████ ██   ██
+-->
+<div th:fragment="footer" class="container">
+  <footer class="py-3 my-4 border-top">
+    <div class="text-center">
+      <span class="text-muted">&copy; 2022 All rights reserved by org.beizix</span>
+    </div>
+  </footer>
+</div>
+
+</body>
+
+</html>

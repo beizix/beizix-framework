@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/layout-error}">
+
+<head>
+  <title>500 - 에러발생</title>
+</head>
+
+<body>
+
+<section layout:fragment="content">
+  <div class="container">
+    <div class="row">
+
+      <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+          <h1 class="display-5 fw-bold"><i class="bi bi-cone-striped"></i>
+            Oops, <span class="text-muted">에러가 발생했습니다!</span> :-(</h1>
+          <p class="col-md-8 fs-4">
+            아래 에러 메세지를 담당자에게 전달해주세요.
+          </p>
+          <p class="col-md-8 fs-5">
+            <span>Error</span> <span th:text="${error}" class="text-muted"></span>
+            <br/>
+            <span>Message</span> <span th:text="${message}" class="text-muted"></span>
+<!--            <br/>-->
+<!--            <span>Status</span> <span th:text="${status}" class="text-muted"></span>-->
+<!--            <br/>-->
+<!--            <span>Path</span> <span th:text="${path}" class="text-muted"></span>-->
+<!--            <br/>-->
+<!--            <span>Timestamp</span> <span th:text="${timestamp}" class="text-muted"></span>-->
+          </p>
+          <hr>
+          <button class="btn btn-primary btn-lg" type="button" onclick="history.go(-1)">이전으로 이동</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow" />
+  <title>layout 타이틀</title>
+  <link rel="stylesheet" th:href="@{/static/library/bootstrap/bootstrap.min.css}"/>
+  <link rel="stylesheet" th:href="@{/static/library/bootstrap/bootstrap-icons.css}"/>
+  <script th:src="@{/static/library/jquery/jquery-3.6.0.min.js}"></script>
+</head>
+
+<body>
+
+<section layout:fragment="content" class="container">
+  <p>Page content goes here</p>
+</section>
+
+<div th:replace="common/components :: script-block"></div>
+
+</body>
+</html>

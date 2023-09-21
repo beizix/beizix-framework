@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/layout}">
+
+<section layout:fragment="content">
+
+  <form method="post" name="paramForm" th:action="@{/board/exampleBoard}"
+        th:object="${paramDto}" onsubmit="goSearch();">
+    <input type="hidden" name="page"
+           th:value="${items.pageable.pageNumber}"/>
+    <input type="hidden"
+           name="sort" th:value="${items.pageable.sort}"/>
+
+    <div style="--bs-bg-opacity: .2;">
+      <div>
+        <label for="searchField">검색필드</label>
+        <select th:field="*{searchField}"
+                id="searchField">
+          <option value="" selected>선택</option>
+          <option value="title">제목</option>
+          <option value="createdBy">작성자</option>
+        </select> <label>
+        <input type="text"
+               th:field="*{searchValue}" placeholder="검색어를 입력하세요."
+               style="width: 250px;">
+      </label>
+      </div>
+      <div>
+        <label for="searchOpen">공개여부</label>
+        <select th:field="*{searchOpen}"
+                id="searchOpen">
+          <option value="" selected>전체</option>
+          <option value="true">Y</option>
+          <option value="false">N</option>
+        </select>
+      </div>
+      <div>
+        <button type="button"
+                onclick="goSearch();">검색
+        </button>
+        <button type="button" onclick="goInit();">초기화
+        </button>
+      </div>
+    </div>
+
+    <div>
+      <div>
+        <div>
+          Total: <span th:text="${items.totalElements}"></span>
+        </div>
+      </div>
+      <div>
+        <i></i> <label> <select
+              th:field="*{size}"
+              onchange="goSearch()">
+        <option
+                th:each="item : ${@uiCodeListService.operate('code.pageable.rows')}"
+                th:value="${item.codeValue}" th:text="${item.codeText}"></option>
+      </select>
+      </label>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col"><label>
+          <input
+                  type="checkbox" onchange="toggleCheckbox(this);"/></label>
+        </th>
+        <th scope="col"><a href="#"
+                           data-sort-field="title">제목</a></th>
+        <th scope="col"><a href="#"
+                           data-sort-field="open">공개여부</a></th>
+        <th scope="col"><a href="#"
+                           data-sort-field="boardStartDate">게시일</a></th>
+        <th scope="col"><a href="#"
+                           data-sort-field="boardEndDate">종료일</a></th>
+        <th scope="col"><a href="#"
+                           data-sort-field="updatedBy">수정자</a></th>
+        <th scope="col"><a href="#"
+                           data-sort-field="updatedAt">최근 수정일</a></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="item, status : ${items}">
+        <th
+                th:text="${status.count + (items.pageable.pageNumber * items.pageable.pageSize)}"
+                scope="row">게시물번호
+        </th>
+        <td><label>
+          <input
+                  name="checkedIds" type="checkbox" th:value="${item.id}"/></label>
+        <td><a th:href="|javascript:goSave('${item.id}')|"
+               th:text="${item.title}">Title</a></td>
+        <td><i th:if="${item.visible}"></i> <i
+                th:if="${!item.visible}"></i></td>
+        <td
+                th:text="${#temporals.format(item.boardStartDate, 'yyyy-MM-dd hh:mm')}">게시일
+        </td>
+        <td
+                th:text="${#temporals.format(item.boardEndDate, 'yyyy-MM-dd hh:mm')}">종료일
+        </td>
+        <td th:text="${item.updatedBy}">작성자</td>
+        <td
+                th:text="${#temporals.format(item.updatedAt, 'yyyy-MM-dd hh:mm')}">수정일
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+  </form>
+
+  <div th:replace="common/list-components :: pagination(${items})"></div>
+
+  <div th:replace="common/list-components :: listColumnOrder(${items})"></div>
+
+  <script th:inline="javascript">
+      // 검색
+      function goSearch() {
+          const f = document.paramForm;
+          f.action = '/board/exampleBoard';
+          f.page.value = 0;
+          f.sort.value = convertToPageableSortValue(f.sort.value);
+          f.method = 'get';
+          f.submit();
+      }
+
+      // 초기화
+      function goInit() {
+          const f = document.paramForm;
+          f.searchField.value = '';
+          f.searchValue.value = '';
+          f.searchOpen.value = '';
+      }
+
+      // 수정페이지 이동
+      function goSave(itemId) {
+          const f = document.paramForm;
+          f.sort.value = convertToPageableSortValue(f.sort.value);
+          f.action = '/board/exampleBoard/update/' + itemId;
+          f.method = 'get';
+          f.submit();
+      }
+
+      function goExcel() {
+          const f = document.paramForm;
+          f.sort.value = convertToPageableSortValue(f.sort.value);
+          f.action = '/board/exampleBoard/excel';
+          f.method = 'get';
+          f.submit();
+      }
+
+      // 체크박스 선택/해제
+      function toggleCheckbox(oj) {
+          $('input[name=checkedIds]').prop("checked", oj.checked);
+      }
+
+      function goRemove() {
+          if (!$('input[name=checkedIds]').is(':checked')) {
+              alert(/*[[#{operation.common.remove.choose}]]*/);
+              return;
+          }
+
+          if (confirm(/*[[#{operation.common.remove.ask}]]*/)) {
+              const f = document.paramForm;
+              f.action = '/board/exampleBoard/delete';
+              f.method = 'post';
+              f.submit();
+          }
+      }
+  </script>
+</section>
+
+
+</html>

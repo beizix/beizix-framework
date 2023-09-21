@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/components :: head"></head>
+
+<body>
+<header th:replace="common/components :: header"></header>
+
+<div>
+  <div th:replace="common/components :: breadcrumb"></div>
+  <div th:replace="common/components :: pageHeading"></div>
+  <div th:replace="common/components :: operationMessage"></div>
+
+  <section layout:fragment="content">
+    page content
+  </section>
+</div>
+
+<div th:replace="common/components :: footer"></div>
+<div th:replace="common/components :: script-block"></div>
+</body>
+</html>
