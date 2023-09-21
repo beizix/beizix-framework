@@ -69,8 +69,8 @@ org.beizix 실행 시 필요한 자바 VM 옵션은 아래와 같다.
 | VM 변수                                                     | 설명                         | 설정 값                    | 필수여부 |
 |-----------------------------------------------------------|----------------------------|-------------------------|------|
 | -Dspring.profiles.active                                  | Spring active 프로파일         | local, dev, prod        | Y    |
-| -beizix.initData.core                                   | 초기 구동 데이터 생성 여부            | true, false             | N    |
-| -beizix.admin.singleRole                                | Admin 단일 권한 정책 적용여부        | true, false             | N    |
+| -Dbeizix.initData.core                                    | 초기 구동 데이터 생성 여부            | true, false             | N    |
+| -Dbeizix.admin.singleRole                                 | Admin 단일 권한 정책 적용여부        | true, false             | N    |
 | -Dspring.jpa.hibernate.ddl-auto                           | JPA DDL 옵션                 | update, create 등등       | Y    |
 | -Dfile.encoding                                           | 범용 속성                      | `UTF-8`                 | Y    |
 | -Djava.net.preferIPv4Stack                                | 범용 속성                      | true                    | Y    |
