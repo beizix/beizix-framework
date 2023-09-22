@@ -17,13 +17,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.beizix.security.application.domain.admin.model.view.*;
-import org.beizix.security.application.port.in.admin.AdminViewService;
+import org.beizix.security.application.port.in.admin.AdminViewPortIn;
 import org.beizix.utility.common.PropertyUtil;
 
 @Service
 @RequiredArgsConstructor
 public class AdminDetailsService implements UserDetailsService {
-  private final AdminViewService adminViewService;
+  private final AdminViewPortIn adminViewPortIn;
 
   @Value("${org.beizix.password.validity.period.days}")
   private long passwordValidPeriodDays;
@@ -31,9 +31,9 @@ public class AdminDetailsService implements UserDetailsService {
   @Override
   @Transactional
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    AdminViewResp adminUser =
-        adminViewService
-            .operate(username)
+    AdminViewOutput adminUser =
+        adminViewPortIn
+            .connect(username)
             .orElseThrow(() -> new UsernameNotFoundException("Invalid username or password."));
 
     boolean accountLocked = Optional.ofNullable(adminUser.getAccountLocked()).orElse(false);
@@ -48,16 +48,16 @@ public class AdminDetailsService implements UserDetailsService {
         !accountLocked,
         PropertyUtil.isAdminSingleRole()
             ? getAuthorities(
-                adminViewService
-                    .operate("beizix-super")
+                adminViewPortIn
+                    .connect("beizix-super")
                     .orElseThrow(() -> new RuntimeException("'beizix-super' is not a super user."))
                     .getWithRoles()
                     .stream()
-                    .map(WithRoleResp::getRole)
+                    .map(WithRoleOutput::getRole)
                     .collect(Collectors.toList()))
             : getAuthorities(
                 adminUser.getWithRoles().stream()
-                    .map(WithRoleResp::getRole)
+                    .map(WithRoleOutput::getRole)
                     .collect(Collectors.toList())),
         passwordValidPeriodDays - getDaysPassedFrom(adminUser.getPasswordUpdatedAt()));
   }
@@ -79,21 +79,21 @@ public class AdminDetailsService implements UserDetailsService {
    * @return authorities
    */
   private Collection<? extends GrantedAuthority> getAuthorities(
-      Collection<RoleResp> roles) {
+      Collection<RoleOutput> roles) {
     return getGrantedAuthorities(getPrivileges(roles));
   }
 
-  private List<String> getPrivileges(Collection<RoleResp> roles) {
+  private List<String> getPrivileges(Collection<RoleOutput> roles) {
     List<String> privileges = new ArrayList<>();
-    List<PrivilegeResp> collection = new ArrayList<>();
-    for (RoleResp role : roles) {
+    List<PrivilegeOutput> collection = new ArrayList<>();
+    for (RoleOutput role : roles) {
       privileges.add(role.getId());
       collection.addAll(
           role.getWithPrivileges().stream()
-              .map(WithPrivilegeResp::getPrivilege)
+              .map(WithPrivilegeOutput::getPrivilege)
               .collect(Collectors.toList()));
     }
-    for (PrivilegeResp item : collection) {
+    for (PrivilegeOutput item : collection) {
       privileges.add(item.getId());
     }
     return privileges;

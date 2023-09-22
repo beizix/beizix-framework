@@ -14,9 +14,9 @@ import org.beizix.core.config.enums.AppType;
 import org.beizix.core.config.enums.OperationLogType;
 import org.beizix.core.feature.operationlog.application.model.OperationLog;
 import org.beizix.core.feature.operationlog.application.service.OperationLogCreateService;
-import org.beizix.security.application.domain.admin.model.save.AdminSaveReq;
-import org.beizix.security.application.domain.admin.model.view.AdminViewResp;
-import org.beizix.security.application.port.in.admin.AdminViewService;
+import org.beizix.security.application.domain.admin.model.save.AdminSaveInput;
+import org.beizix.security.application.domain.admin.model.view.AdminViewOutput;
+import org.beizix.security.application.port.in.admin.AdminViewPortIn;
 import org.beizix.utility.common.CommonUtil;
 import org.beizix.utility.common.PropertyUtil;
 
@@ -24,19 +24,19 @@ import org.beizix.utility.common.PropertyUtil;
 @Component
 @RequiredArgsConstructor
 public class RoleUpdateAspect {
-  private final AdminViewService adminViewService;
+  private final AdminViewPortIn adminViewPortIn;
   private final OperationLogCreateService operationLogCreateService;
   private final CommonUtil commonUtil;
 
   @Around(
-      "execution(* org.beizix.security.application.domain.admin.AdminSaveServiceImpl.operate(..))")
+      "execution(* org.beizix.security.application.domain.admin.AdminSaveService.connect(..))")
   public Object operate(ProceedingJoinPoint joinPoint) throws Throwable {
     if (PropertyUtil.isAdminSingleRole()) return joinPoint.proceed();
 
     Object[] args = joinPoint.getArgs();
 
-    AdminSaveReq admin = (AdminSaveReq) args[0];
-    Optional<AdminViewResp> beforeAdmin = adminViewService.operate(admin.getId());
+    AdminSaveInput admin = (AdminSaveInput) args[0];
+    Optional<AdminViewOutput> beforeAdmin = adminViewPortIn.connect(admin.getId());
 
     List<String> currentRoles =
         admin.getWithRoles().stream()

@@ -18,15 +18,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.beizix.admin.adapter.web.admin.model.query.AdminListReqParam;
-import org.beizix.security.application.domain.admin.model.list.AdminListResp;
-import org.beizix.security.application.domain.admin.model.query.AdminListReq;
-import org.beizix.security.application.port.in.admin.AdminListService;
+import org.beizix.security.application.domain.admin.model.list.AdminListOutput;
+import org.beizix.security.application.domain.admin.model.query.AdminListInput;
+import org.beizix.security.application.port.in.admin.AdminListPortIn;
 import org.beizix.utility.common.ExcelUtil;
 
 @Controller
 @RequiredArgsConstructor
 class AdminExcelController {
-  private final AdminListService adminListService;
+  private final AdminListPortIn adminListPortIn;
   private final ModelMapper modelMapper;
   private final ExcelUtil excelUtil;
 
@@ -40,9 +40,9 @@ class AdminExcelController {
     Workbook wb = new XSSFWorkbook();
     Sheet sheet = wb.createSheet("예제 관리자 목록");
 
-    Page<AdminListResp> items =
-        adminListService.operate(
-            pageable, modelMapper.map(paramDto, AdminListReq.class));
+    Page<AdminListOutput> items =
+        adminListPortIn.connect(
+            pageable, modelMapper.map(paramDto, AdminListInput.class));
 
     if (!items.isEmpty()) {
       // Header

@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.beizix.core.common.rest.RestResponseDto;
-import org.beizix.security.application.domain.role.model.view.RoleViewResp;
-import org.beizix.security.application.port.in.role.RoleViewService;
+import org.beizix.security.application.domain.role.model.view.RoleViewOutput;
+import org.beizix.security.application.port.in.role.RoleViewPortIn;
 import org.beizix.utility.common.MessageUtil;
 
 @RestController
@@ -21,12 +21,12 @@ import org.beizix.utility.common.MessageUtil;
 class AdminUserRoleViewController {
   private final ModelMapper modelMapper;
   private final MessageUtil messageUtil;
-  private final RoleViewService roleViewService;
+  private final RoleViewPortIn roleViewPortIn;
 
   @GetMapping("get/{role}")
   ResponseEntity<?> view(@PathVariable String role) {
-    RoleViewResp item =
-        Optional.ofNullable(roleViewService.operate(role))
+    RoleViewOutput item =
+        Optional.ofNullable(roleViewPortIn.connect(role))
             .orElseThrow(
                 () ->
                     new NoSuchElementException(

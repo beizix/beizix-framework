@@ -10,30 +10,29 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.beizix.admin.adapter.web.admin.model.query.AdminListReqParam;
-import org.beizix.security.application.port.in.role.RoleListService;
-import org.beizix.security.application.domain.admin.model.query.AdminListReq;
-import org.beizix.security.application.port.in.admin.AdminListService;
+import org.beizix.security.application.port.in.role.RoleListPortIn;
+import org.beizix.security.application.domain.admin.model.query.AdminListInput;
+import org.beizix.security.application.port.in.admin.AdminListPortIn;
 
 @Controller
 @RequiredArgsConstructor
 class AdminListController {
-  private final AdminListService adminListService;
+  private final AdminListPortIn adminListPortIn;
   private final ModelMapper modelMapper;
-  private final RoleListService roleListService;
+  private final RoleListPortIn roleListPortIn;
 
   @GetMapping(path = "/settings/admins")
   String operate(
       Model model,
       @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
-      @ModelAttribute("paramDto") AdminListReqParam paramDto) {
+      @ModelAttribute("paramDto") AdminListReqParam adminListReqParam) {
 
-    paramDto.setSize(pageable.getPageSize());
+    adminListReqParam.setSize(pageable.getPageSize());
 
     model.addAttribute(
         "items",
-        adminListService.operate(
-            pageable, modelMapper.map(paramDto, AdminListReq.class)));
-    model.addAttribute("roles", roleListService.operate());
+        adminListPortIn.connect(pageable, modelMapper.map(adminListReqParam, AdminListInput.class)));
+    model.addAttribute("roles", roleListPortIn.connect());
 
     return "admin/adminList";
   }

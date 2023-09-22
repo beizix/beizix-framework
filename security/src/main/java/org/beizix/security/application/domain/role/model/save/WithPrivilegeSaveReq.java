@@ -10,6 +10,6 @@ import lombok.Setter;
 public class WithPrivilegeSaveReq {
   private Integer id;
 
-  private RoleSaveReq role;
-  private PrivilegeSaveReq privilegeDto;
+  private RoleSaveInput role;
+  private PrivilegeSaveInput privilegeDto;
 }

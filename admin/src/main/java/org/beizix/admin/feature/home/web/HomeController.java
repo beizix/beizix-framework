@@ -6,18 +6,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.beizix.security.application.port.in.admin.AdminViewService;
+import org.beizix.security.application.port.in.admin.AdminViewPortIn;
 
 @Controller
 @RequestMapping("/")
 @RequiredArgsConstructor
 public class HomeController {
-  private final AdminViewService adminViewService;
+  private final AdminViewPortIn adminViewPortIn;
 
   @GetMapping
   public String home(Principal principal, Model model) {
-    adminViewService
-        .operate(principal.getName())
+    adminViewPortIn
+        .connect(principal.getName())
         .ifPresent(
             loginUser -> {
               model.addAttribute("loginUser", loginUser);

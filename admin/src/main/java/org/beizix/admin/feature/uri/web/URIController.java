@@ -7,17 +7,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.beizix.core.config.enums.AppType;
-import org.beizix.security.application.port.in.role.RoleListService;
+import org.beizix.security.application.port.in.role.RoleListPortIn;
 
 @Controller
 @RequiredArgsConstructor
 @Slf4j
 class URIController {
-  private final RoleListService roleListService;
+  private final RoleListPortIn roleListPortIn;
 
   @GetMapping(path = "/settings/uri/{appType}")
   String intro(Model model, @PathVariable AppType appType) {
-    model.addAttribute("roles", roleListService.operate());
+    model.addAttribute("roles", roleListPortIn.connect());
     model.addAttribute("appType", appType);
     return "uri/uriList";
   }

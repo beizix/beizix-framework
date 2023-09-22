@@ -7,17 +7,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.beizix.core.common.rest.RestResponseDto;
 import org.beizix.utility.common.MessageUtil;
-import org.beizix.security.application.port.in.role.RoleRemoveService;
+import org.beizix.security.application.port.in.role.RoleRemovePortIn;
 
 @RestController
 @RequiredArgsConstructor
 class AdminUserRoleRemoveController {
-  private final RoleRemoveService roleRemoveService;
+  private final RoleRemovePortIn roleRemovePortIn;
   private final MessageUtil messageUtil;
 
   @PostMapping("/api/adminRole/remove")
   ResponseEntity<?> remove(AdminUserRoleDto formDto) {
-    roleRemoveService.operate(formDto.getRole());
+    roleRemovePortIn.connect(formDto.getRole());
     return ResponseEntity.status(HttpStatus.OK)
         .body(
             RestResponseDto.builder()

@@ -20,11 +20,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.beizix.core.config.enums.AppType;
 import org.beizix.core.feature.loggedInUser.application.model.LoggedInUserId;
 import org.beizix.core.feature.loggedInUser.persistence.dao.LoggedInUserViewDao;
-import org.beizix.security.application.domain.admin.model.save.AdminSaveReq;
-import org.beizix.security.application.domain.admin_role.model.save.AdminWithRoleSaveReq;
-import org.beizix.security.application.domain.role.model.save.RoleSaveMinimumReq;
-import org.beizix.security.application.port.in.admin.AdminSaveService;
-import org.beizix.security.application.port.in.admin.AdminViewService;
+import org.beizix.security.application.domain.admin.model.save.AdminSaveInput;
+import org.beizix.security.application.domain.admin_role.model.save.AdminWithRoleSaveInput;
+import org.beizix.security.application.domain.role.model.save.RoleSaveReferInput;
+import org.beizix.security.application.port.in.admin.AdminSavePortIn;
+import org.beizix.security.application.port.in.admin.AdminViewPortIn;
 
 @SpringBootTest
 @TestPropertySource("classpath:application-override.properties")
@@ -36,9 +36,11 @@ class AdminAuthSuccessHandlerTest {
   }
 
   @Autowired MockMvc mockMvc;
-  @Autowired AdminViewService adminViewService;
+  @Autowired
+  AdminViewPortIn adminViewPortIn;
   @Autowired LoggedInUserViewDao loggedInUserViewDao;
-  @Autowired AdminSaveService adminSaveService;
+  @Autowired
+  AdminSavePortIn adminSavePortIn;
 
   @Value("${org.beizix.session.maximum.num}")
   private Integer maxSessionNum;
@@ -48,19 +50,19 @@ class AdminAuthSuccessHandlerTest {
 
   @BeforeAll
   public void beforeAll() {
-    adminSaveService.operate(
-        AdminSaveReq.builder()
+    adminSavePortIn.connect(
+        AdminSaveInput.builder()
             .id(username)
             .password(password)
             .email("admin_for_createDao_test@test.com")
             .passwordUpdatedAt(LocalDateTime.now())
             .withRoles(
                 Set.of(
-                    AdminWithRoleSaveReq.builder()
-                        .role(new RoleSaveMinimumReq("ROLE_SUPER"))
+                    AdminWithRoleSaveInput.builder()
+                        .role(new RoleSaveReferInput("ROLE_SUPER"))
                         .build(),
-                    AdminWithRoleSaveReq.builder()
-                        .role(new RoleSaveMinimumReq("ROLE_STAFF"))
+                    AdminWithRoleSaveInput.builder()
+                        .role(new RoleSaveReferInput("ROLE_STAFF"))
                         .build()))
             .build());
   }
@@ -74,14 +76,14 @@ class AdminAuthSuccessHandlerTest {
 
     assertEquals(
         1,
-        adminViewService.operate(username).orElseThrow().getLoginFailCnt(),
+        adminViewPortIn.connect(username).orElseThrow().getLoginFailCnt(),
         "로그인 실패시 실패회수가 1증가 해야한다.");
 
     mockMvc.perform(formLogin().user(username).password(password)).andExpect(authenticated());
 
     assertEquals(
         0,
-        adminViewService.operate(username).orElseThrow().getLoginFailCnt(),
+        adminViewPortIn.connect(username).orElseThrow().getLoginFailCnt(),
         "로그인 성공시 실패회수가 0으로 초기화 되야한다.");
 
     if (maxSessionNum == 1) {

@@ -17,11 +17,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
-import org.beizix.security.application.domain.admin.model.save.AdminSaveReq;
-import org.beizix.security.application.domain.admin_role.model.save.AdminWithRoleSaveReq;
-import org.beizix.security.application.domain.role.model.save.RoleSaveMinimumReq;
-import org.beizix.security.application.port.in.admin.AdminSaveService;
-import org.beizix.security.application.port.in.admin.AdminViewService;
+import org.beizix.security.application.domain.admin.model.save.AdminSaveInput;
+import org.beizix.security.application.domain.admin_role.model.save.AdminWithRoleSaveInput;
+import org.beizix.security.application.domain.role.model.save.RoleSaveReferInput;
+import org.beizix.security.application.port.in.admin.AdminSavePortIn;
+import org.beizix.security.application.port.in.admin.AdminViewPortIn;
 
 @SpringBootTest
 @TestPropertySource("classpath:application-override.properties")
@@ -33,8 +33,10 @@ class AdminAuthFailHandlerTest {
   }
 
   @Autowired MockMvc mockMvc;
-  @Autowired AdminViewService adminViewService;
-  @Autowired AdminSaveService adminSaveService;
+  @Autowired
+  AdminViewPortIn adminViewPortIn;
+  @Autowired
+  AdminSavePortIn adminSavePortIn;
 
   @Value("${org.beizix.admin.auth.fail.permit}")
   Integer loginFailPermit;
@@ -43,19 +45,19 @@ class AdminAuthFailHandlerTest {
 
   @BeforeAll
   public void beforeAll() {
-    adminSaveService.operate(
-        AdminSaveReq.builder()
+    adminSavePortIn.connect(
+        AdminSaveInput.builder()
             .id(testUsername)
             .password("test.1@#$")
             .email("xx4@test.com")
             .passwordUpdatedAt(LocalDateTime.now())
             .withRoles(
                 Set.of(
-                    AdminWithRoleSaveReq.builder()
-                        .role(new RoleSaveMinimumReq("ROLE_SUPER"))
+                    AdminWithRoleSaveInput.builder()
+                        .role(new RoleSaveReferInput("ROLE_SUPER"))
                         .build(),
-                    AdminWithRoleSaveReq.builder()
-                        .role(new RoleSaveMinimumReq("ROLE_STAFF"))
+                    AdminWithRoleSaveInput.builder()
+                        .role(new RoleSaveReferInput("ROLE_STAFF"))
                         .build()))
             .build());
   }
@@ -71,7 +73,7 @@ class AdminAuthFailHandlerTest {
     }
 
     assertTrue(
-        adminViewService.operate(testUsername).orElseThrow().getAccountLocked(),
+        adminViewPortIn.connect(testUsername).orElseThrow().getAccountLocked(),
         String.format("%s 회 이상 로그인 실패로 계정이 잠김처리되어야 한다.", loginFailPermit));
 
     mockMvc

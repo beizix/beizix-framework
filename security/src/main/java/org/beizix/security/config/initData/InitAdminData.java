@@ -8,11 +8,11 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.beizix.security.application.domain.admin.model.save.AdminSaveMinimumReq;
-import org.beizix.security.application.domain.admin.model.save.AdminSaveReq;
-import org.beizix.security.application.domain.admin_role.model.save.AdminWithRoleSaveReq;
-import org.beizix.security.application.domain.role.model.save.RoleSaveMinimumReq;
-import org.beizix.security.application.port.in.admin.AdminSaveService;
+import org.beizix.security.application.domain.admin.model.save.AdminSaveReferInput;
+import org.beizix.security.application.domain.admin.model.save.AdminSaveInput;
+import org.beizix.security.application.domain.admin_role.model.save.AdminWithRoleSaveInput;
+import org.beizix.security.application.domain.role.model.save.RoleSaveReferInput;
+import org.beizix.security.application.port.in.admin.AdminSavePortIn;
 import org.beizix.utility.common.PropertyUtil;
 
 @Component
@@ -20,51 +20,51 @@ import org.beizix.utility.common.PropertyUtil;
 @Slf4j
 @Order(3)
 public class InitAdminData implements ApplicationRunner {
-  private final AdminSaveService adminSaveService;
+  private final AdminSavePortIn adminSavePortIn;
 
   @Override
   public void run(ApplicationArguments args) throws Exception {
     if (!PropertyUtil.isCoreDataRequired()) return;
 
-    adminSaveService.operate(
-        AdminSaveReq.builder()
+    adminSavePortIn.connect(
+        AdminSaveInput.builder()
             .id("beizix-super")
             .password("beizix-framework")
             .email("super@beizix.org")
             .passwordUpdatedAt(LocalDateTime.now())
             .withRoles(
                 Set.of(
-                    AdminWithRoleSaveReq.builder()
-                        .admin(new AdminSaveMinimumReq("beizix-super"))
-                        .role(new RoleSaveMinimumReq("ROLE_SUPER"))
+                    AdminWithRoleSaveInput.builder()
+                        .admin(new AdminSaveReferInput("beizix-super"))
+                        .role(new RoleSaveReferInput("ROLE_SUPER"))
                         .build()))
             .build());
 
-    adminSaveService.operate(
-        AdminSaveReq.builder()
+    adminSavePortIn.connect(
+        AdminSaveInput.builder()
             .id("beizix-manager")
             .password("beizix-framework")
             .email("manager@beizix.org")
             .passwordUpdatedAt(LocalDateTime.now())
             .withRoles(
                 Set.of(
-                    AdminWithRoleSaveReq.builder()
-                        .admin(new AdminSaveMinimumReq("beizix-manager"))
-                        .role(new RoleSaveMinimumReq("ROLE_MANAGER"))
+                    AdminWithRoleSaveInput.builder()
+                        .admin(new AdminSaveReferInput("beizix-manager"))
+                        .role(new RoleSaveReferInput("ROLE_MANAGER"))
                         .build()))
             .build());
 
-    adminSaveService.operate(
-        AdminSaveReq.builder()
+    adminSavePortIn.connect(
+        AdminSaveInput.builder()
             .id("beizix-staff")
             .password("beizix-framework")
             .email("staff@beizix.org")
             .passwordUpdatedAt(LocalDateTime.now())
             .withRoles(
                 Set.of(
-                    AdminWithRoleSaveReq.builder()
-                        .admin(new AdminSaveMinimumReq("beizix-staff"))
-                        .role(new RoleSaveMinimumReq("ROLE_STAFF"))
+                    AdminWithRoleSaveInput.builder()
+                        .admin(new AdminSaveReferInput("beizix-staff"))
+                        .role(new RoleSaveReferInput("ROLE_STAFF"))
                         .build()))
             .build());
   }

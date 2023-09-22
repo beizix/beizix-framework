@@ -16,8 +16,8 @@ import org.beizix.core.feature.loggedInUser.application.model.LoggedInUser;
 import org.beizix.core.feature.loggedInUser.application.model.LoggedInUserId;
 import org.beizix.core.feature.loggedInUser.persistence.dao.LoggedInUserCreateUpdateDao;
 import org.beizix.core.feature.loggedInUser.persistence.dao.LoggedInUserViewDao;
-import org.beizix.security.application.port.in.admin.AdminSaveService;
-import org.beizix.security.application.port.in.admin.AdminViewService;
+import org.beizix.security.application.port.in.admin.AdminSavePortIn;
+import org.beizix.security.application.port.in.admin.AdminViewPortIn;
 import org.beizix.utility.common.CommonUtil;
 import org.beizix.utility.common.MessageUtil;
 
@@ -25,8 +25,8 @@ import org.beizix.utility.common.MessageUtil;
 @RequiredArgsConstructor
 public class AdminAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
   private final MessageUtil messageUtil;
-  private final AdminViewService adminViewService;
-  private final AdminSaveService adminSaveService;
+  private final AdminViewPortIn adminViewPortIn;
+  private final AdminSavePortIn adminSavePortIn;
   private final LoggedInUserViewDao loggedInUserViewDao;
   private final LoggedInUserCreateUpdateDao loggedInUserCreateUpdateDao;
   private final CommonUtil commonUtil;
@@ -51,11 +51,11 @@ public class AdminAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
     AdminUserDetail adminUserDetail = (AdminUserDetail) authentication.getPrincipal();
 
     // 로그인 실패 회수 초기화
-    adminViewService
-        .operate(authentication.getName())
+    adminViewPortIn
+        .connect(authentication.getName())
         .ifPresent(
             admin -> {
-              adminSaveService.updateLoginFailCnt(admin.getId(), 0);
+              adminSavePortIn.updateLoginFailCnt(admin.getId(), 0);
             });
 
     // 패스워드 변경일 공지

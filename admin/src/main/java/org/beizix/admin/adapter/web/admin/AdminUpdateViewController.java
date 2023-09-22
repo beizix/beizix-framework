@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.beizix.admin.adapter.web.admin.model.query.AdminListReqParam;
 import org.beizix.admin.adapter.web.admin.model.view.AdminViewRespVO;
-import org.beizix.security.application.port.in.role.RoleListService;
-import org.beizix.security.application.domain.admin.model.view.AdminViewResp;
-import org.beizix.security.application.port.in.admin.AdminViewService;
+import org.beizix.security.application.port.in.role.RoleListPortIn;
+import org.beizix.security.application.domain.admin.model.view.AdminViewOutput;
+import org.beizix.security.application.port.in.admin.AdminViewPortIn;
 import org.beizix.utility.common.MessageUtil;
 
 @Controller
 @RequiredArgsConstructor
 class AdminUpdateViewController {
-  private final AdminViewService adminViewService;
+  private final AdminViewPortIn adminViewPortIn;
   private final ModelMapper modelMapper;
-  private final RoleListService roleListService;
+  private final RoleListPortIn roleListPortIn;
   private final MessageUtil messageUtil;
 
   @GetMapping(path = "/settings/admins/update/{adminId}")
@@ -30,9 +30,9 @@ class AdminUpdateViewController {
       @PathVariable String adminId,
       @ModelAttribute("paramDto") AdminListReqParam paramDto) {
 
-    AdminViewResp item =
-        adminViewService
-            .operate(adminId)
+    AdminViewOutput item =
+        adminViewPortIn
+            .connect(adminId)
             .orElseThrow(
                 () ->
                     new NoSuchElementException(
@@ -46,7 +46,7 @@ class AdminUpdateViewController {
             .collect(Collectors.toSet()));
 
     model.addAttribute("formDto", formDto);
-    model.addAttribute("roles", roleListService.operate());
+    model.addAttribute("roles", roleListPortIn.connect());
 
     return "admin/adminForm";
   }

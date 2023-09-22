@@ -16,16 +16,16 @@ import org.beizix.core.config.enums.AppType;
 import org.beizix.core.config.enums.OperationLogType;
 import org.beizix.core.feature.operationlog.application.model.OperationLog;
 import org.beizix.core.feature.operationlog.application.service.OperationLogCreateService;
-import org.beizix.security.application.port.in.admin.AdminSaveService;
-import org.beizix.security.application.port.in.admin.AdminViewService;
+import org.beizix.security.application.port.in.admin.AdminSavePortIn;
+import org.beizix.security.application.port.in.admin.AdminViewPortIn;
 import org.beizix.utility.common.CommonUtil;
 import org.beizix.utility.common.MessageUtil;
 
 @Component
 @RequiredArgsConstructor
 public class AdminAuthFailHandler extends SimpleUrlAuthenticationFailureHandler {
-  private final AdminViewService adminViewService;
-  private final AdminSaveService adminSaveService;
+  private final AdminViewPortIn adminViewPortIn;
+  private final AdminSavePortIn adminSavePortIn;
   private final CommonUtil commonUtil;
   private final OperationLogCreateService operationLogCreateService;
   private final MessageUtil messageUtil;
@@ -41,19 +41,19 @@ public class AdminAuthFailHandler extends SimpleUrlAuthenticationFailureHandler 
 
     if (exception instanceof BadCredentialsException) {
 
-      adminViewService
-          .operate(request.getParameter("username"))
+      adminViewPortIn
+          .connect(request.getParameter("username"))
           .filter(admin -> admin.getAccountLocked() == null || !admin.getAccountLocked())
           .ifPresent(
               adminUserViewInfo -> {
                 String adminUserId = adminUserViewInfo.getId();
                 int failCnt =
                     Optional.ofNullable(adminUserViewInfo.getLoginFailCnt()).orElse(0) + 1;
-                adminSaveService.updateLoginFailCnt(adminUserId, failCnt);
+                adminSavePortIn.updateLoginFailCnt(adminUserId, failCnt);
 
                 if (failCnt >= failPermit) {
                   // 계정 잠금 처리
-                  adminSaveService.updateAccountLocked(adminUserId, true);
+                  adminSavePortIn.updateAccountLocked(adminUserId, true);
 
                   // 계정 잠금 메세지 전달
                   commonUtil.addFlashAlertMessages(

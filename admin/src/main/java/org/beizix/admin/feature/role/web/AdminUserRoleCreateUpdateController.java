@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.beizix.core.common.rest.RestResponseDto;
 import org.beizix.core.common.util.CoreUtil;
-import org.beizix.security.application.domain.role.model.save.RoleSaveReq;
-import org.beizix.security.application.port.in.role.RoleSaveService;
+import org.beizix.security.application.domain.role.model.save.RoleSaveInput;
+import org.beizix.security.application.port.in.role.RoleSavePortIn;
 import org.beizix.security.config.exceptions.AlreadyExistsRoleException;
 import org.beizix.utility.common.MessageUtil;
 
@@ -23,7 +23,7 @@ class AdminUserRoleCreateUpdateController {
   private final CoreUtil coreUtil;
   private final ModelMapper modelMapper;
   private final MessageUtil messageUtil;
-  private final RoleSaveService roleSaveService;
+  private final RoleSavePortIn roleSavePortIn;
 
   @PostMapping("save")
   ResponseEntity<?> operate(@Valid AdminUserRoleDto dto, BindingResult bindingResult) {
@@ -31,10 +31,10 @@ class AdminUserRoleCreateUpdateController {
       return coreUtil.getValidationFailResponseEntity(bindingResult);
     }
 
-    RoleSaveReq roleDto;
+    RoleSaveInput roleDto;
     try {
       roleDto =
-          roleSaveService.operate(modelMapper.map(dto, RoleSaveReq.class));
+          roleSavePortIn.connect(modelMapper.map(dto, RoleSaveInput.class));
 
     } catch (AlreadyExistsRoleException e) {
       bindingResult.rejectValue("id", "", e.getMessage());
