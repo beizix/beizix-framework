@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.beizix.admin.adapter.web.admin.model.query.AdminListReqParam;
+import org.beizix.admin.adapter.web.admin.model.filter.AdminListReqParam;
 import org.beizix.security.application.port.in.role.RoleListPortIn;
 import org.beizix.security.application.domain.admin.model.query.AdminListInput;
 import org.beizix.security.application.port.in.admin.AdminListPortIn;

@@ -1,6 +1,5 @@
-package org.beizix.admin.feature.role.web;
+package org.beizix.admin.adapter.web.role.model.save;
 
-import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -11,17 +10,12 @@ import org.beizix.utility.enums.OperationType;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-class AdminUserRoleDto {
-
+public class RoleSaveReqVO {
   @NotBlank(message = "{valid.common.required}")
   @Pattern(regexp = "^(ROLE_).+", message = "{valid.adminRole.id.mustStartWith.role}")
-  private String role;
-
+  private String id;
   @NotBlank(message = "{valid.common.required}")
   private String description;
-
   private Integer orderNo;
   private OperationType operationType;
-
-  private List<AdminUserRoleDto> updateList;
 }

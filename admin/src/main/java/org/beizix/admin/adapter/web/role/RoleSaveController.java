@@ -1,7 +1,9 @@
-package org.beizix.admin.feature.role.web;
+package org.beizix.admin.adapter.web.role;
 
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.beizix.admin.adapter.web.role.model.save.RoleSaveReqVO;
+import org.beizix.admin.adapter.web.role.model.save.RoleSaveRespVO;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,14 +21,14 @@ import org.beizix.utility.common.MessageUtil;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/adminRole")
-class AdminUserRoleCreateUpdateController {
+class RoleSaveController {
   private final CoreUtil coreUtil;
   private final ModelMapper modelMapper;
   private final MessageUtil messageUtil;
   private final RoleSavePortIn roleSavePortIn;
 
   @PostMapping("save")
-  ResponseEntity<?> operate(@Valid AdminUserRoleDto dto, BindingResult bindingResult) {
+  ResponseEntity<?> operate(@Valid RoleSaveReqVO saveReqVO, BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
       return coreUtil.getValidationFailResponseEntity(bindingResult);
     }
@@ -34,7 +36,7 @@ class AdminUserRoleCreateUpdateController {
     RoleSaveInput roleDto;
     try {
       roleDto =
-          roleSavePortIn.connect(modelMapper.map(dto, RoleSaveInput.class));
+          roleSavePortIn.connect(modelMapper.map(saveReqVO, RoleSaveInput.class));
 
     } catch (AlreadyExistsRoleException e) {
       bindingResult.rejectValue("id", "", e.getMessage());
@@ -44,7 +46,7 @@ class AdminUserRoleCreateUpdateController {
     return ResponseEntity.status(HttpStatus.OK)
         .body(
             RestResponseDto.builder()
-                .item(modelMapper.map(roleDto, AdminUserRoleDto.class))
+                .item(modelMapper.map(roleDto, RoleSaveRespVO.class))
                 .message(messageUtil.getMessage("operation.common.save.done"))
                 .build());
   }

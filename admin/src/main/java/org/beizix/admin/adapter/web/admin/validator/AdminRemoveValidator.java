@@ -3,7 +3,7 @@ package org.beizix.admin.adapter.web.admin.validator;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import org.beizix.admin.adapter.web.admin.model.query.AdminListReqParam;
+import org.beizix.admin.adapter.web.admin.model.filter.AdminListReqParam;
 
 @Component
 public class AdminRemoveValidator implements Validator {

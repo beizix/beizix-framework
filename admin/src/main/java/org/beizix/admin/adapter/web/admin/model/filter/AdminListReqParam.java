@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.admin.model.query;
+package org.beizix.admin.adapter.web.admin.model.filter;
 
 import lombok.Data;
 

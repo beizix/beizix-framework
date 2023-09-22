@@ -17,7 +17,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.beizix.admin.adapter.web.admin.model.query.AdminListReqParam;
+import org.beizix.admin.adapter.web.admin.model.filter.AdminListReqParam;
 import org.beizix.security.application.domain.admin.model.list.AdminListOutput;
 import org.beizix.security.application.domain.admin.model.query.AdminListInput;
 import org.beizix.security.application.port.in.admin.AdminListPortIn;

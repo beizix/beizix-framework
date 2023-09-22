@@ -1,6 +1,7 @@
-package org.beizix.admin.feature.role.web;
+package org.beizix.admin.adapter.web.role;
 
 import lombok.RequiredArgsConstructor;
+import org.beizix.admin.adapter.web.role.model.remove.RoleRemoveReqVO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,13 +12,13 @@ import org.beizix.security.application.port.in.role.RoleRemovePortIn;
 
 @RestController
 @RequiredArgsConstructor
-class AdminUserRoleRemoveController {
+class RoleRemoveController {
   private final RoleRemovePortIn roleRemovePortIn;
   private final MessageUtil messageUtil;
 
   @PostMapping("/api/adminRole/remove")
-  ResponseEntity<?> remove(AdminUserRoleDto formDto) {
-    roleRemovePortIn.connect(formDto.getRole());
+  ResponseEntity<?> remove(RoleRemoveReqVO formDto) {
+    roleRemovePortIn.connect(formDto.getId());
     return ResponseEntity.status(HttpStatus.OK)
         .body(
             RestResponseDto.builder()

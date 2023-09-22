@@ -1,4 +1,4 @@
-package org.beizix.admin.feature.role.web;
+package org.beizix.admin.adapter.web.role;
 
 import groovy.util.logging.Slf4j;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import org.beizix.core.config.enums.AppType;
 @RequiredArgsConstructor
 @RequestMapping("/settings/adminRoles")
 @Slf4j
-class AdminUserRoleIndexController {
+class RoleIndexController {
   @GetMapping
   String intro(Model model) {
     model.addAttribute("appType", AppType.ADMIN);
