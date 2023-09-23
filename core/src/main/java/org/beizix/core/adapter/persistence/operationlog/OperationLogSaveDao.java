@@ -15,10 +15,10 @@ class OperationLogSaveDao implements OperationLogSavePortOut {
   private final ModelMapper modelMapper;
 
   @Override
-  public org.beizix.core.application.domain.operationLog.model.OperationLog connect(
-      org.beizix.core.application.domain.operationLog.model.OperationLog operationLog) {
+  public org.beizix.core.application.domain.operationlog.model.OperationLog connect(
+      org.beizix.core.application.domain.operationlog.model.OperationLog operationLog) {
     OperationLog item =
         operationLogRepo.save(modelMapper.map(operationLog, OperationLog.class));
-    return modelMapper.map(item, org.beizix.core.application.domain.operationLog.model.OperationLog.class);
+    return modelMapper.map(item, org.beizix.core.application.domain.operationlog.model.OperationLog.class);
   }
 }

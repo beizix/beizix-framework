@@ -11,8 +11,8 @@ import org.beizix.utility.common.CommonUtil;
 import org.beizix.utility.common.MessageUtil;
 import org.beizix.core.config.enums.AppType;
 import org.beizix.core.config.enums.OperationLogType;
-import org.beizix.core.application.domain.operationLog.model.OperationLog;
-import org.beizix.core.application.port.in.operationLog.OperationLogSavePortIn;
+import org.beizix.core.application.domain.operationlog.model.OperationLog;
+import org.beizix.core.application.port.in.operationlog.OperationLogSavePortIn;
 
 import javax.servlet.http.HttpServletRequest;
 

@@ -9,8 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.beizix.core.application.domain.operationLog.model.filter.OperationLogListInput;
-import org.beizix.core.application.port.in.operationLog.OperationLogListPortIn;
+import org.beizix.core.application.domain.operationlog.model.filter.OperationLogListInput;
+import org.beizix.core.application.port.in.operationlog.OperationLogListPortIn;
 
 @Controller
 @RequiredArgsConstructor

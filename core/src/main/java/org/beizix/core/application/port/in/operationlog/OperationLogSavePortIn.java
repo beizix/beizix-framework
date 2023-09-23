@@ -1,7 +1,7 @@
-package org.beizix.core.application.port.out.operationlog;
+package org.beizix.core.application.port.in.operationlog;
 
 import org.beizix.core.application.domain.operationlog.model.OperationLog;
 
-public interface OperationLogSavePortOut {
+public interface OperationLogSavePortIn {
   OperationLog connect(OperationLog operationLog);
 }

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.thymeleaf.util.StringUtils;
 import org.beizix.core.config.enums.AppType;
 import org.beizix.core.config.enums.OperationLogType;
-import org.beizix.core.application.domain.operationLog.model.filter.OperationLogListInput;
+import org.beizix.core.application.domain.operationlog.model.filter.OperationLogListInput;
 import org.beizix.core.application.port.out.operationlog.OperationLogListPortOut;
 import org.beizix.core.adapter.persistence.operationlog.model.OperationLog;
 
@@ -21,7 +21,7 @@ class OperationLogListDao implements OperationLogListPortOut {
   private final ModelMapper modelMapper;
 
   @Override
-  public Page<org.beizix.core.application.domain.operationLog.model.OperationLog> connect(
+  public Page<org.beizix.core.application.domain.operationlog.model.OperationLog> connect(
       Pageable pageable, OperationLogListInput operationLogListInput) {
     // 검색조건 초기화
     Specification<OperationLog> spec = (root, query, builder) -> null;
@@ -55,6 +55,6 @@ class OperationLogListDao implements OperationLogListPortOut {
 
     return operationLogRepo
         .findAll(spec, pageable)
-        .map(item -> modelMapper.map(item, org.beizix.core.application.domain.operationLog.model.OperationLog.class));
+        .map(item -> modelMapper.map(item, org.beizix.core.application.domain.operationlog.model.OperationLog.class));
   }
 }

@@ -1,4 +1,4 @@
-package org.beizix.core.application.port.in.imageCrop;
+package org.beizix.core.application.port.in.imagecrop;
 
 import org.springframework.web.multipart.MultipartFile;
 import org.beizix.core.application.domain.fileupload.model.FileUploadInfo;

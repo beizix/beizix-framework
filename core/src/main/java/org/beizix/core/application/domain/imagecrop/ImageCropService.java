@@ -1,4 +1,4 @@
-package org.beizix.core.application.domain.imageCrop;
+package org.beizix.core.application.domain.imagecrop;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.beizix.core.application.domain.fileupload.model.FileUploadInfo;
-import org.beizix.core.application.port.in.imageCrop.ImageCropPortIn;
+import org.beizix.core.application.port.in.imagecrop.ImageCropPortIn;
 import org.beizix.utility.common.CommonUtil;
 import org.beizix.utility.common.ImageUtil;
 
