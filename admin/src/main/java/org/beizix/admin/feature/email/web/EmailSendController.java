@@ -7,8 +7,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.beizix.core.feature.email.application.model.Email;
-import org.beizix.core.feature.email.application.service.EmailSendService;
+import org.beizix.core.application.domain.email.model.Email;
+import org.beizix.core.application.port.in.email.EmailSendPortIn;
 import org.beizix.utility.common.MessageUtil;
 
 import javax.mail.MessagingException;
@@ -17,7 +17,7 @@ import java.io.IOException;
 @Controller
 @RequiredArgsConstructor
 public class EmailSendController {
-  private final EmailSendService emailSendService;
+  private final EmailSendPortIn emailSendPortIn;
   private final MessageUtil messageUtil;
   private final ModelMapper modelMapper;
 
@@ -32,7 +32,7 @@ public class EmailSendController {
       return "email/emailForm";
     }
 
-    emailSendService.operate(modelMapper.map(formDto, Email.class));
+    emailSendPortIn.connect(modelMapper.map(formDto, Email.class));
 
     redirectAttributes.addFlashAttribute(
         "operationMessage", messageUtil.getMessage("operation.common.email.to", formDto.getTo()));

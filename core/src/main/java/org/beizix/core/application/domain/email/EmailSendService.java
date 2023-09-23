@@ -1,4 +1,4 @@
-package org.beizix.core.feature.email.application.service.impl;
+package org.beizix.core.application.domain.email;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -6,8 +6,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.beizix.core.feature.email.application.model.Email;
-import org.beizix.core.feature.email.application.service.EmailSendService;
+import org.beizix.core.application.domain.email.model.Email;
+import org.beizix.core.application.port.in.email.EmailSendPortIn;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -17,14 +17,14 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-class EmailSendServiceImpl implements EmailSendService {
+class EmailSendService implements EmailSendPortIn {
   private final JavaMailSender mailSender;
 
   @Value("${spring.mail.username}")
   private String mailUsername;
 
   @Override
-  public void operate(Email email) throws MessagingException, UnsupportedEncodingException {
+  public void connect(Email email) throws MessagingException, UnsupportedEncodingException {
     MimeMessage mimeMessage = mailSender.createMimeMessage();
     MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
     mimeMessageHelper.setTo(email.getTo());
