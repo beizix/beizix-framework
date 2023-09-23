@@ -13,15 +13,15 @@ import org.beizix.core.common.rest.RestResponseDto;
 import org.beizix.core.common.util.CoreUtil;
 import org.beizix.core.config.exception.AlreadyExistItemException;
 import org.beizix.core.config.exception.UnAcceptableFileException;
-import org.beizix.core.feature.uri.application.model.URI;
-import org.beizix.core.feature.uri.application.service.URICreateUpdateService;
+import org.beizix.core.application.domain.uri.model.URIInput;
+import org.beizix.core.application.port.in.uri.URISavePortIn;
 import org.beizix.utility.common.MessageUtil;
 
 @RestController
 @RequiredArgsConstructor
 public class URICreateUpdateController {
   private final CoreUtil coreUtil;
-  private final URICreateUpdateService uriCreateUpdateService;
+  private final URISavePortIn uriSavePortIn;
   private final ModelMapper modelMapper;
   private final MessageUtil messageUtil;
 
@@ -33,11 +33,11 @@ public class URICreateUpdateController {
       return coreUtil.getValidationFailResponseEntity(bindingResult);
     }
 
-    URI item;
+    URIInput item;
     try {
       item =
-          uriCreateUpdateService.operate(
-              modelMapper.map(formDto, URI.class), "create".equals(formDto.getMode()));
+          uriSavePortIn.connect(
+              modelMapper.map(formDto, URIInput.class), "create".equals(formDto.getMode()));
 
     } catch (UnAcceptableFileException e) {
       bindingResult.rejectValue("ogImageFile", "", e.getMessage());

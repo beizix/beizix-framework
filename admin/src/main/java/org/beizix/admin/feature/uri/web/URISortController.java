@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.beizix.core.common.rest.RestResponseDto;
 import org.beizix.core.common.util.CoreUtil;
-import org.beizix.core.feature.uri.application.model.URISort;
-import org.beizix.core.feature.uri.application.service.URISortService;
+import org.beizix.core.application.domain.uri.model.URISortInput;
+import org.beizix.core.application.port.in.uri.URISortPortIn;
 import org.beizix.utility.common.MessageUtil;
 
 @RestController
 @RequiredArgsConstructor
 public class URISortController {
-  private final URISortService uriSortService;
+  private final URISortPortIn uriSortPortIn;
   private final CoreUtil coreUtil;
   private final MessageUtil messageUtil;
   private final ModelMapper modelMapper;
@@ -31,9 +31,9 @@ public class URISortController {
       return coreUtil.getValidationFailResponseEntity(bindingResult);
     }
 
-    uriSortService.operate(
+    uriSortPortIn.connect(
         formDto.getUpdateList().stream()
-            .map(item -> modelMapper.map(item, URISort.class))
+            .map(item -> modelMapper.map(item, URISortInput.class))
             .collect(Collectors.toList()));
 
     return ResponseEntity.status(HttpStatus.OK)

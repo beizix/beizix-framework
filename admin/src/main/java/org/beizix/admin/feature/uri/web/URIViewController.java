@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.beizix.core.config.enums.AppType;
-import org.beizix.core.feature.uri.application.model.URI;
-import org.beizix.core.feature.uri.application.service.URIViewService;
+import org.beizix.core.application.domain.uri.model.URIInput;
+import org.beizix.core.application.port.in.uri.URIViewPortIn;
 import org.beizix.utility.common.MessageUtil;
 import org.beizix.core.common.rest.RestResponseDto;
 
@@ -20,13 +20,13 @@ import java.util.NoSuchElementException;
 public class URIViewController {
   private final MessageUtil messageUtil;
   private final ModelMapper modelMapper;
-  private final URIViewService uriViewService;
+  private final URIViewPortIn uriViewPortIn;
 
   @GetMapping(path = "/api/uri/get/{appType}/{id}")
   ResponseEntity<?> operate(@PathVariable AppType appType, @PathVariable String id) {
-    URI item =
-        uriViewService
-            .operate(appType, id)
+    URIInput item =
+        uriViewPortIn
+            .connect(appType, id)
             .orElseThrow(
                 () ->
                     new NoSuchElementException(

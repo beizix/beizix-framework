@@ -8,8 +8,8 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.beizix.core.config.enums.AppType;
-import org.beizix.core.feature.uri.application.model.URI;
-import org.beizix.core.feature.uri.application.service.URICreateUpdateService;
+import org.beizix.core.application.domain.uri.model.URIInput;
+import org.beizix.core.application.port.in.uri.URISavePortIn;
 import org.beizix.utility.common.PropertyUtil;
 
 @Component
@@ -17,7 +17,7 @@ import org.beizix.utility.common.PropertyUtil;
 @Slf4j
 @Order(3)
 public class InitUriFrontData implements ApplicationRunner {
-  private final URICreateUpdateService uriCreateUpdateService;
+  private final URISavePortIn uriSavePortIn;
 
   @Override
   public void run(ApplicationArguments args) throws IOException {
@@ -29,8 +29,8 @@ public class InitUriFrontData implements ApplicationRunner {
     final String EXBOARD_LIST = "uri.front.board.exampleBoard";
     final String EXBOARD_VIEW = "uri.front.board.exampleBoard.{{pathVars}}";
 
-    uriCreateUpdateService.operate(
-        URI.builder()
+    uriSavePortIn.connect(
+        URIInput.builder()
             .appType(AppType.FRONT)
             .parentId(null)
             .id(FRONT)
@@ -44,8 +44,8 @@ public class InitUriFrontData implements ApplicationRunner {
         false);
 
     // 예제 게시판
-    uriCreateUpdateService.operate(
-        URI.builder()
+    uriSavePortIn.connect(
+        URIInput.builder()
             .appType(AppType.FRONT)
             .parentId(FRONT)
             .id(EXBOARD_LIST)
@@ -58,8 +58,8 @@ public class InitUriFrontData implements ApplicationRunner {
             .build(),
         false);
 
-    uriCreateUpdateService.operate(
-        URI.builder()
+    uriSavePortIn.connect(
+        URIInput.builder()
             .appType(AppType.FRONT)
             .parentId(EXBOARD_LIST)
             .id(EXBOARD_VIEW)

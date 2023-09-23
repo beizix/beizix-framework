@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.beizix.admin.feature.exboard.web.model.ExBoardDto;
 import org.beizix.admin.feature.exboard.web.model.ExBoardListConditionDto;
-import org.beizix.core.feature.uri.application.model.URI;
 import org.beizix.core.feature.exboard.application.model.ExBoardListCondition;
 import org.beizix.core.feature.exboard.application.service.ExBoardListService;
 

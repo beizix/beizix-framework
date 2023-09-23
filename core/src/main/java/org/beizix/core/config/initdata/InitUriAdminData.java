@@ -9,8 +9,8 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.beizix.core.config.enums.AppType;
-import org.beizix.core.feature.uri.application.model.URI;
-import org.beizix.core.feature.uri.application.service.URICreateUpdateService;
+import org.beizix.core.application.domain.uri.model.URIInput;
+import org.beizix.core.application.port.in.uri.URISavePortIn;
 import org.beizix.utility.common.PropertyUtil;
 
 @Component
@@ -18,7 +18,7 @@ import org.beizix.utility.common.PropertyUtil;
 @Slf4j
 @Order(2)
 public class InitUriAdminData implements ApplicationRunner {
-  private final URICreateUpdateService uriCreateUpdateService;
+  private final URISavePortIn uriSavePortIn;
 
   @Override
   public void run(ApplicationArguments args) throws IOException {
@@ -57,8 +57,8 @@ public class InitUriAdminData implements ApplicationRunner {
     final String ADMIN_ADD_ONS_SEND_EMAIL = "uri.admin.addons.email";
     final String ADMIN_ADD_ONS_SEND_EMAIL_CREATE = "uri.admin.addons.email.create";
 
-    uriCreateUpdateService.operate(
-        URI.builder()
+    uriSavePortIn.connect(
+        URIInput.builder()
             .id(ADMIN)
             .parentId(null)
             .appType(AppType.ADMIN)
@@ -71,8 +71,8 @@ public class InitUriAdminData implements ApplicationRunner {
             .build(),
         false);
 
-    uriCreateUpdateService.operate(
-        URI.builder()
+    uriSavePortIn.connect(
+        URIInput.builder()
             .id(ADMIN_BOARD)
             .parentId(ADMIN)
             .appType(AppType.ADMIN)
@@ -83,8 +83,8 @@ public class InitUriAdminData implements ApplicationRunner {
             .build(),
         false);
 
-    uriCreateUpdateService.operate(
-        URI.builder()
+    uriSavePortIn.connect(
+        URIInput.builder()
             .id(ADMIN_SETTINGS)
             .parentId(ADMIN)
             .appType(AppType.ADMIN)
@@ -95,8 +95,8 @@ public class InitUriAdminData implements ApplicationRunner {
             .build(),
         false);
 
-    uriCreateUpdateService.operate(
-        URI.builder()
+    uriSavePortIn.connect(
+        URIInput.builder()
             .id(ADMIN_SETTINGS_ADMIN_GROUP)
             .parentId(ADMIN_SETTINGS)
             .appType(AppType.ADMIN)
@@ -110,8 +110,8 @@ public class InitUriAdminData implements ApplicationRunner {
             .build(),
         false);
 
-    uriCreateUpdateService.operate(
-        URI.builder()
+    uriSavePortIn.connect(
+        URIInput.builder()
             .id(ADMIN_SETTINGS_ADMIN)
             .parentId(ADMIN_SETTINGS_ADMIN_GROUP)
             .appType(AppType.ADMIN)
@@ -125,8 +125,8 @@ public class InitUriAdminData implements ApplicationRunner {
             .build(),
         false);
 
-    uriCreateUpdateService.operate(
-        URI.builder()
+    uriSavePortIn.connect(
+        URIInput.builder()
             .id(ADMIN_SETTINGS_ADMIN_CREATE)
             .parentId(ADMIN_SETTINGS_ADMIN)
             .appType(AppType.ADMIN)
@@ -140,8 +140,8 @@ public class InitUriAdminData implements ApplicationRunner {
             .build(),
         false);
 
-    uriCreateUpdateService.operate(
-        URI.builder()
+    uriSavePortIn.connect(
+        URIInput.builder()
             .id(ADMIN_SETTINGS_ADMIN_UPDATE)
             .parentId(ADMIN_SETTINGS_ADMIN)
             .appType(AppType.ADMIN)
@@ -155,8 +155,8 @@ public class InitUriAdminData implements ApplicationRunner {
             .build(),
         false);
 
-    uriCreateUpdateService.operate(
-        URI.builder()
+    uriSavePortIn.connect(
+        URIInput.builder()
             .id(ADMIN_SETTINGS_ADMIN_ROLE)
             .parentId(ADMIN_SETTINGS_ADMIN_GROUP)
             .appType(AppType.ADMIN)
@@ -170,8 +170,8 @@ public class InitUriAdminData implements ApplicationRunner {
             .build(),
         false);
 
-    uriCreateUpdateService.operate(
-        URI.builder()
+    uriSavePortIn.connect(
+        URIInput.builder()
             .id(ADMIN_SETTINGS_URI_ADMIN)
             .parentId(ADMIN_SETTINGS)
             .appType(AppType.ADMIN)
@@ -185,8 +185,8 @@ public class InitUriAdminData implements ApplicationRunner {
             .build(),
         false);
 
-    uriCreateUpdateService.operate(
-        URI.builder()
+    uriSavePortIn.connect(
+        URIInput.builder()
             .id(ADMIN_BOARD_EXAMPLE)
             .parentId(ADMIN_BOARD)
             .appType(AppType.ADMIN)
@@ -200,8 +200,8 @@ public class InitUriAdminData implements ApplicationRunner {
             .build(),
         false);
 
-    uriCreateUpdateService.operate(
-        URI.builder()
+    uriSavePortIn.connect(
+        URIInput.builder()
             .id(ADMIN_BOARD_EXAMPLE_CREATE)
             .parentId(ADMIN_BOARD_EXAMPLE)
             .appType(AppType.ADMIN)
@@ -215,8 +215,8 @@ public class InitUriAdminData implements ApplicationRunner {
             .build(),
         false);
 
-    uriCreateUpdateService.operate(
-        URI.builder()
+    uriSavePortIn.connect(
+        URIInput.builder()
             .id(ADMIN_BOARD_EXAMPLE_UPDATE)
             .parentId(ADMIN_BOARD_EXAMPLE)
             .appType(AppType.ADMIN)
@@ -230,8 +230,8 @@ public class InitUriAdminData implements ApplicationRunner {
             .build(),
         false);
 
-    uriCreateUpdateService.operate(
-        URI.builder()
+    uriSavePortIn.connect(
+        URIInput.builder()
             .id(ADMIN_BOARD_EXAMPLE_DELETE)
             .parentId(ADMIN_BOARD_EXAMPLE)
             .appType(AppType.ADMIN)
@@ -242,8 +242,8 @@ public class InitUriAdminData implements ApplicationRunner {
             .build(),
         false);
 
-    uriCreateUpdateService.operate(
-        URI.builder()
+    uriSavePortIn.connect(
+        URIInput.builder()
             .id(ADMIN_SETTINGS_ADMIN_DELETE)
             .parentId(ADMIN_SETTINGS_ADMIN)
             .appType(AppType.ADMIN)
@@ -254,8 +254,8 @@ public class InitUriAdminData implements ApplicationRunner {
             .build(),
         false);
 
-    uriCreateUpdateService.operate(
-        URI.builder()
+    uriSavePortIn.connect(
+        URIInput.builder()
             .id(ADMIN_BOARD_EXAMPLE_EXCEL)
             .parentId(ADMIN_BOARD_EXAMPLE)
             .appType(AppType.ADMIN)
@@ -266,8 +266,8 @@ public class InitUriAdminData implements ApplicationRunner {
             .build(),
         false);
 
-    uriCreateUpdateService.operate(
-        URI.builder()
+    uriSavePortIn.connect(
+        URIInput.builder()
             .id(ADMIN_SETTINGS_ADMIN_EXCEL)
             .parentId(ADMIN_SETTINGS_ADMIN)
             .appType(AppType.ADMIN)
@@ -278,8 +278,8 @@ public class InitUriAdminData implements ApplicationRunner {
             .build(),
         false);
 
-    uriCreateUpdateService.operate(
-        URI.builder()
+    uriSavePortIn.connect(
+        URIInput.builder()
             .id(ADMIN_SETTINGS_URI_FRONT)
             .parentId(ADMIN_SETTINGS)
             .appType(AppType.ADMIN)
@@ -293,8 +293,8 @@ public class InitUriAdminData implements ApplicationRunner {
             .build(),
         false);
 
-    uriCreateUpdateService.operate(
-        URI.builder()
+    uriSavePortIn.connect(
+        URIInput.builder()
             .id(ADMIN_SETTINGS_CODE)
             .parentId(ADMIN_SETTINGS)
             .appType(AppType.ADMIN)
@@ -308,8 +308,8 @@ public class InitUriAdminData implements ApplicationRunner {
             .build(),
         false);
 
-    uriCreateUpdateService.operate(
-        URI.builder()
+    uriSavePortIn.connect(
+        URIInput.builder()
             .id(ADMIN_ANALYSIS)
             .parentId(ADMIN)
             .appType(AppType.ADMIN)
@@ -323,8 +323,8 @@ public class InitUriAdminData implements ApplicationRunner {
             .build(),
         false);
 
-    uriCreateUpdateService.operate(
-        URI.builder()
+    uriSavePortIn.connect(
+        URIInput.builder()
             .id(ADMIN_ANALYSIS_OPERATION_LOG)
             .parentId(ADMIN_ANALYSIS)
             .appType(AppType.ADMIN)
@@ -338,8 +338,8 @@ public class InitUriAdminData implements ApplicationRunner {
             .build(),
         false);
 
-    uriCreateUpdateService.operate(
-        URI.builder()
+    uriSavePortIn.connect(
+        URIInput.builder()
             .id(ADMIN_ANALYSIS_OPERATION_LOG_UPDATE)
             .parentId(ADMIN_ANALYSIS_OPERATION_LOG)
             .appType(AppType.ADMIN)
@@ -353,8 +353,8 @@ public class InitUriAdminData implements ApplicationRunner {
             .build(),
         false);
 
-    uriCreateUpdateService.operate(
-        URI.builder()
+    uriSavePortIn.connect(
+        URIInput.builder()
             .id(ADMIN_ANALYSIS_OPERATION_LOG_EXCEL)
             .parentId(ADMIN_ANALYSIS_OPERATION_LOG)
             .appType(AppType.ADMIN)
@@ -368,8 +368,8 @@ public class InitUriAdminData implements ApplicationRunner {
             .build(),
         false);
 
-    uriCreateUpdateService.operate(
-        URI.builder()
+    uriSavePortIn.connect(
+        URIInput.builder()
             .id(ADMIN_ADD_ONS)
             .parentId(ADMIN)
             .appType(AppType.ADMIN)
@@ -383,8 +383,8 @@ public class InitUriAdminData implements ApplicationRunner {
             .build(),
         false);
 
-    uriCreateUpdateService.operate(
-        URI.builder()
+    uriSavePortIn.connect(
+        URIInput.builder()
             .id(ADMIN_ADD_ONS_SEND_EMAIL)
             .parentId(ADMIN_ADD_ONS)
             .appType(AppType.ADMIN)
@@ -398,8 +398,8 @@ public class InitUriAdminData implements ApplicationRunner {
             .build(),
         false);
 
-    uriCreateUpdateService.operate(
-        URI.builder()
+    uriSavePortIn.connect(
+        URIInput.builder()
             .id(ADMIN_ADD_ONS_SEND_EMAIL_CREATE)
             .parentId(ADMIN_ADD_ONS_SEND_EMAIL)
             .appType(AppType.ADMIN)

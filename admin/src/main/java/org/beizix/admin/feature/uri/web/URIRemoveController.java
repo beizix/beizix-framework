@@ -11,7 +11,7 @@ import org.beizix.core.common.rest.RestResponseDto;
 import org.beizix.core.common.util.CoreUtil;
 import org.beizix.core.config.enums.AppType;
 import org.beizix.core.config.exception.NonRemovableItemException;
-import org.beizix.core.feature.uri.application.service.URIRemoveService;
+import org.beizix.core.application.port.in.uri.URIRemovePortIn;
 import org.beizix.utility.common.MessageUtil;
 
 @RestController
@@ -19,7 +19,7 @@ import org.beizix.utility.common.MessageUtil;
 public class URIRemoveController {
   private final CoreUtil coreUtil;
   private final MessageUtil messageUtil;
-  private final URIRemoveService uriRemoveService;
+  private final URIRemovePortIn uriRemovePortIn;
 
   @PostMapping(path = "/api/uri/remove")
   ResponseEntity<?> remove(@Valid URIRemoveDto formDto, BindingResult bindingResult) {
@@ -28,7 +28,7 @@ public class URIRemoveController {
     }
 
     try {
-      uriRemoveService.operate(AppType.ADMIN, formDto.getId());
+      uriRemovePortIn.connect(AppType.ADMIN, formDto.getId());
     } catch (NonRemovableItemException e) {
       bindingResult.reject("", e.getMessage());
       return coreUtil.getValidationFailResponseEntity(bindingResult);

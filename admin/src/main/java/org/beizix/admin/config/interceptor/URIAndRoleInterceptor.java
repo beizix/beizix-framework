@@ -14,18 +14,18 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.beizix.utility.common.CommonUtil;
 import org.beizix.core.config.enums.AppType;
-import org.beizix.core.feature.uri.application.model.URI;
-import org.beizix.core.feature.uri.application.service.URIHierarchyService;
-import org.beizix.core.feature.uri.application.service.URIMatchingParentsService;
-import org.beizix.core.feature.uri.application.service.URIMatchingService;
+import org.beizix.core.application.domain.uri.model.URIInput;
+import org.beizix.core.application.port.in.uri.URIHierarchyPortIn;
+import org.beizix.core.application.port.in.uri.URIMatchingParentsPortIn;
+import org.beizix.core.application.port.in.uri.URIMatchingPortIn;
 
 @Component
 @RequiredArgsConstructor
 public class URIAndRoleInterceptor implements HandlerInterceptor {
   private final CommonUtil commonUtil;
-  private final URIMatchingService uriMatchingService;
-  private final URIMatchingParentsService uriMatchingParentsService;
-  private final URIHierarchyService uriHierarchyService;
+  private final URIMatchingPortIn uriMatchingPortIn;
+  private final URIMatchingParentsPortIn uriMatchingParentsPortIn;
+  private final URIHierarchyPortIn uriHierarchyPortIn;
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -35,7 +35,7 @@ public class URIAndRoleInterceptor implements HandlerInterceptor {
       return true;
     }
 
-    URI currentURI = uriMatchingService.operate(AppType.ADMIN, requestURI);
+    URIInput currentURI = uriMatchingPortIn.connect(AppType.ADMIN, requestURI);
     if (currentURI == null) {
       request.setAttribute("message", String.format("매핑되는 않은 URI - %s", requestURI));
       request.setAttribute("exception", "NoMatchingURIException");
@@ -81,7 +81,7 @@ public class URIAndRoleInterceptor implements HandlerInterceptor {
     if (modelAndView == null) return;
 
     if (!commonUtil.isAjaxRequest(request)) {
-      modelAndView.addObject("topNode", uriHierarchyService.operate(AppType.ADMIN));
+      modelAndView.addObject("topNode", uriHierarchyPortIn.connect(AppType.ADMIN));
 
       if (modelAndView.getModelMap().getAttribute("currentURI") == null) {
         modelAndView.addObject("currentURI", request.getAttribute("currentURI"));
@@ -89,7 +89,7 @@ public class URIAndRoleInterceptor implements HandlerInterceptor {
 
       modelAndView.addObject(
           "menuHierarchy",
-          uriMatchingParentsService.operate(AppType.ADMIN, request.getRequestURI()));
+          uriMatchingParentsPortIn.connect(AppType.ADMIN, request.getRequestURI()));
     }
   }
 }

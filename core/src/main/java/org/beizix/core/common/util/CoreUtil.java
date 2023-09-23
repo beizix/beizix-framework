@@ -13,7 +13,7 @@ import org.thymeleaf.util.StringUtils;
 import org.beizix.core.common.rest.RestErrorDto;
 import org.beizix.core.common.rest.RestFieldErrorDto;
 import org.beizix.core.common.rest.RestObjectErrorDto;
-import org.beizix.core.feature.uri.application.model.URI;
+import org.beizix.core.application.domain.uri.model.URIInput;
 import org.beizix.utility.common.MessageUtil;
 
 @Component
@@ -27,22 +27,22 @@ public class CoreUtil {
    * @param findId 찾는 URI 아이디
    * @return boolean 매칭 여부
    */
-  public boolean containsCurrentURI(List<URI> uriList, String findId) {
+  public boolean containsCurrentURI(List<URIInput> uriList, String findId) {
     return uriList.stream().anyMatch(node -> node.getId().equals(findId));
   }
 
-  public String getUriTitle(URI uri) {
+  public String getUriTitle(URIInput uri) {
     return StringUtils.isEmpty(messageUtil.getMessage(uri.getId()))
         ? uri.getText()
         : messageUtil.getMessage(uri.getId());
   }
 
-  public boolean shouldDisplaySubNodes(List<URI> uriList) {
+  public boolean shouldDisplaySubNodes(List<URIInput> uriList) {
     boolean result = false;
     if (uriList == null || uriList.isEmpty()) {
       result = false;
     } else {
-      for (URI uri : uriList) {
+      for (URIInput uri : uriList) {
         if (uri.getShowOnNavi()) {
           result = true;
           break;

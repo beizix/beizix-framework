@@ -5,10 +5,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.beizix.core.config.enums.AppType;
-import org.beizix.core.feature.uri.application.model.URI;
-import org.beizix.core.feature.uri.application.service.URIHierarchyService;
-import org.beizix.core.feature.uri.application.service.URIMatchingParentsService;
-import org.beizix.core.feature.uri.application.service.URIMatchingService;
+import org.beizix.core.application.domain.uri.model.URIInput;
+import org.beizix.core.application.port.in.uri.URIHierarchyPortIn;
+import org.beizix.core.application.port.in.uri.URIMatchingParentsPortIn;
+import org.beizix.core.application.port.in.uri.URIMatchingPortIn;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,9 +18,9 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 public class URIAndRoleInterceptor implements HandlerInterceptor {
-  private final URIMatchingService uriMatchingService;
-  private final URIMatchingParentsService uriMatchingParentsService;
-  private final URIHierarchyService uriHierarchyService;
+  private final URIMatchingPortIn uriMatchingPortIn;
+  private final URIMatchingParentsPortIn uriMatchingParentsPortIn;
+  private final URIHierarchyPortIn uriHierarchyPortIn;
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -30,7 +30,7 @@ public class URIAndRoleInterceptor implements HandlerInterceptor {
       return true;
     }
 
-    URI currentURI = uriMatchingService.operate(AppType.FRONT, requestURI);
+    URIInput currentURI = uriMatchingPortIn.connect(AppType.FRONT, requestURI);
     if (currentURI == null) {
       request.setAttribute("message", String.format("매핑되는 않은 URI - %s", requestURI));
       request.setAttribute("exception", "NoMatchingURIException");
@@ -51,13 +51,13 @@ public class URIAndRoleInterceptor implements HandlerInterceptor {
 
     if (modelAndView == null) return;
 
-    modelAndView.addObject("topNode", uriHierarchyService.operate(AppType.FRONT));
+    modelAndView.addObject("topNode", uriHierarchyPortIn.connect(AppType.FRONT));
 
     if (modelAndView.getModelMap().getAttribute("currentURI") == null) {
       modelAndView.addObject("currentURI", request.getAttribute("currentURI"));
     }
 
     modelAndView.addObject(
-        "menuHierarchy", uriMatchingParentsService.operate(AppType.FRONT, request.getRequestURI()));
+        "menuHierarchy", uriMatchingParentsPortIn.connect(AppType.FRONT, request.getRequestURI()));
   }
 }
