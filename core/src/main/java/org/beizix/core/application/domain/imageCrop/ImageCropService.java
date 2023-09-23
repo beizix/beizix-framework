@@ -1,4 +1,4 @@
-package org.beizix.core.feature.imageCrop.application.service.impl;
+package org.beizix.core.application.domain.imageCrop;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -12,13 +12,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.beizix.core.application.domain.fileupload.model.FileUploadInfo;
-import org.beizix.core.feature.imageCrop.application.service.ImageCropService;
+import org.beizix.core.application.port.in.imageCrop.ImageCropPortIn;
 import org.beizix.utility.common.CommonUtil;
 import org.beizix.utility.common.ImageUtil;
 
 @Service
 @RequiredArgsConstructor
-class ImageCropServiceImpl implements ImageCropService {
+class ImageCropService implements ImageCropPortIn {
   private final CommonUtil commonUtil;
 
   @Value("${path.upload.public}")
