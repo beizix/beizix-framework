@@ -11,8 +11,8 @@ import org.beizix.utility.common.CommonUtil;
 import org.beizix.utility.common.MessageUtil;
 import org.beizix.core.config.enums.AppType;
 import org.beizix.core.config.enums.OperationLogType;
-import org.beizix.core.feature.operationlog.application.model.OperationLog;
-import org.beizix.core.feature.operationlog.application.service.OperationLogCreateService;
+import org.beizix.core.application.domain.operationLog.model.OperationLog;
+import org.beizix.core.application.port.in.operationLog.OperationLogSavePortIn;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 @RequiredArgsConstructor
 public class LoginSuccessAspect {
-  private final OperationLogCreateService operationLogCreateService;
+  private final OperationLogSavePortIn operationLogSavePortIn;
   private final CommonUtil commonUtil;
   private final MessageUtil messageUtil;
 
@@ -32,7 +32,7 @@ public class LoginSuccessAspect {
     HttpServletRequest request = (HttpServletRequest) args[0];
     Authentication authentication = (Authentication) args[2];
 
-    operationLogCreateService.operate(
+    operationLogSavePortIn.connect(
         OperationLog.builder()
             .appType(AppType.ADMIN)
             .operationLogType(OperationLogType.LOGIN_SUCCESS)

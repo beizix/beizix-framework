@@ -3,7 +3,7 @@ package org.beizix.security.application.domain.admin;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.beizix.security.application.domain.admin.model.list.AdminListOutput;
-import org.beizix.security.application.domain.admin.model.query.AdminListInput;
+import org.beizix.security.application.domain.admin.model.filter.AdminListInput;
 import org.beizix.security.application.port.in.admin.AdminListPortIn;
 import org.beizix.security.application.port.out.admin.AdminListPortOut;
 import org.springframework.data.domain.Page;

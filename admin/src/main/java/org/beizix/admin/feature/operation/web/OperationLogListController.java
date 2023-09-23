@@ -9,13 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.beizix.core.feature.operationlog.application.model.OperationLogListCondition;
-import org.beizix.core.feature.operationlog.application.service.OperationLogListService;
+import org.beizix.core.application.domain.operationLog.model.filter.OperationLogListInput;
+import org.beizix.core.application.port.in.operationLog.OperationLogListPortIn;
 
 @Controller
 @RequiredArgsConstructor
 public class OperationLogListController {
-  private final OperationLogListService operationLogListService;
+  private final OperationLogListPortIn operationLogListPortIn;
   private final ModelMapper modelMapper;
 
   @GetMapping("/analysis/operationlog")
@@ -28,8 +28,8 @@ public class OperationLogListController {
 
     model.addAttribute(
         "items",
-        operationLogListService.operate(
-            pageable, modelMapper.map(paramDto, OperationLogListCondition.class)));
+        operationLogListPortIn.connect(
+            pageable, modelMapper.map(paramDto, OperationLogListInput.class)));
 
     return "operationLog/operationLogList";
   }

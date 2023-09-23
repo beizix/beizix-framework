@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.beizix.admin.adapter.web.admin.model.filter.AdminListReqParam;
 import org.beizix.admin.adapter.web.admin.validator.AdminRemoveValidator;
-import org.beizix.security.application.domain.admin.model.query.AdminListInput;
+import org.beizix.security.application.domain.admin.model.filter.AdminListInput;
 import org.beizix.security.application.port.in.admin.AdminRemovePortIn;
 import org.beizix.utility.common.CommonUtil;
 import org.beizix.utility.common.MessageUtil;

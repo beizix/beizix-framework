@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 import org.thymeleaf.util.StringUtils;
 import org.beizix.core.config.enums.AppType;
 import org.beizix.core.config.enums.OperationLogType;
-import org.beizix.core.feature.operationlog.application.model.OperationLog;
-import org.beizix.core.feature.operationlog.application.service.OperationLogCreateService;
+import org.beizix.core.application.domain.operationLog.model.OperationLog;
+import org.beizix.core.application.port.in.operationLog.OperationLogSavePortIn;
 import org.beizix.security.application.domain.admin.model.save.AdminSaveInput;
 import org.beizix.security.application.domain.admin.model.view.AdminViewOutput;
 import org.beizix.security.application.port.in.admin.AdminViewPortIn;
@@ -25,7 +25,7 @@ import org.beizix.utility.common.PropertyUtil;
 @RequiredArgsConstructor
 public class RoleUpdateAspect {
   private final AdminViewPortIn adminViewPortIn;
-  private final OperationLogCreateService operationLogCreateService;
+  private final OperationLogSavePortIn operationLogSavePortIn;
   private final CommonUtil commonUtil;
 
   @Around(
@@ -62,7 +62,7 @@ public class RoleUpdateAspect {
       String operatorId = Optional.ofNullable(commonUtil.getLoginUsername()).orElse("init data");
       HttpServletRequest request = commonUtil.getRequest();
 
-      operationLogCreateService.operate(
+      operationLogSavePortIn.connect(
           OperationLog.builder()
               .appType(AppType.ADMIN)
               .operationLogType(OperationLogType.ROLE_UPDATE)

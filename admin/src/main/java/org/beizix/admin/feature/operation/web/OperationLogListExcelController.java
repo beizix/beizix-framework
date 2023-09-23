@@ -14,9 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.beizix.utility.common.ExcelUtil;
-import org.beizix.core.feature.operationlog.application.model.OperationLog;
-import org.beizix.core.feature.operationlog.application.model.OperationLogListCondition;
-import org.beizix.core.feature.operationlog.application.service.OperationLogListService;
+import org.beizix.core.application.domain.operationLog.model.OperationLog;
+import org.beizix.core.application.domain.operationLog.model.filter.OperationLogListInput;
+import org.beizix.core.application.port.in.operationLog.OperationLogListPortIn;
 
 import javax.servlet.http.HttpServletResponse;
 import java.time.format.DateTimeFormatter;
@@ -27,7 +27,7 @@ import java.util.Optional;
 public class OperationLogListExcelController {
   private final ExcelUtil excelUtil;
   private final ModelMapper modelMapper;
-  private final OperationLogListService operationLogListService;
+  private final OperationLogListPortIn operationLogListPortIn;
 
   @GetMapping("/analysis/operationlog/excel")
   public void operate(
@@ -38,8 +38,8 @@ public class OperationLogListExcelController {
     Sheet sheet = wb.createSheet("수행로그 목록");
 
     Page<OperationLog> items =
-        operationLogListService.operate(
-            pageable, modelMapper.map(paramDto, OperationLogListCondition.class));
+        operationLogListPortIn.connect(
+            pageable, modelMapper.map(paramDto, OperationLogListInput.class));
 
     if (!items.isEmpty()) {
       // Header

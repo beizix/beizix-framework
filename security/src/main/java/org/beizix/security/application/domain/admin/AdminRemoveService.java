@@ -2,7 +2,7 @@ package org.beizix.security.application.domain.admin;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.beizix.security.application.domain.admin.model.query.AdminListInput;
+import org.beizix.security.application.domain.admin.model.filter.AdminListInput;
 import org.beizix.security.application.port.in.admin.AdminRemovePortIn;
 import org.beizix.security.application.port.out.admin.AdminRemovePortOut;
 

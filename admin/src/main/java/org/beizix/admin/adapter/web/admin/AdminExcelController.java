@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.beizix.admin.adapter.web.admin.model.filter.AdminListReqParam;
 import org.beizix.security.application.domain.admin.model.list.AdminListOutput;
-import org.beizix.security.application.domain.admin.model.query.AdminListInput;
+import org.beizix.security.application.domain.admin.model.filter.AdminListInput;
 import org.beizix.security.application.port.in.admin.AdminListPortIn;
 import org.beizix.utility.common.ExcelUtil;
 

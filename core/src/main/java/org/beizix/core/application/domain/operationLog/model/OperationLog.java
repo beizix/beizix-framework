@@ -1,4 +1,4 @@
-package org.beizix.core.feature.operationlog.application.model;
+package org.beizix.core.application.domain.operationLog.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

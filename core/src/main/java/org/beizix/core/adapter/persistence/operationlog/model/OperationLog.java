@@ -1,4 +1,4 @@
-package org.beizix.core.feature.operationlog.persistence.model;
+package org.beizix.core.adapter.persistence.operationlog.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OperationLogEntity {
+public class OperationLog {
   @Id
   @GeneratedValue
   @Comment("로그 아이디")

@@ -16,7 +16,7 @@ import org.beizix.security.adapter.persistence.admin.repository.AdminRepo;
 import org.beizix.security.adapter.persistence.admin_role.model.AdminWithRole_;
 import org.beizix.security.adapter.persistence.role.model.Role_;
 import org.beizix.security.application.domain.admin.model.list.AdminListOutput;
-import org.beizix.security.application.domain.admin.model.query.AdminListInput;
+import org.beizix.security.application.domain.admin.model.filter.AdminListInput;
 import org.beizix.security.application.port.out.admin.AdminListPortOut;
 
 @Component

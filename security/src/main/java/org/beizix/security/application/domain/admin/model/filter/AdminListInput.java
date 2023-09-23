@@ -1,19 +1,23 @@
-package org.beizix.core.feature.operationlog.application.model;
+package org.beizix.security.application.domain.admin.model.filter;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OperationLogListCondition {
+@Builder
+public class AdminListInput {
   private String searchField;
   private String searchValue;
-  private String searchAppType;
-  private String searchOperationType;
+  private String searchRole;
 
   private Integer page;
   private Integer size;
   private String sort;
+
+  private List<String> checkedIds;
 }

@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 import org.beizix.admin.config.aop.LoginFailOperateLog;
 import org.beizix.core.config.enums.AppType;
 import org.beizix.core.config.enums.OperationLogType;
-import org.beizix.core.feature.operationlog.application.model.OperationLog;
-import org.beizix.core.feature.operationlog.application.service.OperationLogCreateService;
+import org.beizix.core.application.domain.operationLog.model.OperationLog;
+import org.beizix.core.application.port.in.operationLog.OperationLogSavePortIn;
 import org.beizix.security.application.port.in.admin.AdminSavePortIn;
 import org.beizix.security.application.port.in.admin.AdminViewPortIn;
 import org.beizix.utility.common.CommonUtil;
@@ -27,7 +27,7 @@ public class AdminAuthFailHandler extends SimpleUrlAuthenticationFailureHandler 
   private final AdminViewPortIn adminViewPortIn;
   private final AdminSavePortIn adminSavePortIn;
   private final CommonUtil commonUtil;
-  private final OperationLogCreateService operationLogCreateService;
+  private final OperationLogSavePortIn operationLogSavePortIn;
   private final MessageUtil messageUtil;
 
   @Value("${org.beizix.admin.auth.fail.permit}")
@@ -61,7 +61,7 @@ public class AdminAuthFailHandler extends SimpleUrlAuthenticationFailureHandler 
                       messageUtil.getMessage("org.beizix.auth.fail.exceed", failPermit));
 
                   // 계정 잠금 로그 기록
-                  operationLogCreateService.operate(
+                  operationLogSavePortIn.connect(
                       OperationLog.builder()
                           .appType(AppType.ADMIN)
                           .operationLogType(OperationLogType.ACCOUNT_LOCKED)
