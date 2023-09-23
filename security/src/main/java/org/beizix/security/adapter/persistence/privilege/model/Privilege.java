@@ -5,7 +5,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.*;
 import org.hibernate.annotations.Comment;
-import org.beizix.core.common.entity.BaseEntity;
+import org.beizix.core.adapter.persistence.common.model.BaseEntity;
 
 @Entity
 @Table(name = "privilege")

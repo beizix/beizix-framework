@@ -3,7 +3,7 @@ package org.beizix.security.adapter.persistence.admin_role.model;
 import javax.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
-import org.beizix.core.common.entity.BaseEntity;
+import org.beizix.core.adapter.persistence.common.model.BaseEntity;
 import org.beizix.security.adapter.persistence.role.model.Role;
 import org.beizix.security.adapter.persistence.admin.model.Admin;
 

@@ -1,4 +1,4 @@
-package org.beizix.core.common.entity;
+package org.beizix.core.adapter.persistence.common.model;
 
 import java.time.LocalDateTime;
 import javax.persistence.Column;

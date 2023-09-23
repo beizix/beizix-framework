@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import lombok.*;
 import org.hibernate.annotations.*;
-import org.beizix.core.common.entity.BaseEntity;
+import org.beizix.core.adapter.persistence.common.model.BaseEntity;
 import org.beizix.security.adapter.persistence.admin_role.model.AdminWithRole;
 import org.beizix.security.adapter.persistence.admin_role.model.AdminWithRole_;
 

@@ -5,7 +5,7 @@ import javax.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Comment;
-import org.beizix.core.common.entity.BaseEntity;
+import org.beizix.core.adapter.persistence.common.model.BaseEntity;
 import org.beizix.security.adapter.persistence.role_privilege.model.RoleWithPrivilege;
 
 @Entity
