@@ -5,15 +5,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-import org.beizix.core.feature.uicode.application.model.UICode;
-import org.beizix.core.feature.uicode.application.service.UICodeCreateUpdateService;
+import org.beizix.core.application.domain.uicode.model.UICodeInput;
+import org.beizix.core.application.port.in.uicode.UICodeSavePortIn;
 import org.beizix.utility.common.PropertyUtil;
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
 public class InitUICodeData implements ApplicationRunner {
-  private final UICodeCreateUpdateService uiCodeCreateUpdateService;
+  private final UICodeSavePortIn uiCodeSavePortIn;
 
   @Override
   public void run(ApplicationArguments args) {
@@ -24,20 +24,20 @@ public class InitUICodeData implements ApplicationRunner {
     final String UICODE_PAGEABLE_ROWS = "code.pageable.rows";
 
     // root 노드 - code
-    uiCodeCreateUpdateService.operate(
-        new UICode(UICODE, null, null, "UI Code", "", null, true, null, null), false);
+    uiCodeSavePortIn.connect(
+        new UICodeInput(UICODE, null, null, "UI Code", "", null, true, null, null), false);
 
     // code - board
-    uiCodeCreateUpdateService.operate(
-        new UICode(UICODE_PAGEABLE, UICODE, 0, "Pageable", "", null, true, null, null), false);
+    uiCodeSavePortIn.connect(
+        new UICodeInput(UICODE_PAGEABLE, UICODE, 0, "Pageable", "", null, true, null, null), false);
 
     // code - board - rows
-    uiCodeCreateUpdateService.operate(
-        new UICode(UICODE_PAGEABLE_ROWS, UICODE_PAGEABLE, 0, "ROW 갯수", "", null, true, null, null),
+    uiCodeSavePortIn.connect(
+        new UICodeInput(UICODE_PAGEABLE_ROWS, UICODE_PAGEABLE, 0, "ROW 갯수", "", null, true, null, null),
         false);
 
-    uiCodeCreateUpdateService.operate(
-        new UICode(
+    uiCodeSavePortIn.connect(
+        new UICodeInput(
             UICODE_PAGEABLE_ROWS + ".10",
             UICODE_PAGEABLE_ROWS,
             1,
@@ -49,8 +49,8 @@ public class InitUICodeData implements ApplicationRunner {
             null),
         false);
 
-    uiCodeCreateUpdateService.operate(
-        new UICode(
+    uiCodeSavePortIn.connect(
+        new UICodeInput(
             UICODE_PAGEABLE_ROWS + ".20",
             UICODE_PAGEABLE_ROWS,
             2,
@@ -62,8 +62,8 @@ public class InitUICodeData implements ApplicationRunner {
             null),
         false);
 
-    uiCodeCreateUpdateService.operate(
-        new UICode(
+    uiCodeSavePortIn.connect(
+        new UICodeInput(
             UICODE_PAGEABLE_ROWS + ".50",
             UICODE_PAGEABLE_ROWS,
             3,
@@ -75,8 +75,8 @@ public class InitUICodeData implements ApplicationRunner {
             null),
         false);
 
-    uiCodeCreateUpdateService.operate(
-        new UICode(
+    uiCodeSavePortIn.connect(
+        new UICodeInput(
             UICODE_PAGEABLE_ROWS + ".100",
             UICODE_PAGEABLE_ROWS,
             4,

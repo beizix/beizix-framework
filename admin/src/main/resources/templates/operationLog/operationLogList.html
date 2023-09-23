@@ -69,7 +69,7 @@
               class="form-select form-select-sm" th:field="*{size}"
               onchange="goSearch()">
         <option
-                th:each="item : ${@uiCodeListService.operate('code.pageable.rows')}"
+                th:each="item : ${@uiCodeListService.connect('code.pageable.rows')}"
                 th:value="${item.codeValue}" th:text="${item.codeText}"></option>
       </select>
       </label>
