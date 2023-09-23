@@ -1,13 +1,13 @@
-package org.beizix.core.feature.fileUrl.application.strategy.impl;
+package org.beizix.core.application.domain.fileurl.strategy.local;
 
 import org.springframework.stereotype.Service;
 import org.beizix.core.config.enums.ContentDispositionType;
 import org.beizix.core.config.enums.FileStorageType;
 import org.beizix.core.application.domain.fileupload.model.FileUploadInfo;
-import org.beizix.core.feature.fileUrl.application.strategy.FileUrlStrategy;
+import org.beizix.core.application.domain.fileurl.strategy.FileUrlStrategy;
 
 @Service
-public class DefaultFileUrlStrategy implements FileUrlStrategy {
+public class LocalFileUrlStrategy implements FileUrlStrategy {
   @Override
   public FileStorageType getStorageType() {
     return FileStorageType.LOCAL;

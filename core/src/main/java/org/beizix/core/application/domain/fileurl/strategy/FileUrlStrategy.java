@@ -1,4 +1,4 @@
-package org.beizix.core.feature.fileUrl.application.strategy;
+package org.beizix.core.application.domain.fileurl.strategy;
 
 import org.beizix.core.config.enums.ContentDispositionType;
 import org.beizix.core.config.enums.FileStorageType;

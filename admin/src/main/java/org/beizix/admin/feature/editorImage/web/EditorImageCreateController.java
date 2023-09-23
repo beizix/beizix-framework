@@ -10,7 +10,7 @@ import org.beizix.core.common.rest.RestResponseDto;
 import org.beizix.core.config.enums.ContentDispositionType;
 import org.beizix.core.config.enums.FileUploadType;
 import org.beizix.core.application.port.in.fileupload.FileUploadPortIn;
-import org.beizix.core.feature.fileUrl.application.service.FileUrlService;
+import org.beizix.core.application.port.in.fileurl.FileUrlPortIn;
 
 import java.io.IOException;
 
@@ -18,7 +18,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class EditorImageCreateController {
   private final FileUploadPortIn fileUploadPortIn;
-  private final FileUrlService fileUrlService;
+  private final FileUrlPortIn fileUrlPortIn;
 
   @PostMapping(path = "/api/editorImage/upload")
   ResponseEntity<?> editorImageUpload(MultipartFile editorImage) throws IOException {
@@ -26,7 +26,7 @@ public class EditorImageCreateController {
         .body(
             RestResponseDto.builder()
                 .message(
-                    fileUrlService.operate(
+                    fileUrlPortIn.connect(
                         ContentDispositionType.INLINE,
                         fileUploadPortIn
                             .connect(FileUploadType.EDITOR_IMAGE, editorImage)

@@ -1,4 +1,4 @@
-package org.beizix.aws.feature.fileUrl.application.strategy.impl;
+package org.beizix.aws.application.domain.fileurl.strategy.s3;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -6,13 +6,13 @@ import org.springframework.stereotype.Service;
 import org.beizix.core.config.enums.ContentDispositionType;
 import org.beizix.core.config.enums.FileStorageType;
 import org.beizix.core.application.domain.fileupload.model.FileUploadInfo;
-import org.beizix.core.feature.fileUrl.application.strategy.FileUrlStrategy;
+import org.beizix.core.application.domain.fileurl.strategy.FileUrlStrategy;
 
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class FileUrlStrategyImpl implements FileUrlStrategy {
+public class S3FileUrlStrategy implements FileUrlStrategy {
   @Value("${beizix.aws.cloudfront.domain}")
   private String cloudFrontDomain;
 

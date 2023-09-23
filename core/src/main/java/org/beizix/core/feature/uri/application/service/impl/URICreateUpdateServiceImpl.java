@@ -9,7 +9,7 @@ import org.beizix.core.config.enums.ContentDispositionType;
 import org.beizix.core.config.enums.FileUploadType;
 import org.beizix.core.config.exception.AlreadyExistItemException;
 import org.beizix.core.application.port.in.fileupload.FileUploadPortIn;
-import org.beizix.core.feature.fileUrl.application.service.FileUrlService;
+import org.beizix.core.application.port.in.fileurl.FileUrlPortIn;
 import org.beizix.core.feature.uri.application.model.URI;
 import org.beizix.core.feature.uri.application.service.URICreateUpdateService;
 import org.beizix.core.feature.uri.application.service.URIViewService;
@@ -25,7 +25,7 @@ class URICreateUpdateServiceImpl implements URICreateUpdateService {
   private final URIViewService uriViewService;
   private final MessageUtil messageUtil;
   private final FileUploadPortIn fileUploadPortIn;
-  private final FileUrlService fileUrlService;
+  private final FileUrlPortIn fileUrlPortIn;
 
   @Transactional
   @CacheEvict(
@@ -52,7 +52,7 @@ class URICreateUpdateServiceImpl implements URICreateUpdateService {
         .connect(FileUploadType.OG_IMAGE, uri.getOgImageFile())
         .ifPresent(
             postingFile ->
-                uri.setOgImage(fileUrlService.operate(ContentDispositionType.INLINE, postingFile)));
+                uri.setOgImage(fileUrlPortIn.connect(ContentDispositionType.INLINE, postingFile)));
 
     return uriCreateUpdateDao.operate(uri);
   }
