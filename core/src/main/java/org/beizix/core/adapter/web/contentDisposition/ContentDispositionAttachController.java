@@ -1,4 +1,4 @@
-package org.beizix.core.feature.contentDisposition.web;
+package org.beizix.core.adapter.web.contentDisposition;
 
 import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;

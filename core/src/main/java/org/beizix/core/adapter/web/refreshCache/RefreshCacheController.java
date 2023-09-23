@@ -1,4 +1,4 @@
-package org.beizix.core.feature.refreshCache.web;
+package org.beizix.core.adapter.web.refreshCache;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.Cache;
@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
-public class RefreshCache {
+public class RefreshCacheController {
   private final CacheManager cacheManager;
 
   @GetMapping("/refresh/cacheable/all")
