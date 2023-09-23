@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.beizix.core.config.enums.ContentDispositionType;
 import org.beizix.core.config.enums.FileStorageType;
-import org.beizix.core.feature.fileUpload.application.model.FileUploadInfo;
+import org.beizix.core.application.domain.fileupload.model.FileUploadInfo;
 import org.beizix.core.feature.fileUrl.application.strategy.FileUrlStrategy;
 
 import java.util.Optional;

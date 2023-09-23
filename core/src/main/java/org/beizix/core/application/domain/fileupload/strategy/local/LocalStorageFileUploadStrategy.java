@@ -1,4 +1,4 @@
-package org.beizix.core.feature.fileUpload.application.strategy.impl;
+package org.beizix.core.application.domain.fileupload.strategy.local;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.beizix.utility.common.CommonUtil;
 import org.beizix.core.config.enums.FileStorageType;
-import org.beizix.core.feature.fileUpload.application.strategy.FileUploadStrategy;
+import org.beizix.core.application.domain.fileupload.strategy.FileUploadStrategy;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;

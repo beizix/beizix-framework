@@ -1,4 +1,4 @@
-package org.beizix.core.feature.fileUpload.application.service.impl;
+package org.beizix.core.application.domain.fileupload;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.tika.Tika;
@@ -10,9 +10,9 @@ import org.beizix.core.config.enums.AcceptableFileType;
 import org.beizix.core.config.enums.FileStorageType;
 import org.beizix.core.config.enums.FileUploadType;
 import org.beizix.core.config.exception.UnAcceptableFileException;
-import org.beizix.core.feature.fileUpload.application.model.FileUploadInfo;
-import org.beizix.core.feature.fileUpload.application.service.FileUploadService;
-import org.beizix.core.feature.fileUpload.application.strategy.FileUploadStrategy;
+import org.beizix.core.application.domain.fileupload.model.FileUploadInfo;
+import org.beizix.core.application.port.in.fileupload.FileUploadPortIn;
+import org.beizix.core.application.domain.fileupload.strategy.FileUploadStrategy;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,14 +22,14 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-public class FileUploadServiceImpl implements FileUploadService {
+public class FileUploadService implements FileUploadPortIn {
   private final MessageUtil messageUtil;
   private final Tika tika;
   private final CommonUtil commonUtil;
   private final Set<FileUploadStrategy> fileUploadStrategies;
 
   @Override
-  public Optional<FileUploadInfo> operate(
+  public Optional<FileUploadInfo> connect(
       FileUploadType fileUploadType, MultipartFile multipartFile) throws IOException {
     if (multipartFile == null || multipartFile.isEmpty()) {
       return Optional.empty();

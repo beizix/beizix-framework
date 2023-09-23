@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.beizix.core.common.rest.RestResponseDto;
 import org.beizix.core.config.enums.ContentDispositionType;
-import org.beizix.core.config.enums.FileStorageType;
 import org.beizix.core.config.enums.FileUploadType;
-import org.beizix.core.feature.fileUpload.application.service.FileUploadService;
+import org.beizix.core.application.port.in.fileupload.FileUploadPortIn;
 import org.beizix.core.feature.fileUrl.application.service.FileUrlService;
 
 import java.io.IOException;
@@ -18,7 +17,7 @@ import java.io.IOException;
 @Controller
 @RequiredArgsConstructor
 public class EditorImageCreateController {
-  private final FileUploadService fileUploadService;
+  private final FileUploadPortIn fileUploadPortIn;
   private final FileUrlService fileUrlService;
 
   @PostMapping(path = "/api/editorImage/upload")
@@ -29,8 +28,8 @@ public class EditorImageCreateController {
                 .message(
                     fileUrlService.operate(
                         ContentDispositionType.INLINE,
-                        fileUploadService
-                            .operate(FileUploadType.EDITOR_IMAGE, editorImage)
+                        fileUploadPortIn
+                            .connect(FileUploadType.EDITOR_IMAGE, editorImage)
                             .orElse(null)))
                 .build());
   }

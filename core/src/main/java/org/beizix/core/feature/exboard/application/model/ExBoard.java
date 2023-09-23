@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
-import org.beizix.core.feature.fileUpload.application.model.FileUploadInfo;
+import org.beizix.core.application.domain.fileupload.model.FileUploadInfo;
 
 import java.time.LocalDateTime;
 import java.util.Collections;

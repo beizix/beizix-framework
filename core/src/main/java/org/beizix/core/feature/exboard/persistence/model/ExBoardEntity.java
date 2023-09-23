@@ -9,7 +9,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import lombok.*;
 import org.hibernate.annotations.*;
-import org.beizix.core.feature.fileUpload.persistence.model.FileUploadInfoEmbeddable;
+import org.beizix.core.adapter.persistence.common.model.FileUploadInfoEmbeddable;
 
 @Entity
 @Getter

@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.beizix.core.config.enums.ContentDispositionType;
 import org.beizix.core.config.enums.FileStorageType;
-import org.beizix.core.feature.fileUpload.application.model.FileUploadInfo;
+import org.beizix.core.application.domain.fileupload.model.FileUploadInfo;
 import org.beizix.core.feature.fileUrl.application.service.FileUrlService;
 import org.beizix.core.feature.fileUrl.application.strategy.FileUrlStrategy;
 

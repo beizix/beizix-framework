@@ -1,7 +1,7 @@
 package org.beizix.core.feature.imageCrop.application.service;
 
 import org.springframework.web.multipart.MultipartFile;
-import org.beizix.core.feature.fileUpload.application.model.FileUploadInfo;
+import org.beizix.core.application.domain.fileupload.model.FileUploadInfo;
 
 import java.io.IOException;
 

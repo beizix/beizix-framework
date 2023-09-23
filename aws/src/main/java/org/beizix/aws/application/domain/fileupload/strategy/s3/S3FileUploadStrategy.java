@@ -1,4 +1,4 @@
-package org.beizix.aws.feature.fileUpload.application.strategy.impl;
+package org.beizix.aws.application.domain.fileupload.strategy.s3;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.beizix.core.config.enums.FileStorageType;
-import org.beizix.core.feature.fileUpload.application.strategy.FileUploadStrategy;
+import org.beizix.core.application.domain.fileupload.strategy.FileUploadStrategy;
 
 import java.io.IOException;
 import java.io.InputStream;

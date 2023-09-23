@@ -4,8 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.beizix.core.feature.fileUpload.application.model.FileUploadInfo;
-import org.beizix.core.feature.fileUpload.persistence.model.FileUploadInfoEmbeddable;
+import org.beizix.core.adapter.persistence.common.model.FileUploadInfoEmbeddable;
 
 import javax.persistence.*;
 

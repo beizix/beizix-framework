@@ -1,8 +1,7 @@
 package org.beizix.core.feature.fileUrl.application.service;
 
 import org.beizix.core.config.enums.ContentDispositionType;
-import org.beizix.core.config.enums.FileStorageType;
-import org.beizix.core.feature.fileUpload.application.model.FileUploadInfo;
+import org.beizix.core.application.domain.fileupload.model.FileUploadInfo;
 
 public interface FileUrlService {
   String operate(ContentDispositionType contentDispositionType, FileUploadInfo fileUploadInfo);

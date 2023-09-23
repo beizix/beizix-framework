@@ -14,13 +14,13 @@ import org.beizix.core.feature.exboard.persistence.dao.ExBoardAttachmentCreateDa
 import org.beizix.core.feature.exboard.persistence.dao.ExBoardAttachmentRemoveDao;
 import org.beizix.core.feature.exboard.persistence.dao.ExBoardCreateUpdateDao;
 import org.beizix.core.feature.exboard.persistence.dao.ExBoardNextOrderNoDao;
-import org.beizix.core.feature.fileUpload.application.service.FileUploadService;
+import org.beizix.core.application.port.in.fileupload.FileUploadPortIn;
 
 @Service
 @RequiredArgsConstructor
 class ExBoardCreateUpdateServiceImpl implements ExBoardCreateUpdateService {
   private final ExBoardCreateUpdateDao exBoardCreateUpdateDao;
-  private final FileUploadService fileUploadService;
+  private final FileUploadPortIn fileUploadPortIn;
   private final ExBoardAttachmentCreateDao exBoardAttachmentCreateDao;
   private final ExBoardAttachmentRemoveDao exBoardAttachmentRemoveDao;
   private final ExBoardNextOrderNoDao exBoardNextOrderNoDao;
@@ -33,13 +33,13 @@ class ExBoardCreateUpdateServiceImpl implements ExBoardCreateUpdateService {
         Optional.ofNullable(exBoard.getOrderNo()).orElse(exBoardNextOrderNoDao.operate()));
 
     // 외부 공개 파일 저장
-    fileUploadService
-        .operate(FileUploadType.EXAMPLE_REP, exBoard.getRepresentImgFile())
+    fileUploadPortIn
+        .connect(FileUploadType.EXAMPLE_REP, exBoard.getRepresentImgFile())
         .ifPresent(exBoard::setRepresentImage);
 
     // 외부 비공개 파일 저장
-    fileUploadService
-        .operate(FileUploadType.EXAMPLE_PRIVATE, exBoard.getMultipartPrivateAttachment())
+    fileUploadPortIn
+        .connect(FileUploadType.EXAMPLE_PRIVATE, exBoard.getMultipartPrivateAttachment())
         .ifPresent(exBoard::setPrivateAttachment);
 
     // 삭제해야 할 다건 첨부 파일 정보가 있다면 삭제
@@ -54,7 +54,7 @@ class ExBoardCreateUpdateServiceImpl implements ExBoardCreateUpdateService {
           ExBoardAttachment.builder()
               .exBoard(operateItem)
               .fileUploadInfo(
-                  fileUploadService.operate(FileUploadType.EXAMPLE_PUBLIC, attachment).orElse(null))
+                  fileUploadPortIn.connect(FileUploadType.EXAMPLE_PUBLIC, attachment).orElse(null))
               .build());
     }
 
