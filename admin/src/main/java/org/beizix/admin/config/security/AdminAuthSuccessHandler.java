@@ -6,16 +6,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.beizix.core.application.port.in.loggedinuser.LoggedInUserSavePortIn;
+import org.beizix.core.application.port.in.loggedinuser.LoggedInUserViewPortIn;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.beizix.admin.config.aop.LoginSuccessOperateLog;
 import org.beizix.core.config.enums.AppType;
-import org.beizix.core.feature.loggedInUser.application.model.LoggedInUser;
-import org.beizix.core.feature.loggedInUser.application.model.LoggedInUserId;
-import org.beizix.core.feature.loggedInUser.persistence.dao.LoggedInUserCreateUpdateDao;
-import org.beizix.core.feature.loggedInUser.persistence.dao.LoggedInUserViewDao;
+import org.beizix.core.application.domain.loggedinuser.model.LoggedInUserInput;
+import org.beizix.core.application.domain.loggedinuser.model.LoggedInUserIdInput;
 import org.beizix.security.application.port.in.admin.AdminSavePortIn;
 import org.beizix.security.application.port.in.admin.AdminViewPortIn;
 import org.beizix.utility.common.CommonUtil;
@@ -27,8 +27,8 @@ public class AdminAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
   private final MessageUtil messageUtil;
   private final AdminViewPortIn adminViewPortIn;
   private final AdminSavePortIn adminSavePortIn;
-  private final LoggedInUserViewDao loggedInUserViewDao;
-  private final LoggedInUserCreateUpdateDao loggedInUserCreateUpdateDao;
+  private final LoggedInUserViewPortIn loggedInUserViewPortIn;
+  private final LoggedInUserSavePortIn loggedInUserSavePortIn;
   private final CommonUtil commonUtil;
 
   @Value("${org.beizix.password.validity.period.days}")
@@ -75,10 +75,10 @@ public class AdminAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
       }
 
       // 로그인 활성화 기록 생성
-      loggedInUserCreateUpdateDao.operate(
-          LoggedInUser.builder()
+      loggedInUserSavePortIn.connect(
+          LoggedInUserInput.builder()
               .loggedInUserId(
-                  LoggedInUserId.builder()
+                  LoggedInUserIdInput.builder()
                       .appType(AppType.ADMIN)
                       .id(authentication.getName())
                       .build())
@@ -92,9 +92,9 @@ public class AdminAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
 
   /** 사용자 로그인 여부 확인 */
   private boolean isAlreadyLoggedInSomewhere(String username, String currentIP) {
-    LoggedInUser loggedInUser =
-        loggedInUserViewDao.operate(
-            LoggedInUserId.builder().appType(AppType.ADMIN).id(username).build());
+    LoggedInUserInput loggedInUser =
+        loggedInUserViewPortIn.connect(
+            LoggedInUserIdInput.builder().appType(AppType.ADMIN).id(username).build());
     if (loggedInUser == null) return false;
 
     LocalDateTime lastLoggedInAt = loggedInUser.getLastLoggedInAt();

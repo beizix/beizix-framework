@@ -1,4 +1,4 @@
-package org.beizix.core.feature.loggedInUser.persistence.model;
+package org.beizix.core.adapter.persistence.loggedinuser.model;
 
 import lombok.*;
 import org.hibernate.annotations.Comment;
@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoggedInUserEntity {
+public class LoggedInUser {
   @EmbeddedId private LoggedInUserIdEmbeddable loggedInUserId;
 
   @Column

@@ -1,4 +1,4 @@
-package org.beizix.core.feature.loggedInUser.persistence.model;
+package org.beizix.core.adapter.persistence.loggedinuser.model;
 
 import lombok.*;
 import org.hibernate.Hibernate;

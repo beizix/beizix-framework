@@ -18,8 +18,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.beizix.core.config.enums.AppType;
-import org.beizix.core.feature.loggedInUser.application.model.LoggedInUserId;
-import org.beizix.core.feature.loggedInUser.persistence.dao.LoggedInUserViewDao;
+import org.beizix.core.application.domain.loggedinuser.model.LoggedInUserIdInput;
+import org.beizix.core.application.port.out.loggedinuser.LoggedInUserViewPortOut;
 import org.beizix.security.application.domain.admin.model.save.AdminSaveInput;
 import org.beizix.security.application.domain.admin_role.model.save.AdminWithRoleSaveInput;
 import org.beizix.security.application.domain.role.model.save.RoleSaveReferInput;
@@ -38,7 +38,8 @@ class AdminAuthSuccessHandlerTest {
   @Autowired MockMvc mockMvc;
   @Autowired
   AdminViewPortIn adminViewPortIn;
-  @Autowired LoggedInUserViewDao loggedInUserViewDao;
+  @Autowired
+  LoggedInUserViewPortOut loggedInUserViewPortOut;
   @Autowired
   AdminSavePortIn adminSavePortIn;
 
@@ -88,8 +89,8 @@ class AdminAuthSuccessHandlerTest {
 
     if (maxSessionNum == 1) {
       assertNotNull(
-          loggedInUserViewDao.operate(
-              LoggedInUserId.builder().appType(AppType.ADMIN).id(username).build()),
+          loggedInUserViewPortOut.connect(
+              LoggedInUserIdInput.builder().appType(AppType.ADMIN).id(username).build()),
           "maxSessionNum 이 1일때, 로그인 기록 레코드가 생성되어야 한다.");
     }
   }

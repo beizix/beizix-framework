@@ -1,4 +1,4 @@
-package org.beizix.core.feature.loggedInUser.application.model;
+package org.beizix.core.application.domain.loggedinuser.model;
 
 import lombok.*;
 
@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoggedInUser {
-  private LoggedInUserId loggedInUserId;
+public class LoggedInUserInput {
+  private LoggedInUserIdInput loggedInUserId;
   private String clientIP;
   private LocalDateTime lastLoggedInAt;
 }
