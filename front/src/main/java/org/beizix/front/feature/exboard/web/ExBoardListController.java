@@ -9,15 +9,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.beizix.core.feature.exboard.application.model.ExBoardListCondition;
-import org.beizix.core.feature.exboard.application.service.ExBoardListService;
+import org.beizix.core.application.domain.exboard.model.filter.ExBoardListInput;
+import org.beizix.core.application.port.in.exboard.ExBoardListPortIn;
 
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequiredArgsConstructor
 class ExBoardListController {
-  private final ExBoardListService exBoardListService;
+  private final ExBoardListPortIn exBoardListPortIn;
   private final ModelMapper modelMapper;
 
   @GetMapping(path = "/board/exampleBoard")
@@ -31,7 +31,7 @@ class ExBoardListController {
 
     model.addAttribute(
         "items",
-        exBoardListService.operate(pageable, modelMapper.map(paramDto, ExBoardListCondition.class)));
+        exBoardListPortIn.connect(pageable, modelMapper.map(paramDto, ExBoardListInput.class)));
 
     return "board/exampleBoardList";
   }

@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.beizix.admin.feature.exboard.web.model.ExBoardDto;
-import org.beizix.core.feature.exboard.application.model.ExBoard;
-import org.beizix.core.feature.exboard.application.service.ExBoardCreateUpdateService;
+import org.beizix.core.application.domain.exboard.model.ExBoardInput;
+import org.beizix.core.application.port.in.exboard.ExBoardSavePortIn;
 import org.beizix.utility.common.MessageUtil;
 
 import javax.validation.Valid;
@@ -19,7 +19,7 @@ import java.security.Principal;
 @Controller
 @RequiredArgsConstructor
 class ExBoardCreateUpdateController {
-  private final ExBoardCreateUpdateService exBoardCreateUpdateService;
+  private final ExBoardSavePortIn exBoardSavePortIn;
   private final ModelMapper modelMapper;
   private final MessageUtil messageUtil;
 
@@ -38,7 +38,7 @@ class ExBoardCreateUpdateController {
     dto.setUpdatedBy(principal.getName());
     if (dto.getId() == null) dto.setCreatedBy(principal.getName());
 
-    ExBoard createdItem = exBoardCreateUpdateService.operate(modelMapper.map(dto, ExBoard.class));
+    ExBoardInput createdItem = exBoardSavePortIn.connect(modelMapper.map(dto, ExBoardInput.class));
 
     redirectAttributes.addFlashAttribute(
         "operationMessage",
