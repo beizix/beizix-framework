@@ -1,11 +1,11 @@
-package org.beizix.admin.feature.exboard.web;
+package org.beizix.admin.adapter.web.exboard;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.beizix.admin.feature.exboard.web.model.ExBoardListConditionDto;
+import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
 import org.beizix.core.application.port.in.exboard.ExBoardRemovePortIn;
 import org.beizix.utility.common.MessageUtil;
 
@@ -17,7 +17,7 @@ class ExBoardRemoveController {
 
   @PostMapping(path = "/board/exampleBoard/delete")
   String operate(
-      RedirectAttributes redirectAttributes, @ModelAttribute("paramDto") ExBoardListConditionDto paramDto) {
+      RedirectAttributes redirectAttributes, @ModelAttribute("paramDto") ExBoardListFilterReqVO paramDto) {
 
     if (paramDto.getItemIds() != null && paramDto.getItemIds().size() > 0) {
       exBoardRemovePortIn.connect(paramDto.getItemIds());

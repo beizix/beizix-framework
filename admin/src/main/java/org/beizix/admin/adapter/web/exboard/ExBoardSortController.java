@@ -1,4 +1,4 @@
-package org.beizix.admin.feature.exboard.web;
+package org.beizix.admin.adapter.web.exboard;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.beizix.admin.feature.exboard.web.model.ExBoardDto;
+import org.beizix.admin.adapter.web.exboard.model.ExBoardDto;
 import org.beizix.core.common.rest.RestResponseDto;
 import org.beizix.utility.common.MessageUtil;
 import org.beizix.core.application.domain.exboard.model.ExBoardInput;

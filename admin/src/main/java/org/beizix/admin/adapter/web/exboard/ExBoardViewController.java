@@ -1,4 +1,4 @@
-package org.beizix.admin.feature.exboard.web;
+package org.beizix.admin.adapter.web.exboard;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -7,8 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.beizix.admin.feature.exboard.web.model.ExBoardDto;
-import org.beizix.admin.feature.exboard.web.model.ExBoardListConditionDto;
+import org.beizix.admin.adapter.web.exboard.model.ExBoardDto;
+import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
 import org.beizix.core.application.port.in.exboard.ExBoardViewPortIn;
 
 @Controller
@@ -21,7 +21,7 @@ class ExBoardViewController {
   String operate(
       Model model,
       @PathVariable(required = false) Long id,
-      @ModelAttribute("paramDto") ExBoardListConditionDto paramDto) {
+      @ModelAttribute("paramDto") ExBoardListFilterReqVO paramDto) {
 
     model.addAttribute(
         "dto",

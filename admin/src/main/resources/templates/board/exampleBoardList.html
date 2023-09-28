@@ -5,7 +5,7 @@
 <section layout:fragment="content">
 
   <form method="post" name="paramForm" th:action="@{/board/exampleBoard}"
-        th:object="${paramDto}" onsubmit="goSearch();">
+        th:object="${filterReqVO}" onsubmit="goSearch();">
 
     <!-- hidden parameters -->
     <input type="hidden" name="page"

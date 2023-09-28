@@ -1,4 +1,4 @@
-package org.beizix.admin.feature.exboard.web;
+package org.beizix.admin.adapter.web.exboard;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -7,7 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.beizix.admin.feature.exboard.web.model.ExBoardDto;
+import org.beizix.admin.adapter.web.exboard.model.ExBoardDto;
 import org.beizix.core.application.domain.exboard.model.ExBoardInput;
 import org.beizix.core.application.port.in.exboard.ExBoardSavePortIn;
 import org.beizix.utility.common.MessageUtil;
@@ -18,7 +18,7 @@ import java.security.Principal;
 
 @Controller
 @RequiredArgsConstructor
-class ExBoardCreateUpdateController {
+class ExBoardSaveController {
   private final ExBoardSavePortIn exBoardSavePortIn;
   private final ModelMapper modelMapper;
   private final MessageUtil messageUtil;

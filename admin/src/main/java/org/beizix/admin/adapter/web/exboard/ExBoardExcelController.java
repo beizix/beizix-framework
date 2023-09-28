@@ -1,4 +1,4 @@
-package org.beizix.admin.feature.exboard.web;
+package org.beizix.admin.adapter.web.exboard;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.Row;
@@ -12,7 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.beizix.admin.feature.exboard.web.model.ExBoardListConditionDto;
+import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
 import org.beizix.core.application.domain.exboard.model.ExBoardInput;
 import org.beizix.core.application.domain.exboard.model.filter.ExBoardListInput;
 import org.beizix.core.application.port.in.exboard.ExBoardListPortIn;
@@ -34,13 +34,13 @@ class ExBoardExcelController {
       HttpServletResponse response,
       @PageableDefault(size = 5, sort = "updatedAt", direction = Sort.Direction.DESC)
           Pageable pageable,
-      ExBoardListConditionDto exBoardListConditionDto) {
+      ExBoardListFilterReqVO exBoardListFilterReqVO) {
 
     Workbook wb = new XSSFWorkbook();
     Sheet sheet = wb.createSheet("예제 게시판 목록");
 
     Page<ExBoardInput> items =
-        exBoardListPortIn.connect(pageable, modelMapper.map(exBoardListConditionDto, ExBoardListInput.class));
+        exBoardListPortIn.connect(pageable, modelMapper.map(exBoardListFilterReqVO, ExBoardListInput.class));
     if (!items.isEmpty()) {
       // Header
       Row headerRow = sheet.createRow(sheet.getPhysicalNumberOfRows());

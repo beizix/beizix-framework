@@ -1,4 +1,4 @@
-package org.beizix.admin.feature.exboard.web.model;
+package org.beizix.admin.adapter.web.exboard.model;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
