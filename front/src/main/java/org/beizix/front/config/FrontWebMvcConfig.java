@@ -5,6 +5,9 @@ import com.navercorp.lucy.security.xss.servletfilter.XssEscapeServletFilter;
 import java.util.List;
 import java.util.Locale;
 import lombok.RequiredArgsConstructor;
+import org.beizix.core.common.util.HTMLCharacterEscapes;
+import org.beizix.front.config.interceptor.CurrentDeviceInterceptor;
+import org.beizix.front.config.interceptor.URIAndRoleInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -20,9 +23,6 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-import org.beizix.core.common.util.HTMLCharacterEscapes;
-import org.beizix.front.config.interceptor.CurrentDeviceInterceptor;
-import org.beizix.front.config.interceptor.URIAndRoleInterceptor;
 
 @Configuration
 @RequiredArgsConstructor
@@ -80,6 +80,12 @@ public class FrontWebMvcConfig implements WebMvcConfigurer {
         .addResourceHandler("/content-disposition/inline/public/**")
         .addResourceLocations("file:///" + publicPath + "/")
         .setCachePeriod(20);
+
+    // static 자원 캐시 적용
+    registry
+        .addResourceHandler("/static/**")
+        .addResourceLocations("classpath:/static/static/")
+        .setCachePeriod(3600);
   }
 
   // spring-mobile-device: Interceptor

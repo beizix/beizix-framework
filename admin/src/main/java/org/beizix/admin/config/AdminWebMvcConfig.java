@@ -52,6 +52,12 @@ public class AdminWebMvcConfig implements WebMvcConfigurer {
         .addResourceHandler("/content-disposition/inline/public/**")
         .addResourceLocations("file:///" + publicPath + "/")
         .setCachePeriod(20);
+
+    // static 자원 캐시 적용
+    registry
+        .addResourceHandler("/static/**")
+        .addResourceLocations("classpath:/static/static/")
+        .setCachePeriod(3600);
   }
 
   @Override
@@ -74,7 +80,9 @@ public class AdminWebMvcConfig implements WebMvcConfigurer {
     return lci;
   }
 
-  /** @RequestBody 로 전달되는 JSON 요청시 XSS 방지를 위해 선언 */
+  /**
+   * @RequestBody 로 전달되는 JSON 요청시 XSS 방지를 위해 선언
+   */
   @Bean
   public HttpMessageConverter escapingConverter() {
     ObjectMapper objectMapper = new ObjectMapper();
