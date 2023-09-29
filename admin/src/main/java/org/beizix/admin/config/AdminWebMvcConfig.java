@@ -52,12 +52,6 @@ public class AdminWebMvcConfig implements WebMvcConfigurer {
         .addResourceHandler("/content-disposition/inline/public/**")
         .addResourceLocations("file:///" + publicPath + "/")
         .setCachePeriod(20);
-
-    // static 자원 캐시 적용
-    registry
-        .addResourceHandler("/static/**")
-        .addResourceLocations("classpath:/static/static/")
-        .setCachePeriod(3600);
   }
 
   @Override
