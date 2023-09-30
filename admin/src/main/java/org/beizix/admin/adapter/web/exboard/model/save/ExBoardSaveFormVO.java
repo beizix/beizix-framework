@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class ExBoardSaveReqVO extends AuditVO {
+public class ExBoardSaveFormVO extends AuditVO {
   @NotBlank(message = "{valid.common.required}")
   private String title;
 
@@ -45,7 +45,7 @@ public class ExBoardSaveReqVO extends AuditVO {
   // 다건 첨부 - 등록/수정용
   private List<MultipartFile> multipartAttachments = Collections.emptyList();
   // 다건 첨부 - 조회용
-  private List<ExBoardSaveAttachRespVO> attachments = Collections.emptyList();
+  private List<ExBoardSaveAttachFormVO> attachments = Collections.emptyList();
   // 다건 첨부 - 삭제용
   private List<Long> removeAttachmentIds = Collections.emptyList();
 

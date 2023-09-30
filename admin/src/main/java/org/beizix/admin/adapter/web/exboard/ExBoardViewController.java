@@ -2,7 +2,7 @@ package org.beizix.admin.adapter.web.exboard;
 
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
-import org.beizix.admin.adapter.web.exboard.model.view.ExBoardViewRespVO;
+import org.beizix.admin.adapter.web.exboard.model.save.ExBoardSaveFormVO;
 import org.beizix.core.application.port.in.exboard.ExBoardViewPortIn;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
@@ -24,13 +24,13 @@ class ExBoardViewController {
       @ModelAttribute("filterReqVO") ExBoardListFilterReqVO filterReqVO) {
 
     model.addAttribute(
-        "viewRespVO",
+        "formVO",
         id == null
-            ? new ExBoardViewRespVO()
-            : modelMapper.map(exBoardViewPortIn.operate(id), ExBoardViewRespVO.class));
+            ? new ExBoardSaveFormVO()
+            : modelMapper.map(exBoardViewPortIn.operate(id), ExBoardSaveFormVO.class));
 
     model.addAttribute("editMode", true);
 
-    return "board/exBoardView";
+    return "board/exBoardForm";
   }
 }

@@ -4,16 +4,14 @@ import java.io.IOException;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
-import org.beizix.admin.adapter.web.exboard.model.save.ExBoardSaveReqVO;
+import org.beizix.admin.adapter.web.exboard.model.save.ExBoardSaveFormVO;
 import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveInput;
 import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveOutput;
 import org.beizix.core.application.port.in.exboard.ExBoardSavePortIn;
-import org.beizix.core.config.enums.FileUploadType;
 import org.beizix.core.config.exception.UnAcceptableFileException;
 import org.beizix.utility.common.MessageUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,12 +28,12 @@ class ExBoardSaveController {
   String operate(
       RedirectAttributes redirectAttributes,
       @ModelAttribute("filterReqVO") ExBoardListFilterReqVO filterReqVO,
-      @Valid @ModelAttribute("viewRespVO") ExBoardSaveReqVO saveReqVO,
+      @Valid @ModelAttribute("formVO") ExBoardSaveFormVO saveReqVO,
       BindingResult bindingResult)
       throws IOException {
 
     if (bindingResult.hasErrors()) {
-      return "board/exBoardView";
+      return "board/exBoardForm";
     }
 
     ExBoardSaveOutput createdItem;
@@ -54,7 +52,7 @@ class ExBoardSaveController {
           bindingResult.rejectValue("multipartPrivateAttachment", "", ex.getMessage());
           break;
       }
-      return "board/exBoardView";
+      return "board/exBoardForm";
     }
 
     redirectAttributes.addFlashAttribute(

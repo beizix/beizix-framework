@@ -31,27 +31,11 @@ public class ExBoardViewOutput extends AuditBase {
   private FileUploadOutput representImage;
   // 대표 이미지 - 대체 텍스트
   private String repImgAlt;
-
-  // 다건 첨부 - 등록/수정용
-  private List<MultipartFile> multipartAttachments = Collections.emptyList();
   // 다건 첨부 - 조회용
   private List<ExBoardViewAttachOutput> attachments = Collections.emptyList();
-  // 다건 첨부 - 삭제용
-  private List<Long> removeAttachmentIds = Collections.emptyList();
-
-  // Private 다건 첨부 - 등록/수정용
-  private MultipartFile multipartPrivateAttachment;
   // Private 다건 첨부 - 조회용
   private FileUploadOutput privateAttachment;
-
-  // 업로드할 공개 파일 목록
-  private List<MultipartFile> publicFiles;
   // 업로드할 비공개 파일 목록
   private List<MultipartFile> privateFiles;
-
-  // 삭제할 파일 seq 목록
-  private List<Long> removePublicFileSeq;
-  private List<Long> removePrivateFileSeq;
-
   private Integer orderNo;
 }
