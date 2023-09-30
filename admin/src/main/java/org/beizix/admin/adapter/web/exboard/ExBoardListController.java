@@ -3,8 +3,10 @@ package org.beizix.admin.adapter.web.exboard;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
 import org.beizix.core.application.domain.exboard.model.filter.ExBoardListFilterInput;
+import org.beizix.core.application.domain.exboard.model.list.ExBoardListOutput;
 import org.beizix.core.application.port.in.exboard.ExBoardListPortIn;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -27,9 +29,11 @@ class ExBoardListController {
 
     filterReqVO.setSize(pageable.getPageSize());
 
-    model.addAttribute(
-        "items",
-        exBoardListPortIn.connect(pageable, modelMapper.map(filterReqVO, ExBoardListFilterInput.class)));
+    Page<ExBoardListOutput> items =
+        exBoardListPortIn.connect(
+            pageable, modelMapper.map(filterReqVO, ExBoardListFilterInput.class));
+
+    model.addAttribute("items", items);
 
     // title, seo 속성 변경 예제
     //    URI currentURI = (URI) request.getAttribute("currentURI");

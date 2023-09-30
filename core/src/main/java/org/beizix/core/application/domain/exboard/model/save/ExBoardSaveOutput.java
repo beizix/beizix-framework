@@ -29,8 +29,6 @@ public class ExBoardSaveOutput extends AuditBase {
   private String repImgAlt;
   // 다건 첨부 - 조회용
   private List<ExBoardSaveAttachOutput> attachments = Collections.emptyList();
-  // 다건 첨부 - 삭제용
-  private List<Long> removeAttachmentIds = Collections.emptyList();
   // Private 다건 첨부 - 조회용
   private FileUploadOutput privateAttachment;
   private Integer orderNo;

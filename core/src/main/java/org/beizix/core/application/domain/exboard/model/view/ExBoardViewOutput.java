@@ -10,6 +10,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.beizix.core.application.domain.common.model.AuditBase;
 import org.beizix.core.application.domain.fileupload.model.FileUploadOutput;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 @Getter
@@ -24,9 +25,6 @@ public class ExBoardViewOutput extends AuditBase {
   private Boolean visible;
   private LocalDateTime boardStartDate;
   private LocalDateTime boardEndDate;
-
-  // 대표 이미지 - 저장/수정용
-  private MultipartFile representImgFile;
   // 대표 이미지 - 조회용
   private FileUploadOutput representImage;
   // 대표 이미지 - 대체 텍스트
@@ -35,7 +33,5 @@ public class ExBoardViewOutput extends AuditBase {
   private List<ExBoardViewAttachOutput> attachments = Collections.emptyList();
   // Private 다건 첨부 - 조회용
   private FileUploadOutput privateAttachment;
-  // 업로드할 비공개 파일 목록
-  private List<MultipartFile> privateFiles;
   private Integer orderNo;
 }

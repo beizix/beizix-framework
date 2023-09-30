@@ -60,7 +60,7 @@
         <label for="representImgFile" class="form-label d-block">대표 이미지</label>
         <input class="form-control w-50 d-inline-block" type="file" id="representImgFile"
                th:classappend="${#fields.hasErrors('representImgFile')} ? 'is-invalid'"
-               th:field="*{representImgFile}">
+               name="representImgFile">
         <div class="invalid-feedback fw-bold" th:if="${#fields.hasErrors('representImgFile')}"
              th:errors="*{representImgFile}">
           에러 메세지

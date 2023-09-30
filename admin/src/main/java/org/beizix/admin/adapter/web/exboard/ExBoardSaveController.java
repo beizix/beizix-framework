@@ -36,10 +36,18 @@ class ExBoardSaveController {
       return "board/exBoardForm";
     }
 
-    ExBoardSaveOutput createdItem;
-
     try {
-      createdItem = exBoardSavePortIn.connect(modelMapper.map(saveReqVO, ExBoardSaveInput.class));
+      ExBoardSaveOutput createdItem =
+          exBoardSavePortIn.connect(modelMapper.map(saveReqVO, ExBoardSaveInput.class));
+
+      redirectAttributes.addFlashAttribute(
+          "operationMessage",
+          messageUtil.getMessage(
+              saveReqVO.getId() != null
+                  ? "operation.board.exampleBoard.updated"
+                  : "operation.board.exampleBoard.created",
+              createdItem.getTitle()));
+
     } catch (UnAcceptableFileException ex) {
       switch (ex.getFileUploadType()) {
         case EXAMPLE_REP:
@@ -54,14 +62,6 @@ class ExBoardSaveController {
       }
       return "board/exBoardForm";
     }
-
-    redirectAttributes.addFlashAttribute(
-        "operationMessage",
-        messageUtil.getMessage(
-            saveReqVO.getId() != null
-                ? "operation.board.exampleBoard.updated"
-                : "operation.board.exampleBoard.created",
-            createdItem != null ? createdItem.getTitle() : ""));
 
     return "redirect:/board/exampleBoard";
   }
