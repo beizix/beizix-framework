@@ -58,13 +58,14 @@
 
       <div class="mb-3">
         <label for="representImgFile" class="form-label d-block">대표 이미지</label>
-        <input class="form-control w-50 d-inline-block mb-2" type="file" id="representImgFile"
+        <input class="form-control w-50 d-inline-block" type="file" id="representImgFile"
+               th:classappend="${#fields.hasErrors('representImgFile')} ? 'is-invalid'"
                th:field="*{representImgFile}">
         <div class="invalid-feedback fw-bold" th:if="${#fields.hasErrors('representImgFile')}"
              th:errors="*{representImgFile}">
           에러 메세지
         </div>
-        <input type="text" class="form-control w-50" th:field="*{repImgAlt}"
+        <input type="text" class="form-control w-50 mt-2" th:field="*{repImgAlt}"
                placeholder="alt text"/>
         <!-- 수정화면시, 이미지 표시 -->
         <div class="col-sm-6" th:with="repImg=${viewRespVO.representImage}"
@@ -117,10 +118,15 @@
       <div class="mb-3 publicFileInputs">
         <label for="formFile1" class="form-label d-block">다건 파일 첨부</label>
         <input class="form-control w-50 d-inline-block mb-2" type="file" name="multipartAttachments"
+               th:classappend="${#fields.hasErrors('multipartAttachments')} ? 'is-invalid'"
                id="formFile1">
         <button type="button" class="btn btn-success d-inline-block align-top"
                 onclick="addFileInput('public');">추가
         </button>
+        <div class="invalid-feedback fw-bold" th:if="${#fields.hasErrors('multipartAttachments')}"
+             th:errors="*{multipartAttachments}">
+          에러 메세지
+        </div>
       </div>
 
       <hr/>
@@ -135,7 +141,12 @@
         </div>
         <input class="form-control w-50 d-inline-block mb-2" type="file"
                name="multipartPrivateAttachment"
+               th:classappend="${#fields.hasErrors('multipartPrivateAttachment')} ? 'is-invalid'"
                id="filePrivate">
+        <div class="invalid-feedback fw-bold" th:if="${#fields.hasErrors('multipartPrivateAttachment')}"
+             th:errors="*{multipartPrivateAttachment}">
+          에러 메세지
+        </div>
       </div>
     </div>
     <button type="submit" class="btn btn-primary float-end">저장</button>

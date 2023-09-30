@@ -64,6 +64,7 @@ public class FileUploadService implements FileUploadPortIn {
             .orElseThrow(
                 () ->
                     new UnAcceptableFileException(
+                        fileUploadType,
                         messageUtil.getMessage("exception.file.no.extension", originalFilename)));
 
     // step.2 - 파일 확장자 체크
@@ -72,7 +73,7 @@ public class FileUploadService implements FileUploadPortIn {
             .orElseThrow(
                 () ->
                     new UnAcceptableFileException(
-                        String.format("'.%s' - 허용되지 않는 파일 확장자입니다.", extension)));
+                        fileUploadType, String.format("'.%s' - 허용되지 않는 파일 확장자입니다.", extension)));
 
     // step.3 - 파일 mime-type 체크
     try (InputStream is = multipartFile.getInputStream()) {
@@ -81,8 +82,9 @@ public class FileUploadService implements FileUploadPortIn {
           .orElseThrow(
               () ->
                   new UnAcceptableFileException(
+                      fileUploadType,
                       String.format(
-                          "'%s' of .%s - 허용되지 않는 MIME Type 입니다.", fileMimeType, extension)));
+                          "'%s' - 허용되지 않는 MIME Type 입니다.", fileMimeType)));
     }
   }
 
