@@ -5,9 +5,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.application.domain.exboard.model.ExBoardAttachment;
 import org.beizix.core.application.port.out.exboard.ExBoardAttachmentSavePortOut;
-import org.beizix.core.adapter.persistence.exboard.model.ExBoardAttachmentEntity;
+import org.beizix.core.adapter.persistence.exboard.model.ExBoardAttachment;
 
 @Repository
 @RequiredArgsConstructor
@@ -16,11 +15,12 @@ class ExBoardAttachmentSaveDao implements ExBoardAttachmentSavePortOut {
   private final ExBoardAttachmentRepo exBoardAttachmentRepo;
 
   @Override
-  public ExBoardAttachment connect(ExBoardAttachment exBoardAttachment) {
+  public org.beizix.core.application.domain.exboard.model.ExBoardAttachment connect(
+      org.beizix.core.application.domain.exboard.model.ExBoardAttachment exBoardAttachment) {
     if (exBoardAttachment.getFileUploadInfo() == null) return null;
-    ExBoardAttachmentEntity entity =
+    ExBoardAttachment entity =
         exBoardAttachmentRepo.save(
-            modelMapper.map(exBoardAttachment, ExBoardAttachmentEntity.class));
-    return modelMapper.map(entity, ExBoardAttachment.class);
+            modelMapper.map(exBoardAttachment, ExBoardAttachment.class));
+    return modelMapper.map(entity, org.beizix.core.application.domain.exboard.model.ExBoardAttachment.class);
   }
 }

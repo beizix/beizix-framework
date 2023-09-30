@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.beizix.core.application.domain.exboard.model.ExBoardInput;
 import org.beizix.core.application.domain.exboard.model.filter.ExBoardListInput;
 import org.beizix.core.application.port.out.exboard.ExBoardListPortOut;
-import org.beizix.core.adapter.persistence.exboard.model.ExBoardEntity;
+import org.beizix.core.adapter.persistence.exboard.model.ExBoard;
 
 @Repository
 @RequiredArgsConstructor
@@ -23,7 +23,7 @@ class ExBoardListDao implements ExBoardListPortOut {
   @Override
   public Page<ExBoardInput> connect(Pageable pageable, ExBoardListInput exBoardListInput) {
     // 검색조건 초기화
-    Specification<ExBoardEntity> spec = (root, query, criteriaBuilder) -> null;
+    Specification<ExBoard> spec = (root, query, criteriaBuilder) -> null;
 
     // 검색어 - like 검색
     if (!StringUtils.isEmpty(exBoardListInput.getSearchField())) {

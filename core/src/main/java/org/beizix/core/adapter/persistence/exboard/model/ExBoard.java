@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import lombok.*;
+import org.beizix.core.adapter.persistence.common.model.AuditEntity;
 import org.hibernate.annotations.*;
 import org.beizix.core.adapter.persistence.common.model.FileUploadInfoEmbeddable;
 
@@ -19,7 +20,7 @@ import org.beizix.core.adapter.persistence.common.model.FileUploadInfoEmbeddable
 @AllArgsConstructor
 @Table(name = "example_board")
 @org.hibernate.annotations.Table(appliesTo = "example_board", comment = "예제게시판 테이블")
-public class ExBoardEntity {
+public class ExBoard extends AuditEntity {
   @Id
   @GeneratedValue
   @Comment("예제 게시판 아이디")
@@ -36,14 +37,6 @@ public class ExBoardEntity {
   @Column
   @Comment("공개여부")
   private Boolean visible;
-
-  @Column(updatable = false, nullable = false)
-  @Comment("생성자")
-  private String createdBy;
-
-  @Column
-  @Comment("수정자")
-  private String updatedBy;
 
   /** 게시글 대표 이미지: 1건 이기에 외부 엔티티가 아닌 @Embedded 로 처리한다. 공개여부 - public */
   @Embedded
@@ -74,7 +67,7 @@ public class ExBoardEntity {
   @OneToMany(mappedBy = "exBoard", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
   @BatchSize(size = 100)
   @OrderBy("id asc")
-  private Set<ExBoardAttachmentEntity> attachments;
+  private Set<ExBoardAttachment> attachments;
 
   @Column
   @Comment("게시 시작일")
@@ -83,15 +76,6 @@ public class ExBoardEntity {
   @Column
   @Comment("게시 종료일")
   private LocalDateTime boardEndDate;
-
-  @CreationTimestamp
-  @Column(updatable = false, nullable = false)
-  @Comment("게시글 등록일")
-  private LocalDateTime createdAt;
-
-  @UpdateTimestamp
-  @Comment("게시글 수정일")
-  private LocalDateTime updatedAt;
 
   @Column
   @Comment("게시글 정렬순서")

@@ -15,7 +15,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
 @Getter
-public class BaseEntity {
+public class AuditEntity {
   @CreatedDate
   @Column(updatable = false)
   @Comment(value = "생성일")

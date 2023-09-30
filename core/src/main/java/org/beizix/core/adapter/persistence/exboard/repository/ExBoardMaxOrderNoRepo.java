@@ -2,15 +2,14 @@ package org.beizix.core.adapter.persistence.exboard.repository;
 
 import java.util.Optional;
 
+import org.beizix.core.adapter.persistence.exboard.model.ExBoard;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
-import org.beizix.core.adapter.persistence.exboard.model.ExBoardEntity;
-
 public interface ExBoardMaxOrderNoRepo
-    extends JpaRepository<ExBoardEntity, Long>, JpaSpecificationExecutor<ExBoardEntity> {
+    extends JpaRepository<ExBoard, Long>, JpaSpecificationExecutor<ExBoard> {
 
-  @Query("select max(e.orderNo) from ExBoardEntity e")
+  @Query("select max(e.orderNo) from ExBoard e")
   Optional<Integer> operate();
 }

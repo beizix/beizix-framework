@@ -8,8 +8,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import lombok.*;
+import org.beizix.core.adapter.persistence.common.model.AuditEntity;
 import org.hibernate.annotations.*;
-import org.beizix.core.adapter.persistence.common.model.BaseEntity;
 import org.beizix.security.adapter.persistence.admin_role.model.AdminWithRole;
 import org.beizix.security.adapter.persistence.admin_role.model.AdminWithRole_;
 
@@ -29,7 +29,7 @@ import org.beizix.security.adapter.persistence.admin_role.model.AdminWithRole_;
           name = "role_subgraph",
           attributeNodes = {@NamedAttributeNode(AdminWithRole_.ROLE)})
     })
-public class Admin extends BaseEntity {
+public class Admin extends AuditEntity {
 
   @Id
   @Comment("관리자 계정 아이디")

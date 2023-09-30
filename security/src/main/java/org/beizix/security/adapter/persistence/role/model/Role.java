@@ -3,9 +3,9 @@ package org.beizix.security.adapter.persistence.role.model;
 import java.util.Set;
 import javax.persistence.*;
 import lombok.*;
+import org.beizix.core.adapter.persistence.common.model.AuditEntity;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Comment;
-import org.beizix.core.adapter.persistence.common.model.BaseEntity;
 import org.beizix.security.adapter.persistence.role_privilege.model.RoleWithPrivilege;
 
 @Entity
@@ -16,7 +16,7 @@ import org.beizix.security.adapter.persistence.role_privilege.model.RoleWithPriv
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Role extends BaseEntity {
+public class Role extends AuditEntity {
   @Id
   @Comment("관리자 역할")
   private String id;

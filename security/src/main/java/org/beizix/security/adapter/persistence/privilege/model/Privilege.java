@@ -4,8 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.*;
+import org.beizix.core.adapter.persistence.common.model.AuditEntity;
 import org.hibernate.annotations.Comment;
-import org.beizix.core.adapter.persistence.common.model.BaseEntity;
 
 @Entity
 @Table(name = "privilege")
@@ -15,7 +15,7 @@ import org.beizix.core.adapter.persistence.common.model.BaseEntity;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Privilege extends BaseEntity {
+public class Privilege extends AuditEntity {
   @Id
   @Comment("관리자 권한")
   private String id;

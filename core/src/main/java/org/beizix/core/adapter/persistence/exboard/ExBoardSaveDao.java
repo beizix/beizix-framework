@@ -1,5 +1,6 @@
 package org.beizix.core.adapter.persistence.exboard;
 
+import org.beizix.core.adapter.persistence.exboard.model.ExBoard;
 import org.beizix.core.adapter.persistence.exboard.repository.ExBoardRepo;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Repository;
@@ -8,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.beizix.core.application.domain.exboard.model.ExBoardInput;
 import org.beizix.core.application.port.out.exboard.ExBoardSavePortOut;
 import org.beizix.core.application.port.out.exboard.ExBoardViewPortOut;
-import org.beizix.core.adapter.persistence.exboard.model.ExBoardEntity;
 
 @Repository
 @RequiredArgsConstructor
@@ -32,7 +32,7 @@ class ExBoardSaveDao implements ExBoardSavePortOut {
                   exBoard.setPrivateAttachment(item.getPrivateAttachment());
               });
 
-    ExBoardEntity entity = exBoardRepo.save(modelMapper.map(exBoard, ExBoardEntity.class));
+    ExBoard entity = exBoardRepo.save(modelMapper.map(exBoard, ExBoard.class));
     return modelMapper.map(entity, ExBoardInput.class);
   }
 }

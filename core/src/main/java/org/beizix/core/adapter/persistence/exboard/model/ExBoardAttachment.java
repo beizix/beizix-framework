@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.beizix.core.adapter.persistence.common.model.AuditEntity;
 import org.beizix.core.adapter.persistence.common.model.FileUploadInfoEmbeddable;
 
 import javax.persistence.*;
@@ -17,7 +18,7 @@ import org.hibernate.annotations.Comment;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExBoardAttachmentEntity {
+public class ExBoardAttachment extends AuditEntity {
   @Id
   @GeneratedValue
   @Comment("다건 첨부 파일 아이디")
@@ -28,5 +29,5 @@ public class ExBoardAttachmentEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name="exBoardId")
   @Comment("예제 게시판 아이디")
-  private ExBoardEntity exBoard;
+  private ExBoard exBoard;
 }

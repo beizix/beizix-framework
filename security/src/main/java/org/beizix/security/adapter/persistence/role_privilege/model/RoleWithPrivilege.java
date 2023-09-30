@@ -2,8 +2,8 @@ package org.beizix.security.adapter.persistence.role_privilege.model;
 
 import javax.persistence.*;
 import lombok.*;
+import org.beizix.core.adapter.persistence.common.model.AuditEntity;
 import org.hibernate.annotations.Comment;
-import org.beizix.core.adapter.persistence.common.model.BaseEntity;
 import org.beizix.security.adapter.persistence.privilege.model.Privilege;
 import org.beizix.security.adapter.persistence.role.model.Role;
 
@@ -14,7 +14,7 @@ import org.beizix.security.adapter.persistence.role.model.Role;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "role_with_privilege")
-public class RoleWithPrivilege extends BaseEntity {
+public class RoleWithPrivilege extends AuditEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "id", nullable = false)

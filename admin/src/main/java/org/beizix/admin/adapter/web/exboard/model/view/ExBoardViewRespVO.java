@@ -6,6 +6,7 @@ import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.*;
+import org.beizix.core.application.domain.common.model.AuditBase;
 import org.beizix.core.application.domain.exboard.model.ExBoardAttachment;
 import org.beizix.core.application.domain.fileupload.model.FileUploadInfo;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ExBoardViewRespVO {
+public class ExBoardViewRespVO extends AuditBase {
   private Long id;
   private String title;
   private String content;
@@ -51,11 +52,6 @@ public class ExBoardViewRespVO {
 
   // 삭제할 파일 seq 목록
   private List<Long> removePrivateFileSeq;
-
-  private String createdBy;
-  private String updatedBy;
-  private LocalDateTime createdAt;
-  private LocalDateTime updatedAt;
 
   private Integer orderNo;
 }

@@ -1,31 +1,29 @@
 package org.beizix.core.application.domain.exboard.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
-import org.beizix.core.application.domain.fileupload.model.FileUploadInfo;
-
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.beizix.core.application.domain.common.model.AuditBase;
+import org.beizix.core.application.domain.fileupload.model.FileUploadInfo;
+import org.springframework.web.multipart.MultipartFile;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ExBoardInput {
+public class ExBoardInput extends AuditBase {
   private Long id;
   private String title;
   private String content;
   private Boolean visible;
-  private String createdBy;
-  private String updatedBy;
   private LocalDateTime boardStartDate;
   private LocalDateTime boardEndDate;
-  private LocalDateTime createdAt;
-  private LocalDateTime updatedAt;
 
   // 대표 이미지 - 저장/수정용
   private MultipartFile representImgFile;
