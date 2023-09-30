@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.beizix.core.application.domain.fileupload.model.FileUploadInfo;
+import org.beizix.core.application.domain.fileupload.model.FileUploadOutput;
 import org.beizix.core.application.port.in.imagecrop.ImageCropPortIn;
 import org.beizix.utility.common.CommonUtil;
 import org.beizix.utility.common.ImageUtil;
@@ -26,11 +26,11 @@ class ImageCropService implements ImageCropPortIn {
 
   @Override
   public void operate(
-          FileUploadInfo fileUploadInfo, MultipartFile multipartFile, int maxWidth, double xyRatio)
+          FileUploadOutput fileUploadOutput, MultipartFile multipartFile, int maxWidth, double xyRatio)
       throws IOException {
-    if (fileUploadInfo == null) return;
+    if (fileUploadOutput == null) return;
 
-    Path directoryPath = Paths.get(publicPath, fileUploadInfo.getPath(), "crop");
+    Path directoryPath = Paths.get(publicPath, fileUploadOutput.getPath(), "crop");
     Files.createDirectories(directoryPath);
 
     try (InputStream inputStream = multipartFile.getInputStream()) {
@@ -40,8 +40,8 @@ class ImageCropService implements ImageCropPortIn {
 
       ImageIO.write(
           croppedImage,
-          commonUtil.getFileExtension(fileUploadInfo.getName()),
-          directoryPath.resolve(fileUploadInfo.getName()).toFile());
+          commonUtil.getFileExtension(fileUploadOutput.getName()),
+          directoryPath.resolve(fileUploadOutput.getName()).toFile());
     }
   }
 }

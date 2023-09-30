@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.beizix.core.adapter.web.common.model.AuditVO;
 import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveInput;
-import org.beizix.core.application.domain.fileupload.model.FileUploadInfo;
+import org.beizix.core.application.domain.fileupload.model.FileUploadOutput;
 
 @Getter
 @Setter
@@ -14,6 +14,6 @@ import org.beizix.core.application.domain.fileupload.model.FileUploadInfo;
 @AllArgsConstructor
 public class ExBoardViewAttachRespVO extends AuditVO {
   private Long id;
-  private FileUploadInfo fileUploadInfo;
+  private FileUploadOutput fileUploadOutput;
   private ExBoardSaveInput exBoard;
 }

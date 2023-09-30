@@ -13,7 +13,7 @@ import org.beizix.core.application.domain.fileupload.model.FileUploadOutput;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class ExBoardSaveAttachInput extends AuditBase {
+public class ExBoardSaveAttachOutput extends AuditBase {
+  private Long id;
   private FileUploadOutput fileUploadOutput;
-  private ExBoardSaveOutput exBoard;
 }

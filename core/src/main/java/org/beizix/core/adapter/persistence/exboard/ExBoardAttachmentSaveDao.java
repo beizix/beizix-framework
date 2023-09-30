@@ -16,7 +16,7 @@ class ExBoardAttachmentSaveDao implements ExBoardAttachmentSavePortOut {
 
   @Override
   public ExBoardSaveAttachInput connect(ExBoardSaveAttachInput exBoardAttachment) {
-    if (exBoardAttachment.getFileUploadInfo() == null) return null;
+    if (exBoardAttachment.getFileUploadOutput() == null) return null;
     ExBoardAttachment entity =
         exBoardAttachmentRepo.save(modelMapper.map(exBoardAttachment, ExBoardAttachment.class));
     return modelMapper.map(entity, ExBoardSaveAttachInput.class);

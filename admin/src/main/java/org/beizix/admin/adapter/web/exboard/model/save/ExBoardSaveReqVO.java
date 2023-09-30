@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.beizix.core.adapter.web.common.model.AuditVO;
-import org.beizix.core.application.domain.fileupload.model.FileUploadInfo;
+import org.beizix.core.application.domain.fileupload.model.FileUploadOutput;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -38,7 +38,7 @@ public class ExBoardSaveReqVO extends AuditVO {
   // 대표 이미지 - 저장/수정용
   private MultipartFile representImgFile;
   // 대표 이미지 - 조회용
-  private FileUploadInfo representImage;
+  private FileUploadOutput representImage;
   // 대표 이미지 - 대체 텍스트
   private String repImgAlt;
 
@@ -52,7 +52,7 @@ public class ExBoardSaveReqVO extends AuditVO {
   // Private 첨부 - 등록/수정용
   private MultipartFile multipartPrivateAttachment;
   // Private 첨부 - 조회용
-  private FileUploadInfo privateAttachment;
+  private FileUploadOutput privateAttachment;
 
   // 비공개 파일 목록
   private List<MultipartFile> privateFiles = Collections.emptyList();

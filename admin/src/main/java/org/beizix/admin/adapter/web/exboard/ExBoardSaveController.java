@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.exboard.model.save.ExBoardSaveReqVO;
 import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveInput;
+import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveOutput;
 import org.beizix.core.application.port.in.exboard.ExBoardSavePortIn;
 import org.beizix.utility.common.MessageUtil;
 import org.modelmapper.ModelMapper;
@@ -32,7 +33,7 @@ class ExBoardSaveController {
       return "board/exBoardView";
     }
 
-    ExBoardSaveInput createdItem =
+    ExBoardSaveOutput createdItem =
         exBoardSavePortIn.connect(modelMapper.map(vo, ExBoardSaveInput.class));
 
     redirectAttributes.addFlashAttribute(

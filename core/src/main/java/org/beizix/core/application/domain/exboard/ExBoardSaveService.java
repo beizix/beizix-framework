@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveAttachInput;
 import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveInput;
+import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveOutput;
 import org.beizix.core.application.port.in.exboard.ExBoardSavePortIn;
 import org.beizix.core.application.port.in.fileupload.FileUploadPortIn;
 import org.beizix.core.application.port.out.exboard.ExBoardAttachmentRemovePortOut;
@@ -27,33 +28,33 @@ class ExBoardSaveService implements ExBoardSavePortIn {
 
   @Override
   @Transactional
-  public ExBoardSaveInput connect(ExBoardSaveInput exBoard) throws IOException {
+  public ExBoardSaveOutput connect(ExBoardSaveInput saveInput) throws IOException {
     // 정렬 순서 지정하기
-    exBoard.setOrderNo(
-        Optional.ofNullable(exBoard.getOrderNo()).orElse(exBoardNextOrderNoPortOut.connect()));
+    saveInput.setOrderNo(
+        Optional.ofNullable(saveInput.getOrderNo()).orElse(exBoardNextOrderNoPortOut.connect()));
 
-    // 외부 공개 파일 저장
+    // 대표 이미지 파일 저장
     fileUploadPortIn
-        .connect(FileUploadType.EXAMPLE_REP, exBoard.getRepresentImgFile())
-        .ifPresent(exBoard::setRepresentImage);
+        .connect(FileUploadType.EXAMPLE_REP, saveInput.getRepresentImgFile())
+        .ifPresent(saveInput::setRepresentImage);
 
     // 외부 비공개 파일 저장
     fileUploadPortIn
-        .connect(FileUploadType.EXAMPLE_PRIVATE, exBoard.getMultipartPrivateAttachment())
-        .ifPresent(exBoard::setPrivateAttachment);
+        .connect(FileUploadType.EXAMPLE_PRIVATE, saveInput.getMultipartPrivateAttachment())
+        .ifPresent(saveInput::setPrivateAttachment);
 
     // 삭제해야 할 다건 첨부 파일 정보가 있다면 삭제
-    exBoard.getRemoveAttachmentIds().forEach(exBoardAttachmentRemovePortOut::connect);
+    saveInput.getRemoveAttachmentIds().forEach(exBoardAttachmentRemovePortOut::connect);
 
     // create/update 수행
-    ExBoardSaveInput operateItem = exBoardSavePortOut.connect(exBoard);
+    ExBoardSaveOutput operateItem = exBoardSavePortOut.connect(saveInput);
 
     // 다건 첨부파일 저장
-    for (MultipartFile attachment : exBoard.getMultipartAttachments()) {
+    for (MultipartFile attachment : saveInput.getMultipartAttachments()) {
       exBoardAttachmentSavePortOut.connect(
           new ExBoardSaveAttachInput()
               .setExBoard(operateItem)
-              .setFileUploadInfo(
+              .setFileUploadOutput(
                   fileUploadPortIn
                       .connect(FileUploadType.EXAMPLE_PUBLIC, attachment)
                       .orElse(null)));

@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.beizix.core.application.domain.common.model.AuditBase;
 import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveInput;
-import org.beizix.core.application.domain.fileupload.model.FileUploadInfo;
+import org.beizix.core.application.domain.fileupload.model.FileUploadOutput;
 
 @Getter
 @Setter
@@ -14,6 +14,5 @@ import org.beizix.core.application.domain.fileupload.model.FileUploadInfo;
 @AllArgsConstructor
 public class ExBoardListAttachOutput extends AuditBase {
   private Long id;
-  private FileUploadInfo fileUploadInfo;
-  private ExBoardSaveInput exBoard;
+  private FileUploadOutput fileUploadOutput;
 }

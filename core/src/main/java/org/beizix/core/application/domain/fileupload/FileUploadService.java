@@ -10,7 +10,7 @@ import org.beizix.core.config.enums.AcceptableFileType;
 import org.beizix.core.config.enums.FileStorageType;
 import org.beizix.core.config.enums.FileUploadType;
 import org.beizix.core.config.exception.UnAcceptableFileException;
-import org.beizix.core.application.domain.fileupload.model.FileUploadInfo;
+import org.beizix.core.application.domain.fileupload.model.FileUploadOutput;
 import org.beizix.core.application.port.in.fileupload.FileUploadPortIn;
 import org.beizix.core.application.domain.fileupload.strategy.FileUploadStrategy;
 
@@ -29,7 +29,7 @@ public class FileUploadService implements FileUploadPortIn {
   private final Set<FileUploadStrategy> fileUploadStrategies;
 
   @Override
-  public Optional<FileUploadInfo> connect(
+  public Optional<FileUploadOutput> connect(
       FileUploadType fileUploadType, MultipartFile multipartFile) throws IOException {
     if (multipartFile == null || multipartFile.isEmpty()) {
       return Optional.empty();
@@ -45,7 +45,7 @@ public class FileUploadService implements FileUploadPortIn {
         .operate(multipartFile, fileUploadType.isPubic(), subPath, createFilename);
 
     return Optional.of(
-        FileUploadInfo.builder()
+        FileUploadOutput.builder()
             .type(fileUploadType)
             .path(subPath)
             .name(createFilename)

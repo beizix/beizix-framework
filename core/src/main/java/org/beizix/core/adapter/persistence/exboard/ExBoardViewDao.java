@@ -2,6 +2,7 @@ package org.beizix.core.adapter.persistence.exboard;
 
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.beizix.core.adapter.persistence.exboard.model.ExBoard;
 import org.beizix.core.adapter.persistence.exboard.repository.ExBoardRepo;
 import org.beizix.core.application.domain.exboard.model.view.ExBoardViewOutput;
 import org.beizix.core.application.port.out.exboard.ExBoardViewPortOut;
@@ -16,6 +17,7 @@ class ExBoardViewDao implements ExBoardViewPortOut {
 
   @Override
   public Optional<ExBoardViewOutput> connect(Long id) {
-    return exBoardRepo.findById(id).map(item -> modelMapper.map(item, ExBoardViewOutput.class));
+    Optional<ExBoard> result = exBoardRepo.findById(id);
+    return result.map(item -> modelMapper.map(item, ExBoardViewOutput.class));
   }
 }

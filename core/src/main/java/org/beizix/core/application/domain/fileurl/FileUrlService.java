@@ -1,10 +1,10 @@
 package org.beizix.core.application.domain.fileurl;
 
 import lombok.RequiredArgsConstructor;
+import org.beizix.core.application.domain.fileupload.model.FileUploadOutput;
 import org.springframework.stereotype.Service;
 import org.beizix.core.config.enums.ContentDispositionType;
 import org.beizix.core.config.enums.FileStorageType;
-import org.beizix.core.application.domain.fileupload.model.FileUploadInfo;
 import org.beizix.core.application.port.in.fileurl.FileUrlPortIn;
 import org.beizix.core.application.domain.fileurl.strategy.FileUrlStrategy;
 
@@ -19,8 +19,8 @@ public class FileUrlService implements FileUrlPortIn {
 
   @Override
   public String connect(
-      ContentDispositionType contentDispositionType, FileUploadInfo fileUploadInfo) {
-    return Optional.ofNullable(fileUploadInfo)
+      ContentDispositionType contentDispositionType, FileUploadOutput fileUploadOutput) {
+    return Optional.ofNullable(fileUploadOutput)
         .map(
             uploadInfo ->
                 getFileUrlStrategy(uploadInfo.getType().getFileStorageType())
@@ -29,8 +29,9 @@ public class FileUrlService implements FileUrlPortIn {
   }
 
   @Override
-  public String connect(String contentDispositionTypeName, FileUploadInfo fileUploadInfo) {
-    return this.connect(ContentDispositionType.valueOf(contentDispositionTypeName), fileUploadInfo);
+  public String connect(String contentDispositionTypeName, FileUploadOutput fileUploadOutput) {
+    return this.connect(ContentDispositionType.valueOf(contentDispositionTypeName),
+        fileUploadOutput);
   }
 
   private FileUrlStrategy getFileUrlStrategy(FileStorageType fileStorageType) {
