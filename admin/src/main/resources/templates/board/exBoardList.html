@@ -52,7 +52,8 @@
         </div>
       </div>
       <div class="col text-end">
-        <i class="bi bi-list-ol"></i> <label> <select
+        <i class="bi bi-list-ol"></i> <label>
+        <select
               class="form-select form-select-sm" th:field="*{size}"
               onchange="goSearch()">
         <option
@@ -96,15 +97,17 @@
         </th>
         <td><label>
           <input class="form-check-input"
-                 name="itemIds" type="checkbox" th:value="${item.id}"/></label></td>
+                 name="selectedItemIds" type="checkbox" th:value="${item.id}"/></label></td>
         <td><img
                 th:src="${@fileUrlService.connect('INLINE', item.representImage)}"
                 style="width: 25px;"
                 class="img-thumbnail" onerror="this.src='/static/ui/img/default-img.jpg'"/></td>
         <td><a th:href="|javascript:goUpdate('${item.id}')|"
                th:utext="${item.title}">Title</a></td>
-        <td><i th:if="${item.visible}" class="bi bi-eye-fill"></i> <i
-                th:if="${!item.visible}" class="bi bi-eye-slash-fill"></i></td>
+        <td class="text-center text-secondary">
+          <i th:if="${item.visible}" class="bi bi-circle-fill"></i>
+          <i th:if="${!item.visible}" class="bi bi-slash-circle"></i>
+        </td>
         <td
                 th:text="${#temporals.format(item.boardStartDate, 'yyyy-MM-dd HH:mm')}">게시일
         </td>
@@ -183,11 +186,11 @@
 
       // 체크박스 선택/해제
       function toggleCheckbox(oj) {
-          $('input[name=itemIds]').prop("checked", oj.checked);
+          $('input[name=selectedItemIds]').prop("checked", oj.checked);
       }
 
       function goRemove() {
-          if (!$('input[name=itemIds]').is(':checked')) {
+          if (!$('input[name=selectedItemIds]').is(':checked')) {
               alert(/*[[#{operation.common.remove.choose}]]*/);
               return;
           }

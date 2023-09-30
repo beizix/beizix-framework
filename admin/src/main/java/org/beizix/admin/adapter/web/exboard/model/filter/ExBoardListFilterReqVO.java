@@ -14,5 +14,5 @@ public class ExBoardListFilterReqVO {
   private Integer page;
   private Integer size;
   private String sort;
-  private List<Long> itemIds;
+  private List<Long> selectedItemIds;
 }

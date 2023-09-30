@@ -19,8 +19,8 @@ class ExBoardRemoveController {
   String operate(
       RedirectAttributes redirectAttributes, @ModelAttribute("paramDto") ExBoardListFilterReqVO paramDto) {
 
-    if (paramDto.getItemIds() != null && paramDto.getItemIds().size() > 0) {
-      exBoardRemovePortIn.connect(paramDto.getItemIds());
+    if (paramDto.getSelectedItemIds() != null && paramDto.getSelectedItemIds().size() > 0) {
+      exBoardRemovePortIn.connect(paramDto.getSelectedItemIds());
       redirectAttributes.addFlashAttribute(
           "operationMessage", messageUtil.getMessage("operation.board.exampleBoard.removed"));
     }

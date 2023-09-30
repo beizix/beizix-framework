@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.exboard.model;
+package org.beizix.admin.adapter.web.exboard.model.save;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -6,18 +6,17 @@ import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.multipart.MultipartFile;
 import org.beizix.core.application.domain.exboard.model.ExBoardAttachment;
 import org.beizix.core.application.domain.fileupload.model.FileUploadInfo;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
-@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class ExBoardDto {
+public class ExBoardSaveReqVO {
   @NotBlank(message = "{valid.common.required}")
   private String title;
 
@@ -31,7 +30,6 @@ public class ExBoardDto {
   @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
   @NotNull(message = "{valid.common.required}")
   private LocalDateTime boardEndDate;
-
   private Long id;
   private Boolean visible;
 

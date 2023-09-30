@@ -4,11 +4,12 @@
 
 <section layout:fragment="content">
   <form
-          th:action="${dto.id != null ? '/board/exampleBoard/update/' + dto.id : '/board/exampleBoard/create'}"
+          th:action="${viewRespVO.id != null ? '/board/exampleBoard/update/' + viewRespVO.id : '/board/exampleBoard/create'}"
           method="post"
           enctype="multipart/form-data" class="fw-bold" name="updateForm"
-          th:object="${dto}">
-    <input type="hidden" name="id" th:value="${dto.id}"/>
+          th:object="${viewRespVO}">
+    <input type="hidden" th:field="*{id}"/>
+    <input type="hidden" th:field="*{orderNo}"/>
 
     <div class="container">
       <div class="row mb-3">
@@ -66,8 +67,8 @@
         <input type="text" class="form-control w-50" th:field="*{repImgAlt}"
                placeholder="alt text"/>
         <!-- 수정화면시, 이미지 표시 -->
-        <div class="col-sm-6" th:with="repImg=${dto.representImage}"
-             th:if="${dto.representImage != null}">
+        <div class="col-sm-6" th:with="repImg=${viewRespVO.representImage}"
+             th:if="${viewRespVO.representImage != null}">
           <div>
             <a th:text="${repImg.originName}"
                class="text-decoration-none"></a>
@@ -93,10 +94,10 @@
 
       <hr/>
 
-      <div th:if="${dto.id != null}" class="row mb-3 pt-3">
+      <div th:if="${viewRespVO.id != null}" class="row mb-3 pt-3">
         <label class="col-sm-2 col-form-label" style="padding-top: 0;">다건 파일 첨부</label>
         <div class="col-sm-6">
-          <div th:each="item, status : ${dto.attachments}">
+          <div th:each="item, status : ${viewRespVO.attachments}">
             <a th:href="${@fileUrlService.connect('ATTACHMENT', item.fileUploadInfo)}"
                th:text="${item.fileUploadInfo.originName}"
                th:attr="data-file-seq=${item.id}"
@@ -127,9 +128,9 @@
       <div class="mb-3 privateFileInputs">
         <label for="filePrivate" class="form-label d-block">private 파일 첨부 (외부 비공개)</label>
         <div class="row mb-2">
-          <a th:if="${dto.id != null and dto.privateAttachment != null}"
-             th:href="${@fileUrlService.connect('ATTACHMENT', dto.privateAttachment)}"
-             th:text="${dto.privateAttachment.originName}"
+          <a th:if="${viewRespVO.id != null and viewRespVO.privateAttachment != null}"
+             th:href="${@fileUrlService.connect('ATTACHMENT', viewRespVO.privateAttachment)}"
+             th:text="${viewRespVO.privateAttachment.originName}"
              class="text-decoration-none"></a>
         </div>
         <input class="form-control w-50 d-inline-block mb-2" type="file"
@@ -142,9 +143,9 @@
   </form>
 
   <!-- 이전 목록페이지의 검색 및 정렬조건 폼 -->
-  <form th:if="${dto.id != null}" th:action="@{/board/exampleBoard}" name="prevParamForm"
+  <form th:if="${viewRespVO.id != null}" th:action="@{/board/exampleBoard}" name="prevParamForm"
         method="get"
-        th:object="${paramDto}">
+        th:object="${filterReqVO}">
     <input type="hidden" th:field="*{searchField}">
     <input type="hidden" th:field="*{searchValue}">
     <input type="hidden" th:field="*{searchOpen}">
@@ -231,7 +232,7 @@
           quickbars_insert_toolbar: '',
           setup: function (editor) {
               editor.on('init', function (e) {
-                  let content = [[${dto.content}]];
+                  let content = [[${viewRespVO.content}]];
                   if (content) {
                       tinymce.activeEditor.setContent(utilize.unescape(content));
                   }

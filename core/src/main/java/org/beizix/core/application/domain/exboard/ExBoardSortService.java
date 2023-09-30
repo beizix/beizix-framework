@@ -1,13 +1,12 @@
 package org.beizix.core.application.domain.exboard;
 
+import java.util.List;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.beizix.core.application.domain.exboard.model.ExBoardInput;
+import org.beizix.core.application.domain.exboard.model.sort.ExBoardSortInput;
 import org.beizix.core.application.port.in.exboard.ExBoardSortPortIn;
 import org.beizix.core.application.port.out.exboard.ExBoardSortPortOut;
-
-import javax.transaction.Transactional;
-import java.util.List;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -16,7 +15,7 @@ public class ExBoardSortService implements ExBoardSortPortIn {
 
   @Override
   @Transactional
-  public void operate(List<ExBoardInput> sortItems) {
+  public void operate(List<ExBoardSortInput> sortItems) {
     sortItems.forEach(item -> exBoardSortPortOut.connect(item.getId(), item.getOrderNo()));
   }
 }

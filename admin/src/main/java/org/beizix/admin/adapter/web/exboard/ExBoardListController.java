@@ -38,6 +38,6 @@ class ExBoardListController {
     //    currentURI.setOgDesc("modified - description");
     //    model.addAttribute("currentURI", currentURI);
 
-    return "board/exampleBoardList";
+    return "board/exBoardList";
   }
 }
