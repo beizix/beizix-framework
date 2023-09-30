@@ -1,14 +1,15 @@
-package org.beizix.core.application.domain.exboard.model;
+package org.beizix.core.application.domain.exboard.model.view;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.beizix.core.application.domain.common.model.AuditBase;
+import org.beizix.core.application.domain.exboard.model.ExBoardAttachment;
 import org.beizix.core.application.domain.fileupload.model.FileUploadInfo;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,8 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class ExBoardInput extends AuditBase {
+@Accessors(chain = true)
+public class ExBoardViewOutput extends AuditBase {
   private Long id;
   private String title;
   private String content;

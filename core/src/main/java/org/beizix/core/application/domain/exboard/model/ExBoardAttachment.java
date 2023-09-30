@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveInput;
 import org.beizix.core.application.domain.fileupload.model.FileUploadInfo;
 
 import javax.persistence.Embedded;
@@ -15,5 +16,5 @@ import javax.persistence.Embedded;
 public class ExBoardAttachment {
   private Long id;
   @Embedded private FileUploadInfo fileUploadInfo;
-  private ExBoardInput exBoard;
+  private ExBoardSaveInput exBoard;
 }

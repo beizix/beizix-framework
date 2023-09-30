@@ -1,11 +1,10 @@
 package org.beizix.admin.adapter.web.exboard;
 
 import java.io.IOException;
-import java.security.Principal;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.exboard.model.save.ExBoardSaveReqVO;
-import org.beizix.core.application.domain.exboard.model.ExBoardInput;
+import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveInput;
 import org.beizix.core.application.port.in.exboard.ExBoardSavePortIn;
 import org.beizix.utility.common.MessageUtil;
 import org.modelmapper.ModelMapper;
@@ -25,7 +24,6 @@ class ExBoardSaveController {
   @PostMapping(path = {"/board/exampleBoard/create", "/board/exampleBoard/update/{id}"})
   String operate(
       RedirectAttributes redirectAttributes,
-      Principal principal,
       @Valid @ModelAttribute("dto") ExBoardSaveReqVO vo,
       BindingResult bindingResult)
       throws IOException {
@@ -34,10 +32,8 @@ class ExBoardSaveController {
       return "board/exBoardView";
     }
 
-    vo.setUpdatedBy(principal.getName());
-    if (vo.getId() == null) vo.setCreatedBy(principal.getName());
-
-    ExBoardInput createdItem = exBoardSavePortIn.connect(modelMapper.map(vo, ExBoardInput.class));
+    ExBoardSaveInput createdItem =
+        exBoardSavePortIn.connect(modelMapper.map(vo, ExBoardSaveInput.class));
 
     redirectAttributes.addFlashAttribute(
         "operationMessage",

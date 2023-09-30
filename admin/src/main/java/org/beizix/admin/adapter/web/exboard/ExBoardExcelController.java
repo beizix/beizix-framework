@@ -1,10 +1,18 @@
 package org.beizix.admin.adapter.web.exboard;
 
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
+import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
+import org.beizix.core.application.domain.exboard.model.filter.ExBoardListFilterInput;
+import org.beizix.core.application.domain.exboard.model.list.ExBoardListOutput;
+import org.beizix.core.application.port.in.exboard.ExBoardListPortIn;
+import org.beizix.utility.common.ExcelUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,15 +20,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
-import org.beizix.core.application.domain.exboard.model.ExBoardInput;
-import org.beizix.core.application.domain.exboard.model.filter.ExBoardListInput;
-import org.beizix.core.application.port.in.exboard.ExBoardListPortIn;
-import org.beizix.utility.common.ExcelUtil;
-
-import javax.servlet.http.HttpServletResponse;
-import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -39,8 +38,9 @@ class ExBoardExcelController {
     Workbook wb = new XSSFWorkbook();
     Sheet sheet = wb.createSheet("예제 게시판 목록");
 
-    Page<ExBoardInput> items =
-        exBoardListPortIn.connect(pageable, modelMapper.map(exBoardListFilterReqVO, ExBoardListInput.class));
+    Page<ExBoardListOutput> items =
+        exBoardListPortIn.connect(
+            pageable, modelMapper.map(exBoardListFilterReqVO, ExBoardListFilterInput.class));
     if (!items.isEmpty()) {
       // Header
       Row headerRow = sheet.createRow(sheet.getPhysicalNumberOfRows());

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.beizix.core.application.domain.exboard.model.filter.ExBoardListInput;
+import org.beizix.core.application.domain.exboard.model.filter.ExBoardListFilterInput;
 import org.beizix.core.application.port.in.exboard.ExBoardListPortIn;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +31,7 @@ class ExBoardListController {
 
     model.addAttribute(
         "items",
-        exBoardListPortIn.connect(pageable, modelMapper.map(paramDto, ExBoardListInput.class)));
+        exBoardListPortIn.connect(pageable, modelMapper.map(paramDto, ExBoardListFilterInput.class)));
 
     return "board/exampleBoardList";
   }

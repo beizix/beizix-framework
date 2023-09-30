@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExBoardListInput {
+public class ExBoardListFilterInput {
   private String searchField;
   private String searchValue;
   private String searchOpen;

@@ -1,9 +1,9 @@
 package org.beizix.core.application.port.out.exboard;
 
-import org.beizix.core.application.domain.exboard.model.ExBoardInput;
 
 import java.util.Optional;
+import org.beizix.core.application.domain.exboard.model.view.ExBoardViewOutput;
 
 public interface ExBoardViewPortOut {
-  Optional<ExBoardInput> connect(Long id);
+  Optional<ExBoardViewOutput> connect(Long id);
 }

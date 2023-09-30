@@ -4,17 +4,17 @@ import java.io.IOException;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.beizix.core.application.domain.exboard.model.ExBoardAttachment;
+import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveInput;
+import org.beizix.core.application.port.in.exboard.ExBoardSavePortIn;
+import org.beizix.core.application.port.in.fileupload.FileUploadPortIn;
+import org.beizix.core.application.port.out.exboard.ExBoardAttachmentRemovePortOut;
+import org.beizix.core.application.port.out.exboard.ExBoardAttachmentSavePortOut;
+import org.beizix.core.application.port.out.exboard.ExBoardNextOrderNoPortOut;
+import org.beizix.core.application.port.out.exboard.ExBoardSavePortOut;
+import org.beizix.core.config.enums.FileUploadType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.beizix.core.config.enums.FileUploadType;
-import org.beizix.core.application.domain.exboard.model.ExBoardInput;
-import org.beizix.core.application.domain.exboard.model.ExBoardAttachment;
-import org.beizix.core.application.port.in.exboard.ExBoardSavePortIn;
-import org.beizix.core.application.port.out.exboard.ExBoardAttachmentSavePortOut;
-import org.beizix.core.application.port.out.exboard.ExBoardAttachmentRemovePortOut;
-import org.beizix.core.application.port.out.exboard.ExBoardSavePortOut;
-import org.beizix.core.application.port.out.exboard.ExBoardNextOrderNoPortOut;
-import org.beizix.core.application.port.in.fileupload.FileUploadPortIn;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +27,7 @@ class ExBoardSaveService implements ExBoardSavePortIn {
 
   @Override
   @Transactional
-  public ExBoardInput connect(ExBoardInput exBoard) throws IOException {
+  public ExBoardSaveInput connect(ExBoardSaveInput exBoard) throws IOException {
     // 정렬 순서 지정하기
     exBoard.setOrderNo(
         Optional.ofNullable(exBoard.getOrderNo()).orElse(exBoardNextOrderNoPortOut.connect()));
@@ -46,7 +46,7 @@ class ExBoardSaveService implements ExBoardSavePortIn {
     exBoard.getRemoveAttachmentIds().forEach(exBoardAttachmentRemovePortOut::connect);
 
     // create/update 수행
-    ExBoardInput operateItem = exBoardSavePortOut.connect(exBoard);
+    ExBoardSaveInput operateItem = exBoardSavePortOut.connect(exBoard);
 
     // 다건 첨부파일 저장
     for (MultipartFile attachment : exBoard.getMultipartAttachments()) {
