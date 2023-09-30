@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.application.domain.exboard.model.ExBoardAttachment;
+import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveAttachInput;
 import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveInput;
 import org.beizix.core.application.port.in.exboard.ExBoardSavePortIn;
 import org.beizix.core.application.port.in.fileupload.FileUploadPortIn;
@@ -51,11 +51,12 @@ class ExBoardSaveService implements ExBoardSavePortIn {
     // 다건 첨부파일 저장
     for (MultipartFile attachment : exBoard.getMultipartAttachments()) {
       exBoardAttachmentSavePortOut.connect(
-          ExBoardAttachment.builder()
-              .exBoard(operateItem)
-              .fileUploadInfo(
-                  fileUploadPortIn.connect(FileUploadType.EXAMPLE_PUBLIC, attachment).orElse(null))
-              .build());
+          new ExBoardSaveAttachInput()
+              .setExBoard(operateItem)
+              .setFileUploadInfo(
+                  fileUploadPortIn
+                      .connect(FileUploadType.EXAMPLE_PUBLIC, attachment)
+                      .orElse(null)));
     }
 
     return operateItem;

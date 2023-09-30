@@ -6,18 +6,18 @@ import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.*;
-import org.beizix.core.application.domain.common.model.AuditBase;
-import org.beizix.core.application.domain.exboard.model.ExBoardAttachment;
+import lombok.experimental.Accessors;
+import org.beizix.core.adapter.web.common.model.AuditVO;
 import org.beizix.core.application.domain.fileupload.model.FileUploadInfo;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class ExBoardSaveReqVO extends AuditBase {
+@Accessors(chain = true)
+public class ExBoardSaveReqVO extends AuditVO {
   @NotBlank(message = "{valid.common.required}")
   private String title;
 
@@ -31,6 +31,7 @@ public class ExBoardSaveReqVO extends AuditBase {
   @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
   @NotNull(message = "{valid.common.required}")
   private LocalDateTime boardEndDate;
+
   private Long id;
   private Boolean visible;
 
@@ -44,7 +45,7 @@ public class ExBoardSaveReqVO extends AuditBase {
   // 다건 첨부 - 등록/수정용
   private List<MultipartFile> multipartAttachments = Collections.emptyList();
   // 다건 첨부 - 조회용
-  private List<ExBoardAttachment> attachments = Collections.emptyList();
+  private List<ExBoardSaveAttachRespVO> attachments = Collections.emptyList();
   // 다건 첨부 - 삭제용
   private List<Long> removeAttachmentIds = Collections.emptyList();
 

@@ -1,7 +1,7 @@
 package org.beizix.core.application.port.out.exboard;
 
-import org.beizix.core.application.domain.exboard.model.ExBoardAttachment;
+import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveAttachInput;
 
 public interface ExBoardAttachmentSavePortOut {
-  ExBoardAttachment connect(ExBoardAttachment exBoard);
+  ExBoardSaveAttachInput connect(ExBoardSaveAttachInput exBoard);
 }

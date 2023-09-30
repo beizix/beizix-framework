@@ -4,20 +4,16 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.beizix.core.application.domain.common.model.AuditBase;
-import org.beizix.core.application.domain.exboard.model.ExBoardAttachment;
 import org.beizix.core.application.domain.fileupload.model.FileUploadInfo;
 import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
@@ -39,7 +35,7 @@ public class ExBoardListOutput extends AuditBase {
   // 다건 첨부 - 등록/수정용
   private List<MultipartFile> multipartAttachments = Collections.emptyList();
   // 다건 첨부 - 조회용
-  private List<ExBoardAttachment> attachments = Collections.emptyList();
+  private List<ExBoardListAttachOutput> attachments = Collections.emptyList();
   // 다건 첨부 - 삭제용
   private List<Long> removeAttachmentIds = Collections.emptyList();
 

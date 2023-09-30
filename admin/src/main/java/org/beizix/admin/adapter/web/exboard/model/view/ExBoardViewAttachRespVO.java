@@ -1,20 +1,19 @@
-package org.beizix.core.application.domain.exboard.model;
+package org.beizix.admin.adapter.web.exboard.model.view;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.beizix.core.adapter.web.common.model.AuditVO;
 import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveInput;
 import org.beizix.core.application.domain.fileupload.model.FileUploadInfo;
 
-import javax.persistence.Embedded;
-
-@Data
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExBoardAttachment {
+public class ExBoardViewAttachRespVO extends AuditVO {
   private Long id;
-  @Embedded private FileUploadInfo fileUploadInfo;
+  private FileUploadInfo fileUploadInfo;
   private ExBoardSaveInput exBoard;
 }
