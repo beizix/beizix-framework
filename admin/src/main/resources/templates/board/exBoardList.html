@@ -11,9 +11,9 @@
     <input type="hidden" name="pageNumber"
            th:value="${listOutput.pageable.pageNumber}"/>
     <input type="hidden"
-           name="sortField" th:value="${listOutput.pageable.sortField}"/>
+           name="orderBy" th:value="${listOutput.pageable.orderBy}"/>
     <input type="hidden"
-           name="sortDirection" th:value="${listOutput.pageable.sortDirection}"/>
+           name="orderDir" th:value="${listOutput.pageable.orderDir}"/>
 
     <div class="row bg-secondary p-2 mb-2" style="--bs-bg-opacity: .2;">
       <div class="col-5">

@@ -13,36 +13,36 @@
   <script>
       /**
        * 목록 칼럼 Sorting 기능 적용
-       * @param {int} pagesize
+       * @param {int} pageSize
        * @param {string} sort
        */
-      function applyColumnOrdering(pagesize, curSortField, curSortDir) {
+      function applyColumnOrdering(pageSize, orderBy, orderDesc) {
 
           $('.orderable').each(function (i, el) {
-              var sortField = $(el).data('sort-field');
+              var _orderBy = $(el).data('sort-field');
 
               // 현재 sort 조건과 동일한 칼럼일 경우
-              if (sortField === curSortField) {
+              if (_orderBy === orderBy) {
 
-                  $(el).parent().append(curSortDir === 'DESC' ?
+                  $(el).parent().append(orderDesc === 'DESC' ?
                       $('<i class="bi bi-arrow-down-circle-fill ms-1"></i>') :
                       $('<i class="bi bi-arrow-up-circle-fill ms-1"></i>'));
 
                   $(el).click(function () {
-                      goPageable(0, pagesize, curSortField, (curSortDir === 'DESC' ? 'ASC' : 'DESC'));
+                      goPageable(0, pageSize, orderBy, (orderDesc === 'DESC' ? 'ASC' : 'DESC'));
                       return false;
                   });
                   $(el).css('color', 'black');
               } else {
                   $(el).click(function () {
-                      goPageable(0, pagesize, $(el).data('sort-field'), 'DESC');
+                      goPageable(0, pageSize, $(el).data('sort-field'), 'DESC');
                       return false;
                   });
               }
           });
       }
 
-      applyColumnOrdering([[${ items.pageable.pageSize }]], '[[${items.pageable.sortField}]]', '[[${items.pageable.sortDirection}]]');
+      applyColumnOrdering([[${items.pageable.pageSize}]], '[[${items.pageable.orderBy}]]', '[[${items.pageable.orderDir}]]');
   </script>
 </div>
 
@@ -59,18 +59,18 @@
       <ul class="pagination justify-content-center">
         <li class="page-item" th:classappend="${!items.pageable.hasPrevious} ? 'disabled'">
           <a class="page-link"
-             th:href="|javascript:goPageable(${items.pageable.pageNumber - 1}, ${items.pageable.pageSize}, '${items.pageable.sortField}', '${items.pageable.sortDirection})|">이전</a>
+             th:href="|javascript:goPageable(${items.pageable.pageNumber - 1}, ${items.pageable.pageSize}, '${items.pageable.orderBy}', '${items.pageable.orderDir})|">이전</a>
         </li>
         <li th:each="idx : ${#numbers.sequence(0, items.totalPages == 0 ? 0 :  items.totalPages - 1)}" class="page-item"
             th:classappend="${idx == items.pageable.pageNumber} ? 'disabled'">
           <a class="page-link"
-             th:href="|javascript:goPageable(${idx}, ${items.pageable.pageSize}, '${items.pageable.sortField}', '${items.pageable.sortDirection}')|"
+             th:href="|javascript:goPageable(${idx}, ${items.pageable.pageSize}, '${items.pageable.orderBy}', '${items.pageable.orderDir}')|"
              th:text="${idx+1}">페이지넘버</a>
         </li>
         <li class="page-item"
             th:classappend="${items.pageable.pageNumber == items.totalPages - 1 or items.totalPages == 0 or items.totalPages == 0} ? 'disabled'">
           <a class="page-link"
-             th:href="|javascript:goPageable(${items.pageable.pageNumber + 1}, ${items.pageable.pageSize}, '${items.pageable.sortField}', '${items.pageable.sortDirection})|">다음</a>
+             th:href="|javascript:goPageable(${items.pageable.pageNumber + 1}, ${items.pageable.pageSize}, '${items.pageable.orderBy}', '${items.pageable.orderDir})|">다음</a>
         </li>
       </ul>
     </nav>

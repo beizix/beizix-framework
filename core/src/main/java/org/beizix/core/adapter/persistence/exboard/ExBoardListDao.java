@@ -56,8 +56,8 @@ class ExBoardListDao implements ExBoardListPortOut {
             pageableBase.getPageNumber(),
             pageableBase.getPageSize(),
             Sort.by(
-                Direction.fromString(pageableBase.getSortDirection()),
-                pageableBase.getSortField()));
+                Direction.fromString(pageableBase.getOrderDir().name()),
+                pageableBase.getOrderBy()));
 
     Page<ExBoard> result = exBoardRepo.findAll(spec, pageRequest);
     Pageable pageable = result.getPageable();
@@ -69,8 +69,8 @@ class ExBoardListDao implements ExBoardListPortOut {
             pageable.hasPrevious(),
             pageable.getPageNumber(),
             pageable.getPageSize(),
-            pageableBase.getSortField(),
-            pageableBase.getSortDirection()),
+            pageableBase.getOrderBy(),
+            pageableBase.getOrderDir()),
         result.getContent().stream()
             .map(item -> modelMapper.map(item, ExBoardListItem.class))
             .collect(Collectors.toList()));

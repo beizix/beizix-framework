@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.beizix.core.config.enums.OrderDir;
 
 @Getter
 @Setter
@@ -13,8 +14,8 @@ public class PageableBase {
   private Boolean previous;
   private Integer pageNumber;
   private Integer pageSize;
-  private String sortField;
-  private String sortDirection;
+  private String orderBy;
+  private OrderDir orderDir;
 
   public Boolean hasPrevious() {
     return this.getPrevious();

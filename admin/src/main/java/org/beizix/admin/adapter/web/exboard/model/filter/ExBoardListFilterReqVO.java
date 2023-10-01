@@ -8,12 +8,8 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @AllArgsConstructor
-@Accessors(chain = true)
 public class ExBoardListFilterReqVO {
   private String searchField;
   private String searchValue;
   private String searchOpen;
-  private Integer page;
-  private Integer size;
-  private String sort;
 }

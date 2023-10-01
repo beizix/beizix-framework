@@ -3,6 +3,7 @@ package org.beizix.admin.adapter.web.exboard;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
 import org.beizix.admin.adapter.web.exboard.model.save.ExBoardSaveFormVO;
+import org.beizix.core.application.domain.common.model.PageableBase;
 import org.beizix.core.application.domain.exboard.model.view.ExBoardViewOutput;
 import org.beizix.core.application.port.in.exboard.ExBoardViewPortIn;
 import org.modelmapper.ModelMapper;
@@ -22,6 +23,7 @@ class ExBoardViewController {
   String operate(
       Model model,
       @PathVariable(required = false) Long id,
+      @ModelAttribute("pageable") PageableBase pageableBase,
       @ModelAttribute("filterReqVO") ExBoardListFilterReqVO filterReqVO) {
 
     ExBoardViewOutput viewOutput =

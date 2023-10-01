@@ -2,11 +2,12 @@ package org.beizix.admin.adapter.web.exboard;
 
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
+import org.beizix.admin.config.aop.PageDefault;
 import org.beizix.core.application.domain.common.model.PageableBase;
 import org.beizix.core.application.domain.exboard.model.filter.ExBoardListFilterInput;
 import org.beizix.core.application.domain.exboard.model.list.ExBoardListOutput;
 import org.beizix.core.application.port.in.exboard.ExBoardListPortIn;
-import org.modelmapper.ModelMapper;
+import org.beizix.core.config.enums.OrderDir;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,21 +17,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @RequiredArgsConstructor
 class ExBoardListController {
   private final ExBoardListPortIn exBoardListPortIn;
-  private final ModelMapper modelMapper;
 
   @GetMapping("/board/exampleBoard")
   String operate(
       Model model,
-      @ModelAttribute("pageable") PageableBase pageableBase,
+      @PageDefault(orderBy = "orderNo", orderDir = OrderDir.DESC) PageableBase pageableBase,
       @ModelAttribute("filterReqVO") ExBoardListFilterReqVO filterReqVO) {
-
-    if (pageableBase.getPageNumber() == null) {
-      pageableBase
-          .setPageNumber(0)
-          .setPageSize(10)
-          .setSortField("orderNo")
-          .setSortDirection("DESC");
-    }
 
     ExBoardListOutput listOutput =
         exBoardListPortIn.connect(

@@ -160,9 +160,10 @@
     <input type="hidden" th:field="*{searchField}">
     <input type="hidden" th:field="*{searchValue}">
     <input type="hidden" th:field="*{searchOpen}">
-    <input type="hidden" th:field="*{page}">
-    <input type="hidden" th:field="*{size}">
-    <input type="hidden" th:field="*{sort}">
+    <input type="hidden" name="pageNumber" th:value="${pageable.pageNumber}">
+    <input type="hidden" name="pageSize" th:value="${pageable.pageSize}">
+    <input type="hidden" name="orderBy" th:value="${pageable.orderBy}">
+    <input type="hidden" name="orderDir" th:value="${pageable.orderDir}">
   </form>
 
   <script>

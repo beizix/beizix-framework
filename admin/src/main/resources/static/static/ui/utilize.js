@@ -12,11 +12,11 @@ function goPageable(page, size, sort) {
   location.href = uri.toString();
 }
 
-function goPageable(page, size, sortField, sortDirection) {
+function goPageable(page, size, orderBy, orderDir) {
   let uri = new Uri(location.href);
   uri.replaceQueryParam('pageNumber', page).replaceQueryParam('pageSize', size)
-  .replaceQueryParam('sortField', sortField).replaceQueryParam('sortDirection',
-      sortDirection);
+  .replaceQueryParam('orderBy', orderBy).replaceQueryParam('orderDir',
+      orderDir);
 
   location.href = uri.toString();
 }
