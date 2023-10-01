@@ -29,9 +29,9 @@ class ExBoardListController {
       @ModelAttribute("paramDto") ExBoardListConditionDto paramDto) {
     paramDto.setSize(pageable.getPageSize());
 
-    model.addAttribute(
-        "items",
-        exBoardListPortIn.connect(pageable, modelMapper.map(paramDto, ExBoardListFilterInput.class)));
+//    model.addAttribute(
+//        "items",
+//        exBoardListPortIn.connect(pageable, modelMapper.map(paramDto, ExBoardListFilterInput.class)));
 
     return "board/exampleBoardList";
   }

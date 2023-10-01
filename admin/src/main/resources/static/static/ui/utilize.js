@@ -5,11 +5,20 @@
  * @param {string} sort
  */
 function goPageable(page, size, sort) {
-    let uri = new Uri(location.href);
-    uri.replaceQueryParam('page', page).replaceQueryParam('size', size)
-        .replaceQueryParam('sort', convertToPageableSortValue(sort));
+  let uri = new Uri(location.href);
+  uri.replaceQueryParam('page', page).replaceQueryParam('size', size)
+  .replaceQueryParam('sort', convertToPageableSortValue(sort));
 
-    location.href = uri.toString();
+  location.href = uri.toString();
+}
+
+function goPageable(page, size, sortField, sortDirection) {
+  let uri = new Uri(location.href);
+  uri.replaceQueryParam('pageNumber', page).replaceQueryParam('pageSize', size)
+  .replaceQueryParam('sortField', sortField).replaceQueryParam('sortDirection',
+      sortDirection);
+
+  location.href = uri.toString();
 }
 
 /**
@@ -19,11 +28,10 @@ function goPageable(page, size, sort) {
  * @returns {string}
  */
 function convertToPageableSortValue(sort) {
-    sort = sort.replace(',', ':');
-    const parsedSort = sort.split(':');
-    return parsedSort[0].trim() + ',' + parsedSort[1].trim();
+  sort = sort.replace(',', ':');
+  const parsedSort = sort.split(':');
+  return parsedSort[0].trim() + ',' + parsedSort[1].trim();
 }
-
 
 let utilize = {};
 
@@ -37,99 +45,105 @@ utilize.convertToPageableSortValue = convertToPageableSortValue;
  * @param isCrop
  */
 utilize.getPublicImageSrc = function (imagePath, imageFilename, isCrop) {
-    if (!imagePath) return "";
+  if (!imagePath) {
+    return "";
+  }
 
-    if (imagePath.indexOf("/static") === 0) {
-        return isCrop ? imagePath + '/crop/' + imageFilename : imagePath + '/' + imageFilename;
-    } else {
-        return isCrop ? '/public' + imagePath + '/crop/' + imageFilename : '/public' + imagePath + '/' + imageFilename;
-    }
+  if (imagePath.indexOf("/static") === 0) {
+    return isCrop ? imagePath + '/crop/' + imageFilename : imagePath + '/'
+        + imageFilename;
+  } else {
+    return isCrop ? '/public' + imagePath + '/crop/' + imageFilename : '/public'
+        + imagePath + '/' + imageFilename;
+  }
 }
 
 utilize.lineSeparatorToBr = function (contents) {
-    return contents.replaceAll('\r\n', '<br/>');
+  return contents.replaceAll('\r\n', '<br/>');
 }
 
 utilize.unescape = function (contents) {
-    let ret = contents.replace(/&gt;/g, '>');
-    ret = ret.replace(/&lt;/g, '<');
-    ret = ret.replace(/&quot;/g, '"');
-    ret = ret.replace(/&apos;/g, "'");
-    ret = ret.replace(/&amp;/g, '&');
-    return ret;
+  let ret = contents.replace(/&gt;/g, '>');
+  ret = ret.replace(/&lt;/g, '<');
+  ret = ret.replace(/&quot;/g, '"');
+  ret = ret.replace(/&apos;/g, "'");
+  ret = ret.replace(/&amp;/g, '&');
+  return ret;
 }
 
 utilize.sortable = function () {
-    let orderNoRange = [];
-    let idRange = [];
-    let updateData = [];
-    let updateFunc;
+  let orderNoRange = [];
+  let idRange = [];
+  let updateData = [];
+  let updateFunc;
 
-    function _init(parentSelector, handleSelector, conditionCheckFunc, initSortFunc, _updateFunc) {
-        $(parentSelector).sortable({
-            axis: 'y',
-            placeholder: 'ui-state-highlight',
-            handle: handleSelector,
-            start: function () {
-                if (!conditionCheckFunc()) {
-                    if (confirm('Sorting 을 하려면 우선 정렬번호 순으로 정렬되어야 합니다. 정렬 조건을 변경하시겠습니까?')) {
-                        initSortFunc();
-                    } else {
-                        location.reload();
-                    }
-                }
-            },
-            update: function (event, ui) {
-                _order(parentSelector);
-            }
-        });
-        updateFunc = _updateFunc;
-    }
-
-    function _order(parentSelector) {
-        orderNoRange = [];
-        idRange = [];
-        updateData = [];
-        let children = $(parentSelector).children();
-        children.each(function (idx, elem) {
-            orderNoRange.push($(elem).data('order-no'));
-            idRange.push($(elem).data('id'));
-        });
-        orderNoRange.sort(function (a, b) {
-            return b - a;
-        });
-        $(idRange).each(function (idx, id) {
-            updateData.push({'id': id, 'orderNo': orderNoRange[idx]});
-        });
-    }
-
-    function _update() {
-        if (!updateData || updateData.length === 0) {
-            alert('저장할 변경내역이 없습니다.');
-            return;
+  function _init(parentSelector, handleSelector, conditionCheckFunc,
+      initSortFunc, _updateFunc) {
+    $(parentSelector).sortable({
+      axis: 'y',
+      placeholder: 'ui-state-highlight',
+      handle: handleSelector,
+      start: function () {
+        if (!conditionCheckFunc()) {
+          if (confirm(
+              'Sorting 을 하려면 우선 정렬번호 순으로 정렬되어야 합니다. 정렬 조건을 변경하시겠습니까?')) {
+            initSortFunc();
+          } else {
+            location.reload();
+          }
         }
-        updateFunc(updateData);
-    }
+      },
+      update: function (event, ui) {
+        _order(parentSelector);
+      }
+    });
+    updateFunc = _updateFunc;
+  }
 
-    return {
-        init: _init,
-        update: _update
+  function _order(parentSelector) {
+    orderNoRange = [];
+    idRange = [];
+    updateData = [];
+    let children = $(parentSelector).children();
+    children.each(function (idx, elem) {
+      orderNoRange.push($(elem).data('order-no'));
+      idRange.push($(elem).data('id'));
+    });
+    orderNoRange.sort(function (a, b) {
+      return b - a;
+    });
+    $(idRange).each(function (idx, id) {
+      updateData.push({'id': id, 'orderNo': orderNoRange[idx]});
+    });
+  }
+
+  function _update() {
+    if (!updateData || updateData.length === 0) {
+      alert('저장할 변경내역이 없습니다.');
+      return;
     }
+    updateFunc(updateData);
+  }
+
+  return {
+    init: _init,
+    update: _update
+  }
 }();
 
 const unescapeText = (str) => {
-    str = str || '';
+  str = str || '';
 
-    str = str.replace(/&lt;/g, "<");
-    str = str.replace(/&gt;/g, ">");
-    str = str.replace(/&nbsp;/g, " ");
-    str = str.replace(/&quot;/g, "\"");
-    str = str.replace(/&apos;/g, "\'");
-    str = str.replace(/&#39;/g, "\'");
-    str = str.replace(/&rsquo;/g, "’");
-    str = str.replace(/&amp;/g, "&");
+  str = str.replace(/&lt;/g, "<");
+  str = str.replace(/&gt;/g, ">");
+  str = str.replace(/&nbsp;/g, " ");
+  str = str.replace(/&quot;/g, "\"");
+  str = str.replace(/&apos;/g, "\'");
+  str = str.replace(/&#39;/g, "\'");
+  str = str.replace(/&rsquo;/g, "’");
+  str = str.replace(/&amp;/g, "&");
 
-    return str;
+  return str;
 }
 
 /**
@@ -137,8 +151,8 @@ const unescapeText = (str) => {
  * - 'unescapeText' css class 를 가진 input 앨리먼트에 적용된다.
  */
 (function () {
-    document.querySelectorAll(".unescapeText").forEach(function (el) {
-        el.hasAttribute('value') ? el.value = unescapeText(el.value) : '';
-        //el.textContent ? el.textContent = unescapeText(el.textContent) : '';
-    })
+  document.querySelectorAll(".unescapeText").forEach(function (el) {
+    el.hasAttribute('value') ? el.value = unescapeText(el.value) : '';
+    //el.textContent ? el.textContent = unescapeText(el.textContent) : '';
+  })
 })();

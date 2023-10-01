@@ -2,14 +2,11 @@ package org.beizix.admin.adapter.web.exboard;
 
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
+import org.beizix.core.application.domain.common.model.PageableBase;
 import org.beizix.core.application.domain.exboard.model.filter.ExBoardListFilterInput;
 import org.beizix.core.application.domain.exboard.model.list.ExBoardListOutput;
 import org.beizix.core.application.port.in.exboard.ExBoardListPortIn;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,18 +21,26 @@ class ExBoardListController {
   @GetMapping("/board/exampleBoard")
   String operate(
       Model model,
-      @PageableDefault(sort = "orderNo", direction = Sort.Direction.DESC) Pageable pageable,
+      @ModelAttribute("pageable") PageableBase pageableBase,
       @ModelAttribute("filterReqVO") ExBoardListFilterReqVO filterReqVO) {
 
-    Page<ExBoardListOutput> pageableItems =
+    if (pageableBase.getPageNumber() == null) {
+      pageableBase
+          .setPageNumber(0)
+          .setPageSize(10)
+          .setSortField("orderNo")
+          .setSortDirection("DESC");
+    }
+
+    ExBoardListOutput listOutput =
         exBoardListPortIn.connect(
-            pageable,
+            pageableBase,
             new ExBoardListFilterInput(
                 filterReqVO.getSearchField(),
                 filterReqVO.getSearchValue(),
                 filterReqVO.getSearchOpen()));
 
-    model.addAttribute("pageableItems", pageableItems);
+    model.addAttribute("listOutput", listOutput);
 
     // title, seo 속성 변경 예제
     //    URI currentURI = (URI) request.getAttribute("currentURI");
