@@ -1,13 +1,14 @@
 package org.beizix.admin.adapter.web.exboard;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
+import org.apache.commons.collections4.CollectionUtils;
+import org.beizix.admin.adapter.web.exboard.model.remove.ExBoardRemoveReqVO;
 import org.beizix.core.application.port.in.exboard.ExBoardRemovePortIn;
 import org.beizix.utility.common.MessageUtil;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
@@ -16,11 +17,10 @@ class ExBoardRemoveController {
   private final MessageUtil messageUtil;
 
   @PostMapping(path = "/board/exampleBoard/delete")
-  String operate(
-      RedirectAttributes redirectAttributes, @ModelAttribute("paramDto") ExBoardListFilterReqVO paramDto) {
+  String operate(RedirectAttributes redirectAttributes, ExBoardRemoveReqVO removeReqVO) {
 
-    if (paramDto.getSelectedItemIds() != null && paramDto.getSelectedItemIds().size() > 0) {
-      exBoardRemovePortIn.connect(paramDto.getSelectedItemIds());
+    if (CollectionUtils.isNotEmpty(removeReqVO.getSelectedItemIds())) {
+      exBoardRemovePortIn.connect(removeReqVO.getSelectedItemIds());
       redirectAttributes.addFlashAttribute(
           "operationMessage", messageUtil.getMessage("operation.board.exampleBoard.removed"));
     }

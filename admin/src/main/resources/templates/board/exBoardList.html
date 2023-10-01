@@ -9,9 +9,9 @@
 
     <!-- hidden parameters -->
     <input type="hidden" name="page"
-           th:value="${items.pageable.pageNumber}"/>
+           th:value="${pageableItems.pageable.pageNumber}"/>
     <input type="hidden"
-           name="sort" th:value="${items.pageable.sort}"/>
+           name="sort" th:value="${pageableItems.pageable.sort}"/>
 
     <div class="row bg-secondary p-2 mb-2" style="--bs-bg-opacity: .2;">
       <div class="col-5">
@@ -48,18 +48,19 @@
     <div class="row">
       <div class="col text-start">
         <div class="fw-bolder text-muted">
-          Total: <span th:text="${items.totalElements}"></span>
+          Total: <span th:text="${pageableItems.totalElements}"></span>
         </div>
       </div>
       <div class="col text-end">
         <i class="bi bi-list-ol"></i> <label>
         <select
-              class="form-select form-select-sm" th:field="*{size}"
-              onchange="goSearch()">
-        <option
-                th:each="item : ${@uiCodeListService.connect('code.pageable.rows')}"
-                th:value="${item.codeValue}" th:text="${item.codeText}"></option>
-      </select>
+            class="form-select form-select-sm" name="size" id="size"
+            onchange="goSearch()">
+          <option
+              th:each="item : ${@uiCodeListService.connect('code.pageable.rows')}"
+              th:value="${item.codeValue}" th:text="${item.codeText}"
+              th:selected="${#strings.toString(pageableItems.pageable.pageSize) eq item.codeValue}"></option>
+        </select>
       </label>
       </div>
     </div>
@@ -90,18 +91,19 @@
       </tr>
       </thead>
       <tbody class="sortable">
-      <tr th:each="item, status : ${items}" th:data-order-no="${item.orderNo}" th:data-id="${item.id}">
+      <tr th:each="item, status : ${pageableItems}" th:data-order-no="${item.orderNo}"
+          th:data-id="${item.id}">
         <th
-                th:text="${status.count + (items.pageable.pageNumber * items.pageable.pageSize)}"
-                scope="row">게시물번호
+            th:text="${status.count + (pageableItems.pageable.pageNumber * pageableItems.pageable.pageSize)}"
+            scope="row">게시물번호
         </th>
         <td><label>
           <input class="form-check-input"
                  name="selectedItemIds" type="checkbox" th:value="${item.id}"/></label></td>
         <td><img
-                th:src="${@fileUrlService.connect('INLINE', item.representImage)}"
-                style="width: 25px;"
-                class="img-thumbnail" onerror="this.src='/static/ui/img/default-img.jpg'"/></td>
+            th:src="${@fileUrlService.connect('INLINE', item.representImage)}"
+            style="width: 25px;"
+            class="img-thumbnail" onerror="this.src='/static/ui/img/default-img.jpg'"/></td>
         <td><a th:href="|javascript:goUpdate('${item.id}')|"
                th:utext="${item.title}">Title</a></td>
         <td class="text-secondary">
@@ -109,24 +111,25 @@
           <i th:if="${!item.visible}" class="bi bi-slash-circle"></i>
         </td>
         <td
-                th:text="${#temporals.format(item.boardStartDate, 'yyyy-MM-dd HH:mm')}">게시일
+            th:text="${#temporals.format(item.boardStartDate, 'yyyy-MM-dd HH:mm')}">게시일
         </td>
         <td
-                th:text="${#temporals.format(item.boardEndDate, 'yyyy-MM-dd HH:mm')}">종료일
+            th:text="${#temporals.format(item.boardEndDate, 'yyyy-MM-dd HH:mm')}">종료일
         </td>
         <td th:text="${item.createdBy}"></td>
         <td
-                th:text="${#temporals.format(item.updatedAt, 'yyyy-MM-dd HH:mm')}">수정일
+            th:text="${#temporals.format(item.updatedAt, 'yyyy-MM-dd HH:mm')}">수정일
         </td>
-        <td class="text-center">[[${item.orderNo ?: 0}]] <i class="bi bi-distribute-vertical handle float-end fw-bold"
-                                                            style="cursor: move"></i></td>
+        <td class="text-center">[[${item.orderNo ?: 0}]] <i
+            class="bi bi-distribute-vertical handle float-end fw-bold"
+            style="cursor: move"></i></td>
       </tr>
       </tbody>
     </table>
 
   </form>
 
-  <div th:replace="common/list-components :: pagination(${items})"></div>
+  <div th:replace="common/list-components :: pagination(${pageableItems})"></div>
 
   <div class="row">
     <div class="col text-start">
@@ -137,114 +140,115 @@
               onclick="goSave();">등록
       </button>
       <button type="button" class="btn btn-danger" onclick="goRemove();">삭제</button>
-      <button type="button" class="btn btn-secondary" onclick="utilize.sortable.update();">정렬 변경</button>
+      <button type="button" class="btn btn-secondary" onclick="utilize.sortable.update();">정렬 변경
+      </button>
     </div>
   </div>
 
-  <div th:replace="common/list-components :: listColumnOrder(${items})"></div>
+  <div th:replace="common/list-components :: listColumnOrder(${pageableItems})"></div>
 
   <script th:inline="javascript">
-      // 검색
-      function goSearch() {
-          const f = document.paramForm;
-          f.action = '/board/exampleBoard';
-          f.page.value = 0;
-          f.sort.value = convertToPageableSortValue(f.sort.value);
-          f.method = 'get';
-          f.submit();
+    // 검색
+    function goSearch() {
+      const f = document.paramForm;
+      f.action = '/board/exampleBoard';
+      f.page.value = 0;
+      f.sort.value = convertToPageableSortValue(f.sort.value);
+      f.method = 'get';
+      f.submit();
+    }
+
+    // 초기화
+    function goInit() {
+      const f = document.paramForm;
+      f.searchField.value = '';
+      f.searchValue.value = '';
+      f.searchOpen.value = '';
+    }
+
+    // 저장페이지 이동
+    function goSave() {
+      location.href = '/board/exampleBoard/create';
+    }
+
+    // 수정페이지 이동
+    function goUpdate(itemId) {
+      const f = document.paramForm;
+      f.sort.value = convertToPageableSortValue(f.sort.value);
+      f.action = '/board/exampleBoard/update/' + itemId;
+      f.method = 'get';
+      f.submit();
+    }
+
+    function goExcel() {
+      const f = document.paramForm;
+      f.sort.value = convertToPageableSortValue(f.sort.value);
+      f.action = '/board/exampleBoard/excel';
+      f.method = 'get';
+      f.submit();
+    }
+
+    // 체크박스 선택/해제
+    function toggleCheckbox(oj) {
+      $('input[name=selectedItemIds]').prop("checked", oj.checked);
+    }
+
+    function goRemove() {
+      if (!$('input[name=selectedItemIds]').is(':checked')) {
+        alert(/*[[#{operation.common.remove.choose}]]*/);
+        return;
       }
 
-      // 초기화
-      function goInit() {
-          const f = document.paramForm;
-          f.searchField.value = '';
-          f.searchValue.value = '';
-          f.searchOpen.value = '';
+      if (confirm(/*[[#{operation.common.remove.ask}]]*/)) {
+        const f = document.paramForm;
+        f.action = '/board/exampleBoard/delete';
+        f.method = 'post';
+        f.submit();
       }
+    }
 
-      // 저장페이지 이동
-      function goSave() {
-          location.href = '/board/exampleBoard/create';
-      }
-
-      // 수정페이지 이동
-      function goUpdate(itemId) {
-          const f = document.paramForm;
-          f.sort.value = convertToPageableSortValue(f.sort.value);
-          f.action = '/board/exampleBoard/update/' + itemId;
-          f.method = 'get';
-          f.submit();
-      }
-
-      function goExcel() {
-          const f = document.paramForm;
-          f.sort.value = convertToPageableSortValue(f.sort.value);
-          f.action = '/board/exampleBoard/excel';
-          f.method = 'get';
-          f.submit();
-      }
-
-      // 체크박스 선택/해제
-      function toggleCheckbox(oj) {
-          $('input[name=selectedItemIds]').prop("checked", oj.checked);
-      }
-
-      function goRemove() {
-          if (!$('input[name=selectedItemIds]').is(':checked')) {
-              alert(/*[[#{operation.common.remove.choose}]]*/);
-              return;
-          }
-
-          if (confirm(/*[[#{operation.common.remove.ask}]]*/)) {
-              const f = document.paramForm;
-              f.action = '/board/exampleBoard/delete';
-              f.method = 'post';
-              f.submit();
-          }
-      }
-
-      // 정렬
-      $(function () {
-          utilize.sortable.init(
-              '.sortable',
-              '.handle',
-              function getCurrentSortValue() {
-                  return $('input[name=sort]').val() === 'orderNo: DESC'
+    // 정렬
+    $(function () {
+      utilize.sortable.init(
+          '.sortable',
+          '.handle',
+          function getCurrentSortValue() {
+            return $('input[name=sort]').val() === 'orderNo: DESC'
+          },
+          function initSortValue() {
+            goPageable(0, $('select[name=size]').val(), 'orderNo: DESC');
+          },
+          function updateFunc(updateData) {
+            $.ajax({
+              type: 'POST',
+              url: '/api/exBoard/update/orderNo',
+              data: JSON.stringify(updateData),
+              contentType: "application/json; charset=utf-8;",
+              dataType: "json",
+              beforeSend: function (xhr) {
+                // csrf 토큰
+                xhr.setRequestHeader(
+                    $("meta[name='_csrf_header']").attr("content"),
+                    $("meta[name='_csrf']").attr("content"));
               },
-              function initSortValue() {
-                  goPageable(0, $('select[name=size]').val(), 'orderNo: DESC');
+              success: function (response) {
+                alert(response.message);
+                location.reload();
               },
-              function updateFunc(updateData) {
-                  $.ajax({
-                      type: 'POST',
-                      url: '/api/exBoard/update/orderNo',
-                      data: JSON.stringify(updateData),
-                      contentType: "application/json; charset=utf-8;",
-                      dataType: "json",
-                      beforeSend: function (xhr) {
-                          // csrf 토큰
-                          xhr.setRequestHeader(
-                              $("meta[name='_csrf_header']").attr("content"),
-                              $("meta[name='_csrf']").attr("content"));
-                      },
-                      success: function (response) {
-                          alert(response.message);
-                          location.reload();
-                      },
-                      statusCode: {
-                          // error
-                          400: function (response) {
-                              const resJson = response.responseJSON;
-                              alert(resJson.message);
-                          },
-                          // validation fail
-                          422: function (response) {
-                          }
-                      }
-                  })
+              statusCode: {
+                // error
+                400: function (response) {
+                  const resJson = response.responseJSON;
+                  alert(resJson.message);
+                },
+                // validation fail
+                422: function (response) {
+                }
               }
-          );
-      })
+            })
+          }
+      );
+    })
   </script>
 </section>
 

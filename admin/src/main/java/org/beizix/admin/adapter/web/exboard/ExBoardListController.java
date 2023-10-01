@@ -27,13 +27,15 @@ class ExBoardListController {
       @PageableDefault(sort = "orderNo", direction = Sort.Direction.DESC) Pageable pageable,
       @ModelAttribute("filterReqVO") ExBoardListFilterReqVO filterReqVO) {
 
-    filterReqVO.setSize(pageable.getPageSize());
-
-    Page<ExBoardListOutput> items =
+    Page<ExBoardListOutput> pageableItems =
         exBoardListPortIn.connect(
-            pageable, modelMapper.map(filterReqVO, ExBoardListFilterInput.class));
+            pageable,
+            new ExBoardListFilterInput(
+                filterReqVO.getSearchField(),
+                filterReqVO.getSearchValue(),
+                filterReqVO.getSearchOpen()));
 
-    model.addAttribute("items", items);
+    model.addAttribute("pageableItems", pageableItems);
 
     // title, seo 속성 변경 예제
     //    URI currentURI = (URI) request.getAttribute("currentURI");
