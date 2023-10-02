@@ -27,7 +27,7 @@ class ExBoardViewController {
       @ModelAttribute("filterReqVO") ExBoardListFilterReqVO filterReqVO) {
 
     ExBoardViewOutput viewOutput =
-        id != null ? exBoardViewPortIn.operate(id) : new ExBoardViewOutput();
+        id != null ? exBoardViewPortIn.connect(id) : new ExBoardViewOutput();
 
     model.addAttribute("formVO", modelMapper.map(viewOutput, ExBoardSaveFormVO.class));
 

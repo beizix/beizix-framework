@@ -1,6 +1,7 @@
 package org.beizix.admin.adapter.web.exboard;
 
 import java.io.IOException;
+import java.util.Optional;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
@@ -8,6 +9,7 @@ import org.beizix.admin.adapter.web.exboard.model.save.ExBoardSaveFormVO;
 import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveInput;
 import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveOutput;
 import org.beizix.core.application.port.in.exboard.ExBoardSavePortIn;
+import org.beizix.core.application.port.in.exboard.ExBoardViewPortIn;
 import org.beizix.core.config.exception.UnAcceptableFileException;
 import org.beizix.utility.common.MessageUtil;
 import org.modelmapper.ModelMapper;
@@ -23,6 +25,7 @@ class ExBoardSaveController {
   private final ExBoardSavePortIn exBoardSavePortIn;
   private final ModelMapper modelMapper;
   private final MessageUtil messageUtil;
+  private final ExBoardViewPortIn exBoardViewPortIn;
 
   @PostMapping(path = {"/board/exampleBoard/create", "/board/exampleBoard/update/{id}"})
   String operate(
@@ -36,9 +39,25 @@ class ExBoardSaveController {
       return "board/exBoardForm";
     }
 
+    ExBoardSaveInput saveInput = modelMapper.map(saveReqVO, ExBoardSaveInput.class);
+
+    // 수정일 경우, 대표 이미지와 비공개 첨부 정보는 전달받지 않기에 기존 저장된 정보를 조회해서 가져온다.
+    if (saveReqVO.getId() != null) {
+      Optional.of(exBoardViewPortIn.connect(saveReqVO.getId()))
+          .ifPresent(
+              viewOutput -> {
+                saveInput.setRepresentImage(viewOutput.getRepresentImage());
+                saveInput.setPrivateAttachment(viewOutput.getPrivateAttachment());
+              });
+    }
+
     try {
       ExBoardSaveOutput createdItem =
-          exBoardSavePortIn.connect(modelMapper.map(saveReqVO, ExBoardSaveInput.class));
+          exBoardSavePortIn.connect(
+              saveInput,
+              saveReqVO.getRepresentImgFile(),
+              saveReqVO.getMultipartPrivateAttachment(),
+              saveReqVO.getMultipartAttachments());
 
       redirectAttributes.addFlashAttribute(
           "operationMessage",

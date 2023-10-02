@@ -15,7 +15,7 @@ class ExBoardViewService implements ExBoardViewPortIn {
   private final MessageUtil messageUtil;
 
   @Override
-  public ExBoardViewOutput operate(Long id) {
+  public ExBoardViewOutput connect(Long id) {
     return exBoardViewPortOut
         .connect(id)
         .orElseThrow(

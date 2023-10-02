@@ -1,6 +1,7 @@
 package org.beizix.core.application.domain.exboard;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -28,19 +29,24 @@ class ExBoardSaveService implements ExBoardSavePortIn {
 
   @Override
   @Transactional
-  public ExBoardSaveOutput connect(ExBoardSaveInput saveInput) throws IOException {
+  public ExBoardSaveOutput connect(
+      ExBoardSaveInput saveInput,
+      MultipartFile representImgFile,
+      MultipartFile privateAttachment,
+      List<MultipartFile> publicAttachments)
+      throws IOException {
     // 정렬 순서 지정하기
     saveInput.setOrderNo(
         Optional.ofNullable(saveInput.getOrderNo()).orElse(exBoardNextOrderNoPortOut.connect()));
 
     // 대표 이미지 파일 저장
     fileUploadPortIn
-        .connect(FileUploadType.EXAMPLE_REP, saveInput.getRepresentImgFile())
+        .connect(FileUploadType.EXAMPLE_REP, representImgFile)
         .ifPresent(saveInput::setRepresentImage);
 
     // 외부 비공개 파일 저장
     fileUploadPortIn
-        .connect(FileUploadType.EXAMPLE_PRIVATE, saveInput.getMultipartPrivateAttachment())
+        .connect(FileUploadType.EXAMPLE_PRIVATE, privateAttachment)
         .ifPresent(saveInput::setPrivateAttachment);
 
     // 삭제해야 할 다건 첨부 파일 정보가 있다면 삭제
@@ -50,7 +56,7 @@ class ExBoardSaveService implements ExBoardSavePortIn {
     ExBoardSaveOutput operateItem = exBoardSavePortOut.connect(saveInput);
 
     // 다건 첨부파일 저장
-    for (MultipartFile attachment : saveInput.getMultipartAttachments()) {
+    for (MultipartFile attachment : publicAttachments) {
       exBoardAttachmentSavePortOut.connect(
           new ExBoardSaveAttachInput()
               .setExBoard(operateItem)

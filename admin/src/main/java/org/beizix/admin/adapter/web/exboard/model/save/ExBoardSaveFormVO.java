@@ -54,9 +54,6 @@ public class ExBoardSaveFormVO extends AuditVO {
   // Private 첨부 - 조회용
   private FileUploadOutput privateAttachment;
 
-  // 비공개 파일 목록
-  private List<MultipartFile> privateFiles = Collections.emptyList();
-
   // 삭제할 파일 seq 목록
   private List<Long> removePrivateFileSeq;
 
