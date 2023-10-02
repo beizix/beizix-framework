@@ -59,7 +59,7 @@
       <ul class="pagination justify-content-center">
         <li class="page-item" th:classappend="${!items.pageable.hasPrevious} ? 'disabled'">
           <a class="page-link"
-             th:href="|javascript:goPageable(${items.pageable.pageNumber - 1}, ${items.pageable.pageSize}, '${items.pageable.orderBy}', '${items.pageable.orderDir})|">이전</a>
+             th:href="|javascript:goPageable(${items.pageable.pageNumber - 1}, ${items.pageable.pageSize}, '${items.pageable.orderBy}', '${items.pageable.orderDir}')|">이전</a>
         </li>
         <li th:each="idx : ${#numbers.sequence(0, items.totalPages == 0 ? 0 :  items.totalPages - 1)}" class="page-item"
             th:classappend="${idx == items.pageable.pageNumber} ? 'disabled'">
@@ -70,7 +70,7 @@
         <li class="page-item"
             th:classappend="${items.pageable.pageNumber == items.totalPages - 1 or items.totalPages == 0 or items.totalPages == 0} ? 'disabled'">
           <a class="page-link"
-             th:href="|javascript:goPageable(${items.pageable.pageNumber + 1}, ${items.pageable.pageSize}, '${items.pageable.orderBy}', '${items.pageable.orderDir})|">다음</a>
+             th:href="|javascript:goPageable(${items.pageable.pageNumber + 1}, ${items.pageable.pageSize}, '${items.pageable.orderBy}', '${items.pageable.orderDir}')|">다음</a>
         </li>
       </ul>
     </nav>

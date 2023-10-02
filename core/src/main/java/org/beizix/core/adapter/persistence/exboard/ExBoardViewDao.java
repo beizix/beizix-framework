@@ -1,6 +1,7 @@
 package org.beizix.core.adapter.persistence.exboard;
 
 import java.util.Optional;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.beizix.core.adapter.persistence.exboard.model.ExBoard;
 import org.beizix.core.adapter.persistence.exboard.repository.ExBoardRepo;

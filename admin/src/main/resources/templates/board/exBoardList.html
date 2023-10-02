@@ -215,10 +215,11 @@
           '.sortable',
           '.handle',
           function getCurrentSortValue() {
-            return $('input[name=sort]').val() === 'orderNo: DESC'
+            return $('input[name=orderBy]').val() === 'orderNo' && $('input[name=orderDir]').val()
+                === 'DESC'
           },
           function initSortValue() {
-            goPageable(0, $('select[name=size]').val(), 'orderNo: DESC');
+            goPageable(0, $('select[name=pageSize]').val(), 'orderNo', 'DESC');
           },
           function updateFunc(updateData) {
             $.ajax({

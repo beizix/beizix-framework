@@ -4,10 +4,10 @@
 
 <section layout:fragment="content">
   <form
-          th:action="${formVO.id != null ? '/board/exampleBoard/update/' + formVO.id : '/board/exampleBoard/create'}"
-          method="post"
-          enctype="multipart/form-data" class="fw-bold" name="updateForm"
-          th:object="${formVO}">
+      th:action="${formVO.id != null ? '/board/exampleBoard/update/' + formVO.id : '/board/exampleBoard/create'}"
+      method="post"
+      enctype="multipart/form-data" class="fw-bold" name="updateForm"
+      th:object="${formVO}">
     <input type="hidden" th:field="*{id}"/>
     <input type="hidden" th:field="*{orderNo}"/>
 
@@ -106,7 +106,7 @@
                class="text-decoration-none"></a>
             <a href="javascript:void(0);" onclick="removeFile(this);" data-posting-type='public'
                th:attr="data-del-file-seq=${item.id}"><i
-                    class="bi bi-file-excel"></i></a>
+                class="bi bi-file-excel"></i></a>
             <a href="javascript:void(0);" onclick="cancelRemove(this);" data-posting-type='public'
                style="display: none;"
                th:attr="data-cancel-file-seq=${item.id}"
@@ -143,7 +143,8 @@
                name="multipartPrivateAttachment"
                th:classappend="${#fields.hasErrors('multipartPrivateAttachment')} ? 'is-invalid'"
                id="filePrivate">
-        <div class="invalid-feedback fw-bold" th:if="${#fields.hasErrors('multipartPrivateAttachment')}"
+        <div class="invalid-feedback fw-bold"
+             th:if="${#fields.hasErrors('multipartPrivateAttachment')}"
              th:errors="*{multipartPrivateAttachment}">
           에러 메세지
         </div>
@@ -160,65 +161,68 @@
     <input type="hidden" th:field="*{searchField}">
     <input type="hidden" th:field="*{searchValue}">
     <input type="hidden" th:field="*{searchOpen}">
-    <input type="hidden" name="pageNumber" th:value="${pageable.pageNumber}">
-    <input type="hidden" name="pageSize" th:value="${pageable.pageSize}">
-    <input type="hidden" name="orderBy" th:value="${pageable.orderBy}">
-    <input type="hidden" name="orderDir" th:value="${pageable.orderDir}">
+    <th:block th:if="${pageable != null}">
+      <input type="hidden" name="pageNumber" th:value="${pageable.pageNumber}">
+      <input type="hidden" name="pageSize" th:value="${pageable.pageSize}">
+      <input type="hidden" name="orderBy" th:value="${pageable.orderBy}">
+      <input type="hidden" name="orderDir" th:value="${pageable.orderDir}">
+    </th:block>
   </form>
 
   <script>
-      function gotoList() {
-          document.prevParamForm ? document.prevParamForm.submit()
-              : location.href = '/board/exampleBoard';
+    function gotoList() {
+      document.prevParamForm ? document.prevParamForm.submit()
+          : location.href = '/board/exampleBoard';
+    }
+
+    function removeFile(oj) {
+      const fileSeq = $(oj).data('del-file-seq');
+      const postingType = $(oj).attr('data-posting-type');
+      const el = $('a[data-file-seq=' + fileSeq + '][data-posting-type=' + postingType + ']');
+      el.addClass('text-decoration-line-through');
+      $(oj).hide();
+
+      const cancelEl = $(
+          'a[data-cancel-file-seq=' + fileSeq + '][data-posting-type=' + postingType + ']');
+      cancelEl.show();
+
+      const f = document.updateForm;
+      let input = $('<input type="hidden">');
+      input.attr('name', 'removeAttachmentIds');
+      input.val(fileSeq);
+      input.attr('id', 'del_' + postingType + '_' + fileSeq);
+      $(f).append(input);
+    }
+
+    function cancelRemove(oj) {
+      const fileSeq = $(oj).data('cancel-file-seq');
+      const postingType = $(oj).attr('data-posting-type');
+      const el = $('a[data-file-seq=' + fileSeq + '][data-posting-type=' + postingType + ']');
+      el.removeClass('text-decoration-line-through');
+
+      $('#del_' + postingType + '_' + fileSeq).remove();
+
+      $('a[data-del-file-seq=' + fileSeq + '][data-posting-type=' + postingType + ']').show();
+
+      $(oj).hide();
+    }
+
+    function addFileInput(type) {
+      let tmpl = $.templates('#fileInputTmpl');
+      switch (type) {
+        case 'public':
+          $('.publicFileInputs').append(tmpl.render({'name': 'multipartAttachments'}));
+          break;
+        case 'private':
+          $('.privateFileInputs').append(tmpl.render({'name': 'privateFiles'}));
+          break;
       }
-
-      function removeFile(oj) {
-          const fileSeq = $(oj).data('del-file-seq');
-          const postingType = $(oj).attr('data-posting-type');
-          const el = $('a[data-file-seq=' + fileSeq + '][data-posting-type=' + postingType + ']');
-          el.addClass('text-decoration-line-through');
-          $(oj).hide();
-
-          const cancelEl = $(
-              'a[data-cancel-file-seq=' + fileSeq + '][data-posting-type=' + postingType + ']');
-          cancelEl.show();
-
-          const f = document.updateForm;
-          let input = $('<input type="hidden">');
-          input.attr('name', 'removeAttachmentIds');
-          input.val(fileSeq);
-          input.attr('id', 'del_' + postingType + '_' + fileSeq);
-          $(f).append(input);
-      }
-
-      function cancelRemove(oj) {
-          const fileSeq = $(oj).data('cancel-file-seq');
-          const postingType = $(oj).attr('data-posting-type');
-          const el = $('a[data-file-seq=' + fileSeq + '][data-posting-type=' + postingType + ']');
-          el.removeClass('text-decoration-line-through');
-
-          $('#del_' + postingType + '_' + fileSeq).remove();
-
-          $('a[data-del-file-seq=' + fileSeq + '][data-posting-type=' + postingType + ']').show();
-
-          $(oj).hide();
-      }
-
-      function addFileInput(type) {
-          let tmpl = $.templates('#fileInputTmpl');
-          switch (type) {
-              case 'public':
-                  $('.publicFileInputs').append(tmpl.render({'name': 'multipartAttachments'}));
-                  break;
-              case 'private':
-                  $('.privateFileInputs').append(tmpl.render({'name': 'privateFiles'}));
-                  break;
-          }
-      }
+    }
   </script>
 
   <script id="fileInputTmpl" type="text/x-jsrender">
 		<input class="form-control w-50 mb-2" type="file" name="{{:name}}"/>
+
 
 
   </script>
@@ -227,43 +231,43 @@
   <script src="/static/library/tinymce/6.0.3/tinymce.min.js" referrerpolicy="origin"></script>
   <script src="/static/ui/editorImageUpload.js"></script>
   <script th:inline="javascript">
-      tinymce.init({
-          selector: '#content',
-          plugins: 'preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons',
-          toolbar: 'undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
-          // toolbar_mode: 'floating',
-          // images_upload_url: '/editorImage/upload',
-          language: 'ko_KR',
-          images_upload_handler: editorImageUpload,
-          relative_urls: false,
-          height: 600,
-          quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
-          toolbar_mode: 'sliding',
-          skin: 'oxide-dark',
-          content_css: 'dark',
-          quickbars_insert_toolbar: '',
-          setup: function (editor) {
-              editor.on('init', function (e) {
-                  let content = [[${formVO.content}]];
-                  if (content) {
-                      tinymce.activeEditor.setContent(utilize.unescape(content));
-                  }
-              });
-          },
-          // Tinymce 는 HTML 입력 시 validation 이 동작되기에 필요에 따라 허용 옵션을 지정해줘야 한다.
-          // https://www.tiny.cloud/docs/tinymce/6/content-filtering/#valid_children
-          valid_children: '+a[div|span]',
-          // https://www.tiny.cloud/docs/tinymce/6/content-filtering/#extended_valid_elements
-          extended_valid_elements: '#span[*]',
-      });
+    tinymce.init({
+      selector: '#content',
+      plugins: 'preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons',
+      toolbar: 'undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
+      // toolbar_mode: 'floating',
+      // images_upload_url: '/editorImage/upload',
+      language: 'ko_KR',
+      images_upload_handler: editorImageUpload,
+      relative_urls: false,
+      height: 600,
+      quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
+      toolbar_mode: 'sliding',
+      skin: 'oxide-dark',
+      content_css: 'dark',
+      quickbars_insert_toolbar: '',
+      setup: function (editor) {
+        editor.on('init', function (e) {
+          let content = [[${formVO.content}]];
+          if (content) {
+            tinymce.activeEditor.setContent(utilize.unescape(content));
+          }
+        });
+      },
+      // Tinymce 는 HTML 입력 시 validation 이 동작되기에 필요에 따라 허용 옵션을 지정해줘야 한다.
+      // https://www.tiny.cloud/docs/tinymce/6/content-filtering/#valid_children
+      valid_children: '+a[div|span]',
+      // https://www.tiny.cloud/docs/tinymce/6/content-filtering/#extended_valid_elements
+      extended_valid_elements: '#span[*]',
+    });
 
-      // date time picker
-      $(".flatpickr").flatpickr({
-          enableTime: true,
-          dateFormat: "Y-m-d\\TH:i",
-          monthSelectorType: 'static',
-          time_24hr: true
-      });
+    // date time picker
+    $(".flatpickr").flatpickr({
+      enableTime: true,
+      dateFormat: "Y-m-d\\TH:i",
+      monthSelectorType: 'static',
+      time_24hr: true
+    });
   </script>
 </section>
 

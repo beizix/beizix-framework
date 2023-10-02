@@ -20,6 +20,9 @@ import org.beizix.core.adapter.persistence.common.model.FileUploadInfoEmbeddable
 @AllArgsConstructor
 @Table(name = "example_board")
 @org.hibernate.annotations.Table(appliesTo = "example_board", comment = "예제게시판 테이블")
+@NamedEntityGraph(
+    name = "eg_exboard_view",
+    attributeNodes = {@NamedAttributeNode(value = ExBoard_.ATTACHMENTS)})
 public class ExBoard extends AuditEntity {
   @Id
   @GeneratedValue
@@ -64,7 +67,7 @@ public class ExBoard extends AuditEntity {
   private FileUploadInfoEmbeddable privateAttachment;
 
   /** 첨부 파일: 다건 이기에 외부 엔티티로 1:N 관계를 맺는다. 공개여부 - public */
-  @OneToMany(mappedBy = "exBoard", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+  @OneToMany(mappedBy = "exBoard", cascade = CascadeType.REMOVE)
   @BatchSize(size = 100)
   @OrderBy("id asc")
   private Set<ExBoardAttachment> attachments;
