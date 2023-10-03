@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.exboard.model.save;
+package org.beizix.admin.adapter.web.exboard.model.update;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import org.beizix.core.application.domain.fileupload.model.FileUploadOutput;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExBoardSaveAttachFormVO extends AuditVO {
+public class ExBoardAttachmentVO extends AuditVO {
   private Long id;
   private FileUploadOutput fileUploadOutput;
   private ExBoardSaveInput exBoard;

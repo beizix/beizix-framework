@@ -134,7 +134,7 @@
       <div class="mb-3 privateFileInputs">
         <label for="filePrivate" class="form-label d-block">private 파일 첨부 (외부 비공개)</label>
         <div class="row mb-2">
-          <a th:if="${formVO.id != null and formVO.privateAttachment != null}"
+          <a th:if="${formVO.privateAttachment != null && formVO.privateAttachment.path != null}"
              th:href="${@fileUrlService.connect('ATTACHMENT', formVO.privateAttachment)}"
              th:text="${formVO.privateAttachment.originName}"
              class="text-decoration-none"></a>
@@ -222,43 +222,20 @@
 
   <script id="fileInputTmpl" type="text/x-jsrender">
 		<input class="form-control w-50 mb-2" type="file" name="{{:name}}"/>
-
-
-
   </script>
 
   <!-- web editor - tinymce -->
   <script src="/static/library/tinymce/6.0.3/tinymce.min.js" referrerpolicy="origin"></script>
   <script src="/static/ui/editorImageUpload.js"></script>
   <script th:inline="javascript">
-    tinymce.init({
-      selector: '#content',
-      plugins: 'preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons',
-      toolbar: 'undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
-      // toolbar_mode: 'floating',
-      // images_upload_url: '/editorImage/upload',
-      language: 'ko_KR',
-      images_upload_handler: editorImageUpload,
-      relative_urls: false,
-      height: 600,
-      quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
-      toolbar_mode: 'sliding',
-      skin: 'oxide-dark',
-      content_css: 'dark',
-      quickbars_insert_toolbar: '',
-      setup: function (editor) {
-        editor.on('init', function (e) {
-          let content = [[${formVO.content}]];
-          if (content) {
-            tinymce.activeEditor.setContent(utilize.unescape(content));
-          }
-        });
-      },
-      // Tinymce 는 HTML 입력 시 validation 이 동작되기에 필요에 따라 허용 옵션을 지정해줘야 한다.
-      // https://www.tiny.cloud/docs/tinymce/6/content-filtering/#valid_children
-      valid_children: '+a[div|span]',
-      // https://www.tiny.cloud/docs/tinymce/6/content-filtering/#extended_valid_elements
-      extended_valid_elements: '#span[*]',
+    // init tinymce editor
+    initEditor('#content', (editor) => {
+      editor.on('init', function () {
+        let content = [[${formVO.content}]];
+        if (content) {
+          tinymce.activeEditor.setContent(utilize.unescape(content));
+        }
+      });
     });
 
     // date time picker
