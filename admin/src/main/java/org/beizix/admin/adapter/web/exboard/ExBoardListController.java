@@ -17,12 +17,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @Controller
 @RequiredArgsConstructor
 class ExBoardListController {
-  private final ExBoardListPortIn exBoardListPortIn;
+  private final ExBoardListPortIn<ExBoardListOutput> exBoardListPortIn;
 
   @GetMapping("/board/exampleBoard")
   String operate(
       Model model,
-      @PageDefault(orderBy = ExBoard_.ORDER_NO, orderDir = OrderDir.DESC) PageableInput pageableInput,
+      @PageDefault(orderBy = ExBoard_.ORDER_NO, orderDir = OrderDir.DESC)
+          PageableInput pageableInput,
       @ModelAttribute("filterReqVO") ExBoardListFilterReqVO filterReqVO) {
 
     ExBoardListOutput listOutput =

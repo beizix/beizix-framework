@@ -6,12 +6,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
 import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
 import org.beizix.admin.adapter.web.exboard.model.update.ExBoardUpdateAttachVO;
 import org.beizix.admin.adapter.web.exboard.model.update.ExBoardUpdateReqVO;
 import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveAttachInput;
 import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveInput;
+import org.beizix.core.application.domain.exboard.model.view.ExBoardViewOutput;
 import org.beizix.core.application.port.in.exboard.ExBoardSavePortIn;
 import org.beizix.core.application.port.in.exboard.ExBoardViewPortIn;
 import org.beizix.core.config.exception.UnAcceptableFileException;
@@ -31,7 +31,7 @@ class ExBoardUpdatePostController {
   private final ExBoardSavePortIn exBoardSavePortIn;
   private final ModelMapper modelMapper;
   private final MessageUtil messageUtil;
-  private final ExBoardViewPortIn exBoardViewPortIn;
+  private final ExBoardViewPortIn<ExBoardViewOutput> exBoardViewPortIn;
 
   @PostMapping(path = {"/board/exampleBoard/update/{id}"})
   String operate(

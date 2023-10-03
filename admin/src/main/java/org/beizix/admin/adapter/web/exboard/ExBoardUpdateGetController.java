@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 @RequiredArgsConstructor
 class ExBoardUpdateGetController {
-  private final ExBoardViewPortIn exBoardViewPortIn;
+  private final ExBoardViewPortIn<ExBoardViewOutput> exBoardViewPortIn;
   private final ModelMapper modelMapper;
 
   @GetMapping(path = {"/board/exampleBoard/update/{id}"})

@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-class ExBoardViewService implements ExBoardViewPortIn {
-  private final ExBoardViewPortOut exBoardViewPortOut;
+class ExBoardViewService implements ExBoardViewPortIn<ExBoardViewOutput> {
+  private final ExBoardViewPortOut<ExBoardViewOutput> exBoardViewPortOut;
   private final MessageUtil messageUtil;
 
   @Override

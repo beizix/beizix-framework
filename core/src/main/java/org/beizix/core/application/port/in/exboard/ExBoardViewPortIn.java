@@ -1,7 +1,7 @@
 package org.beizix.core.application.port.in.exboard;
 
-import org.beizix.core.application.domain.exboard.model.view.ExBoardViewOutput;
+import org.beizix.core.application.domain.common.model.AuditOutput;
 
-public interface ExBoardViewPortIn {
-  ExBoardViewOutput connect(Long id);
+public interface ExBoardViewPortIn<T extends AuditOutput> {
+  T connect(Long id);
 }

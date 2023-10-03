@@ -8,17 +8,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.beizix.core.application.domain.common.model.AuditBase;
+import org.beizix.core.application.domain.common.model.AuditOutput;
 import org.beizix.core.application.domain.fileupload.model.FileUploadOutput;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class ExBoardViewOutput extends AuditBase {
+public class ExBoardViewOutput implements AuditOutput {
   private Long id;
   private String title;
   private String content;
@@ -34,4 +32,8 @@ public class ExBoardViewOutput extends AuditBase {
   // Private 다건 첨부 - 조회용
   private FileUploadOutput privateAttachment;
   private Integer orderNo;
+  private String createdBy;
+  private String updatedBy;
+  private LocalDateTime createdAt;
+  private LocalDateTime updatedAt;
 }

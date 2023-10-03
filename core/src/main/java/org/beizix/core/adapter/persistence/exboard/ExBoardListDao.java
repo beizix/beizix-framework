@@ -23,7 +23,7 @@ import org.thymeleaf.util.StringUtils;
 
 @Repository
 @RequiredArgsConstructor
-class ExBoardListDao implements ExBoardListPortOut {
+class ExBoardListDao implements ExBoardListPortOut<ExBoardListOutput> {
   private final ExBoardRepo exBoardRepo;
   private final ModelMapper modelMapper;
 
