@@ -14,5 +14,5 @@ import org.beizix.core.application.domain.common.model.PageableOutput;
 @Accessors(chain = true)
 public class ExBoardListOutput implements PageableListOutput {
   private PageableOutput pageable;
-  private List<ExBoardListItem> contents;
+  private List<ExBoardOutput> contents;
 }

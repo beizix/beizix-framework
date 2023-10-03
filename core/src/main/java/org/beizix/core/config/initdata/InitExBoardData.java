@@ -23,12 +23,18 @@ public class InitExBoardData implements ApplicationRunner {
         .forEach(
             idx ->
                 exBoardSavePortOut.connect(
-                    new ExBoardSaveInput()
-                        .setTitle(String.format("Title No.%s", idx))
-                        .setContent(String.format("Content No.%s", idx))
-                        .setVisible(true)
-                        .setBoardStartDate(LocalDateTime.now())
-                        .setBoardEndDate(LocalDateTime.now().plusMonths(2))
-                        .setOrderNo(idx)));
+                    new ExBoardSaveInput(
+                        null,
+                        String.format("Title No.%s", idx),
+                        String.format("Content No.%s", idx),
+                        true,
+                        LocalDateTime.now(),
+                        LocalDateTime.now().plusMonths(2),
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        idx)));
   }
 }

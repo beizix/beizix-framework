@@ -9,7 +9,6 @@ import org.beizix.core.config.enums.OrderDir;
 @Getter
 @Setter
 @AllArgsConstructor
-@Accessors(chain = true)
 public class PageableOutput {
   private Boolean previous;
   private Integer pageNumber;

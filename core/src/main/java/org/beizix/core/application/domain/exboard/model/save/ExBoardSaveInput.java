@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.beizix.core.application.domain.common.model.AuditBase;
 import org.beizix.core.application.domain.fileupload.model.FileUploadOutput;
 
 @Getter
@@ -16,7 +15,7 @@ import org.beizix.core.application.domain.fileupload.model.FileUploadOutput;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class ExBoardSaveInput extends AuditBase {
+public class ExBoardSaveInput {
   private Long id;
   private String title;
   private String content;
@@ -28,9 +27,9 @@ public class ExBoardSaveInput extends AuditBase {
   // 대표 이미지 - 대체 텍스트
   private String repImgAlt;
   // 다건 첨부 - 조회용
-  private List<ExBoardSaveAttachInput> attachments = Collections.emptyList();
+  private List<ExBoardSaveAttachInput> attachments;
   // 다건 첨부 - 삭제용
-  private List<Long> removeAttachmentIds = Collections.emptyList();
+  private List<Long> removeAttachmentIds;
   // Private 다건 첨부 - 조회용
   private FileUploadOutput privateAttachment;
   private Integer orderNo;

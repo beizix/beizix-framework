@@ -7,8 +7,9 @@ import org.beizix.core.adapter.persistence.exboard.repository.ExBoardRepo;
 import org.beizix.core.application.domain.common.model.PageableInput;
 import org.beizix.core.application.domain.common.model.PageableOutput;
 import org.beizix.core.application.domain.exboard.model.filter.ExBoardListFilterInput;
-import org.beizix.core.application.domain.exboard.model.list.ExBoardListItem;
 import org.beizix.core.application.domain.exboard.model.list.ExBoardListOutput;
+import org.beizix.core.application.domain.exboard.model.list.ExBoardOutput;
+import org.beizix.core.application.domain.fileupload.model.FileUploadOutput;
 import org.beizix.core.application.port.out.exboard.ExBoardListPortOut;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -73,7 +74,24 @@ class ExBoardListDao implements ExBoardListPortOut {
             result.getTotalElements(),
             result.getTotalPages()),
         result.getContent().stream()
-            .map(item -> modelMapper.map(item, ExBoardListItem.class))
+            .map(
+                item ->
+                    new ExBoardOutput(
+                        item.getId(),
+                        item.getTitle(),
+                        item.getContent(),
+                        item.getVisible(),
+                        item.getBoardStartDate(),
+                        item.getBoardEndDate(),
+                        item.getRepresentImage() != null
+                            ? modelMapper.map(item.getRepresentImage(), FileUploadOutput.class)
+                            : null,
+                        item.getRepImgAlt(),
+                        item.getOrderNo(),
+                        item.getCreatedBy(),
+                        item.getCreatedAt(),
+                        item.getUpdatedBy(),
+                        item.getUpdatedAt()))
             .collect(Collectors.toList()));
   }
 }

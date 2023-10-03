@@ -8,10 +8,8 @@ import org.beizix.admin.adapter.web.exboard.model.create.ExBoardCreateReqVO;
 import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
 import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveInput;
 import org.beizix.core.application.port.in.exboard.ExBoardSavePortIn;
-import org.beizix.core.application.port.in.exboard.ExBoardViewPortIn;
 import org.beizix.core.config.exception.UnAcceptableFileException;
 import org.beizix.utility.common.MessageUtil;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,9 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor
 class ExBoardCreatePostController {
   private final ExBoardSavePortIn exBoardSavePortIn;
-  private final ModelMapper modelMapper;
   private final MessageUtil messageUtil;
-  private final ExBoardViewPortIn exBoardViewPortIn;
 
   @PostMapping(path = {"/board/exampleBoard/create"})
   String operate(
@@ -46,7 +42,19 @@ class ExBoardCreatePostController {
 
     try {
       exBoardSavePortIn.connect(
-          modelMapper.map(createReqVO, ExBoardSaveInput.class),
+          new ExBoardSaveInput(
+              null,
+              createReqVO.getTitle(),
+              createReqVO.getContent(),
+              createReqVO.getVisible(),
+              createReqVO.getBoardStartDate(),
+              createReqVO.getBoardEndDate(),
+              null,
+              createReqVO.getRepImgAlt(),
+              null,
+              null,
+              null,
+              createReqVO.getOrderNo()),
           representImgFile,
           multipartPrivateAttachment,
           multipartAttachments);

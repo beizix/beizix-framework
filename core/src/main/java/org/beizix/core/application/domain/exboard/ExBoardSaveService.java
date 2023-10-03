@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveAttachInput;
 import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveInput;
 import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveOutput;
@@ -50,21 +51,23 @@ class ExBoardSaveService implements ExBoardSavePortIn {
         .ifPresent(saveInput::setPrivateAttachment);
 
     // 삭제해야 할 다건 첨부 파일 정보가 있다면 삭제
-    saveInput.getRemoveAttachmentIds().forEach(exBoardAttachmentRemovePortOut::connect);
+    if (CollectionUtils.isNotEmpty(saveInput.getRemoveAttachmentIds()))
+      saveInput.getRemoveAttachmentIds().forEach(exBoardAttachmentRemovePortOut::connect);
 
     // create/update 수행
     ExBoardSaveOutput operateItem = exBoardSavePortOut.connect(saveInput);
 
     // 다건 첨부파일 저장
-    for (MultipartFile attachment : publicAttachments) {
-      exBoardAttachmentSavePortOut.connect(
-          new ExBoardSaveAttachInput()
-              .setExBoard(operateItem)
-              .setFileUploadOutput(
-                  fileUploadPortIn
-                      .connect(FileUploadType.EXAMPLE_PUBLIC, attachment)
-                      .orElse(null)));
-    }
+    if (CollectionUtils.isNotEmpty(publicAttachments))
+      for (MultipartFile attachment : publicAttachments) {
+        exBoardAttachmentSavePortOut.connect(
+            new ExBoardSaveAttachInput()
+                .setExBoard(operateItem)
+                .setFileUploadOutput(
+                    fileUploadPortIn
+                        .connect(FileUploadType.EXAMPLE_PUBLIC, attachment)
+                        .orElse(null)));
+      }
 
     return operateItem;
   }

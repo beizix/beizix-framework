@@ -1,6 +1,7 @@
 package org.beizix.admin.adapter.web.exboard.model.update;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -36,8 +37,9 @@ public class ExBoardUpdateReqVO extends AuditBase {
   private LocalDateTime boardEndDate;
 
   private FileUploadOutput representImage; // 대표 이미지 - 조회정보
-  private List<ExBoardUpdateAttachVO> attachments; // 다건 첨부 조회정보
+  private List<ExBoardUpdateAttachVO> attachments = Collections.emptyList(); // 다건 첨부 조회정보
   private FileUploadOutput privateAttachment; // Private 첨부 - 조회정보
+  private List<Long> removeAttachmentIds;
 
   private String repImgAlt; // 대표 이미지 - 대체 텍스트
   private Integer orderNo;
