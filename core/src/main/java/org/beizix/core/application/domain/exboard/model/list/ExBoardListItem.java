@@ -24,9 +24,6 @@ public class ExBoardListItem extends AuditBase {
   private Boolean visible;
   private LocalDateTime boardStartDate;
   private LocalDateTime boardEndDate;
-
-  // 대표 이미지 - 저장/수정용
-  private MultipartFile representImgFile;
   // 대표 이미지 - 조회용
   private FileUploadOutput representImage;
   // 대표 이미지 - 대체 텍스트
@@ -35,6 +32,5 @@ public class ExBoardListItem extends AuditBase {
   private List<Long> removeAttachmentIds = Collections.emptyList();
   // Private 다건 첨부 - 조회용
   private FileUploadOutput privateAttachment;
-
   private Integer orderNo;
 }

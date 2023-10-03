@@ -1,7 +1,7 @@
 package org.beizix.core.application.domain.exboard;
 
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.application.domain.common.model.PageableBase;
+import org.beizix.core.application.domain.common.model.PageableInput;
 import org.beizix.core.application.domain.exboard.model.filter.ExBoardListFilterInput;
 import org.beizix.core.application.domain.exboard.model.list.ExBoardListOutput;
 import org.beizix.core.application.port.in.exboard.ExBoardListPortIn;
@@ -15,7 +15,7 @@ class ExBoardListService implements ExBoardListPortIn {
 
   @Override
   public ExBoardListOutput connect(
-      PageableBase pageable, ExBoardListFilterInput exBoardListFilterInput) {
+      PageableInput pageable, ExBoardListFilterInput exBoardListFilterInput) {
     return exBoardListPortOut.connect(pageable, exBoardListFilterInput);
   }
 }

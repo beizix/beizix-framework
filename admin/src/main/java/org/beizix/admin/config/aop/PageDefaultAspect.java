@@ -9,7 +9,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.beizix.core.application.domain.common.model.PageableBase;
+import org.beizix.core.application.domain.common.model.PageableInput;
 import org.springframework.stereotype.Component;
 
 @Aspect
@@ -22,8 +22,8 @@ public class PageDefaultAspect {
   public void operate1(JoinPoint joinPoint) {
 
     Arrays.stream(joinPoint.getArgs())
-        .filter(arg -> arg instanceof PageableBase)
-        .map(arg -> (PageableBase) arg)
+        .filter(arg -> arg instanceof PageableInput)
+        .map(arg -> (PageableInput) arg)
         .findFirst()
         .ifPresent(
             pageableBase -> {

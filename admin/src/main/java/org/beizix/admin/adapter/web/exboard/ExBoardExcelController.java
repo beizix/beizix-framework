@@ -10,7 +10,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
 import org.beizix.admin.config.aop.PageDefault;
-import org.beizix.core.application.domain.common.model.PageableBase;
+import org.beizix.core.application.domain.common.model.PageableInput;
 import org.beizix.core.application.domain.exboard.model.filter.ExBoardListFilterInput;
 import org.beizix.core.application.domain.exboard.model.list.ExBoardListOutput;
 import org.beizix.core.application.port.in.exboard.ExBoardListPortIn;
@@ -30,7 +30,7 @@ class ExBoardExcelController {
   @GetMapping("/board/exampleBoard/excel")
   public void excelDownload(
       HttpServletResponse response,
-      @PageDefault(orderBy = "orderNo", orderDir = OrderDir.DESC) PageableBase pageableBase,
+      @PageDefault(orderBy = "orderNo", orderDir = OrderDir.DESC) PageableInput pageableInput,
       ExBoardListFilterReqVO exBoardListFilterReqVO) {
 
     Workbook wb = new XSSFWorkbook();
@@ -38,7 +38,7 @@ class ExBoardExcelController {
 
     ExBoardListOutput listOutput =
         exBoardListPortIn.connect(
-            pageableBase,
+            pageableInput,
             new ExBoardListFilterInput(
                 exBoardListFilterReqVO.getSearchField(),
                 exBoardListFilterReqVO.getSearchValue(),

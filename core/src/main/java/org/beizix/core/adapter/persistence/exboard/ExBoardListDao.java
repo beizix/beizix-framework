@@ -4,7 +4,8 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.beizix.core.adapter.persistence.exboard.model.ExBoard;
 import org.beizix.core.adapter.persistence.exboard.repository.ExBoardRepo;
-import org.beizix.core.application.domain.common.model.PageableBase;
+import org.beizix.core.application.domain.common.model.PageableInput;
+import org.beizix.core.application.domain.common.model.PageableOutput;
 import org.beizix.core.application.domain.exboard.model.filter.ExBoardListFilterInput;
 import org.beizix.core.application.domain.exboard.model.list.ExBoardListItem;
 import org.beizix.core.application.domain.exboard.model.list.ExBoardListOutput;
@@ -27,7 +28,7 @@ class ExBoardListDao implements ExBoardListPortOut {
 
   @Override
   public ExBoardListOutput connect(
-      PageableBase pageableBase, ExBoardListFilterInput exBoardListFilterInput) {
+      PageableInput pageableInput, ExBoardListFilterInput exBoardListFilterInput) {
     // 검색조건 초기화
     Specification<ExBoard> spec = (root, query, criteriaBuilder) -> null;
 
@@ -53,24 +54,24 @@ class ExBoardListDao implements ExBoardListPortOut {
 
     PageRequest pageRequest =
         PageRequest.of(
-            pageableBase.getPageNumber(),
-            pageableBase.getPageSize(),
+            pageableInput.getPageNumber(),
+            pageableInput.getPageSize(),
             Sort.by(
-                Direction.fromString(pageableBase.getOrderDir().name()),
-                pageableBase.getOrderBy()));
+                Direction.fromString(pageableInput.getOrderDir().name()),
+                pageableInput.getOrderBy()));
 
     Page<ExBoard> result = exBoardRepo.findAll(spec, pageRequest);
     Pageable pageable = result.getPageable();
 
     return new ExBoardListOutput(
-        result.getTotalElements(),
-        result.getTotalPages(),
-        new PageableBase(
+        new PageableOutput(
             pageable.hasPrevious(),
             pageable.getPageNumber(),
             pageable.getPageSize(),
-            pageableBase.getOrderBy(),
-            pageableBase.getOrderDir()),
+            pageableInput.getOrderBy(),
+            pageableInput.getOrderDir(),
+            result.getTotalElements(),
+            result.getTotalPages()),
         result.getContent().stream()
             .map(item -> modelMapper.map(item, ExBoardListItem.class))
             .collect(Collectors.toList()));

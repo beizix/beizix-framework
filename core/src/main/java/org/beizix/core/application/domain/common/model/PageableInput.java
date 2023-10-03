@@ -10,14 +10,9 @@ import org.beizix.core.config.enums.OrderDir;
 @Setter
 @AllArgsConstructor
 @Accessors(chain = true)
-public class PageableBase {
-  private Boolean previous;
+public class PageableInput {
   private Integer pageNumber;
   private Integer pageSize;
   private String orderBy;
   private OrderDir orderDir;
-
-  public Boolean hasPrevious() {
-    return this.getPrevious();
-  }
 }

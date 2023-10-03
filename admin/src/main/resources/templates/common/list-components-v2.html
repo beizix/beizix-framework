@@ -9,7 +9,7 @@
 ██      ██      ██    ██             ██ ██    ██ ██   ██    ██    ██ ██  ██ ██ ██    ██
 ███████ ██ ███████    ██        ███████  ██████  ██   ██    ██    ██ ██   ████  ██████
 -->
-<div th:fragment="listColumnOrder(items)">
+<div th:fragment="listColumnOrder(pageable)">
   <script>
       /**
        * 목록 칼럼 Sorting 기능 적용
@@ -42,7 +42,7 @@
           });
       }
 
-      applyColumnOrdering([[${items.pageable.pageSize}]], '[[${items.pageable.orderBy}]]', '[[${items.pageable.orderDir}]]');
+      applyColumnOrdering([[${pageable.pageSize}]], '[[${pageable.orderBy}]]', '[[${pageable.orderDir}]]');
   </script>
 </div>
 
@@ -53,24 +53,24 @@
 ██      ██   ██ ██    ██ ██ ██  ██ ██ ██   ██    ██    ██ ██    ██ ██  ██ ██
 ██      ██   ██  ██████  ██ ██   ████ ██   ██    ██    ██  ██████  ██   ████
 -->
-<div th:fragment="pagination(items)">
+<div th:fragment="pagination(pageable)">
   <div class="row">
     <nav aria-label="Page navigation example">
       <ul class="pagination justify-content-center">
-        <li class="page-item" th:classappend="${!items.pageable.hasPrevious} ? 'disabled'">
+        <li class="page-item" th:classappend="${!pageable.previous} ? 'disabled'">
           <a class="page-link"
-             th:href="|javascript:goPageable(${items.pageable.pageNumber - 1}, ${items.pageable.pageSize}, '${items.pageable.orderBy}', '${items.pageable.orderDir}')|">이전</a>
+             th:href="|javascript:goPageable(${pageable.pageNumber - 1}, ${pageable.pageSize}, '${pageable.orderBy}', '${pageable.orderDir}')|">이전</a>
         </li>
-        <li th:each="idx : ${#numbers.sequence(0, items.totalPages == 0 ? 0 :  items.totalPages - 1)}" class="page-item"
-            th:classappend="${idx == items.pageable.pageNumber} ? 'disabled'">
+        <li th:each="idx : ${#numbers.sequence(0, pageable.totalPages == 0 ? 0 :  pageable.totalPages - 1)}" class="page-item"
+            th:classappend="${idx == pageable.pageNumber} ? 'disabled'">
           <a class="page-link"
-             th:href="|javascript:goPageable(${idx}, ${items.pageable.pageSize}, '${items.pageable.orderBy}', '${items.pageable.orderDir}')|"
+             th:href="|javascript:goPageable(${idx}, ${pageable.pageSize}, '${pageable.orderBy}', '${pageable.orderDir}')|"
              th:text="${idx+1}">페이지넘버</a>
         </li>
         <li class="page-item"
-            th:classappend="${items.pageable.pageNumber == items.totalPages - 1 or items.totalPages == 0 or items.totalPages == 0} ? 'disabled'">
+            th:classappend="${!pageable.next} ? 'disabled'">
           <a class="page-link"
-             th:href="|javascript:goPageable(${items.pageable.pageNumber + 1}, ${items.pageable.pageSize}, '${items.pageable.orderBy}', '${items.pageable.orderDir}')|">다음</a>
+             th:href="|javascript:goPageable(${pageable.pageNumber + 1}, ${pageable.pageSize}, '${pageable.orderBy}', '${pageable.orderDir}')|">다음</a>
         </li>
       </ul>
     </nav>

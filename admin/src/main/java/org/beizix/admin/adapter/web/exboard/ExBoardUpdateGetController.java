@@ -3,7 +3,7 @@ package org.beizix.admin.adapter.web.exboard;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
 import org.beizix.admin.adapter.web.exboard.model.update.ExBoardUpdateReqVO;
-import org.beizix.core.application.domain.common.model.PageableBase;
+import org.beizix.core.application.domain.common.model.PageableInput;
 import org.beizix.core.application.domain.exboard.model.view.ExBoardViewOutput;
 import org.beizix.core.application.port.in.exboard.ExBoardViewPortIn;
 import org.modelmapper.ModelMapper;
@@ -23,7 +23,7 @@ class ExBoardUpdateGetController {
   String operate(
       Model model,
       @PathVariable(required = false) Long id,
-      @ModelAttribute("pageable") PageableBase pageableBase,
+      @ModelAttribute("pageable") PageableInput pageableInput,
       @ModelAttribute("filterReqVO") ExBoardListFilterReqVO filterReqVO) {
 
     ExBoardViewOutput viewOutput = exBoardViewPortIn.connect(id);
