@@ -4,11 +4,10 @@
 
 <section layout:fragment="content">
   <form
-      th:action="${formVO.id != null ? '/board/exampleBoard/update/' + formVO.id : '/board/exampleBoard/create'}"
+      th:action="${'/board/exampleBoard/create'}"
       method="post"
       enctype="multipart/form-data" class="fw-bold" name="updateForm"
       th:object="${formVO}">
-    <input type="hidden" th:field="*{id}"/>
     <input type="hidden" th:field="*{orderNo}"/>
 
     <div class="container">
@@ -59,10 +58,10 @@
       <div class="mb-3">
         <label for="representImgFile" class="form-label d-block">대표 이미지</label>
         <input class="form-control w-50 d-inline-block" type="file" id="representImgFile"
-               th:classappend="${#fields.hasErrors('representImgFile')} ? 'is-invalid'"
+               th:classappend="${repImgErrorMsg != null} ? 'is-invalid'"
                name="representImgFile">
-        <div class="invalid-feedback fw-bold" th:if="${#fields.hasErrors('representImgFile')}"
-             th:errors="*{representImgFile}">
+        <div class="invalid-feedback fw-bold" th:if="${repImgErrorMsg != null}"
+             th:text="${repImgErrorMsg}">
           에러 메세지
         </div>
         <input type="text" class="form-control w-50 mt-2" th:field="*{repImgAlt}"
@@ -86,13 +85,13 @@
       <div class="mb-3 publicFileInputs">
         <label for="formFile1" class="form-label d-block">다건 파일 첨부</label>
         <input class="form-control w-50 d-inline-block mb-2" type="file" name="multipartAttachments"
-               th:classappend="${#fields.hasErrors('multipartAttachments')} ? 'is-invalid'"
+               th:classappend="${publicAttachErrorMsg != null} ? 'is-invalid'"
                id="formFile1">
         <button type="button" class="btn btn-success d-inline-block align-top"
                 onclick="addFileInput('public');">추가
         </button>
-        <div class="invalid-feedback fw-bold" th:if="${#fields.hasErrors('multipartAttachments')}"
-             th:errors="*{multipartAttachments}">
+        <div class="invalid-feedback fw-bold" th:if="${publicAttachErrorMsg != null}"
+             th:text="${publicAttachErrorMsg}">
           에러 메세지
         </div>
       </div>
@@ -103,32 +102,17 @@
         <label for="filePrivate" class="form-label d-block">private 파일 첨부 (외부 비공개)</label>
         <input class="form-control w-50 d-inline-block mb-2" type="file"
                name="multipartPrivateAttachment"
-               th:classappend="${#fields.hasErrors('multipartPrivateAttachment')} ? 'is-invalid'"
+               th:classappend="${privateAttachErrorMsg != null} ? 'is-invalid'"
                id="filePrivate">
         <div class="invalid-feedback fw-bold"
-             th:if="${#fields.hasErrors('multipartPrivateAttachment')}"
-             th:errors="*{multipartPrivateAttachment}">
+             th:if="${privateAttachErrorMsg != null}"
+             th:text="${privateAttachErrorMsg}">
           에러 메세지
         </div>
       </div>
     </div>
     <button type="submit" class="btn btn-primary float-end">저장</button>
     <button type="button" class="btn btn-light" onclick="gotoList();return false;">목록으로 이동</button>
-  </form>
-
-  <!-- 이전 목록페이지의 검색 및 정렬조건 폼 -->
-  <form th:if="${formVO.id != null}" th:action="@{/board/exampleBoard}" name="prevParamForm"
-        method="get"
-        th:object="${filterReqVO}">
-    <input type="hidden" th:field="*{searchField}">
-    <input type="hidden" th:field="*{searchValue}">
-    <input type="hidden" th:field="*{searchOpen}">
-    <th:block th:if="${pageable != null}">
-      <input type="hidden" name="pageNumber" th:value="${pageable.pageNumber}">
-      <input type="hidden" name="pageSize" th:value="${pageable.pageSize}">
-      <input type="hidden" name="orderBy" th:value="${pageable.orderBy}">
-      <input type="hidden" name="orderDir" th:value="${pageable.orderDir}">
-    </th:block>
   </form>
 
   <script>

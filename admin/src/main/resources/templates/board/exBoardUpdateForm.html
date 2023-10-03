@@ -59,10 +59,10 @@
       <div class="mb-3">
         <label for="representImgFile" class="form-label d-block">대표 이미지</label>
         <input class="form-control w-50 d-inline-block" type="file" id="representImgFile"
-               th:classappend="${#fields.hasErrors('representImgFile')} ? 'is-invalid'"
+               th:classappend="${repImgErrorMsg != null} ? 'is-invalid'"
                name="representImgFile">
-        <div class="invalid-feedback fw-bold" th:if="${#fields.hasErrors('representImgFile')}"
-             th:errors="*{representImgFile}">
+        <div class="invalid-feedback fw-bold" th:if="${repImgErrorMsg != null}"
+             th:text="${repImgErrorMsg}">
           에러 메세지
         </div>
         <input type="text" class="form-control w-50 mt-2" th:field="*{repImgAlt}"
@@ -118,13 +118,13 @@
       <div class="mb-3 publicFileInputs">
         <label for="formFile1" class="form-label d-block">다건 파일 첨부</label>
         <input class="form-control w-50 d-inline-block mb-2" type="file" name="multipartAttachments"
-               th:classappend="${#fields.hasErrors('multipartAttachments')} ? 'is-invalid'"
+               th:classappend="${publicAttachErrorMsg != null} ? 'is-invalid'"
                id="formFile1">
         <button type="button" class="btn btn-success d-inline-block align-top"
                 onclick="addFileInput('public');">추가
         </button>
-        <div class="invalid-feedback fw-bold" th:if="${#fields.hasErrors('multipartAttachments')}"
-             th:errors="*{multipartAttachments}">
+        <div class="invalid-feedback fw-bold" th:if="${publicAttachErrorMsg != null}"
+             th:text="${publicAttachErrorMsg}">
           에러 메세지
         </div>
       </div>
@@ -141,11 +141,11 @@
         </div>
         <input class="form-control w-50 d-inline-block mb-2" type="file"
                name="multipartPrivateAttachment"
-               th:classappend="${#fields.hasErrors('multipartPrivateAttachment')} ? 'is-invalid'"
+               th:classappend="${privateAttachErrorMsg != null} ? 'is-invalid'"
                id="filePrivate">
         <div class="invalid-feedback fw-bold"
-             th:if="${#fields.hasErrors('multipartPrivateAttachment')}"
-             th:errors="*{multipartPrivateAttachment}">
+             th:if="${privateAttachErrorMsg != null}"
+             th:text="${privateAttachErrorMsg}">
           에러 메세지
         </div>
       </div>

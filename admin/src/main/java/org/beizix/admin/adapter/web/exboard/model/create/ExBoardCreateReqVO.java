@@ -5,35 +5,31 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.beizix.core.application.domain.common.model.AuditBase;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Accessors(chain = true)
-public class ExBoardCreateReqVO extends ExBoardCreateBase {
+public class ExBoardCreateReqVO extends AuditBase {
 
-  public ExBoardCreateReqVO() {}
+  private Boolean visible;
 
-  @Override
   @NotBlank(message = "{valid.common.required}")
-  public String getTitle() {
-    return super.getTitle();
-  }
+  private String title;
 
-  @Override
-  @NotNull(message = "{valid.common.required}")
-  public LocalDateTime getBoardStartDate() {
-    return super.getBoardStartDate();
-  }
-
-  @Override
-  @NotNull(message = "{valid.common.required}")
-  public LocalDateTime getBoardEndDate() {
-    return super.getBoardEndDate();
-  }
-
-  @Override
   @NotBlank(message = "{valid.common.required}")
-  public String getContent() {
-    return super.getContent();
-  }
+  private String content;
+
+  @NotNull(message = "{valid.common.required}")
+  @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+  private LocalDateTime boardStartDate;
+
+  @NotNull(message = "{valid.common.required}")
+  @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+  private LocalDateTime boardEndDate;
+
+  private String repImgAlt; // 대표 이미지 - 대체 텍스트
+  private Integer orderNo;
 }

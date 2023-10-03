@@ -2,7 +2,7 @@ package org.beizix.admin.adapter.web.exboard;
 
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
-import org.beizix.admin.adapter.web.exboard.model.update.ExBoardUpdateRespVO;
+import org.beizix.admin.adapter.web.exboard.model.update.ExBoardUpdateReqVO;
 import org.beizix.core.application.domain.common.model.PageableBase;
 import org.beizix.core.application.domain.exboard.model.view.ExBoardViewOutput;
 import org.beizix.core.application.port.in.exboard.ExBoardViewPortIn;
@@ -28,7 +28,7 @@ class ExBoardUpdateGetController {
 
     ExBoardViewOutput viewOutput = exBoardViewPortIn.connect(id);
 
-    model.addAttribute("formVO", modelMapper.map(viewOutput, ExBoardUpdateRespVO.class));
+    model.addAttribute("formVO", modelMapper.map(viewOutput, ExBoardUpdateReqVO.class));
 
     return "board/exBoardUpdateForm";
   }

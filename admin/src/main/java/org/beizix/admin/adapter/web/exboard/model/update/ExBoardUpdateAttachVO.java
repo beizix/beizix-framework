@@ -12,7 +12,7 @@ import org.beizix.core.application.domain.fileupload.model.FileUploadOutput;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExBoardAttachmentVO extends AuditVO {
+public class ExBoardUpdateAttachVO extends AuditVO {
   private Long id;
   private FileUploadOutput fileUploadOutput;
   private ExBoardSaveInput exBoard;

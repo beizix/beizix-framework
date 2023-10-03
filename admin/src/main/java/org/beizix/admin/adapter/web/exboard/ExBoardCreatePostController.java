@@ -1,6 +1,7 @@
 package org.beizix.admin.adapter.web.exboard;
 
 import java.io.IOException;
+import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.exboard.model.create.ExBoardCreateReqVO;
@@ -12,9 +13,11 @@ import org.beizix.core.config.exception.UnAcceptableFileException;
 import org.beizix.utility.common.MessageUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -30,7 +33,11 @@ class ExBoardCreatePostController {
       RedirectAttributes redirectAttributes,
       @ModelAttribute("filterReqVO") ExBoardListFilterReqVO filterReqVO,
       @Valid @ModelAttribute("formVO") ExBoardCreateReqVO createReqVO,
-      BindingResult bindingResult)
+      BindingResult bindingResult,
+      MultipartFile representImgFile, // 대표 이미지 파일
+      List<MultipartFile> multipartAttachments, // 다건 첨부 파일 목록
+      MultipartFile multipartPrivateAttachment, // Private 첨부 파일
+      Model model)
       throws IOException {
 
     if (bindingResult.hasErrors()) {
@@ -40,9 +47,9 @@ class ExBoardCreatePostController {
     try {
       exBoardSavePortIn.connect(
           modelMapper.map(createReqVO, ExBoardSaveInput.class),
-          createReqVO.getRepresentImgFile(),
-          createReqVO.getMultipartPrivateAttachment(),
-          createReqVO.getMultipartAttachments());
+          representImgFile,
+          multipartPrivateAttachment,
+          multipartAttachments);
 
       redirectAttributes.addFlashAttribute(
           "operationMessage",
@@ -51,13 +58,13 @@ class ExBoardCreatePostController {
     } catch (UnAcceptableFileException ex) {
       switch (ex.getFileUploadType()) {
         case EXAMPLE_REP:
-          bindingResult.rejectValue("representImgFile", "", ex.getMessage());
+          model.addAttribute("repImgErrorMsg", ex.getMessage());
           break;
         case EXAMPLE_PUBLIC:
-          bindingResult.rejectValue("multipartAttachments", "", ex.getMessage());
+          model.addAttribute("publicAttachErrorMsg", ex.getMessage());
           break;
         case EXAMPLE_PRIVATE:
-          bindingResult.rejectValue("multipartPrivateAttachment", "", ex.getMessage());
+          model.addAttribute("privateAttachErrorMsg", ex.getMessage());
           break;
       }
       return "board/exBoardCreateForm";

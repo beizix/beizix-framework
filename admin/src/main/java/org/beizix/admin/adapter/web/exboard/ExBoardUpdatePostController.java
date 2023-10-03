@@ -1,12 +1,13 @@
 package org.beizix.admin.adapter.web.exboard;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
-import org.beizix.admin.adapter.web.exboard.model.update.ExBoardAttachmentVO;
+import org.beizix.admin.adapter.web.exboard.model.update.ExBoardUpdateAttachVO;
 import org.beizix.admin.adapter.web.exboard.model.update.ExBoardUpdateReqVO;
 import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveInput;
 import org.beizix.core.application.port.in.exboard.ExBoardSavePortIn;
@@ -15,9 +16,11 @@ import org.beizix.core.config.exception.UnAcceptableFileException;
 import org.beizix.utility.common.MessageUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -33,7 +36,11 @@ class ExBoardUpdatePostController {
       RedirectAttributes redirectAttributes,
       @ModelAttribute("filterReqVO") ExBoardListFilterReqVO filterReqVO,
       @Valid @ModelAttribute("formVO") ExBoardUpdateReqVO updateReqVO,
-      BindingResult bindingResult)
+      BindingResult bindingResult,
+      MultipartFile representImgFile, // 대표 이미지 파일
+      List<MultipartFile> multipartAttachments, // 다건 첨부 파일 목록
+      MultipartFile multipartPrivateAttachment, // Private 첨부 파일
+      Model model)
       throws IOException {
 
     // 수정일 경우, 대표 이미지와 비공개 첨부 정보는 전달받지 않기에 기존 저장된 정보를 조회해서 가져온다.
@@ -44,7 +51,7 @@ class ExBoardUpdatePostController {
               updateReqVO.setPrivateAttachment(viewOutput.getPrivateAttachment());
               updateReqVO.setAttachments(
                   viewOutput.getAttachments().stream()
-                      .map(attachment -> modelMapper.map(attachment, ExBoardAttachmentVO.class))
+                      .map(attachment -> modelMapper.map(attachment, ExBoardUpdateAttachVO.class))
                       .collect(Collectors.toList()));
             });
 
@@ -55,9 +62,9 @@ class ExBoardUpdatePostController {
     try {
       exBoardSavePortIn.connect(
           modelMapper.map(updateReqVO, ExBoardSaveInput.class),
-          updateReqVO.getRepresentImgFile(),
-          updateReqVO.getMultipartPrivateAttachment(),
-          updateReqVO.getMultipartAttachments());
+          representImgFile,
+          multipartPrivateAttachment,
+          multipartAttachments);
 
       redirectAttributes.addFlashAttribute(
           "operationMessage",
@@ -66,13 +73,13 @@ class ExBoardUpdatePostController {
     } catch (UnAcceptableFileException ex) {
       switch (ex.getFileUploadType()) {
         case EXAMPLE_REP:
-          bindingResult.rejectValue("representImgFile", "", ex.getMessage());
+          model.addAttribute("repImgErrorMsg", ex.getMessage());
           break;
         case EXAMPLE_PUBLIC:
-          bindingResult.rejectValue("multipartAttachments", "", ex.getMessage());
+          model.addAttribute("publicAttachErrorMsg", ex.getMessage());
           break;
         case EXAMPLE_PRIVATE:
-          bindingResult.rejectValue("multipartPrivateAttachment", "", ex.getMessage());
+          model.addAttribute("privateAttachErrorMsg", ex.getMessage());
           break;
       }
       return "board/exBoardUpdateForm";
