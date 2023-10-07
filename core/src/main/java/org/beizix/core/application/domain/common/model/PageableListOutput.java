@@ -4,7 +4,6 @@ import java.util.List;
 
 /** 페이징 처리된 목록 정보 규격 */
 public interface PageableListOutput<T extends AuditOutput> {
-
   /**
    * AuditOutput 정보를 담은 아이템 목록
    *

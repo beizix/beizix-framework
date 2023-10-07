@@ -6,7 +6,6 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.exboard.model.create.ExBoardCreateReqVO;
 import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
-import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveInput;
 import org.beizix.core.application.port.in.exboard.ExBoardSavePortIn;
 import org.beizix.core.config.exception.UnAcceptableFileException;
 import org.beizix.utility.common.MessageUtil;
@@ -42,19 +41,15 @@ class ExBoardCreatePostController {
 
     try {
       exBoardSavePortIn.connect(
-          new ExBoardSaveInput(
-              null,
-              createReqVO.getTitle(),
-              createReqVO.getContent(),
-              createReqVO.getVisible(),
-              createReqVO.getBoardStartDate(),
-              createReqVO.getBoardEndDate(),
-              null,
-              createReqVO.getRepImgAlt(),
-              null,
-              null,
-              null,
-              createReqVO.getOrderNo()),
+          null,
+          createReqVO.getTitle(),
+          createReqVO.getContent(),
+          createReqVO.getVisible(),
+          createReqVO.getBoardStartDate(),
+          createReqVO.getBoardEndDate(),
+          createReqVO.getRepImgAlt(),
+          createReqVO.getOrderNo(),
+          null,
           representImgFile,
           multipartPrivateAttachment,
           multipartAttachments);

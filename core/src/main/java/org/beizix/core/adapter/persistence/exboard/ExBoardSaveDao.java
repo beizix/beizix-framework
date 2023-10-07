@@ -1,5 +1,7 @@
 package org.beizix.core.adapter.persistence.exboard;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +10,7 @@ import org.beizix.core.adapter.persistence.common.model.FileUploadInfoEmbeddable
 import org.beizix.core.adapter.persistence.exboard.model.ExBoard;
 import org.beizix.core.adapter.persistence.exboard.model.ExBoardAttachment;
 import org.beizix.core.adapter.persistence.exboard.repository.ExBoardRepo;
-import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveInput;
+import org.beizix.core.application.domain.fileupload.model.FileUploadOutput;
 import org.beizix.core.application.port.out.exboard.ExBoardSavePortOut;
 import org.springframework.stereotype.Repository;
 
@@ -18,15 +20,27 @@ class ExBoardSaveDao implements ExBoardSavePortOut {
   private final ExBoardRepo exBoardRepo;
 
   @Override
-  public Long connect(ExBoardSaveInput input) {
+  public Long connect(
+      Long id,
+      String title,
+      String content,
+      Boolean visible,
+      LocalDateTime boardStartDate,
+      LocalDateTime boardEndDate,
+      FileUploadOutput representImage,
+      String repImgAlt,
+      List<FileUploadOutput> attachments,
+      FileUploadOutput privateAttachment,
+      Integer orderNo) {
+
     ExBoard entity =
         exBoardRepo.save(
             new ExBoard(
-                input.getId(),
-                input.getTitle(),
-                input.getContent(),
-                input.getVisible(),
-                Optional.ofNullable(input.getRepresentImage())
+                id,
+                title,
+                content,
+                visible,
+                Optional.ofNullable(representImage)
                     .map(
                         repImg ->
                             new FileUploadInfoEmbeddable(
@@ -36,8 +50,8 @@ class ExBoardSaveDao implements ExBoardSavePortOut {
                                 repImg.getOriginName(),
                                 repImg.getFileLength()))
                     .orElse(null),
-                input.getRepImgAlt(),
-                Optional.ofNullable(input.getPrivateAttachment())
+                repImgAlt,
+                Optional.ofNullable(privateAttachment)
                     .map(
                         at ->
                             new FileUploadInfoEmbeddable(
@@ -47,22 +61,22 @@ class ExBoardSaveDao implements ExBoardSavePortOut {
                                 at.getOriginName(),
                                 at.getFileLength()))
                     .orElse(null),
-                CollectionUtils.emptyIfNull(input.getAttachments()).stream()
+                CollectionUtils.emptyIfNull(attachments).stream()
                     .map(
                         i ->
                             new ExBoardAttachment(
                                 null,
                                 new FileUploadInfoEmbeddable(
-                                    i.getFileUploadOutput().getType(),
-                                    i.getFileUploadOutput().getPath(),
-                                    i.getFileUploadOutput().getName(),
-                                    i.getFileUploadOutput().getOriginName(),
-                                    i.getFileUploadOutput().getFileLength()),
+                                    i.getType(),
+                                    i.getPath(),
+                                    i.getName(),
+                                    i.getOriginName(),
+                                    i.getFileLength()),
                                 null))
                     .collect(Collectors.toSet()),
-                input.getBoardStartDate(),
-                input.getBoardEndDate(),
-                input.getOrderNo()));
+                boardStartDate,
+                boardEndDate,
+                orderNo));
 
     return entity.getId();
   }

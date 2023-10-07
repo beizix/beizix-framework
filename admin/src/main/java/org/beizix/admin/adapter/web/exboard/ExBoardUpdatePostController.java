@@ -9,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
 import org.beizix.admin.adapter.web.exboard.model.update.ExBoardUpdateAttachVO;
 import org.beizix.admin.adapter.web.exboard.model.update.ExBoardUpdateReqVO;
-import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveAttachInput;
-import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveInput;
 import org.beizix.core.application.domain.exboard.model.view.ExBoardViewOutput;
 import org.beizix.core.application.port.in.exboard.ExBoardSavePortIn;
 import org.beizix.core.application.port.in.exboard.ExBoardViewPortIn;
@@ -63,21 +61,15 @@ class ExBoardUpdatePostController {
 
     try {
       exBoardSavePortIn.connect(
-          new ExBoardSaveInput(
-              updateReqVO.getId(),
-              updateReqVO.getTitle(),
-              updateReqVO.getContent(),
-              updateReqVO.getVisible(),
-              updateReqVO.getBoardStartDate(),
-              updateReqVO.getBoardEndDate(),
-              updateReqVO.getRepresentImage(),
-              updateReqVO.getRepImgAlt(),
-              updateReqVO.getAttachments().stream()
-                  .map(attach -> new ExBoardSaveAttachInput(attach.getFileUploadOutput(), null))
-                  .collect(Collectors.toList()),
-              updateReqVO.getRemoveAttachmentIds(),
-              updateReqVO.getPrivateAttachment(),
-              updateReqVO.getOrderNo()),
+          updateReqVO.getId(),
+          updateReqVO.getTitle(),
+          updateReqVO.getContent(),
+          updateReqVO.getVisible(),
+          updateReqVO.getBoardStartDate(),
+          updateReqVO.getBoardEndDate(),
+          updateReqVO.getRepImgAlt(),
+          updateReqVO.getOrderNo(),
+          updateReqVO.getRemoveAttachmentIds(),
           representImgFile,
           multipartPrivateAttachment,
           multipartAttachments);

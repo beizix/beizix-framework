@@ -1,9 +1,8 @@
 package org.beizix.core.application.port.in.exboard;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
-import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveInput;
-import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveOutput;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface ExBoardSavePortIn {
@@ -19,7 +18,15 @@ public interface ExBoardSavePortIn {
    * @throws IOException 파일 업로드 수행 중 발생한 오류
    */
   Long connect(
-      ExBoardSaveInput exBoard,
+      Long id,
+      String title,
+      String content,
+      Boolean visible,
+      LocalDateTime boardStartDate,
+      LocalDateTime boardEndDate,
+      String repImgAlt,
+      Integer orderNo,
+      List<Long> removeAttachmentIds,
       MultipartFile representImgFile,
       MultipartFile privateAttachment,
       List<MultipartFile> publicAttachments)
