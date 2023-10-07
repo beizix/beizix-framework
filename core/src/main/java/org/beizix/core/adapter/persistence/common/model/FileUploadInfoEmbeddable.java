@@ -12,7 +12,6 @@ import org.hibernate.annotations.Comment;
 @Embeddable
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class FileUploadInfoEmbeddable {

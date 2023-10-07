@@ -8,7 +8,6 @@ import org.beizix.core.application.domain.exboard.model.sort.ExBoardSortInput;
 import org.beizix.core.application.port.in.exboard.ExBoardSortPortIn;
 import org.beizix.core.common.rest.RestResponseDto;
 import org.beizix.utility.common.MessageUtil;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,14 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 class ExBoardSortController {
   private final ExBoardSortPortIn exBoardSortPortIn;
-  private final ModelMapper modelMapper;
   private final MessageUtil messageUtil;
 
   @PostMapping("/api/exBoard/update/orderNo")
   ResponseEntity<?> operate(@RequestBody List<ExBoardSortReqVO> sortItems) {
     exBoardSortPortIn.operate(
         sortItems.stream()
-            .map(item -> modelMapper.map(item, ExBoardSortInput.class))
+            .map(item -> new ExBoardSortInput(item.getId(), item.getOrderNo()))
             .collect(Collectors.toList()));
     return ResponseEntity.status(HttpStatus.OK)
         .body(

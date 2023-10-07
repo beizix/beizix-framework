@@ -18,7 +18,7 @@ public interface ExBoardSavePortIn {
    * @return ExBoardSaveOutput
    * @throws IOException 파일 업로드 수행 중 발생한 오류
    */
-  ExBoardSaveOutput connect(
+  Long connect(
       ExBoardSaveInput exBoard,
       MultipartFile representImgFile,
       MultipartFile privateAttachment,

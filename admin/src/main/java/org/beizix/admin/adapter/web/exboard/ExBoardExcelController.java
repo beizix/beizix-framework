@@ -16,7 +16,6 @@ import org.beizix.core.application.domain.exboard.model.list.ExBoardListOutput;
 import org.beizix.core.application.port.in.exboard.ExBoardListPortIn;
 import org.beizix.core.config.enums.OrderDir;
 import org.beizix.utility.common.ExcelUtil;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 

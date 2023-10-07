@@ -77,6 +77,10 @@ class ExBoardListDao implements ExBoardListPortOut<ExBoardListOutput> {
             .map(
                 item ->
                     new ExBoardOutput(
+                        item.getCreatedBy(),
+                        item.getCreatedAt(),
+                        item.getUpdatedBy(),
+                        item.getUpdatedAt(),
                         item.getId(),
                         item.getTitle(),
                         item.getContent(),
@@ -84,14 +88,15 @@ class ExBoardListDao implements ExBoardListPortOut<ExBoardListOutput> {
                         item.getBoardStartDate(),
                         item.getBoardEndDate(),
                         item.getRepresentImage() != null
-                            ? modelMapper.map(item.getRepresentImage(), FileUploadOutput.class)
+                            ? new FileUploadOutput(
+                                item.getRepresentImage().getType(),
+                                item.getRepresentImage().getPath(),
+                                item.getRepresentImage().getName(),
+                                item.getRepresentImage().getOriginName(),
+                                item.getRepresentImage().getFileLength())
                             : null,
                         item.getRepImgAlt(),
-                        item.getOrderNo(),
-                        item.getCreatedBy(),
-                        item.getCreatedAt(),
-                        item.getUpdatedBy(),
-                        item.getUpdatedAt()))
+                        item.getOrderNo()))
             .collect(Collectors.toList()));
   }
 }

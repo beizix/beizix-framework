@@ -15,5 +15,4 @@ import org.beizix.core.application.domain.fileupload.model.FileUploadOutput;
 public class ExBoardUpdateAttachVO extends AuditVO {
   private Long id;
   private FileUploadOutput fileUploadOutput;
-  private ExBoardSaveInput exBoard;
 }

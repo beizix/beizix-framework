@@ -1,19 +1,20 @@
 package org.beizix.core.application.domain.exboard.model.save;
 
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.Accessors;
-import org.beizix.core.application.domain.common.model.AuditBase;
+import org.beizix.core.application.domain.common.model.AuditOutput;
 import org.beizix.core.application.domain.fileupload.model.FileUploadOutput;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
-public class ExBoardSaveAttachOutput extends AuditBase {
+public class ExBoardSaveAttachOutput implements AuditOutput {
+  private String createdBy;
+  private LocalDateTime createdAt;
+  private String updatedBy;
+  private LocalDateTime updatedAt;
   private Long id;
   private FileUploadOutput fileUploadOutput;
 }

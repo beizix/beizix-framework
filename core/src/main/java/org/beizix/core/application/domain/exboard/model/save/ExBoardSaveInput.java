@@ -1,20 +1,15 @@
 package org.beizix.core.application.domain.exboard.model.save;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 import org.beizix.core.application.domain.fileupload.model.FileUploadOutput;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
 public class ExBoardSaveInput {
   private Long id;
   private String title;

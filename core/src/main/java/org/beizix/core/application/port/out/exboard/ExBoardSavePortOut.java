@@ -4,5 +4,5 @@ import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveInput;
 import org.beizix.core.application.domain.exboard.model.save.ExBoardSaveOutput;
 
 public interface ExBoardSavePortOut {
-  ExBoardSaveOutput connect(ExBoardSaveInput exBoard);
+  Long connect(ExBoardSaveInput exBoard);
 }

@@ -1,22 +1,21 @@
 package org.beizix.core.application.domain.exboard.model.view;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 import org.beizix.core.application.domain.common.model.AuditOutput;
 import org.beizix.core.application.domain.fileupload.model.FileUploadOutput;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
 public class ExBoardViewOutput implements AuditOutput {
+  private String createdBy;
+  private LocalDateTime createdAt;
+  private String updatedBy;
+  private LocalDateTime updatedAt;
   private Long id;
   private String title;
   private String content;
@@ -28,12 +27,8 @@ public class ExBoardViewOutput implements AuditOutput {
   // 대표 이미지 - 대체 텍스트
   private String repImgAlt;
   // 다건 첨부 - 조회용
-  private List<ExBoardViewAttachOutput> attachments = Collections.emptyList();
+  private List<ExBoardViewAttachOutput> attachments;
   // Private 다건 첨부 - 조회용
   private FileUploadOutput privateAttachment;
   private Integer orderNo;
-  private String createdBy;
-  private String updatedBy;
-  private LocalDateTime createdAt;
-  private LocalDateTime updatedAt;
 }

@@ -45,13 +45,8 @@ public class FileUploadService implements FileUploadPortIn {
         .operate(multipartFile, fileUploadType.isPubic(), subPath, createFilename);
 
     return Optional.of(
-        FileUploadOutput.builder()
-            .type(fileUploadType)
-            .path(subPath)
-            .name(createFilename)
-            .originName(originalFilename)
-            .fileLength(multipartFile.getSize())
-            .build());
+        new FileUploadOutput(
+            fileUploadType, subPath, createFilename, originalFilename, multipartFile.getSize()));
   }
 
   private void validateSelf(FileUploadType fileUploadType, MultipartFile multipartFile)
@@ -83,8 +78,7 @@ public class FileUploadService implements FileUploadPortIn {
               () ->
                   new UnAcceptableFileException(
                       fileUploadType,
-                      String.format(
-                          "'%s' - 허용되지 않는 MIME Type 입니다.", fileMimeType)));
+                      String.format("'%s' - 허용되지 않는 MIME Type 입니다.", fileMimeType)));
     }
   }
 

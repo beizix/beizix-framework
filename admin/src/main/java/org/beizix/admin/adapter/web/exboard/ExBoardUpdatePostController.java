@@ -73,7 +73,7 @@ class ExBoardUpdatePostController {
               updateReqVO.getRepresentImage(),
               updateReqVO.getRepImgAlt(),
               updateReqVO.getAttachments().stream()
-                  .map(attach -> modelMapper.map(attach, ExBoardSaveAttachInput.class))
+                  .map(attach -> new ExBoardSaveAttachInput(attach.getFileUploadOutput(), null))
                   .collect(Collectors.toList()),
               updateReqVO.getRemoveAttachmentIds(),
               updateReqVO.getPrivateAttachment(),

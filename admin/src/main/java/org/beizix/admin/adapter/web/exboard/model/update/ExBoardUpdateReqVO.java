@@ -5,19 +5,23 @@ import java.util.Collections;
 import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.beizix.core.application.domain.common.model.AuditBase;
+import org.beizix.core.application.domain.common.model.AuditOutput;
 import org.beizix.core.application.domain.fileupload.model.FileUploadOutput;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Getter
 @Setter
-@NoArgsConstructor
+@AllArgsConstructor
 @Accessors(chain = true)
-public class ExBoardUpdateReqVO extends AuditBase {
+public class ExBoardUpdateReqVO implements AuditOutput {
+  private String createdBy;
+  private LocalDateTime createdAt;
+  private String updatedBy;
+  private LocalDateTime updatedAt;
 
   private Long id;
   private Boolean visible;
@@ -37,7 +41,7 @@ public class ExBoardUpdateReqVO extends AuditBase {
   private LocalDateTime boardEndDate;
 
   private FileUploadOutput representImage; // 대표 이미지 - 조회정보
-  private List<ExBoardUpdateAttachVO> attachments = Collections.emptyList(); // 다건 첨부 조회정보
+  private List<ExBoardUpdateAttachVO> attachments; // 다건 첨부 조회정보
   private FileUploadOutput privateAttachment; // Private 첨부 - 조회정보
   private List<Long> removeAttachmentIds;
 

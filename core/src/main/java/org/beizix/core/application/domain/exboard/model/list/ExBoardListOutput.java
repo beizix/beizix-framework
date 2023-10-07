@@ -12,7 +12,7 @@ import org.beizix.core.application.domain.common.model.PageableOutput;
 @Setter
 @AllArgsConstructor
 @Accessors(chain = true)
-public class ExBoardListOutput implements PageableListOutput {
+public class ExBoardListOutput implements PageableListOutput<ExBoardOutput> {
   private PageableOutput pageable;
   private List<ExBoardOutput> contents;
 }

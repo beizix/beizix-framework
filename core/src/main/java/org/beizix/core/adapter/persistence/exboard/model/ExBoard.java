@@ -15,9 +15,7 @@ import org.beizix.core.adapter.persistence.common.model.FileUploadInfoEmbeddable
 @Entity
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "example_board")
 @org.hibernate.annotations.Table(appliesTo = "example_board", comment = "예제게시판 테이블")
 @NamedEntityGraph(
@@ -67,7 +65,9 @@ public class ExBoard extends AuditEntity {
   private FileUploadInfoEmbeddable privateAttachment;
 
   /** 첨부 파일: 다건 이기에 외부 엔티티로 1:N 관계를 맺는다. 공개여부 - public */
-  @OneToMany(mappedBy = "exBoard", cascade = CascadeType.REMOVE)
+  @OneToMany(
+      mappedBy = "exBoard",
+      cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
   @BatchSize(size = 100)
   @OrderBy("id asc")
   private Set<ExBoardAttachment> attachments;
@@ -83,4 +83,36 @@ public class ExBoard extends AuditEntity {
   @Column
   @Comment("게시글 정렬순서")
   Integer orderNo;
+
+  public ExBoard(
+      Long id,
+      String title,
+      String content,
+      Boolean visible,
+      FileUploadInfoEmbeddable representImage,
+      String repImgAlt,
+      FileUploadInfoEmbeddable privateAttachment,
+      Set<ExBoardAttachment> attachments,
+      LocalDateTime boardStartDate,
+      LocalDateTime boardEndDate,
+      Integer orderNo) {
+    this.id = id;
+    this.title = title;
+    this.content = content;
+    this.visible = visible;
+    this.representImage = representImage;
+    this.repImgAlt = repImgAlt;
+    this.privateAttachment = privateAttachment;
+
+    this.attachments = attachments;
+    if (this.attachments != null) {
+      for (ExBoardAttachment at : this.attachments) {
+        at.setExBoard(this);
+      }
+    }
+
+    this.boardStartDate = boardStartDate;
+    this.boardEndDate = boardEndDate;
+    this.orderNo = orderNo;
+  }
 }
