@@ -11,7 +11,6 @@ import org.beizix.core.application.domain.exboard.model.list.ExBoardListOutput;
 import org.beizix.core.application.domain.exboard.model.list.ExBoardOutput;
 import org.beizix.core.application.domain.fileupload.model.FileUploadOutput;
 import org.beizix.core.application.port.out.exboard.ExBoardListPortOut;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,9 +22,8 @@ import org.thymeleaf.util.StringUtils;
 
 @Repository
 @RequiredArgsConstructor
-class ExBoardListDao implements ExBoardListPortOut<ExBoardListOutput> {
+class ExBoardListDao implements ExBoardListPortOut {
   private final ExBoardRepo exBoardRepo;
-  private final ModelMapper modelMapper;
 
   @Override
   public ExBoardListOutput connect(

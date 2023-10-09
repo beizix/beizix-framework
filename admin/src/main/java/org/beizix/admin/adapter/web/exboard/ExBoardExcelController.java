@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequiredArgsConstructor
 class ExBoardExcelController {
   private final ExcelUtil excelUtil;
-  private final ExBoardListPortIn<ExBoardListOutput> exBoardListPortIn;
+  private final ExBoardListPortIn exBoardListPortIn;
 
   @GetMapping("/board/exampleBoard/excel")
   public void excelDownload(

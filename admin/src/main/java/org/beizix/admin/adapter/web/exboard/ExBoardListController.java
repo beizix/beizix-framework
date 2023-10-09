@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @Controller
 @RequiredArgsConstructor
 class ExBoardListController {
-  private final ExBoardListPortIn<ExBoardListOutput> exBoardListPortIn;
+  private final ExBoardListPortIn exBoardListPortIn;
 
   @GetMapping("/board/exampleBoard")
   String operate(
