@@ -14,7 +14,6 @@ import org.beizix.core.adapter.persistence.common.model.FileUploadInfoEmbeddable
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 @Table(name = "example_board")
 @org.hibernate.annotations.Table(appliesTo = "example_board", comment = "예제게시판 테이블")

@@ -27,12 +27,10 @@ public class AuditEntity {
   private String createdBy;
 
   @LastModifiedDate
-  @Column(updatable = false)
   @Comment(value = "수정일")
   private LocalDateTime updatedAt;
 
   @LastModifiedBy
-  @Column(updatable = false)
   @Comment(value = "수정자 아이디")
   private String updatedBy;
 }
