@@ -5,14 +5,13 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.Accessors;
-import org.beizix.core.application.domain.common.model.AuditBase;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Accessors(chain = true)
-public class ExBoardCreateReqVO extends AuditBase {
+public class ExBoardCreateReqVO {
 
   private Boolean visible;
 
