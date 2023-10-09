@@ -2,19 +2,13 @@ package org.beizix.admin.adapter.web.exboard;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
-import org.beizix.admin.adapter.web.exboard.model.update.ExBoardUpdateAttachVO;
 import org.beizix.admin.adapter.web.exboard.model.update.ExBoardUpdateReqVO;
-import org.beizix.core.application.domain.exboard.model.view.ExBoardViewOutput;
 import org.beizix.core.application.port.in.exboard.ExBoardSavePortIn;
-import org.beizix.core.application.port.in.exboard.ExBoardViewPortIn;
 import org.beizix.core.config.exception.UnAcceptableFileException;
 import org.beizix.utility.common.MessageUtil;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,9 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor
 class ExBoardUpdatePostController {
   private final ExBoardSavePortIn exBoardSavePortIn;
-  private final ModelMapper modelMapper;
   private final MessageUtil messageUtil;
-  private final ExBoardViewPortIn<ExBoardViewOutput> exBoardViewPortIn;
 
   @PostMapping(path = {"/board/exampleBoard/update/{id}"})
   String operate(
@@ -42,18 +34,6 @@ class ExBoardUpdatePostController {
       MultipartFile multipartPrivateAttachment, // Private 첨부 파일
       Model model)
       throws IOException {
-
-    // 수정일 경우, 대표 이미지와 비공개 첨부 정보는 전달받지 않기에 기존 저장된 정보를 조회해서 가져온다.
-    Optional.of(exBoardViewPortIn.connect(updateReqVO.getId()))
-        .ifPresent(
-            viewOutput -> {
-              updateReqVO.setRepresentImage(viewOutput.getRepresentImage());
-              updateReqVO.setPrivateAttachment(viewOutput.getPrivateAttachment());
-              updateReqVO.setAttachments(
-                  viewOutput.getAttachments().stream()
-                      .map(attachment -> modelMapper.map(attachment, ExBoardUpdateAttachVO.class))
-                      .collect(Collectors.toList()));
-            });
 
     if (bindingResult.hasErrors()) {
       return "board/exBoardUpdateForm";

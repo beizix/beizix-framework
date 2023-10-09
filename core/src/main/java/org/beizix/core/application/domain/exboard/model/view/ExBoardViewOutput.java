@@ -4,31 +4,29 @@ import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 import org.beizix.core.application.domain.common.model.AuditOutput;
 import org.beizix.core.application.domain.fileupload.model.FileUploadOutput;
 
 @Getter
-@Setter
 @AllArgsConstructor
 public class ExBoardViewOutput implements AuditOutput {
-  private String createdBy;
-  private LocalDateTime createdAt;
-  private String updatedBy;
-  private LocalDateTime updatedAt;
-  private Long id;
-  private String title;
-  private String content;
-  private Boolean visible;
-  private LocalDateTime boardStartDate;
-  private LocalDateTime boardEndDate;
+  private final String createdBy;
+  private final LocalDateTime createdAt;
+  private final String updatedBy;
+  private final LocalDateTime updatedAt;
+  private final Long id;
+  private final String title;
+  private final String content;
+  private final Boolean visible;
+  private final LocalDateTime boardStartDate;
+  private final LocalDateTime boardEndDate;
   // 대표 이미지 - 조회용
-  private FileUploadOutput representImage;
+  private final FileUploadOutput representImage;
   // 대표 이미지 - 대체 텍스트
-  private String repImgAlt;
+  private final String repImgAlt;
   // 다건 첨부 - 조회용
-  private List<ExBoardViewAttachOutput> attachments;
+  private final List<ExBoardViewAttachOutput> attachments;
   // Private 다건 첨부 - 조회용
-  private FileUploadOutput privateAttachment;
-  private Integer orderNo;
+  private final FileUploadOutput privateAttachment;
+  private final Integer orderNo;
 }

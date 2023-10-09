@@ -22,9 +22,9 @@ class ExBoardUpdateGetController {
   @GetMapping(path = {"/board/exampleBoard/update/{id}"})
   String operate(
       Model model,
-      @PathVariable(required = false) Long id,
-      @ModelAttribute("pageable") PageableInput pageableInput,
-      @ModelAttribute("filterReqVO") ExBoardListFilterReqVO filterReqVO) {
+      @PathVariable(required = false) final Long id,
+      @ModelAttribute("pageable") final PageableInput pageableInput,
+      @ModelAttribute("filterReqVO") final ExBoardListFilterReqVO filterReqVO) {
 
     ExBoardViewOutput output = exBoardViewPortIn.connect(id);
 

@@ -10,13 +10,13 @@ import org.beizix.core.config.enums.OrderDir;
 @Setter
 @AllArgsConstructor
 public class PageableOutput {
-  private Boolean previous;
-  private Integer pageNumber;
-  private Integer pageSize;
-  private String orderBy;
-  private OrderDir orderDir;
-  private Long totalElements;
-  private Integer totalPages;
+  private final Boolean previous;
+  private final Integer pageNumber;
+  private final Integer pageSize;
+  private final String orderBy;
+  private final OrderDir orderDir;
+  private final Long totalElements;
+  private final Integer totalPages;
 
   public Boolean getNext() {
     return this.getPageNumber() < this.getTotalPages() - 1;
