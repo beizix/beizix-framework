@@ -1,12 +1,16 @@
 package org.beizix.security.application.port.out.admin;
 
-import java.util.Optional;
-import org.beizix.security.application.domain.admin.model.save.AdminSaveInput;
+import java.time.LocalDateTime;
+import java.util.List;
 
 public interface AdminSavePortOut {
-  Optional<AdminSaveInput> connect(AdminSaveInput adminDto);
-
-  void updateLoginFailCnt(String id, Integer failCnt);
-
-  void updateAccountLocked(String id, boolean accountLocked);
+  String connect(
+      String id,
+      String encodedPassword,
+      LocalDateTime passwordUpdatedAt,
+      String email,
+      Boolean accountDisabled,
+      Integer loginFailCnt,
+      Boolean accountLocked,
+      List<String> roleIds);
 }

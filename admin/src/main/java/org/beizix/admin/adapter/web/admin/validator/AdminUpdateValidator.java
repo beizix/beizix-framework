@@ -1,10 +1,10 @@
 package org.beizix.admin.adapter.web.admin.validator;
 
 import java.util.Optional;
+import org.beizix.admin.adapter.web.admin.model.update.AdminUpdateBindingVO;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import org.beizix.admin.adapter.web.admin.model.save.AdminSaveReqVO;
 
 @Component
 public class AdminUpdateValidator implements Validator {
@@ -12,12 +12,12 @@ public class AdminUpdateValidator implements Validator {
 
   @Override
   public boolean supports(Class<?> clazz) {
-    return AdminSaveReqVO.class.equals(clazz);
+    return AdminUpdateBindingVO.class.equals(clazz);
   }
 
   @Override
   public void validate(Object target, Errors errors) {
-    AdminSaveReqVO vo = (AdminSaveReqVO) target;
+    AdminUpdateBindingVO vo = (AdminUpdateBindingVO) target;
 
     Optional.ofNullable(vo.getRoleIds())
         .filter(ids -> ids.size() < 1)

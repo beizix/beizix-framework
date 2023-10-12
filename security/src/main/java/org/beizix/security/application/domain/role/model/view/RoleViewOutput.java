@@ -14,5 +14,4 @@ public class RoleViewOutput {
   private String description;
   private Integer orderNo;
   private Set<WithPrivilegeOutput> withPrivileges;
-  private OperationType operationType;
 }

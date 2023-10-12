@@ -4,10 +4,16 @@
 
 <section layout:fragment="content">
 
-  <form method="post" name="adminParamForm" th:action="@{/settings/admins}" th:object="${paramDto}"
+  <form method="post" name="adminParamForm" th:action="@{/settings/admins}" th:object="${listStatus}"
         onsubmit="goSearch();">
-    <input type="hidden" name="page" th:value="${items.pageable.pageNumber}"/>
-    <input type="hidden" name="sort" th:value="${items.pageable.sort}"/>
+
+    <!-- hidden parameters -->
+    <input type="hidden" name="pageNumber"
+           th:value="${listOutput.pageable.pageNumber}"/>
+    <input type="hidden"
+           name="orderBy" th:value="${listOutput.pageable.orderBy}"/>
+    <input type="hidden"
+           name="orderDir" th:value="${listOutput.pageable.orderDir}"/>
 
     <div class="row bg-secondary p-2 mb-2" style="--bs-bg-opacity: .2;">
       <div class="col-5">
@@ -42,17 +48,18 @@
 
     <div class="row">
       <div class="col text-start">
-        <div class="fw-bolder text-muted">Total: <span th:text="${items.totalElements}"></span></div>
+        <div class="fw-bolder text-muted">Total: <span
+            th:text="${listOutput.pageable.totalElements}"></span></div>
       </div>
       <div class="col text-end">
         <i class="bi bi-list-ol"></i>
         <label>
-          <select class="form-select form-select-sm" th:field="*{size}" onchange="goSearch()">
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
+          <select class="form-select form-select-sm" name="pageSize" id="pageSize"
+                  onchange="goSearch()">
+            <option
+                th:each="item : ${@uiCodeListService.connect('code.pageable.rows')}"
+                th:value="${item.codeValue}" th:text="${item.codeText}"
+                th:selected="${#strings.toString(listOutput.pageable.pageSize) eq item.codeValue}"></option>
           </select>
         </label>
       </div>
@@ -75,16 +82,18 @@
       </tr>
       </thead>
       <tbody>
-      <tr th:each="item, status : ${items}">
-        <th th:text="${status.count + (items.pageable.pageNumber * items.pageable.pageSize)}" scope="row">
+      <tr th:each="item, status : ${listOutput.contents}">
+        <th th:text="${status.count + (listOutput.pageable.pageNumber * listOutput.pageable.pageSize)}"
+            scope="row">
           게시물번호
         </th>
-        <td><label><input class="form-check-input" name="checkedIds" type="checkbox" th:value="${item.id}"/></label>
+        <td><label><input class="form-check-input" name="checkedIds" type="checkbox"
+                          th:value="${item.id}"/></label>
         </td>
-        <td><a th:href="|javascript:goSave('${item.id}')|" th:text="${item.id}">아이디</a></td>
+        <td><a th:href="|javascript:goUpdate('${item.id}')|" th:text="${item.id}">아이디</a></td>
         <td>
-                <span th:each="roleDto, status : ${item.withRoles}"
-                      th:text="${roleDto.role.getId()} + ${!status.last ? ', ': ''}"></span>
+                <span th:each="withRole, status : ${item.withRoles}"
+                      th:text="${withRole.role.getId()} + ${!status.last ? ', ': ''}"></span>
         </td>
         <td th:text="${item.email}">이메일</td>
         <td th:text="${item.accountDisabled == null || !item.accountDisabled ? 'Y' : 'N' }"></td>
@@ -97,74 +106,73 @@
 
   </form>
 
-  <div th:replace="common/list-components :: pagination(${items})"></div>
+  <div th:replace="common/list-components-v2 :: pagination(${listOutput.pageable})"></div>
 
- <div class="row">
+  <div class="row">
     <div class="col text-start">
       <button type="button" class="btn btn-success" onclick="goExcel();">엑셀 다운로드</button>
     </div>
     <div class="col text-end mb-2">
       <button type="button" class="btn btn-primary"
-              onclick="location.href='/settings/admins/create';">등록</button>
+              onclick="location.href='/settings/admins/create';">등록
+      </button>
       <button type="button" class="btn btn-danger" onclick="goRemove();">삭제</button>
     </div>
   </div>
-  
-  <div th:replace="common/list-components :: listColumnOrder(${items})"></div>
+
+  <div th:replace="common/list-components-v2 :: listColumnOrder(${listOutput.pageable})"></div>
 
   <script th:inline="javascript">
-      // 검색
-      function goSearch() {
-          const f = document.adminParamForm;
-          f.action = '/settings/admins';
-          f.page.value = 0;
-          f.sort.value = convertToPageableSortValue(f.sort.value);
-          f.method = 'get';
-          f.submit();
+    // 검색
+    function goSearch() {
+      const f = document.adminParamForm;
+      f.action = '/settings/admins';
+      f.pageNumber.value = 0;
+      f.method = 'get';
+      f.submit();
+    }
+
+    // 초기화
+    function goInit() {
+      const f = document.adminParamForm;
+      f.searchField.value = '';
+      f.searchValue.value = '';
+      f.searchRole.value = '';
+    }
+
+    // 수정페이지 이동
+    function goUpdate(adminId) {
+      const f = document.adminParamForm;
+      f.action = '/settings/admins/update/' + adminId;
+      f.method = 'get';
+      f.submit();
+    }
+
+    // 체크박스 선택/해제
+    function toggleCheckbox(oj) {
+      $('input[name=checkedIds]').prop("checked", oj.checked);
+    }
+
+    function goRemove() {
+      if (!$('input[name=checkedIds]').is(':checked')) {
+          alert(/*[[#{operation.common.remove.choose}]]*/);
+          return;
       }
 
-      // 초기화
-      function goInit() {
-          const f = document.adminParamForm;
-          f.searchField.value = '';
-          f.searchValue.value = '';
-          f.searchRole.value = '';
+      if (confirm(/*[[#{operation.common.remove.ask}]]*/)) {
+        const f = document.adminParamForm;
+        f.action = '/settings/admins/delete';
+        f.method = 'post';
+        f.submit();
       }
+    }
 
-      // 수정페이지 이동
-      function goSave(adminId) {
-          const f = document.adminParamForm;
-          f.sort.value = convertToPageableSortValue(f.sort.value);
-          f.action = '/settings/admins/update/' + adminId;
-          f.method = 'get';
-          f.submit();
-      }
-
-      // 체크박스 선택/해제
-      function toggleCheckbox(oj) {
-          $('input[name=checkedIds]').prop("checked", oj.checked);
-      }
-
-      function goRemove() {
-          // if (!$('input[name=checkedIds]').is(':checked')) {
-          //     alert(/*[[#{operation.common.remove.choose}]]*/);
-          //     return;
-          // }
-
-          if (confirm(/*[[#{operation.common.remove.ask}]]*/)) {
-              const f = document.adminParamForm;
-              f.action = '/settings/admins/delete';
-              f.method = 'post';
-              f.submit();
-          }
-      }
-      function goExcel() {
-          const f = document.adminParamForm;
-          f.sort.value = convertToPageableSortValue(f.sort.value);
-          f.action = '/settings/admins/excel';
-          f.method = 'post';
-          f.submit();
-        }
+    function goExcel() {
+      const f = document.adminParamForm;
+      f.action = '/settings/admins/excel';
+      f.method = 'post';
+      f.submit();
+    }
   </script>
 </section>
 

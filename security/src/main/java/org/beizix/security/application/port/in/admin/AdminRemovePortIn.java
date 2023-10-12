@@ -1,7 +1,7 @@
 package org.beizix.security.application.port.in.admin;
 
-import org.beizix.security.application.domain.admin.model.filter.AdminListInput;
+import java.util.List;
 
 public interface AdminRemovePortIn {
-  void connect(AdminListInput adminListInput);
+  void connect(List<String> checkedIds);
 }

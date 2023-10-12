@@ -4,8 +4,8 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
 
-import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.Arrays;
+import org.beizix.security.application.port.in.admin.AdminSavePortIn;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,10 +16,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
-import org.beizix.security.application.domain.admin.model.save.AdminSaveInput;
-import org.beizix.security.application.domain.admin_role.model.save.AdminWithRoleSaveInput;
-import org.beizix.security.application.domain.role.model.save.RoleSaveReferInput;
-import org.beizix.security.application.port.in.admin.AdminSavePortIn;
 
 @SpringBootTest
 @TestPropertySource("classpath:application-override.properties")
@@ -32,8 +28,7 @@ class AdminDetailsServiceTest {
   }
 
   @Autowired MockMvc mockMvc;
-  @Autowired
-  AdminSavePortIn adminSavePortIn;
+  @Autowired AdminSavePortIn adminSavePortIn;
 
   String username = "test";
   String password = "test.1@#$";
@@ -42,36 +37,14 @@ class AdminDetailsServiceTest {
   @BeforeAll
   public void beforeAll() {
     adminSavePortIn.connect(
-        AdminSaveInput.builder()
-            .id(username)
-            .password(password)
-            .email("xx1@test.com")
-            .passwordUpdatedAt(LocalDateTime.now())
-            .withRoles(
-                Set.of(
-                    AdminWithRoleSaveInput.builder()
-                        .role(new RoleSaveReferInput("ROLE_SUPER"))
-                        .build(),
-                    AdminWithRoleSaveInput.builder()
-                        .role(new RoleSaveReferInput("ROLE_STAFF"))
-                        .build()))
-            .build());
+        username,
+        password,
+        "xx1@test.com",
+        false,
+        false,
+        Arrays.asList("ROLE_SUPER", "ROLE_STAFF"));
 
-    adminSavePortIn.connect(
-        AdminSaveInput.builder()
-            .id(oldUsername)
-            .password(password)
-            .email("xx2@test.com")
-            .passwordUpdatedAt(LocalDateTime.now().minusDays(120)) // 패스워드 변경일 지남
-            .withRoles(
-                Set.of(
-                    AdminWithRoleSaveInput.builder()
-                        .role(new RoleSaveReferInput("ROLE_SUPER"))
-                        .build(),
-                    AdminWithRoleSaveInput.builder()
-                        .role(new RoleSaveReferInput("ROLE_STAFF"))
-                        .build()))
-            .build());
+
   }
 
   @Test

@@ -1,10 +1,7 @@
 package org.beizix.security.application.port.out.admin;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.beizix.core.application.domain.common.model.ListPortOut;
+import org.beizix.security.application.domain.admin.model.filter.AdminListStatus;
 import org.beizix.security.application.domain.admin.model.list.AdminListOutput;
-import org.beizix.security.application.domain.admin.model.filter.AdminListInput;
 
-public interface AdminListPortOut {
-  Page<AdminListOutput> connect(Pageable pageable, AdminListInput inflow);
-}
+public interface AdminListPortOut extends ListPortOut<AdminListOutput, AdminListStatus> {}

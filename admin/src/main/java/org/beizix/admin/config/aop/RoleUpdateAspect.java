@@ -1,5 +1,7 @@
 package org.beizix.admin.config.aop;
 
+import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -8,17 +10,17 @@ import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.stereotype.Component;
-import org.thymeleaf.util.StringUtils;
-import org.beizix.core.config.enums.AppType;
-import org.beizix.core.config.enums.OperationLogType;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.beizix.core.application.domain.operationlog.model.OperationLog;
 import org.beizix.core.application.port.in.operationlog.OperationLogSavePortIn;
-import org.beizix.security.application.domain.admin.model.save.AdminSaveInput;
+import org.beizix.core.config.enums.AppType;
+import org.beizix.core.config.enums.OperationLogType;
 import org.beizix.security.application.domain.admin.model.view.AdminViewOutput;
 import org.beizix.security.application.port.in.admin.AdminViewPortIn;
 import org.beizix.utility.common.CommonUtil;
 import org.beizix.utility.common.PropertyUtil;
+import org.springframework.stereotype.Component;
+import org.thymeleaf.util.StringUtils;
 
 @Aspect
 @Component
@@ -35,13 +37,24 @@ public class RoleUpdateAspect {
 
     Object[] args = joinPoint.getArgs();
 
-    AdminSaveInput admin = (AdminSaveInput) args[0];
-    Optional<AdminViewOutput> beforeAdmin = adminViewPortIn.connect(admin.getId());
+    String adminId = (String) args[0];
+    List<String> currentRoles = Collections.emptyList();
 
-    List<String> currentRoles =
-        admin.getWithRoles().stream()
-            .map(adminUserWithRole -> adminUserWithRole.getRole().getId())
-            .collect(Collectors.toList());
+    MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+    Method method = signature.getMethod();
+
+    for (int i = 0; i < method.getParameters().length; i++) {
+      String parameterName = method.getParameters()[i].getName();
+      if (parameterName.equals("roleIds") && args[i] instanceof List)
+        currentRoles = (List<String>) args[i];
+    }
+
+    Optional<AdminViewOutput> beforeAdmin = adminViewPortIn.connect(adminId);
+
+//    List<String> currentRoles =
+//        adminId.getWithRoles().stream()
+//            .map(adminUserWithRole -> adminUserWithRole.getRole().getId())
+//            .collect(Collectors.toList());
 
     boolean createLog = false;
 
@@ -67,12 +80,12 @@ public class RoleUpdateAspect {
               .appType(AppType.ADMIN)
               .operationLogType(OperationLogType.ROLE_UPDATE)
               .operatorId(operatorId)
-              .targetId(admin.getId())
+              .targetId(adminId)
               .ip(request != null ? commonUtil.getClientIP(request) : null)
               .taskDesc(
                   String.format(
                       "`%s` grants [%s] permissions to `%s`",
-                      operatorId, StringUtils.join(currentRoles, ", "), admin.getId()))
+                      operatorId, StringUtils.join(currentRoles, ", "), adminId))
               .build());
     }
 

@@ -1,39 +1,26 @@
 package org.beizix.admin.adapter.web.admin;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.beizix.admin.adapter.web.admin.model.filter.AdminListReqParam;
-import org.beizix.admin.adapter.web.admin.validator.AdminRemoveValidator;
-import org.beizix.security.application.domain.admin.model.filter.AdminListInput;
+import org.apache.commons.collections4.CollectionUtils;
 import org.beizix.security.application.port.in.admin.AdminRemovePortIn;
-import org.beizix.utility.common.CommonUtil;
 import org.beizix.utility.common.MessageUtil;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
 class AdminRemoveController {
-  private final AdminRemoveValidator adminRemoveValidator;
-  private final CommonUtil commonUtil;
   private final MessageUtil messageUtil;
   private final AdminRemovePortIn adminRemovePortIn;
-  private final ModelMapper modelMapper;
 
   @PostMapping(path = "/settings/admins/delete")
-  String operate(
-      RedirectAttributes redirectAttributes,
-      @ModelAttribute("paramDto") AdminListReqParam paramDto,
-      BindingResult bindingResult) {
+  String operate(RedirectAttributes redirectAttributes, @RequestParam List<String> checkedIds) {
 
-    adminRemoveValidator.validate(paramDto, bindingResult);
-    if (bindingResult.hasErrors()) {
-      commonUtil.setValidationFailRedirectAttributes(redirectAttributes, bindingResult);
-    } else {
-      adminRemovePortIn.connect(modelMapper.map(paramDto, AdminListInput.class));
+    if (CollectionUtils.isNotEmpty(checkedIds)) {
+      adminRemovePortIn.connect(checkedIds);
       redirectAttributes.addFlashAttribute(
           "operationMessage", messageUtil.getMessage("operation.settings.admin.removed"));
     }

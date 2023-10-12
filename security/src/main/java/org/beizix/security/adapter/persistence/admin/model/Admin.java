@@ -9,9 +9,9 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import lombok.*;
 import org.beizix.core.adapter.persistence.common.model.AuditEntity;
-import org.hibernate.annotations.*;
 import org.beizix.security.adapter.persistence.admin_role.model.AdminWithRole;
 import org.beizix.security.adapter.persistence.admin_role.model.AdminWithRole_;
+import org.hibernate.annotations.*;
 
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = Admin_.EMAIL))
@@ -30,6 +30,10 @@ import org.beizix.security.adapter.persistence.admin_role.model.AdminWithRole_;
           attributeNodes = {@NamedAttributeNode(AdminWithRole_.ROLE)})
     })
 public class Admin extends AuditEntity {
+
+  public Admin(String id) {
+    this.id = id;
+  }
 
   @Id
   @Comment("관리자 계정 아이디")
@@ -62,7 +66,7 @@ public class Admin extends AuditEntity {
   @OneToMany(
       fetch = FetchType.LAZY,
       mappedBy = "admin",
-      cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+      cascade = {CascadeType.REMOVE})
   @BatchSize(size = 100)
   private Set<AdminWithRole> withRoles = new LinkedHashSet<>();
 }

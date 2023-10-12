@@ -9,7 +9,7 @@ import org.beizix.utility.enums.OperationType;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RoleViewRespVO {
-  private String role;
+  private String id;
   private String description;
   private Integer orderNo;
   private OperationType operationType;

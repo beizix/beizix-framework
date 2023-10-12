@@ -1,37 +1,42 @@
 package org.beizix.admin.adapter.web.admin;
 
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
+import org.beizix.admin.adapter.web.admin.model.filter.AdminListStatusVO;
+import org.beizix.admin.config.aop.PageDefault;
+import org.beizix.core.application.domain.common.model.PageableInput;
+import org.beizix.core.config.enums.OrderDir;
+import org.beizix.security.adapter.persistence.admin.model.Admin_;
+import org.beizix.security.application.domain.admin.model.filter.AdminListStatus;
+import org.beizix.security.application.domain.admin.model.list.AdminListOutput;
+import org.beizix.security.application.port.in.admin.AdminListPortIn;
+import org.beizix.security.application.port.in.role.RoleListPortIn;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.beizix.admin.adapter.web.admin.model.filter.AdminListReqParam;
-import org.beizix.security.application.port.in.role.RoleListPortIn;
-import org.beizix.security.application.domain.admin.model.filter.AdminListInput;
-import org.beizix.security.application.port.in.admin.AdminListPortIn;
 
 @Controller
 @RequiredArgsConstructor
 class AdminListController {
   private final AdminListPortIn adminListPortIn;
-  private final ModelMapper modelMapper;
   private final RoleListPortIn roleListPortIn;
 
   @GetMapping(path = "/settings/admins")
   String operate(
       Model model,
-      @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
-      @ModelAttribute("paramDto") AdminListReqParam adminListReqParam) {
+      @PageDefault(orderBy = Admin_.CREATED_AT, orderDir = OrderDir.DESC)
+          PageableInput pageableInput,
+      @ModelAttribute("listStatus") AdminListStatusVO adminListStatusVO) {
 
-    adminListReqParam.setSize(pageable.getPageSize());
+    AdminListOutput listOutput =
+        adminListPortIn.connect(
+            pageableInput,
+            new AdminListStatus(
+                adminListStatusVO.getSearchField(),
+                adminListStatusVO.getSearchValue(),
+                adminListStatusVO.getSearchRole()));
 
-    model.addAttribute(
-        "items",
-        adminListPortIn.connect(pageable, modelMapper.map(adminListReqParam, AdminListInput.class)));
+    model.addAttribute("listOutput", listOutput);
     model.addAttribute("roles", roleListPortIn.connect());
 
     return "admin/adminList";

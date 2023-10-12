@@ -17,6 +17,11 @@ import org.beizix.security.adapter.persistence.role_privilege.model.RoleWithPriv
 @NoArgsConstructor
 @AllArgsConstructor
 public class Role extends AuditEntity {
+
+  public Role(String id) {
+    this.id = id;
+  }
+
   @Id
   @Comment("관리자 역할")
   private String id;

@@ -5,8 +5,12 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
 
-import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.Arrays;
+import org.beizix.core.application.domain.loggedinuser.model.LoggedInUserIdInput;
+import org.beizix.core.application.port.out.loggedinuser.LoggedInUserViewPortOut;
+import org.beizix.core.config.enums.AppType;
+import org.beizix.security.application.port.in.admin.AdminSavePortIn;
+import org.beizix.security.application.port.in.admin.AdminViewPortIn;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -17,14 +21,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
-import org.beizix.core.config.enums.AppType;
-import org.beizix.core.application.domain.loggedinuser.model.LoggedInUserIdInput;
-import org.beizix.core.application.port.out.loggedinuser.LoggedInUserViewPortOut;
-import org.beizix.security.application.domain.admin.model.save.AdminSaveInput;
-import org.beizix.security.application.domain.admin_role.model.save.AdminWithRoleSaveInput;
-import org.beizix.security.application.domain.role.model.save.RoleSaveReferInput;
-import org.beizix.security.application.port.in.admin.AdminSavePortIn;
-import org.beizix.security.application.port.in.admin.AdminViewPortIn;
 
 @SpringBootTest
 @TestPropertySource("classpath:application-override.properties")
@@ -36,12 +32,9 @@ class AdminAuthSuccessHandlerTest {
   }
 
   @Autowired MockMvc mockMvc;
-  @Autowired
-  AdminViewPortIn adminViewPortIn;
-  @Autowired
-  LoggedInUserViewPortOut loggedInUserViewPortOut;
-  @Autowired
-  AdminSavePortIn adminSavePortIn;
+  @Autowired AdminViewPortIn adminViewPortIn;
+  @Autowired LoggedInUserViewPortOut loggedInUserViewPortOut;
+  @Autowired AdminSavePortIn adminSavePortIn;
 
   @Value("${org.beizix.session.maximum.num}")
   private Integer maxSessionNum;
@@ -52,20 +45,12 @@ class AdminAuthSuccessHandlerTest {
   @BeforeAll
   public void beforeAll() {
     adminSavePortIn.connect(
-        AdminSaveInput.builder()
-            .id(username)
-            .password(password)
-            .email("admin_for_createDao_test@test.com")
-            .passwordUpdatedAt(LocalDateTime.now())
-            .withRoles(
-                Set.of(
-                    AdminWithRoleSaveInput.builder()
-                        .role(new RoleSaveReferInput("ROLE_SUPER"))
-                        .build(),
-                    AdminWithRoleSaveInput.builder()
-                        .role(new RoleSaveReferInput("ROLE_STAFF"))
-                        .build()))
-            .build());
+        username,
+        password,
+        "admin_for_createDao_test@test.com",
+        false,
+        false,
+        Arrays.asList("ROLE_SUPER", "ROLE_STAFF"));
   }
 
   @Test

@@ -6,27 +6,27 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.beizix.admin.config.aop.LoginSuccessOperateLog;
+import org.beizix.core.application.domain.loggedinuser.model.LoggedInUserIdInput;
+import org.beizix.core.application.domain.loggedinuser.model.LoggedInUserInput;
 import org.beizix.core.application.port.in.loggedinuser.LoggedInUserSavePortIn;
 import org.beizix.core.application.port.in.loggedinuser.LoggedInUserViewPortIn;
+import org.beizix.core.config.enums.AppType;
+import org.beizix.security.application.port.in.admin.AdminUpdateLoginFailPortIn;
+import org.beizix.security.application.port.in.admin.AdminViewPortIn;
+import org.beizix.utility.common.CommonUtil;
+import org.beizix.utility.common.MessageUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import org.beizix.admin.config.aop.LoginSuccessOperateLog;
-import org.beizix.core.config.enums.AppType;
-import org.beizix.core.application.domain.loggedinuser.model.LoggedInUserInput;
-import org.beizix.core.application.domain.loggedinuser.model.LoggedInUserIdInput;
-import org.beizix.security.application.port.in.admin.AdminSavePortIn;
-import org.beizix.security.application.port.in.admin.AdminViewPortIn;
-import org.beizix.utility.common.CommonUtil;
-import org.beizix.utility.common.MessageUtil;
 
 @Component
 @RequiredArgsConstructor
 public class AdminAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
   private final MessageUtil messageUtil;
   private final AdminViewPortIn adminViewPortIn;
-  private final AdminSavePortIn adminSavePortIn;
+  private final AdminUpdateLoginFailPortIn updateLoginFailPortIn;
   private final LoggedInUserViewPortIn loggedInUserViewPortIn;
   private final LoggedInUserSavePortIn loggedInUserSavePortIn;
   private final CommonUtil commonUtil;
@@ -53,10 +53,7 @@ public class AdminAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
     // 로그인 실패 회수 초기화
     adminViewPortIn
         .connect(authentication.getName())
-        .ifPresent(
-            admin -> {
-              adminSavePortIn.updateLoginFailCnt(admin.getId(), 0);
-            });
+        .ifPresent(admin -> updateLoginFailPortIn.connect(admin.getId(), 0));
 
     // 패스워드 변경일 공지
     if (passwordValidPeriodDays != -1

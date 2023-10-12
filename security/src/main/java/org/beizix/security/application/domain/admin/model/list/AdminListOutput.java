@@ -1,29 +1,28 @@
 package org.beizix.security.application.domain.admin.model.list;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.beizix.security.adapter.persistence.admin.model.Admin;
+import org.beizix.core.application.domain.common.model.PageableListOutput;
+import org.beizix.core.application.domain.common.model.PageableOutput;
 
-/** DTO for {@link Admin} */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdminListOutput implements Serializable {
-  private LocalDateTime createdAt;
-  private String createdBy;
-  private LocalDateTime updatedAt;
-  private String updatedBy;
-  private String id;
-  private String password;
-  private String email;
-  private LocalDateTime passwordUpdatedAt;
-  private Boolean accountDisabled;
-  private Integer loginFailCnt;
-  private Boolean accountLocked;
-  private Set<WithRoleOutput> withRoles = new LinkedHashSet<>();
+public class AdminListOutput implements PageableListOutput<AdminOutput>, Serializable {
+
+  private PageableOutput pageable;
+  private List<AdminOutput> outputs;
+
+  @Override
+  public List<AdminOutput> getContents() {
+    return this.outputs;
+  }
+
+  @Override
+  public PageableOutput getPageable() {
+    return this.pageable;
+  }
 }
