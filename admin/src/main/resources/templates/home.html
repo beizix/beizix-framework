@@ -15,12 +15,12 @@
     <div class="container-fluid py-5">
       <h1 class="display-5 fw-bold">안녕하세요, <span sec:authentication="name" class="text-muted"></span> :-)</h1>
       <p class="col-md-8 fs-4">
-        org.beizix 관리자 메인에 오신걸 환영합니다. <span sec:authentication="name" class="text-muted"></span> 님께 부여된 권한에 따라 메뉴이용이
+        org.beizix 관리자 메인에 오신걸 환영합니다. <span sec:authentication="name" class="text-muted"></span> 님께 부여된 역할에 따라 메뉴이용이
         제한되는 점에 유의해주세요.
       </p>
 
       <p class="col-md-8 fs-5">
-        <span>권한</span>
+        <span>역할</span>
         <span th:each="roleDto, status : ${loginUserRoles}"
               th:text="${roleDto.role.getId()} + ' (' + ${roleDto.role.description} + ')' + ${!status.last ? ', ': ''}"
               class="text-muted"></span>

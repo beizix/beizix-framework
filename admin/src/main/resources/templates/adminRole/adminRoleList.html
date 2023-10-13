@@ -12,7 +12,7 @@
       <button type="button" class="btn btn-sm btn-secondary float-end ms-1" onclick="searchNode();"><i
               class="bi bi-search"></i></button>
       <input class="form-control form-control-sm w-25 inline-block float-end" id="searchNode" type="text"
-             placeholder="권한 검색">
+             placeholder="역할 검색">
     </div>
     <div class="col"></div>
   </div>
@@ -26,9 +26,9 @@
         <input type="hidden" name="operationType" th:value="${T(org.beizix.utility.enums.OperationType).CREATE}"/>
 
         <div class="row mb-3">
-          <label class="col-sm-3 col-form-label" for="id">권한 ID *</label>
+          <label class="col-sm-3 col-form-label" for="id">역할 ID *</label>
           <div class="col-sm-9">
-            <input type="text" id="id" name="id" class="form-control" placeholder="ROLE_ 로 시작하는 권한 ID 입력"/>
+            <input type="text" id="id" name="id" class="form-control" placeholder="ROLE_ 로 시작하는 역할 ID 입력"/>
             <div class="invalid-feedback fw-bold field-id"></div>
           </div>
         </div>
@@ -53,7 +53,7 @@
       <button type="button" class="btn btn-sm btn-outline-secondary mt-1" onclick="move('down');">
         <i class="bi bi-arrow-down-circle-fill"></i>
       </button>
-      <button type="button" class="btn btn-sm btn-primary mt-1" onclick="addChildNode();">권한 추가</button>
+      <button type="button" class="btn btn-sm btn-primary mt-1" onclick="addChildNode();">역할 추가</button>
     </div>
     <div class="col text-end">
       <button type="button" class="btn btn-primary" onclick="goSave();">저장</button>
@@ -82,7 +82,7 @@
                       oj['value'] = oj.description;
                   });
                   renderTree({
-                      text: '관리자 권한',
+                      text: '관리자 역할',
                       value: '',
                       nodes: jsonData
                   }, currentId);

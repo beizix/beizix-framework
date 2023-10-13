@@ -42,6 +42,7 @@ public class InitUriAdminData implements ApplicationRunner {
     final String ADMIN_SETTINGS_ADMIN_DELETE = "uri.admin.settings.admins.delete";
     final String ADMIN_SETTINGS_ADMIN_EXCEL = "uri.admin.settings.admins.excel";
     final String ADMIN_SETTINGS_ADMIN_ROLE = "uri.admin.settings.adminRoles";
+    final String ADMIN_SETTINGS_ADMIN_PRIVILEGE = "uri.admin.settings.adminPrivilege";
 
     final String ADMIN_SETTINGS_URI_ADMIN = "uri.admin.settings.uri.admin";
     final String ADMIN_SETTINGS_URI_FRONT = "uri.admin.settings.uri.front";
@@ -100,7 +101,7 @@ public class InitUriAdminData implements ApplicationRunner {
             .id(ADMIN_SETTINGS_ADMIN_GROUP)
             .parentId(ADMIN_SETTINGS)
             .appType(AppType.ADMIN)
-            .text("관리자 & 권한")
+            .text("관리자 & 역할")
             .uri("/settings/adminGroup")
             .showOnNavi(true)
             .roles(Set.of("ROLE_MANAGER"))
@@ -160,8 +161,23 @@ public class InitUriAdminData implements ApplicationRunner {
             .id(ADMIN_SETTINGS_ADMIN_ROLE)
             .parentId(ADMIN_SETTINGS_ADMIN_GROUP)
             .appType(AppType.ADMIN)
-            .text("관리자 권한")
+            .text("관리자 역할")
             .uri("/settings/adminRoles")
+            .showOnNavi(true)
+            .roles(Set.of("ROLE_MANAGER"))
+            .ogTitle("org.beizix - 관리자 역할")
+            .ogDesc("org.beizix 관리자 역할 목록 화면")
+            .ogKeywords("org.beizix,role,authorities")
+            .build(),
+        false);
+
+    uriSavePortIn.connect(
+        URIInput.builder()
+            .id(ADMIN_SETTINGS_ADMIN_PRIVILEGE)
+            .parentId(ADMIN_SETTINGS_ADMIN_GROUP)
+            .appType(AppType.ADMIN)
+            .text("관리자 권한")
+            .uri("/settings/adminPrivilege")
             .showOnNavi(true)
             .roles(Set.of("ROLE_MANAGER"))
             .ogTitle("org.beizix - 관리자 권한")

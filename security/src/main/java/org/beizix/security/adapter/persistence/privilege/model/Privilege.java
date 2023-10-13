@@ -1,5 +1,6 @@
 package org.beizix.security.adapter.persistence.privilege.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -19,4 +20,8 @@ public class Privilege extends AuditEntity {
   @Id
   @Comment("관리자 권한")
   private String id;
+
+  @Column
+  @Comment("설명")
+  private String description;
 }
