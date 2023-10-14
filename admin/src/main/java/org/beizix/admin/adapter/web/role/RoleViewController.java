@@ -4,7 +4,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.role.model.view.RoleViewRespVO;
-import org.beizix.core.common.rest.RestResponseDto;
+import org.beizix.core.common.rest.RestResponse;
 import org.beizix.security.application.domain.role.model.view.RoleViewOutput;
 import org.beizix.security.application.port.in.role.RoleViewPortIn;
 import org.beizix.utility.common.MessageUtil;
@@ -13,18 +13,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/adminRole")
 class RoleViewController {
   private final ModelMapper modelMapper;
   private final MessageUtil messageUtil;
   private final RoleViewPortIn roleViewPortIn;
 
-  @GetMapping("get/{role}")
+  @GetMapping("/api/adminRole/get/{role}")
   ResponseEntity<?> view(@PathVariable String role) {
     RoleViewOutput item =
         Optional.ofNullable(roleViewPortIn.connect(role))
@@ -34,6 +32,6 @@ class RoleViewController {
                         messageUtil.getMessage("exception.noSuchElement", role, "ROLE ID")));
 
     return ResponseEntity.status(HttpStatus.OK)
-        .body(RestResponseDto.builder().item(modelMapper.map(item, RoleViewRespVO.class)).build());
+        .body(RestResponse.builder().item(modelMapper.map(item, RoleViewRespVO.class)).build());
   }
 }

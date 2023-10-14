@@ -1,6 +1,7 @@
 package org.beizix.front.feature.exboard.web;
 
 import lombok.RequiredArgsConstructor;
+import org.beizix.core.application.domain.exboard.model.view.ExBoardViewOutput;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +13,7 @@ import org.beizix.core.application.port.in.exboard.ExBoardViewPortIn;
 @Controller
 @RequiredArgsConstructor
 public class ExBoardUpdateViewController {
-  private final ExBoardViewPortIn exBoardViewPortIn;
+  private final ExBoardViewPortIn<ExBoardViewOutput> exBoardViewPortIn;
   private final ModelMapper modelMapper;
 
   @GetMapping(path = "/board/exampleBoard/update/{id}")

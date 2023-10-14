@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
-import org.beizix.core.common.rest.RestResponseDto;
+import org.beizix.core.common.rest.RestResponse;
 import org.beizix.core.config.enums.ContentDispositionType;
 import org.beizix.core.config.enums.FileUploadType;
 import org.beizix.core.application.port.in.fileupload.FileUploadPortIn;
@@ -24,7 +24,7 @@ public class EditorImageCreateController {
   ResponseEntity<?> editorImageUpload(MultipartFile editorImage) throws IOException {
     return ResponseEntity.status(HttpStatus.OK)
         .body(
-            RestResponseDto.builder()
+            RestResponse.builder()
                 .message(
                     fileUrlPortIn.connect(
                         ContentDispositionType.INLINE,

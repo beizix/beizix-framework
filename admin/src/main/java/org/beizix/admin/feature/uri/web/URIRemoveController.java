@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.beizix.core.common.rest.RestResponseDto;
+import org.beizix.core.common.rest.RestResponse;
 import org.beizix.core.common.util.CoreUtil;
 import org.beizix.core.config.enums.AppType;
 import org.beizix.core.config.exception.NonRemovableItemException;
@@ -36,7 +36,7 @@ public class URIRemoveController {
 
     return ResponseEntity.status(HttpStatus.OK)
         .body(
-            RestResponseDto.builder()
+            RestResponse.builder()
                 .message(messageUtil.getMessage("operation.common.remove.done"))
                 .build());
   }

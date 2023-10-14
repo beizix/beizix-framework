@@ -11,7 +11,7 @@ import org.beizix.core.config.enums.AppType;
 import org.beizix.core.application.domain.uri.model.URIInput;
 import org.beizix.core.application.port.in.uri.URIViewPortIn;
 import org.beizix.utility.common.MessageUtil;
-import org.beizix.core.common.rest.RestResponseDto;
+import org.beizix.core.common.rest.RestResponse;
 
 import java.util.NoSuchElementException;
 
@@ -32,6 +32,6 @@ public class URIViewController {
                     new NoSuchElementException(
                         messageUtil.getMessage("exception.noSuchElement", id, "URI")));
     return ResponseEntity.status(HttpStatus.OK)
-        .body(RestResponseDto.builder().item(modelMapper.map(item, URIDto.class)).build());
+        .body(RestResponse.builder().item(modelMapper.map(item, URIDto.class)).build());
   }
 }

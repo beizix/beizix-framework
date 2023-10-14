@@ -11,7 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.beizix.core.common.rest.RestResponseDto;
+import org.beizix.core.common.rest.RestResponse;
 import org.beizix.core.common.util.CoreUtil;
 import org.beizix.security.application.domain.role.model.save.RoleSaveInput;
 import org.beizix.security.application.port.in.role.RoleSavePortIn;
@@ -45,7 +45,7 @@ class RoleSaveController {
 
     return ResponseEntity.status(HttpStatus.OK)
         .body(
-            RestResponseDto.builder()
+            RestResponse.builder()
                 .item(modelMapper.map(roleDto, RoleSaveRespVO.class))
                 .message(messageUtil.getMessage("operation.common.save.done"))
                 .build());

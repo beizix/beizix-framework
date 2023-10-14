@@ -1,5 +1,6 @@
 package org.beizix.admin.adapter.web.role;
 
+import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.role.model.sort.RoleSortReqVO;
@@ -19,10 +20,10 @@ class RoleSortController {
   private final ModelMapper modelMapper;
 
   @PostMapping("/api/adminRole/switchOrderNo")
-  ResponseEntity<?> switchOrderNo(@RequestBody RoleSortReqVO formDto) {
+  ResponseEntity<?> switchOrderNo(@RequestBody List<RoleSortReqVO> sortVOs) {
     roleSortPortIn.connect(
-        formDto.getUpdateList().stream()
-            .map(item -> modelMapper.map(item, RoleSortInput.class))
+        sortVOs.stream()
+            .map(item -> new RoleSortInput(item.getId(), item.getOrderNo()))
             .collect(Collectors.toList()));
 
     return ResponseEntity.status(HttpStatus.OK).body(null);

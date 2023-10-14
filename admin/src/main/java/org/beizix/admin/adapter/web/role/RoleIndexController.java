@@ -14,8 +14,7 @@ import org.beizix.core.config.enums.AppType;
 @Slf4j
 class RoleIndexController {
   @GetMapping
-  String intro(Model model) {
-    model.addAttribute("appType", AppType.ADMIN);
+  String intro() {
     return "adminRole/adminRoleList";
   }
 }

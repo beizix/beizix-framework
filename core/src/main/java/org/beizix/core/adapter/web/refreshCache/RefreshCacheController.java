@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.beizix.core.common.rest.RestResponseDto;
+import org.beizix.core.common.rest.RestResponse;
 
 import java.util.Optional;
 
@@ -23,6 +23,6 @@ public class RefreshCacheController {
         .forEach(name -> Optional.ofNullable(cacheManager.getCache(name)).ifPresent(Cache::clear));
 
     return ResponseEntity.status(HttpStatus.OK)
-        .body(RestResponseDto.builder().message("CORE CACHES ARE REFRESHED.").build());
+        .body(RestResponse.builder().message("CORE CACHES ARE REFRESHED.").build());
   }
 }

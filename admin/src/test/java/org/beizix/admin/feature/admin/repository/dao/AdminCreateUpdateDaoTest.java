@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.beizix.security.adapter.persistence.admin.repository.AdminRepo;
 import org.beizix.security.application.port.in.admin.AdminSavePortIn;
 import org.beizix.security.application.port.in.admin.AdminViewPortIn;
-import org.beizix.security.application.port.in.admin_role.AdminWithRoleRemovePortIn;
 import org.beizix.security.application.port.out.admin.AdminSavePortOut;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,7 +26,6 @@ class AdminCreateUpdateDaoTest {
   @Autowired AdminSavePortOut adminCreateUpdateDao;
   @Autowired AdminViewPortIn adminViewPortIn;
   @Autowired AdminSavePortIn adminSavePortIn;
-  @Autowired AdminWithRoleRemovePortIn adminWithRoleRemovePortIn;
 
   @Autowired AdminRepo adminRepo;
 

@@ -16,6 +16,6 @@ class PrivilegeIndexController {
   @GetMapping
   String intro(Model model) {
     model.addAttribute("appType", AppType.ADMIN);
-    return "adminRole/adminRoleList";
+    return "privilege/privilegeList";
   }
 }

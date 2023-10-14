@@ -10,7 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.beizix.core.common.rest.RestResponseDto;
+import org.beizix.core.common.rest.RestResponse;
 import org.beizix.core.common.util.CoreUtil;
 import org.beizix.core.application.domain.uri.model.URISortInput;
 import org.beizix.core.application.port.in.uri.URISortPortIn;
@@ -38,7 +38,7 @@ public class URISortController {
 
     return ResponseEntity.status(HttpStatus.OK)
         .body(
-            RestResponseDto.builder()
+            RestResponse.builder()
                 .item(URIDto.builder().id(formDto.getId()).build())
                 .message(messageUtil.getMessage("operation.common.move.done"))
                 .build());

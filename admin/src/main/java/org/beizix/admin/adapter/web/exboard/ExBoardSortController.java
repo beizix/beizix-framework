@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.exboard.model.sort.ExBoardSortReqVO;
 import org.beizix.core.application.domain.exboard.model.sort.ExBoardSortInput;
 import org.beizix.core.application.port.in.exboard.ExBoardSortPortIn;
-import org.beizix.core.common.rest.RestResponseDto;
+import org.beizix.core.common.rest.RestResponse;
 import org.beizix.utility.common.MessageUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +28,7 @@ class ExBoardSortController {
             .collect(Collectors.toList()));
     return ResponseEntity.status(HttpStatus.OK)
         .body(
-            RestResponseDto.builder()
+            RestResponse.builder()
                 .message(messageUtil.getMessage("operation.orderNo.updated"))
                 .build());
   }

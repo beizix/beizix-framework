@@ -3,7 +3,7 @@ package org.beizix.admin.adapter.web.role;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.role.model.list.RoleListReqVO;
-import org.beizix.core.common.rest.RestResponseDto;
+import org.beizix.core.common.rest.RestResponse;
 import org.beizix.security.application.port.in.role.RoleListPortIn;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ class RoleListController {
   ResponseEntity<?> operate() {
     return ResponseEntity.status(HttpStatus.OK)
         .body(
-            RestResponseDto.<RoleListReqVO>builder()
+            RestResponse.<RoleListReqVO>builder()
                 .items(
                     roleListPortIn.connect().stream()
                         .map(item -> modelMapper.map(item, RoleListReqVO.class))

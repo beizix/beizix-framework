@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.beizix.core.common.rest.RestResponseDto;
+import org.beizix.core.common.rest.RestResponse;
 import org.beizix.core.common.util.CoreUtil;
 import org.beizix.core.config.exception.AlreadyExistItemException;
 import org.beizix.core.config.exception.UnAcceptableFileException;
@@ -50,7 +50,7 @@ public class URICreateUpdateController {
 
     return ResponseEntity.status(HttpStatus.OK)
         .body(
-            RestResponseDto.builder()
+            RestResponse.builder()
                 .item(modelMapper.map(item, URIDto.class))
                 .message(messageUtil.getMessage("operation.common.save.done"))
                 .build());

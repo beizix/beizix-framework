@@ -24,4 +24,8 @@ public class Privilege extends AuditEntity {
   @Column
   @Comment("설명")
   private String description;
+
+  @Column
+  @Comment("정렬순서")
+  private Integer orderNo;
 }

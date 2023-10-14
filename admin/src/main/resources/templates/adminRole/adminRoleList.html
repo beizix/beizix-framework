@@ -9,9 +9,11 @@
       <a href="javascript:expand();" class="link-secondary">Expand</a>
       <a href="javascript:collapse();" class="link-secondary">Collapse</a>
 
-      <button type="button" class="btn btn-sm btn-secondary float-end ms-1" onclick="searchNode();"><i
-              class="bi bi-search"></i></button>
-      <input class="form-control form-control-sm w-25 inline-block float-end" id="searchNode" type="text"
+      <button type="button" class="btn btn-sm btn-secondary float-end ms-1" onclick="searchNode();">
+        <i
+            class="bi bi-search"></i></button>
+      <input class="form-control form-control-sm w-25 inline-block float-end" id="searchNode"
+             type="text"
              placeholder="역할 검색">
     </div>
     <div class="col"></div>
@@ -21,14 +23,16 @@
     <div class="col fw-bold border rounded-3 overflow-auto lh-1" id="tree"></div>
     <div class="col fw-bold ms-4">
 
-      <form name="formDto" th:action="@{/settings/uri/update}" method="post">
+      <form name="formDto" action="" method="post">
         <input type="hidden" name="orderNo" value="">
-        <input type="hidden" name="operationType" th:value="${T(org.beizix.utility.enums.OperationType).CREATE}"/>
+        <input type="hidden" name="operationType"
+               th:value="${T(org.beizix.utility.enums.OperationType).CREATE}"/>
 
         <div class="row mb-3">
           <label class="col-sm-3 col-form-label" for="id">역할 ID *</label>
           <div class="col-sm-9">
-            <input type="text" id="id" name="id" class="form-control" placeholder="ROLE_ 로 시작하는 역할 ID 입력"/>
+            <input type="text" id="id" name="id" class="form-control"
+                   placeholder="ROLE_ 로 시작하는 역할 ID 입력"/>
             <div class="invalid-feedback fw-bold field-id"></div>
           </div>
         </div>
@@ -36,7 +40,8 @@
         <div class=" row mb-3">
           <label class="col-sm-3 col-form-label" for="description">설명</label>
           <div class="col-sm-9">
-            <input type="text" id="description" name="description" class="form-control" placeholder="설명을 입력하세요"/>
+            <input type="text" id="description" name="description" class="form-control"
+                   placeholder="설명을 입력하세요"/>
             <div class="invalid-feedback fw-bold field-description"></div>
           </div>
         </div>
@@ -53,7 +58,8 @@
       <button type="button" class="btn btn-sm btn-outline-secondary mt-1" onclick="move('down');">
         <i class="bi bi-arrow-down-circle-fill"></i>
       </button>
-      <button type="button" class="btn btn-sm btn-primary mt-1" onclick="addChildNode();">역할 추가</button>
+      <button type="button" class="btn btn-sm btn-primary mt-1" onclick="addChildNode();">역할 추가
+      </button>
     </div>
     <div class="col text-end">
       <button type="button" class="btn btn-primary" onclick="goSave();">저장</button>
@@ -63,313 +69,315 @@
 
   <script th:inline="javascript">
 
-      // 노드가 보여질 level 전연벽수 기본값 6
-      let globalLevels = 6;
+    // 노드가 보여질 level 전연벽수 기본값 6
+    let globalLevels = 6;
 
-      $(document).ready(function () {
-          loadTree();
+    $(document).ready(function () {
+      loadTree();
+    });
+
+    function loadTree(currentId) {
+      $.ajax({
+        type: 'GET',
+        url: '/api/adminRole/get/recursiveItems',
+        cache: false,
+        success: function (response) {
+          let jsonData = response.items;
+          $(jsonData).each(function (idx, oj) {
+            oj['text'] = !oj.description ? oj.id : oj.id + ' (' + oj.description + ')';
+            oj['value'] = oj.description;
+          });
+          renderTree({
+            text: '관리자 역할',
+            value: '',
+            nodes: jsonData
+          }, currentId);
+        }
+      });
+    }
+
+    function renderTree(nodes, currentId) {
+      const tree = $('#tree');
+      tree.treeview({
+        data: [nodes],
+        color: "#428bca",
+        expandIcon: 'bi bi-plus-square-fill',
+        collapseIcon: 'bi bi-dash-square-fill',
+        emptyIcon: 'bi bi-dot',
+        showBorder: false,
+        enableLinks: true,
+        levels: globalLevels,
       });
 
-      function loadTree(currentId) {
-          $.ajax({
-              type: 'GET',
-              url: '/api/adminRole/get/recursiveItems',
-              cache: false,
-              success: function (response) {
-                  let jsonData = response.items;
-                  $(jsonData).each(function (idx, oj) {
-                      oj['text'] = !oj.description ? oj.id : oj.id + ' (' + oj.description + ')';
-                      oj['value'] = oj.description;
-                  });
-                  renderTree({
-                      text: '관리자 역할',
-                      value: '',
-                      nodes: jsonData
-                  }, currentId);
-              }
-          });
-      }
-
-      function renderTree(nodes, currentId) {
-          const tree = $('#tree');
-          tree.treeview({
-              data: [nodes],
-              color: "#428bca",
-              expandIcon: 'bi bi-plus-square-fill',
-              collapseIcon: 'bi bi-dash-square-fill',
-              emptyIcon: 'bi bi-dot',
-              showBorder: false,
-              enableLinks: true,
-              levels: globalLevels,
-          });
-
-          tree.on('rendered', function () {
-              if (currentId) {
-                  setTimeout(function () {
-                      const currentNode = tree.treeview('findNodes', ['^' + currentId + '$', 'id']);
-                      tree.treeview('selectNode', [currentNode, {silent: false}]);
-                      currentNode[0].$el[0].scrollIntoView();
-                  }, 0);
-              }
-          });
-
-          tree.off('nodeSelected').on('nodeSelected', function (event, data) {
-              const f = document.formDto;
-              const currentNode = tree.treeview('getSelected')[0];
-
-              if (data.id === 'code.new.temp') {
-                  // 신규 노드일 경우 id는 'code.new.temp'
-
-                  cleanFormFields();
-                  f.operationType.value = [[${T(org.beizix.utility.enums.OperationType).CREATE}]];
-
-                  $(f.id).removeAttr('readonly');
-
-                  f.id.value = currentNode.text;
-                  f.description.value = currentNode.value ? currentNode.value : '';
-                  f.id.focus();
-
-                  return;
-              } else {
-                  f.operationType.value = [[${T(org.beizix.utility.enums.OperationType).UPDATE}]];
-              }
-
-              if (currentNode.id) getInfo(data);
-          });
-      }
-
-      function addChildNode() {
-          const tree = $('#tree');
-          const parentNode = tree.treeview('getNodes')[0];
-          tree.treeview('addNode', [{text: 'NEW NODE - 저장 필요', id: 'code.new.temp'}, parentNode]);
-          const currentNode = tree.treeview('findNodes', ['^code.new.temp$', 'id']);
-
+      tree.on('rendered', function () {
+        if (currentId) {
           setTimeout(function () {
-              tree.treeview('selectNode', [currentNode, {silent: false}]);
+            const currentNode = tree.treeview('findNodes', ['^' + currentId + '$', 'id']);
+            tree.treeview('selectNode', [currentNode, {silent: false}]);
+            currentNode[0].$el[0].scrollIntoView();
           }, 0);
-      }
+        }
+      });
 
-      function refreshTree(currentId) {
-          $('#tree').treeview('remove');
+      tree.off('nodeSelected').on('nodeSelected', function (event, data) {
+        const f = document.formDto;
+        const currentNode = tree.treeview('getSelected')[0];
+
+        if (data.id === 'code.new.temp') {
+          // 신규 노드일 경우 id는 'code.new.temp'
+
           cleanFormFields();
-          loadTree(currentId);
+          f.operationType.value = [[${T(org.beizix.utility.enums.OperationType).CREATE}]];
+
+          $(f.id).removeAttr('readonly');
+
+          f.id.value = currentNode.text;
+          f.description.value = currentNode.value ? currentNode.value : '';
+          f.id.focus();
+
+          return;
+        } else {
+          f.operationType.value = [[${T(org.beizix.utility.enums.OperationType).UPDATE}]];
+        }
+
+        if (currentNode.id) {
+          getInfo(data);
+        }
+      });
+    }
+
+    function addChildNode() {
+      const tree = $('#tree');
+      const parentNode = tree.treeview('getNodes')[0];
+      tree.treeview('addNode', [{text: 'NEW NODE - 저장 필요', id: 'code.new.temp'}, parentNode]);
+      const currentNode = tree.treeview('findNodes', ['^code.new.temp$', 'id']);
+
+      setTimeout(function () {
+        tree.treeview('selectNode', [currentNode, {silent: false}]);
+      }, 0);
+    }
+
+    function refreshTree(currentId) {
+      $('#tree').treeview('remove');
+      cleanFormFields();
+      loadTree(currentId);
+    }
+
+    function getInfo(data) {
+      const f = document.formDto;
+      if (data.id === 'code.new.temp') {
+        return;
+      }
+      cleanFormFields();
+
+      $.ajax({
+        type: 'GET',
+        url: '/api/adminRole/get/' + data.id,
+        cache: false,
+        statusCode: {
+          400: function (response) {
+            alert(response.responseJSON.message);
+          },
+          200: function (response) {
+            const item = response.item;
+            f.id.value = item.id;
+            f.description.value = item.description;
+            f.orderNo.value = item.orderNo;
+          }
+        },
+        complete: function () {
+          $(f.id).attr('readonly', 'readonly');
+        }
+      })
+    }
+
+    function goSave() {
+      const tree = $('#tree');
+      const selectedNode = tree.treeview('getSelected');
+
+      if (selectedNode.length === 0) {
+        alert(/*[[#{operation.adminRole.save.choose.first}]]*/);
+        return;
       }
 
-      function getInfo(data) {
-          const f = document.formDto;
-          if (data.id === 'code.new.temp') {
-              return;
-          }
-          cleanFormFields();
+      const f = document.formDto;
+      const obj = $(f).serializeObject();
 
-          $.ajax({
-              type: 'GET',
-              url: '/api/adminRole/get/' + data.id,
-              cache: false,
-              statusCode: {
-                  400: function (response) {
-                      alert(response.responseJSON.message);
-                  },
-                  200: function (response) {
-                      const item = response.item;
-                      f.id.value = item.id;
-                      f.description.value = item.description;
-                      f.orderNo.value = item.orderNo;
-                  }
-              },
-              complete: function () {
-                  $(f.id).attr('readonly', 'readonly');
-              }
-          })
+      $(f).find('.is-invalid').removeClass('is-invalid');
+
+      $.ajax({
+        type: 'POST',
+        url: '/api/adminRole/save',
+        data: obj,
+        beforeSend: function (xhr) {
+          // csrf 토큰
+          xhr.setRequestHeader(
+              $("meta[name='_csrf_header']").attr("content"),
+              $("meta[name='_csrf']").attr("content"));
+        },
+        success: function (response) {
+          alert(response.message);
+          refreshTree(response.item.id);
+        },
+        statusCode: {
+          // error
+          400: function (response) {
+            const resJson = response.responseJSON;
+            alert(resJson.message);
+          },
+          // validation fail
+          422: function (response) {
+            const fieldErrors = response.responseJSON.fieldErrors;
+            let form = document.formDto;
+            $(fieldErrors).each(function (idx, error) {
+              $(form[error.field]).addClass('is-invalid');
+              $('.field-' + error.field).text(error.message);
+            });
+          }
+        }
+      })
+    }
+
+    function goRemove() {
+      const tree = $('#tree');
+      const selectedNode = tree.treeview('getSelected');
+      const f = document.formDto;
+
+      if (selectedNode.length === 0) {
+        alert([[#{operation.uri.remove.choose.first}]]);
+        return;
       }
 
-      function goSave() {
-          const tree = $('#tree');
-          const selectedNode = tree.treeview('getSelected');
+      const info = selectedNode[0];
 
-          if (selectedNode.length === 0) {
-              alert(/*[[#{operation.adminRole.save.choose.first}]]*/);
-              return;
-          }
+      if (confirm("'" + info.text + "' " + [[#{operation.uri.remove.ask(info.text)}]])) {
+        if (!info.id) {
+          // 신규생성 임시 노드인 경우
+          tree.treeview('removeNode', [selectedNode]);
+          alert([[#{operation.common.remove.done}]]);
+          refreshTree();
+          return;
+        }
 
-          const f = document.formDto;
-          const obj = $(f).serializeObject();
+        $.ajax({
+          type: 'POST',
+          url: '/api/adminRole/remove',
+          data: {id: info.id},
+          beforeSend: function (xhr) {
+            xhr.setRequestHeader(
+                $("meta[name='_csrf_header']").attr("content"),
+                $("meta[name='_csrf']").attr("content"));
+          },
+          success: function (response) {
+            alert(response.message);
+            refreshTree();
+          },
+        })
+      }
+    }
 
-          $(f).find('.is-invalid').removeClass('is-invalid');
+    function cleanFormFields() {
+      const f = document.formDto;
+      f.id.value = '';
+      f.orderNo.value = '';
+      f.description.value = '';
 
-          $.ajax({
-              type: 'POST',
-              url: '/api/adminRole/save',
-              data: obj,
-              beforeSend: function (xhr) {
-                  // csrf 토큰
-                  xhr.setRequestHeader(
-                      $("meta[name='_csrf_header']").attr("content"),
-                      $("meta[name='_csrf']").attr("content"));
-              },
-              success: function (response) {
-                  alert(response.message);
-                  refreshTree(response.item.id);
-              },
-              statusCode: {
-                  // error
-                  400: function (response) {
-                      const resJson = response.responseJSON;
-                      alert(resJson.message);
-                  },
-                  // validation fail
-                  422: function (response) {
-                      const fieldErrors = response.responseJSON.fieldErrors;
-                      let form = document.formDto;
-                      $(fieldErrors).each(function (idx, error) {
-                          $(form[error.field]).addClass('is-invalid');
-                          $('.field-' + error.field).text(error.message);
-                      });
-                  }
-              }
-          })
+      $(f).find('.is-invalid').removeClass('is-invalid');
+    }
+
+    function move(dir) {
+      const curNode = $('#tree').treeview('getSelected');
+      if (curNode.length === 0) {
+        alert([[#{operation.uri.move.choose}]]);
+        return;
       }
 
-      function goRemove() {
-          const tree = $('#tree');
-          const selectedNode = tree.treeview('getSelected');
-          const f = document.formDto;
-
-          if (selectedNode.length === 0) {
-              alert([[#{operation.uri.remove.choose.first}]]);
-              return;
-          }
-
-          const info = selectedNode[0];
-
-          if (confirm("'" + info.text + "' " + [[#{operation.uri.remove.ask(info.text)}]])) {
-              if (!info.id) {
-                  // 신규생성 임시 노드인 경우
-                  tree.treeview('removeNode', [selectedNode]);
-                  alert([[#{operation.common.remove.done}]]);
-                  refreshTree();
-                  return;
-              }
-
-              $.ajax({
-                  type: 'POST',
-                  url: '/api/adminRole/remove',
-                  data: {id: info.id},
-                  beforeSend: function (xhr) {
-                      xhr.setRequestHeader(
-                          $("meta[name='_csrf_header']").attr("content"),
-                          $("meta[name='_csrf']").attr("content"));
-                  },
-                  success: function (response) {
-                      alert(response.message);
-                      refreshTree();
-                  },
-              })
-          }
+      const info = curNode[0];
+      if (info.id === 'code.new.temp') {
+        alert([[#{operation.uri.move.save.first}]]);
+        return;
       }
 
-      function cleanFormFields() {
-          const f = document.formDto;
-          f.id.value = '';
-          f.orderNo.value = '';
-          f.description.value = '';
-
-          $(f).find('.is-invalid').removeClass('is-invalid');
+      const curOrderNo = info.orderNo;
+      const siblingsWithoutMe = $('#tree').treeview('getSiblings', curNode);
+      const f = document.formDto;
+      let updateList = [];
+      let targetItem;
+      switch (dir) {
+        case 'up':
+          $(siblingsWithoutMe).each(function (idx, item) {
+            if (item.orderNo < curOrderNo) {
+              targetItem = item;
+            }
+          });
+          if (!targetItem) {
+            alert([[#{operation.uri.move.cannot.before}]]);
+            return;
+          }
+          updateList.push({id: info.id, orderNo: targetItem.orderNo});
+          updateList.push({id: targetItem.id, orderNo: info.orderNo});
+          break;
+        case 'down':
+          $(siblingsWithoutMe).each(function (idx, item) {
+            if (item.orderNo > curOrderNo) {
+              targetItem = item;
+              return false;
+            }
+          });
+          if (!targetItem) {
+            alert([[#{operation.uri.move.cannot.after}]]);
+            return;
+          }
+          updateList.push({id: info.id, orderNo: targetItem.orderNo});
+          updateList.push({id: targetItem.id, orderNo: info.orderNo});
+          break;
       }
 
-      function move(dir) {
-          const curNode = $('#tree').treeview('getSelected');
-          if (curNode.length === 0) {
-              alert([[#{operation.uri.move.choose}]]);
-              return;
-          }
+      // 다음 tree 랜더링시 보여줄 level 설정
+      globalLevels = info.nodeId.split('.').length - 1;
 
-          const info = curNode[0];
-          if (info.id === 'code.new.temp') {
-              alert([[#{operation.uri.move.save.first}]]);
-              return;
-          }
+      $.ajax({
+        type: 'POST',
+        url: '/api/adminRole/switchOrderNo',
+        headers: {
+          'content-type': 'application/json'
+        },
+        data: JSON.stringify(updateList),
+        beforeSend: function (xhr) {
+          // csrf 토큰
+          xhr.setRequestHeader(
+              $("meta[name='_csrf_header']").attr("content"),
+              $("meta[name='_csrf']").attr("content"));
+        },
+        success: function (data) {
+          refreshTree(info.id);
+        }
+      })
+    }
 
-          const curOrderNo = info.orderNo;
-          const siblingsWithoutMe = $('#tree').treeview('getSiblings', curNode);
-          const f = document.formDto;
-          let updateList = [];
-          let targetItem;
-          switch (dir) {
-              case 'up':
-                  $(siblingsWithoutMe).each(function (idx, item) {
-                      if (item.orderNo < curOrderNo) {
-                          targetItem = item;
-                      }
-                  });
-                  if (!targetItem) {
-                      alert([[#{operation.uri.move.cannot.before}]]);
-                      return;
-                  }
-                  updateList.push({appType: f.appType.value, id: info.id, orderNo: targetItem.orderNo});
-                  updateList.push({appType: f.appType.value, id: targetItem.id, orderNo: info.orderNo});
-                  break;
-              case 'down':
-                  $(siblingsWithoutMe).each(function (idx, item) {
-                      if (item.orderNo > curOrderNo) {
-                          targetItem = item;
-                          return false;
-                      }
-                  });
-                  if (!targetItem) {
-                      alert([[#{operation.uri.move.cannot.after}]]);
-                      return;
-                  }
-                  updateList.push({appType: f.appType.value, id: info.id, orderNo: targetItem.orderNo});
-                  updateList.push({appType: f.appType.value, id: targetItem.id, orderNo: info.orderNo});
-                  break;
-          }
+    function collapse() {
+      const tree = $('#tree');
+      tree.treeview('collapseAll', {silent: true});
+    }
 
-          // 다음 tree 랜더링시 보여줄 level 설정
-          globalLevels = info.nodeId.split('.').length - 1;
+    function expand() {
+      const tree = $('#tree');
+      tree.treeview('expandAll', {silent: true, levels: 6});
+    }
 
-          $.ajax({
-              type: 'POST',
-              url: '/api/adminRole/switchOrderNo',
-              headers: {
-                  'content-type': 'application/json'
-              },
-              data: JSON.stringify({'updateList': updateList}),
-              beforeSend: function (xhr) {
-                  // csrf 토큰
-                  xhr.setRequestHeader(
-                      $("meta[name='_csrf_header']").attr("content"),
-                      $("meta[name='_csrf']").attr("content"));
-              },
-              success: function (data) {
-                  refreshTree(info.id);
-              }
-          })
+    function searchNode() {
+      let searchVal = $('#searchNode').val().trim();
+      if (!searchVal) {
+        return;
       }
-
-      function collapse() {
-          const tree = $('#tree');
-          tree.treeview('collapseAll', {silent: true});
+      const tree = $('#tree');
+      const searchNode = tree.treeview('search', [
+        searchVal, {ignoreCase: true, revealResults: true}
+      ]);
+      if (searchNode.length) {
+        tree.treeview('selectNode', [searchNode[0], {silent: false}]);
       }
-
-      function expand() {
-          const tree = $('#tree');
-          tree.treeview('expandAll', {silent: true, levels: 6});
-      }
-
-      function searchNode() {
-          let searchVal = $('#searchNode').val().trim();
-          if (!searchVal) {
-              return;
-          }
-          const tree = $('#tree');
-          const searchNode = tree.treeview('search', [
-              searchVal, {ignoreCase: true, revealResults: true}
-          ]);
-          if (searchNode.length) {
-              tree.treeview('selectNode', [searchNode[0], {silent: false}]);
-          }
-      }
+    }
   </script>
 </section>
 

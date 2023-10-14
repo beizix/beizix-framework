@@ -7,7 +7,7 @@ import java.util.List;
 
 @Builder
 @Data
-public class RestResponseDto<T> {
+public class RestResponse<T> {
     private String message;
 
     private T item;

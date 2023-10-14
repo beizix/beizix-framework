@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.beizix.core.common.rest.RestResponseDto;
+import org.beizix.core.common.rest.RestResponse;
 import org.beizix.utility.common.MessageUtil;
 import org.beizix.security.application.port.in.role.RoleRemovePortIn;
 
@@ -21,7 +21,7 @@ class RoleRemoveController {
     roleRemovePortIn.connect(formDto.getId());
     return ResponseEntity.status(HttpStatus.OK)
         .body(
-            RestResponseDto.builder()
+            RestResponse.builder()
                 .message(messageUtil.getMessage("operation.common.remove.done"))
                 .build());
   }
