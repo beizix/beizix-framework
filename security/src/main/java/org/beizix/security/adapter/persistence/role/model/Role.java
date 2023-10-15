@@ -4,9 +4,9 @@ import java.util.Set;
 import javax.persistence.*;
 import lombok.*;
 import org.beizix.core.adapter.persistence.common.model.AuditEntity;
+import org.beizix.security.adapter.persistence.role_privilege.model.RoleWithPrivilege;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Comment;
-import org.beizix.security.adapter.persistence.role_privilege.model.RoleWithPrivilege;
 
 @Entity
 @Table(name = "role")
