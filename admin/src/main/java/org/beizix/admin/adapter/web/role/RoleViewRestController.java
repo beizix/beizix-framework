@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-class RoleViewController {
+class RoleViewRestController {
   private final ModelMapper modelMapper;
   private final MessageUtil messageUtil;
   private final RoleViewPortIn roleViewPortIn;

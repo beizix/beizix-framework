@@ -12,7 +12,7 @@ import org.beizix.security.application.port.in.role.RoleRemovePortIn;
 
 @RestController
 @RequiredArgsConstructor
-class RoleRemoveController {
+class RoleRemoveRestController {
   private final RoleRemovePortIn roleRemovePortIn;
   private final MessageUtil messageUtil;
 

@@ -21,7 +21,7 @@ import org.beizix.utility.common.MessageUtil;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/adminRole")
-class RoleSaveController {
+class RoleSaveRestController {
   private final CoreUtil coreUtil;
   private final ModelMapper modelMapper;
   private final MessageUtil messageUtil;
