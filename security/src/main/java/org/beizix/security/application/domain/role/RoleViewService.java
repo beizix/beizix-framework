@@ -1,18 +1,18 @@
 package org.beizix.security.application.domain.role;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import org.beizix.security.application.domain.role.model.view.RoleViewOutput;
 import org.beizix.security.application.port.in.role.RoleViewPortIn;
-import org.beizix.security.application.port.out.role.RoleViewOutPut;
+import org.beizix.security.application.port.out.role.RoleViewPortOut;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class RoleViewService implements RoleViewPortIn {
-  private final RoleViewOutPut roleViewOutPut;
+public class RoleViewService implements RoleViewPortIn<RoleViewOutput> {
+  private final RoleViewPortOut<RoleViewOutput> roleViewPortOut;
 
   @Override
   public RoleViewOutput connect(String role) {
-    return roleViewOutPut.connect(role);
+    return roleViewPortOut.connect(role);
   }
 }
