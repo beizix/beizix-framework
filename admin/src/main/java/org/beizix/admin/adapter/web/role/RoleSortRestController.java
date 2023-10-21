@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-class RoleSortController {
+class RoleSortRestController {
   private final RoleSortPortIn roleSortPortIn;
   private final ModelMapper modelMapper;
 

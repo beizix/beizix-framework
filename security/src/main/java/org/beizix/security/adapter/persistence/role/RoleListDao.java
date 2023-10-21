@@ -1,27 +1,29 @@
 package org.beizix.security.adapter.persistence.role;
 
+import java.util.List;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.beizix.security.adapter.persistence.role.repository.RoleRepo;
-import org.beizix.security.application.domain.role.model.view.RoleViewOutput;
-import org.beizix.security.application.port.out.role.RoleViewPortOut;
+import org.beizix.security.application.domain.role.model.list.PrivilegeOutput;
+import org.beizix.security.application.domain.role.model.list.RoleOutput;
+import org.beizix.security.application.port.out.role.RoleListPortOut;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class RoleViewDao implements RoleViewPortOut<RoleViewOutput> {
+public class RoleListDao implements RoleListPortOut<RoleOutput> {
   private final RoleRepo roleRepo;
 
   @Override
   @Transactional
-  public RoleViewOutput connect(String roleId) {
-    return roleRepo
-        .findById(roleId)
+  public List<RoleOutput> connect() {
+    return roleRepo.findAll(Sort.by(Sort.Direction.ASC, "orderNo")).stream()
         .map(
             role ->
-                new RoleViewOutput(
+                new RoleOutput(
                     role.getCreatedBy(),
                     role.getCreatedAt(),
                     role.getUpdatedBy(),
@@ -30,8 +32,11 @@ public class RoleViewDao implements RoleViewPortOut<RoleViewOutput> {
                     role.getDescription(),
                     role.getOrderNo(),
                     CollectionUtils.emptyIfNull(role.getWithPrivileges()).stream()
-                        .map(wp -> wp.getPrivilege().getId())
+                        .map(
+                            w ->
+                                new PrivilegeOutput(
+                                    w.getPrivilege().getId(), w.getPrivilege().getDescription()))
                         .collect(Collectors.toList())))
-        .orElse(null);
+        .collect(Collectors.toList());
   }
 }

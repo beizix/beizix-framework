@@ -1,7 +1,7 @@
 package org.beizix.security.application.port.in.role;
 
-import org.beizix.security.application.domain.role.model.view.RoleViewOutput;
+import org.beizix.core.application.domain.common.model.AuditOutput;
 
-public interface RoleViewPortIn {
-  RoleViewOutput connect(String role);
+public interface RoleViewPortIn<E extends AuditOutput> {
+  E connect(String role);
 }

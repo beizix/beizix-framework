@@ -1,7 +1,7 @@
 package org.beizix.security.application.port.out.role;
 
-import org.beizix.security.application.domain.role.model.save.RoleSaveInput;
+import java.util.List;
 
 public interface RoleSavePortOut {
-  RoleSaveInput connect(RoleSaveInput saveReq);
+  String connect(String id, String description, Integer orderNo, List<String> privilegeIds);
 }

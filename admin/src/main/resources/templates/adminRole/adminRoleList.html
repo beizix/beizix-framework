@@ -25,8 +25,6 @@
 
       <form name="formDto" action="" method="post">
         <input type="hidden" name="orderNo" value="">
-        <input type="hidden" name="operationType"
-               th:value="${T(org.beizix.utility.enums.OperationType).CREATE}"/>
 
         <div class="row mb-3">
           <label class="col-sm-3 col-form-label" for="id">역할 ID *</label>
@@ -37,7 +35,7 @@
           </div>
         </div>
 
-        <div class=" row mb-3">
+        <div class="row mb-3">
           <label class="col-sm-3 col-form-label" for="description">설명</label>
           <div class="col-sm-9">
             <input type="text" id="description" name="description" class="form-control"
@@ -45,6 +43,21 @@
             <div class="invalid-feedback fw-bold field-description"></div>
           </div>
         </div>
+
+        <div class="row mb-3">
+          <label class="col-sm-3 col-form-label" for="privilegeIds">권한</label>
+          <div class="col-sm-9">
+            <select class="form-select text-secondary" id="privilegeIds" name="privilegeIds" multiple style="height: 200px;">
+              <option th:each="privilege : ${privileges}" th:value="${privilege.id}"
+                      class="fw-bold"
+                      th:text="${privilege.id + ' (' + privilege.description + ')'}"></option>
+            </select>
+            <div class="invalid-feedback fw-bold field-privilegeIds"></div>
+          </div>
+        </div>
+
+        <!-- audit area -->
+        <div th:replace="common/components :: auditArea"></div>
 
       </form>
     </div>
@@ -127,7 +140,6 @@
           // 신규 노드일 경우 id는 'code.new.temp'
 
           cleanFormFields();
-          f.operationType.value = [[${T(org.beizix.utility.enums.OperationType).CREATE}]];
 
           $(f.id).removeAttr('readonly');
 
@@ -136,8 +148,6 @@
           f.id.focus();
 
           return;
-        } else {
-          f.operationType.value = [[${T(org.beizix.utility.enums.OperationType).UPDATE}]];
         }
 
         if (currentNode.id) {
@@ -183,6 +193,16 @@
             f.id.value = item.id;
             f.description.value = item.description;
             f.orderNo.value = item.orderNo;
+
+            $('#privilegeIds').val(item.privilegeIds);
+
+            const audit = $('.audit-area');
+            audit.find('.audit-target').text(item.id);
+            audit.find('.createdBy').text(item.createdBy);
+            audit.find('.createdAt').text(item.createdAt);
+            audit.find('.updatedBy').text(item.updatedBy);
+            audit.find('.updatedAt').text(item.updatedAt);
+            audit.fadeIn();
           }
         },
         complete: function () {
@@ -283,6 +303,9 @@
       f.description.value = '';
 
       $(f).find('.is-invalid').removeClass('is-invalid');
+
+      $('.audit-area').hide();
+      $('#privilegeIds').val([]);
     }
 
     function move(dir) {

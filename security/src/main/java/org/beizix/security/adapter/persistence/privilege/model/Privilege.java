@@ -28,4 +28,8 @@ public class Privilege extends AuditEntity {
   @Column
   @Comment("정렬순서")
   private Integer orderNo;
+
+  public Privilege(String id) {
+    this.id = id;
+  }
 }
