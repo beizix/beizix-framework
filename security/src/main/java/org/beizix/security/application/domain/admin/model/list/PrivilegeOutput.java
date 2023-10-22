@@ -2,14 +2,12 @@ package org.beizix.security.application.domain.admin.model.list;
 
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.beizix.security.adapter.persistence.privilege.model.Privilege;
+import lombok.Getter;
+import lombok.Setter;
 
-/** DTO for {@link Privilege} */
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
-@NoArgsConstructor
 public class PrivilegeOutput implements Serializable {
   private String id;
 }

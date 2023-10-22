@@ -1,6 +1,5 @@
 package org.beizix.security.adapter.persistence.admin;
 
-import java.util.LinkedHashSet;
 import java.util.stream.Collectors;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
@@ -12,12 +11,14 @@ import org.beizix.security.adapter.persistence.admin.model.Admin;
 import org.beizix.security.adapter.persistence.admin.model.Admin_;
 import org.beizix.security.adapter.persistence.admin.repository.AdminRepo;
 import org.beizix.security.adapter.persistence.admin_role.model.AdminWithRole_;
+import org.beizix.security.adapter.persistence.privilege.model.Privilege;
+import org.beizix.security.adapter.persistence.role.model.Role;
 import org.beizix.security.adapter.persistence.role.model.Role_;
 import org.beizix.security.application.domain.admin.model.filter.AdminListStatus;
 import org.beizix.security.application.domain.admin.model.list.AdminListOutput;
 import org.beizix.security.application.domain.admin.model.list.AdminOutput;
+import org.beizix.security.application.domain.admin.model.list.PrivilegeOutput;
 import org.beizix.security.application.domain.admin.model.list.RoleOutput;
-import org.beizix.security.application.domain.admin.model.list.WithRoleOutput;
 import org.beizix.security.application.port.out.admin.AdminListPortOut;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -92,18 +93,23 @@ class AdminListDao implements AdminListPortOut {
                         admin.getEmail(),
                         admin.getAccountDisabled(),
                         admin.getAccountDisabled(),
-                        new LinkedHashSet<>(
-                            admin.getWithRoles().stream()
-                                .map(
-                                    with ->
-                                        new WithRoleOutput(
-                                            with.getId(),
-                                            new RoleOutput(
-                                                with.getRole().getId(),
-                                                with.getRole().getDescription(),
-                                                with.getRole().getOrderNo(),
-                                                null)))
-                                .collect(Collectors.toList()))))
+                        admin.getWithRoles().stream()
+                            .map(
+                                withRole -> {
+                                  Role role = withRole.getRole();
+                                  return new RoleOutput(
+                                      role.getId(),
+                                      role.getDescription(),
+                                      role.getOrderNo(),
+                                      role.getWithPrivileges().stream()
+                                          .map(
+                                              withPrivilege -> {
+                                                Privilege privilege = withPrivilege.getPrivilege();
+                                                return new PrivilegeOutput(privilege.getId());
+                                              })
+                                          .collect(Collectors.toList()));
+                                })
+                            .collect(Collectors.toList())))
             .collect(Collectors.toList()));
   }
 }

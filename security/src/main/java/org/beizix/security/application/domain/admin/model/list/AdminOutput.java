@@ -1,6 +1,7 @@
 package org.beizix.security.application.domain.admin.model.list;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,5 +18,5 @@ public class AdminOutput implements AuditOutput {
   private String email;
   private Boolean accountDisabled;
   private Boolean accountLocked;
-  private Set<WithRoleOutput> withRoles;
+  private List<RoleOutput> roles;
 }

@@ -1,19 +1,17 @@
 package org.beizix.security.application.domain.admin.model.list;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.beizix.security.adapter.persistence.role.model.Role;
+import lombok.Getter;
+import lombok.Setter;
 
-/** DTO for {@link Role} */
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
-@NoArgsConstructor
 public class RoleOutput implements Serializable {
   private String id;
   private String description;
   private Integer orderNo;
-  private Set<WithPrivilegeOutput> withPrivileges;
+  private List<PrivilegeOutput> privileges;
 }

@@ -17,6 +17,7 @@ import org.beizix.core.config.enums.OrderDir;
 import org.beizix.security.adapter.persistence.admin.model.Admin_;
 import org.beizix.security.application.domain.admin.model.filter.AdminListStatus;
 import org.beizix.security.application.domain.admin.model.list.AdminListOutput;
+import org.beizix.security.application.domain.admin.model.list.RoleOutput;
 import org.beizix.security.application.port.in.admin.AdminListPortIn;
 import org.beizix.utility.common.ExcelUtil;
 import org.springframework.stereotype.Controller;
@@ -63,8 +64,8 @@ class AdminExcelController {
                     row,
                     item.getId(),
                     item.getEmail(),
-                    item.getWithRoles().stream()
-                        .map(adminUserWithRole -> adminUserWithRole.getRole().getId())
+                    item.getRoles().stream()
+                        .map(RoleOutput::getId)
                         .collect(Collectors.joining(", ")),
                     Optional.ofNullable(item.getCreatedAt())
                         .map(localDateTime -> localDateTime.format(formatter))

@@ -92,8 +92,8 @@
         </td>
         <td><a th:href="|javascript:goUpdate('${item.id}')|" th:text="${item.id}">아이디</a></td>
         <td>
-                <span th:each="withRole, status : ${item.withRoles}"
-                      th:text="${withRole.role.getId()} + ${!status.last ? ', ': ''}"></span>
+                <span th:each="role, status : ${item.roles}"
+                      th:text="${role.getId()} + ${!status.last ? ', ': ''}"></span>
         </td>
         <td th:text="${item.email}">이메일</td>
         <td th:text="${item.accountDisabled == null || !item.accountDisabled ? 'Y' : 'N' }"></td>
