@@ -47,7 +47,7 @@ class AdminCreateUpdateDaoTest {
             retrieveUser ->
                 assertEquals(
                     Arrays.asList("ROLE_SUPER", "ROLE_STAFF").size(),
-                    retrieveUser.getWithRoles().size()));
+                    retrieveUser.getRoles().size()));
 
     adminSavePortIn.connect(
         "admin_for_createDao_test",
@@ -58,7 +58,7 @@ class AdminCreateUpdateDaoTest {
         List.of("ROLE_STAFF"));
     assertEquals(
         1,
-        adminViewPortIn.connect("admin_for_createDao_test").orElseThrow().getWithRoles().size(),
+        adminViewPortIn.connect("admin_for_createDao_test").orElseThrow().getRoles().size(),
         "기존 권한들을 (내부적으로) 삭제하고 새로이 추가 등록되기에 withRoles 의 size 는 1이다.");
   }
 }

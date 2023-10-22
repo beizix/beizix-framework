@@ -7,6 +7,7 @@ import org.beizix.admin.adapter.web.admin.model.filter.AdminListStatusVO;
 import org.beizix.admin.adapter.web.admin.model.update.AdminUpdateBindingVO;
 import org.beizix.core.application.domain.common.model.PageableInput;
 import org.beizix.security.application.domain.admin.model.view.AdminViewOutput;
+import org.beizix.security.application.domain.admin.model.view.RoleOutput;
 import org.beizix.security.application.port.in.admin.AdminViewPortIn;
 import org.beizix.security.application.port.in.role.RoleListPortIn;
 import org.beizix.utility.common.MessageUtil;
@@ -51,9 +52,7 @@ class AdminUpdateGetController {
             output.getAccountDisabled(),
             output.getLoginFailCnt(),
             output.getAccountLocked(),
-            output.getWithRoles().stream()
-                .map(w -> w.getRole().getId())
-                .collect(Collectors.toList()));
+            output.getRoles().stream().map(RoleOutput::getId).collect(Collectors.toList()));
 
     model.addAttribute("bindingVO", bindingVO);
     model.addAttribute("roles", roleListPortIn.connect());

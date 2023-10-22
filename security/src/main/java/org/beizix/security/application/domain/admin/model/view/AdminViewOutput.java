@@ -2,7 +2,7 @@ package org.beizix.security.application.domain.admin.model.view;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,5 +25,5 @@ public class AdminViewOutput implements Serializable {
   private Boolean accountDisabled;
   private Integer loginFailCnt;
   private Boolean accountLocked;
-  private Set<WithRoleOutput> withRoles = new LinkedHashSet<>();
+  private List<RoleOutput> roles;
 }

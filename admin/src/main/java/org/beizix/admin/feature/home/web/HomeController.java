@@ -21,7 +21,7 @@ public class HomeController {
         .ifPresent(
             loginUser -> {
               model.addAttribute("loginUser", loginUser);
-              model.addAttribute("loginUserRoles", loginUser.getWithRoles());
+              model.addAttribute("loginUserRoles", loginUser.getRoles());
             });
 
     return "home";

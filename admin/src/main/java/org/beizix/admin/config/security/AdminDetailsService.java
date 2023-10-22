@@ -50,14 +50,8 @@ public class AdminDetailsService implements UserDetailsService {
                 adminViewPortIn
                     .connect("beizix-super")
                     .orElseThrow(() -> new RuntimeException("'beizix-super' is not a super user."))
-                    .getWithRoles()
-                    .stream()
-                    .map(WithRoleOutput::getRole)
-                    .collect(Collectors.toList()))
-            : getAuthorities(
-                adminUser.getWithRoles().stream()
-                    .map(WithRoleOutput::getRole)
-                    .collect(Collectors.toList())),
+                    .getRoles())
+            : getAuthorities(adminUser.getRoles()),
         passwordValidPeriodDays - getDaysPassedFrom(adminUser.getPasswordUpdatedAt()));
   }
 
@@ -89,7 +83,7 @@ public class AdminDetailsService implements UserDetailsService {
 
   private Stream<String> getPrivileges(Collection<RoleOutput> roles) {
     return roles.stream()
-        .flatMap(roleOutput -> roleOutput.getWithPrivileges().stream())
-        .map(withPrivilegeOutput -> withPrivilegeOutput.getPrivilege().getId());
+        .flatMap(roleOutput -> roleOutput.getPrivileges().stream())
+        .map(PrivilegeOutput::getId);
   }
 }

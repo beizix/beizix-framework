@@ -16,6 +16,7 @@ import org.beizix.core.application.port.in.operationlog.OperationLogSavePortIn;
 import org.beizix.core.config.enums.AppType;
 import org.beizix.core.config.enums.OperationLogType;
 import org.beizix.security.application.domain.admin.model.view.AdminViewOutput;
+import org.beizix.security.application.domain.admin.model.view.RoleOutput;
 import org.beizix.security.application.port.in.admin.AdminViewPortIn;
 import org.beizix.utility.common.CommonUtil;
 import org.beizix.utility.common.PropertyUtil;
@@ -30,8 +31,7 @@ public class RoleUpdateAspect {
   private final OperationLogSavePortIn operationLogSavePortIn;
   private final CommonUtil commonUtil;
 
-  @Around(
-      "execution(* org.beizix.security.application.domain.admin.AdminSaveService.connect(..))")
+  @Around("execution(* org.beizix.security.application.domain.admin.AdminSaveService.connect(..))")
   public Object operate(ProceedingJoinPoint joinPoint) throws Throwable {
     if (PropertyUtil.isAdminSingleRole()) return joinPoint.proceed();
 
@@ -51,18 +51,16 @@ public class RoleUpdateAspect {
 
     Optional<AdminViewOutput> beforeAdmin = adminViewPortIn.connect(adminId);
 
-//    List<String> currentRoles =
-//        adminId.getWithRoles().stream()
-//            .map(adminUserWithRole -> adminUserWithRole.getRole().getId())
-//            .collect(Collectors.toList());
+    //    List<String> currentRoles =
+    //        adminId.getWithRoles().stream()
+    //            .map(adminUserWithRole -> adminUserWithRole.getRole().getId())
+    //            .collect(Collectors.toList());
 
     boolean createLog = false;
 
     if (beforeAdmin.isPresent()) {
       List<String> beforeRoles =
-          beforeAdmin.get().getWithRoles().stream()
-              .map(adminUserWithRole -> adminUserWithRole.getRole().getId())
-              .collect(Collectors.toList());
+          beforeAdmin.get().getRoles().stream().map(RoleOutput::getId).collect(Collectors.toList());
       if (beforeRoles.size() != currentRoles.size()
           || currentRoles.stream().anyMatch(item -> !beforeRoles.contains(item))) {
         createLog = true;

@@ -2,6 +2,7 @@ package org.beizix.security.application.domain.admin.model.view;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,5 +21,5 @@ public class RoleOutput implements Serializable {
   private String id;
   private String description;
   private Integer orderNo;
-  private Set<WithPrivilegeOutput> withPrivileges;
+  private List<PrivilegeOutput> privileges;
 }

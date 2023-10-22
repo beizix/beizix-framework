@@ -21,8 +21,8 @@
 
       <p class="col-md-8 fs-5">
         <span>역할</span>
-        <span th:each="roleDto, status : ${loginUserRoles}"
-              th:text="${roleDto.role.getId()} + ' (' + ${roleDto.role.description} + ')' + ${!status.last ? ', ': ''}"
+        <span th:each="role, status : ${loginUserRoles}"
+              th:text="${role.getId()} + ' (' + ${role.description} + ')' + ${!status.last ? ', ': ''}"
               class="text-muted"></span>
       </p>
     </div>

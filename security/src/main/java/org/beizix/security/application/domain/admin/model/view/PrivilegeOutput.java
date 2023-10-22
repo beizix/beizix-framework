@@ -3,14 +3,14 @@ package org.beizix.security.application.domain.admin.model.view;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.beizix.security.adapter.persistence.privilege.model.Privilege;
 
 /** DTO for {@link Privilege} */
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
-@NoArgsConstructor
 public class PrivilegeOutput implements Serializable {
   private LocalDateTime createdAt;
   private String createdBy;
