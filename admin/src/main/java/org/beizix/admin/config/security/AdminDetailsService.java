@@ -2,13 +2,15 @@ package org.beizix.admin.config.security;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.beizix.security.application.domain.admin.model.view.*;
+import org.beizix.security.application.port.in.admin.AdminViewPortIn;
+import org.beizix.utility.common.PropertyUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,9 +18,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.beizix.security.application.domain.admin.model.view.*;
-import org.beizix.security.application.port.in.admin.AdminViewPortIn;
-import org.beizix.utility.common.PropertyUtil;
 
 @Service
 @RequiredArgsConstructor
@@ -78,32 +77,19 @@ public class AdminDetailsService implements UserDetailsService {
    * @param roles
    * @return authorities
    */
-  private Collection<? extends GrantedAuthority> getAuthorities(
-      Collection<RoleOutput> roles) {
-    return getGrantedAuthorities(getPrivileges(roles));
+  private Collection<? extends GrantedAuthority> getAuthorities(Collection<RoleOutput> roles) {
+    return Stream.concat(getRoles(roles), getPrivileges(roles))
+        .map(SimpleGrantedAuthority::new)
+        .collect(Collectors.toList());
   }
 
-  private List<String> getPrivileges(Collection<RoleOutput> roles) {
-    List<String> privileges = new ArrayList<>();
-    List<PrivilegeOutput> collection = new ArrayList<>();
-    for (RoleOutput role : roles) {
-      privileges.add(role.getId());
-      collection.addAll(
-          role.getWithPrivileges().stream()
-              .map(WithPrivilegeOutput::getPrivilege)
-              .collect(Collectors.toList()));
-    }
-    for (PrivilegeOutput item : collection) {
-      privileges.add(item.getId());
-    }
-    return privileges;
+  private Stream<String> getRoles(Collection<RoleOutput> roles) {
+    return roles.stream().map(RoleOutput::getId);
   }
 
-  private List<GrantedAuthority> getGrantedAuthorities(List<String> privileges) {
-    List<GrantedAuthority> authorities = new ArrayList<>();
-    for (String privilege : privileges) {
-      authorities.add(new SimpleGrantedAuthority(privilege));
-    }
-    return authorities;
+  private Stream<String> getPrivileges(Collection<RoleOutput> roles) {
+    return roles.stream()
+        .flatMap(roleOutput -> roleOutput.getWithPrivileges().stream())
+        .map(withPrivilegeOutput -> withPrivilegeOutput.getPrivilege().getId());
   }
 }
