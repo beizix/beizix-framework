@@ -7,7 +7,7 @@
       th:action="${'/board/exampleBoard/create'}"
       method="post"
       enctype="multipart/form-data" class="fw-bold" name="updateForm"
-      th:object="${formVO}">
+      th:object="${bindingVO}">
     <input type="hidden" th:field="*{orderNo}"/>
 
     <div class="container">
@@ -145,7 +145,7 @@
     // init tinymce editor
     initEditor('#content', (editor) => {
       editor.on('init', function () {
-        let content = [[${formVO.content}]];
+        let content = [[${bindingVO.content}]];
         if (content) {
           tinymce.activeEditor.setContent(utilize.unescape(content));
         }

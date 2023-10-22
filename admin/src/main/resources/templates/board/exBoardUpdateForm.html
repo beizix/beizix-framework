@@ -2,16 +2,23 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
       layout:decorate="~{layout/layout}">
 
-<section layout:fragment="content">
+<section layout:fragment="content" class="fw-bold">
+
   <form
-      th:action="${formVO.id != null ? '/board/exampleBoard/update/' + formVO.id : '/board/exampleBoard/create'}"
+      th:action="${bindingVO.id != null ? '/board/exampleBoard/update/' + bindingVO.id : '/board/exampleBoard/create'}"
       method="post"
       enctype="multipart/form-data" class="fw-bold" name="updateForm"
-      th:object="${formVO}">
+      th:object="${bindingVO}">
     <input type="hidden" th:field="*{id}"/>
     <input type="hidden" th:field="*{orderNo}"/>
 
     <div class="container">
+
+      <div class="row w-50">
+        <!-- audit area -->
+        <div th:replace="common/components :: auditArea"></div>
+      </div>
+
       <div class="row mb-3">
         <label class="col-sm-2 col-form-label" for="title">Title *</label>
         <div class="col-sm-6">
@@ -68,8 +75,8 @@
         <input type="text" class="form-control w-50 mt-2" th:field="*{repImgAlt}"
                placeholder="alt text"/>
         <!-- 수정화면시, 이미지 표시 -->
-        <div class="col-sm-6" th:with="repImg=${formVO.representImage}"
-             th:if="${formVO.representImage != null}">
+        <div class="col-sm-6" th:with="repImg=${bindingVO.representImage}"
+             th:if="${bindingVO.representImage != null}">
           <div>
             <a th:text="${repImg.originName}"
                class="text-decoration-none"></a>
@@ -95,10 +102,10 @@
 
       <hr/>
 
-      <div th:if="${formVO.id != null}" class="row mb-3 pt-3">
+      <div th:if="${bindingVO.id != null}" class="row mb-3 pt-3">
         <label class="col-sm-2 col-form-label" style="padding-top: 0;">다건 파일 첨부</label>
         <div class="col-sm-6">
-          <div th:each="item, status : ${formVO.attachments}">
+          <div th:each="item, status : ${bindingVO.attachments}">
             <a th:href="${@fileUrlService.connect('ATTACHMENT', item.fileUploadOutput)}"
                th:text="${item.fileUploadOutput.originName}"
                th:attr="data-file-seq=${item.id}"
@@ -134,9 +141,9 @@
       <div class="mb-3 privateFileInputs">
         <label for="filePrivate" class="form-label d-block">private 파일 첨부 (외부 비공개)</label>
         <div class="row mb-2">
-          <a th:if="${formVO.privateAttachment != null && formVO.privateAttachment.path != null}"
-             th:href="${@fileUrlService.connect('ATTACHMENT', formVO.privateAttachment)}"
-             th:text="${formVO.privateAttachment.originName}"
+          <a th:if="${bindingVO.privateAttachment != null && bindingVO.privateAttachment.path != null}"
+             th:href="${@fileUrlService.connect('ATTACHMENT', bindingVO.privateAttachment)}"
+             th:text="${bindingVO.privateAttachment.originName}"
              class="text-decoration-none"></a>
         </div>
         <input class="form-control w-50 d-inline-block mb-2" type="file"
@@ -150,12 +157,13 @@
         </div>
       </div>
     </div>
+
     <button type="submit" class="btn btn-primary float-end">저장</button>
     <button type="button" class="btn btn-light" onclick="gotoList();return false;">목록으로 이동</button>
   </form>
 
   <!-- 이전 목록페이지의 검색 및 정렬조건 폼 -->
-  <form th:if="${formVO.id != null}" th:action="@{/board/exampleBoard}" name="prevParamForm"
+  <form th:if="${bindingVO.id != null}" th:action="@{/board/exampleBoard}" name="prevParamForm"
         method="get"
         th:object="${filterReqVO}">
     <input type="hidden" th:field="*{searchField}">
@@ -222,6 +230,7 @@
 
   <script id="fileInputTmpl" type="text/x-jsrender">
 		<input class="form-control w-50 mb-2" type="file" name="{{:name}}"/>
+
   </script>
 
   <!-- web editor - tinymce -->
@@ -231,7 +240,7 @@
     // init tinymce editor
     initEditor('#content', (editor) => {
       editor.on('init', function () {
-        let content = [[${formVO.content}]];
+        let content = [[${bindingVO.content}]];
         if (content) {
           tinymce.activeEditor.setContent(utilize.unescape(content));
         }
@@ -244,6 +253,13 @@
       dateFormat: "Y-m-d\\TH:i",
       monthSelectorType: 'static',
       time_24hr: true
+    });
+
+    $(document).ready(() => {
+      showAudit([[${bindingVO.title}]], [[${bindingVO.createdBy}]],
+          [[${#temporals.format(bindingVO.createdAt, "yyyy-MM-dd'T'HH:mm:ss")}]],
+          [[${bindingVO.updatedBy}]],
+          [[${#temporals.format(bindingVO.updatedAt, "yyyy-MM-dd'T'HH:mm:ss")}]]);
     });
   </script>
 </section>

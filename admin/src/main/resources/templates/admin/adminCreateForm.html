@@ -2,12 +2,13 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
       layout:decorate="~{layout/layout}">
 
-<section layout:fragment="content">
+<section layout:fragment="content" class="fw-bold">
 
   <form
       th:action="@{/settings/admins/create}"
       method="post"
       th:object="${bindingVO}">
+
 
     <div class="row mb-3">
       <label class="col-sm-2 col-form-label" for="id">ID *</label>

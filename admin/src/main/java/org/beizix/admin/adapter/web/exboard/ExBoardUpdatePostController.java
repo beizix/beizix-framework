@@ -5,7 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
-import org.beizix.admin.adapter.web.exboard.model.update.ExBoardUpdateReqVO;
+import org.beizix.admin.adapter.web.exboard.model.update.ExBoardBindingVO;
 import org.beizix.core.application.port.in.exboard.ExBoardSavePortIn;
 import org.beizix.core.config.exception.UnAcceptableFileException;
 import org.beizix.utility.common.MessageUtil;
@@ -27,7 +27,7 @@ class ExBoardUpdatePostController {
   String operate(
       RedirectAttributes redirectAttributes,
       @ModelAttribute("filterReqVO") ExBoardListFilterReqVO filterReqVO,
-      @Valid @ModelAttribute("formVO") ExBoardUpdateReqVO updateReqVO,
+      @Valid @ModelAttribute("bindingVO") ExBoardBindingVO bindingVO,
       BindingResult bindingResult,
       MultipartFile representImgFile, // 대표 이미지 파일
       List<MultipartFile> multipartAttachments, // 다건 첨부 파일 목록
@@ -41,22 +41,22 @@ class ExBoardUpdatePostController {
 
     try {
       exBoardSavePortIn.connect(
-          updateReqVO.getId(),
-          updateReqVO.getTitle(),
-          updateReqVO.getContent(),
-          updateReqVO.getVisible(),
-          updateReqVO.getBoardStartDate(),
-          updateReqVO.getBoardEndDate(),
-          updateReqVO.getRepImgAlt(),
-          updateReqVO.getOrderNo(),
-          updateReqVO.getRemoveAttachmentIds(),
+          bindingVO.getId(),
+          bindingVO.getTitle(),
+          bindingVO.getContent(),
+          bindingVO.getVisible(),
+          bindingVO.getBoardStartDate(),
+          bindingVO.getBoardEndDate(),
+          bindingVO.getRepImgAlt(),
+          bindingVO.getOrderNo(),
+          bindingVO.getRemoveAttachmentIds(),
           representImgFile,
           multipartPrivateAttachment,
           multipartAttachments);
 
       redirectAttributes.addFlashAttribute(
           "operationMessage",
-          messageUtil.getMessage("operation.board.exampleBoard.updated", updateReqVO.getTitle()));
+          messageUtil.getMessage("operation.board.exampleBoard.updated", bindingVO.getTitle()));
 
     } catch (UnAcceptableFileException ex) {
       switch (ex.getFileUploadType()) {

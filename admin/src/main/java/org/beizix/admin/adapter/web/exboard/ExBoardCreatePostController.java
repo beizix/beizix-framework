@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.beizix.admin.adapter.web.exboard.model.create.ExBoardCreateReqVO;
+import org.beizix.admin.adapter.web.exboard.model.create.ExBoardBindingVO;
 import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
 import org.beizix.core.application.port.in.exboard.ExBoardSavePortIn;
 import org.beizix.core.config.exception.UnAcceptableFileException;
@@ -27,7 +27,7 @@ class ExBoardCreatePostController {
   String operate(
       RedirectAttributes redirectAttributes,
       @ModelAttribute("filterReqVO") ExBoardListFilterReqVO filterReqVO,
-      @Valid @ModelAttribute("formVO") ExBoardCreateReqVO createReqVO,
+      @Valid @ModelAttribute("bindingVO") ExBoardBindingVO bindingVO,
       BindingResult bindingResult,
       MultipartFile representImgFile, // 대표 이미지 파일
       List<MultipartFile> multipartAttachments, // 다건 첨부 파일 목록
@@ -42,13 +42,13 @@ class ExBoardCreatePostController {
     try {
       exBoardSavePortIn.connect(
           null,
-          createReqVO.getTitle(),
-          createReqVO.getContent(),
-          createReqVO.getVisible(),
-          createReqVO.getBoardStartDate(),
-          createReqVO.getBoardEndDate(),
-          createReqVO.getRepImgAlt(),
-          createReqVO.getOrderNo(),
+          bindingVO.getTitle(),
+          bindingVO.getContent(),
+          bindingVO.getVisible(),
+          bindingVO.getBoardStartDate(),
+          bindingVO.getBoardEndDate(),
+          bindingVO.getRepImgAlt(),
+          bindingVO.getOrderNo(),
           null,
           representImgFile,
           multipartPrivateAttachment,
@@ -56,7 +56,7 @@ class ExBoardCreatePostController {
 
       redirectAttributes.addFlashAttribute(
           "operationMessage",
-          messageUtil.getMessage("operation.board.exampleBoard.created", createReqVO.getTitle()));
+          messageUtil.getMessage("operation.board.exampleBoard.created", bindingVO.getTitle()));
 
     } catch (UnAcceptableFileException ex) {
       switch (ex.getFileUploadType()) {

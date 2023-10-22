@@ -1,7 +1,7 @@
 package org.beizix.admin.adapter.web.exboard;
 
 import lombok.RequiredArgsConstructor;
-import org.beizix.admin.adapter.web.exboard.model.create.ExBoardCreateReqVO;
+import org.beizix.admin.adapter.web.exboard.model.create.ExBoardBindingVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +13,7 @@ public class ExBoardCreateGetController {
   @GetMapping(path = {"/board/exampleBoard/create"})
   String operate(Model model) {
 
-    model.addAttribute("formVO", new ExBoardCreateReqVO());
+    model.addAttribute("bindingVO", new ExBoardBindingVO());
     return "board/exBoardCreateForm";
   }
 }

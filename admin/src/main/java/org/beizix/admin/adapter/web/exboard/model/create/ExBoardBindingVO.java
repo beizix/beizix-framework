@@ -11,7 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Setter
 @NoArgsConstructor
 @Accessors(chain = true)
-public class ExBoardCreateReqVO {
+public class ExBoardBindingVO {
 
   private Boolean visible;
 

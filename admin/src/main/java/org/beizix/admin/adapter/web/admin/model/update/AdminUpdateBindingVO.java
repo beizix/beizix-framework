@@ -14,9 +14,13 @@ import org.beizix.core.application.domain.common.model.AuditOutput;
 @AllArgsConstructor
 public class AdminUpdateBindingVO implements AuditOutput {
   private final String createdBy;
+
   private final LocalDateTime createdAt;
+
   private final String updatedBy;
+
   private final LocalDateTime updatedAt;
+
   private String id;
   private String updatePassword;
 

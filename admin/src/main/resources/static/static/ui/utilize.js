@@ -146,6 +146,16 @@ const unescapeText = (str) => {
   return str;
 }
 
+const showAudit = (auditItem, createdBy, createdAt, updatedBy, updatedAt) => {
+  const audit = $('.audit-area');
+  audit.find('.audit-target').text(auditItem);
+  audit.find('.createdBy').text(createdBy);
+  audit.find('.createdAt').text(createdAt);
+  audit.find('.updatedBy').text(updatedBy);
+  audit.find('.updatedAt').text(updatedAt);
+  audit.fadeIn();
+}
+
 /**
  * XSS 방지를 위해 escape 처리되어 DB에 담긴 데이터를 화면에 출력할 때 unescape 처리해서 보여준다.
  * - 'unescapeText' css class 를 가진 input 앨리먼트에 적용된다.

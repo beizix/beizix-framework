@@ -182,13 +182,7 @@
             f.description.value = item.description;
             f.orderNo.value = item.orderNo;
 
-            const audit = $('.audit-area');
-            audit.find('.audit-target').text(item.id);
-            audit.find('.createdBy').text(item.createdBy);
-            audit.find('.createdAt').text(item.createdAt);
-            audit.find('.updatedBy').text(item.updatedBy);
-            audit.find('.updatedAt').text(item.updatedAt);
-            audit.fadeIn();
+            showAudit(item.id, item.createdBy, item.createdAt, item.updatedBy, item.updatedAt);
           }
         },
         complete: function () {

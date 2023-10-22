@@ -2,7 +2,7 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
       layout:decorate="~{layout/layout}">
 
-<section layout:fragment="content">
+<section layout:fragment="content" class="fw-bold">
 
   <form
       th:action="${'/settings/admins/update/' + bindingVO.id}"
@@ -99,6 +99,11 @@
       </div>
     </div>
 
+    <div class="row w-50">
+      <!-- audit area -->
+      <div th:replace="common/components :: auditArea"></div>
+    </div>
+
     <button type="submit" class="btn btn-primary float-end">저장</button>
     <button type="button" class="btn btn-light" onclick="gotoList();return false;">목록으로 이동</button>
   </form>
@@ -118,11 +123,18 @@
     </th:block>
   </form>
 
-  <script>
+  <script th:inline="javascript">
     function gotoList() {
       document.prevAdminParamForm ? document.prevAdminParamForm.submit()
           : location.href = '/settings/admins';
     }
+
+    $(document).ready(() => {
+      showAudit([[${bindingVO.id}]], [[${bindingVO.createdBy}]],
+          [[${#temporals.format(bindingVO.createdAt, "yyyy-MM-dd'T'HH:mm:ss")}]],
+          [[${bindingVO.updatedBy}]],
+          [[${#temporals.format(bindingVO.updatedAt, "yyyy-MM-dd'T'HH:mm:ss")}]]);
+    });
   </script>
 
 </section>

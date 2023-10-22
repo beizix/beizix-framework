@@ -14,7 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Getter
 @Setter
 @AllArgsConstructor
-public class ExBoardUpdateReqVO implements AuditOutput {
+public class ExBoardBindingVO implements AuditOutput {
   private final String createdBy;
   private final LocalDateTime createdAt;
   private final String updatedBy;
