@@ -1,4 +1,4 @@
-package org.beizix.admin.feature.login.persistence.model;
+package org.beizix.security.adapter.persistence.rememberme.model;
 
 import lombok.Getter;
 import lombok.Setter;

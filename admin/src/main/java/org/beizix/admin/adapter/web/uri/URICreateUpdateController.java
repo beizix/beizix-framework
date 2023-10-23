@@ -1,4 +1,4 @@
-package org.beizix.admin.feature.uri.web;
+package org.beizix.admin.adapter.web.uri;
 
 import java.io.IOException;
 import javax.validation.Valid;

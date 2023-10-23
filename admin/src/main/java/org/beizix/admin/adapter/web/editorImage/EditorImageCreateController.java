@@ -1,4 +1,4 @@
-package org.beizix.admin.feature.editorImage.web;
+package org.beizix.admin.adapter.web.editorImage;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

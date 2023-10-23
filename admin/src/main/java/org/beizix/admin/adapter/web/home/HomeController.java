@@ -1,4 +1,4 @@
-package org.beizix.admin.feature.home.web;
+package org.beizix.admin.adapter.web.home;
 
 import java.security.Principal;
 import lombok.RequiredArgsConstructor;
