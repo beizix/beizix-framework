@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.operation;
+package org.beizix.admin.adapter.web.operation.model.filter;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OperationLogListConditionDto {
+public class OperationLogListStatusVO {
   private String searchField;
   private String searchValue;
   private String searchAppType;

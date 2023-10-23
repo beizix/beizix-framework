@@ -5,6 +5,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.beizix.admin.adapter.web.operation.model.filter.OperationLogListStatusVO;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,7 +34,7 @@ public class OperationLogListExcelController {
   public void operate(
       HttpServletResponse response,
       @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
-      @ModelAttribute("paramDto") OperationLogListConditionDto paramDto) {
+      @ModelAttribute("paramDto") OperationLogListStatusVO paramDto) {
     Workbook wb = new XSSFWorkbook();
     Sheet sheet = wb.createSheet("수행로그 목록");
 

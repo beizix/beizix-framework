@@ -1,6 +1,7 @@
 package org.beizix.admin.adapter.web.operation;
 
 import lombok.RequiredArgsConstructor;
+import org.beizix.admin.adapter.web.operation.model.filter.OperationLogListStatusVO;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -22,14 +23,14 @@ public class OperationLogListController {
   String operate(
       Model model,
       @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
-      @ModelAttribute("paramDto") OperationLogListConditionDto paramDto) {
+      @ModelAttribute("paramDto") OperationLogListStatusVO statusVO) {
 
-    paramDto.setSize(pageable.getPageSize());
+    statusVO.setSize(pageable.getPageSize());
 
     model.addAttribute(
         "items",
         operationLogListPortIn.connect(
-            pageable, modelMapper.map(paramDto, OperationLogListInput.class)));
+            pageable, modelMapper.map(statusVO, OperationLogListInput.class)));
 
     return "operationLog/operationLogList";
   }
