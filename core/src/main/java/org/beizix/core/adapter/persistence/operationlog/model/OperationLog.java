@@ -1,20 +1,14 @@
 package org.beizix.core.adapter.persistence.operationlog.model;
 
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import lombok.Setter;
 import org.beizix.core.adapter.persistence.common.model.AuditEntity;
-import org.hibernate.annotations.Comment;
-import org.hibernate.annotations.CreationTimestamp;
 import org.beizix.core.config.enums.AppType;
 import org.beizix.core.config.enums.OperationLogType;
-
-import javax.persistence.*;
-import java.time.LocalDateTime;
+import org.hibernate.annotations.Comment;
 
 @Entity
 @Table(name = "operation_log")

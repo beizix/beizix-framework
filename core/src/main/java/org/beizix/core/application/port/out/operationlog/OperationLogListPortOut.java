@@ -1,11 +1,8 @@
 package org.beizix.core.application.port.out.operationlog;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.beizix.core.application.domain.operationlog.model.OperationLog;
-import org.beizix.core.application.domain.operationlog.model.filter.OperationLogListInput;
+import org.beizix.core.application.domain.common.model.ListPortOut;
+import org.beizix.core.application.domain.operationlog.model.filter.OperationLogListStatus;
+import org.beizix.core.application.domain.operationlog.model.list.OperationLogListOutput;
 
-public interface OperationLogListPortOut {
-  Page<OperationLog> connect(
-      Pageable pageable, OperationLogListInput operationLogListInput);
-}
+public interface OperationLogListPortOut
+    extends ListPortOut<OperationLogListOutput, OperationLogListStatus> {}

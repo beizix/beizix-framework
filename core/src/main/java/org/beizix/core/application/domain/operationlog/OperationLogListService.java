@@ -1,22 +1,21 @@
 package org.beizix.core.application.domain.operationlog;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.beizix.core.application.domain.operationlog.model.OperationLog;
-import org.beizix.core.application.domain.operationlog.model.filter.OperationLogListInput;
+import org.beizix.core.application.domain.common.model.PageableInput;
+import org.beizix.core.application.domain.operationlog.model.filter.OperationLogListStatus;
+import org.beizix.core.application.domain.operationlog.model.list.OperationLogListOutput;
 import org.beizix.core.application.port.in.operationlog.OperationLogListPortIn;
 import org.beizix.core.application.port.out.operationlog.OperationLogListPortOut;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class OperationLogListService implements OperationLogListPortIn {
-  private final OperationLogListPortOut operationLogListPortOut;
+  private final OperationLogListPortOut portOut;
 
   @Override
-  public Page<OperationLog> connect(
-      Pageable pageable, OperationLogListInput operationLogListInput) {
-    return operationLogListPortOut.connect(pageable, operationLogListInput);
+  public OperationLogListOutput connect(
+      PageableInput pageableInput, OperationLogListStatus condition) {
+    return portOut.connect(pageableInput, condition);
   }
 }

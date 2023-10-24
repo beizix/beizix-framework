@@ -6,10 +6,13 @@
 
   <form method="get" name="paramForm" th:action="@{/analysis/operationlog}"
         th:object="${paramDto}" onsubmit="goSearch();">
-    <input type="hidden" name="page"
-           th:value="${items.pageable.pageNumber}"/>
+    <!-- hidden parameters -->
+    <input type="hidden" name="pageNumber"
+           th:value="${listOutput.pageable.pageNumber}"/>
     <input type="hidden"
-           name="sort" th:value="${items.pageable.sort}"/>
+           name="orderBy" th:value="${listOutput.pageable.orderBy}"/>
+    <input type="hidden"
+           name="orderDir" th:value="${listOutput.pageable.orderDir}"/>
 
     <div class="row bg-secondary p-2 mb-2" style="--bs-bg-opacity: .2;">
       <div class="col">
@@ -61,12 +64,12 @@
     <div class="row">
       <div class="col text-start">
         <div class="fw-bolder text-muted">
-          Total: <span th:text="${items.totalElements}"></span>
+          Total: <span th:text="${listOutput.pageable.totalElements}"></span>
         </div>
       </div>
       <div class="col text-end">
         <i class="bi bi-list-ol"></i> <label> <select
-              class="form-select form-select-sm" th:field="*{size}"
+              class="form-select form-select-sm" name="pageSize" id="pageSize"
               onchange="goSearch()">
         <option
                 th:each="item : ${@uiCodeListService.connect('code.pageable.rows')}"
@@ -85,22 +88,22 @@
         <th scope="col"><a href="#" class="orderable"
                            data-sort-field="appType">App Type</a></th>
         <th scope="col"><a href="#" class="orderable"
-                           data-sort-field="operationType">Operation Type</a></th>
+                           data-sort-field="operationLogType">Operation Type</a></th>
         <th scope="col"><a href="#" class="orderable"
                            data-sort-field="ip">IP</a></th>
         <th scope="col"><a href="#" class="orderable"
-                           data-sort-field="operatedAt">수행일</a></th>
+                           data-sort-field="createdAt">수행일</a></th>
         <th scope="col"><a href="#" class="orderable"
-                           data-sort-field="operatorId">수행자</a></th>
+                           data-sort-field="createdBy">수행자</a></th>
         <th scope="col"><a href="#" class="orderable"
                            data-sort-field="targetId">피수행자</a></th>
       </tr>
       </thead>
       <tbody class="sortable">
 
-      <div th:remove="tag" th:each="item, status : ${items}">
+      <div th:remove="tag" th:each="item, status : ${listOutput.contents}">
         <tr>
-          <td scope="row">[[${status.count + (items.pageable.pageNumber * items.pageable.pageSize)}]]</td>
+          <td class="row">[[${status.count + (listOutput.pageable.pageNumber * listOutput.pageable.pageSize)}]]</td>
           <th class="bg-info">[[${item.id}]]</th>
           <td>[[${item.appType}]]</td>
           <td>[[${item.operationLogType}]]</td>
@@ -126,7 +129,7 @@
 
   </form>
 
-  <div th:replace="common/list-components :: pagination(${items})"></div>
+  <div th:replace="common/list-components-v2 :: pagination(${listOutput.pageable})"></div>
 
   <div class="row">
     <div class="col text-start">
@@ -136,15 +139,14 @@
     </div>
   </div>
 
-  <div th:replace="common/list-components :: listColumnOrder(${items})"></div>
+  <div th:replace="common/list-components-v2 :: listColumnOrder(${listOutput.pageable})"></div>
 
   <script th:inline="javascript">
       // 검색
       function goSearch() {
           const f = document.paramForm;
           f.action = '/analysis/operationlog';
-          f.page.value = 0;
-          f.sort.value = convertToPageableSortValue(f.sort.value);
+          f.pageNumber.value = 0;
           f.method = 'get';
           f.submit();
       }

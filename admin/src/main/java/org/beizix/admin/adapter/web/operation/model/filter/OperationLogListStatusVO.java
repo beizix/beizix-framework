@@ -1,19 +1,15 @@
 package org.beizix.admin.adapter.web.operation.model.filter;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@NoArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
 public class OperationLogListStatusVO {
   private String searchField;
   private String searchValue;
   private String searchAppType;
   private String searchOperationType;
-
-  private Integer page;
-  private Integer size;
-  private String sort;
 }

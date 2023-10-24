@@ -8,6 +8,7 @@ import org.beizix.core.config.enums.OrderDir;
 import org.beizix.security.adapter.persistence.admin.model.Admin_;
 import org.beizix.security.application.domain.admin.model.filter.AdminListStatus;
 import org.beizix.security.application.domain.admin.model.list.AdminListOutput;
+import org.beizix.security.application.domain.role.model.list.RoleOutput;
 import org.beizix.security.application.port.in.admin.AdminListPortIn;
 import org.beizix.security.application.port.in.role.RoleListPortIn;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @RequiredArgsConstructor
 class AdminListController {
   private final AdminListPortIn adminListPortIn;
-  private final RoleListPortIn roleListPortIn;
+  private final RoleListPortIn<RoleOutput> roleListPortIn;
 
   @GetMapping(path = "/settings/admins")
   String operate(
