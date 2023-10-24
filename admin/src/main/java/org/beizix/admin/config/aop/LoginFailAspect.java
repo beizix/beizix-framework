@@ -32,7 +32,7 @@ public class LoginFailAspect {
         OperationLog.builder()
             .appType(AppType.ADMIN)
             .operationLogType(OperationLogType.LOGIN_FAIL)
-            .operatorId("anonymous")
+            .createdBy("anonymous")
             .targetId(targetId)
             .ip(commonUtil.getClientIP(request))
             .taskDesc(messageUtil.getMessage("operate.login.fail", targetId))

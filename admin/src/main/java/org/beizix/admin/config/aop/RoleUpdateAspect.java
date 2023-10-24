@@ -77,7 +77,7 @@ public class RoleUpdateAspect {
           OperationLog.builder()
               .appType(AppType.ADMIN)
               .operationLogType(OperationLogType.ROLE_UPDATE)
-              .operatorId(operatorId)
+              .createdBy(operatorId)
               .targetId(adminId)
               .ip(request != null ? commonUtil.getClientIP(request) : null)
               .taskDesc(

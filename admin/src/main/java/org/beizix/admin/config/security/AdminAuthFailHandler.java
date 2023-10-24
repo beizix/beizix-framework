@@ -67,7 +67,7 @@ public class AdminAuthFailHandler extends SimpleUrlAuthenticationFailureHandler 
                       OperationLog.builder()
                           .appType(AppType.ADMIN)
                           .operationLogType(OperationLogType.ACCOUNT_LOCKED)
-                          .operatorId("anonymous")
+                          .createdBy("anonymous")
                           .targetId(adminUserViewInfo.getId())
                           .ip(commonUtil.getClientIP(request))
                           .taskDesc(

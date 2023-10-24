@@ -3,8 +3,11 @@ package org.beizix.core.adapter.persistence.operationlog.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import lombok.Setter;
+import org.beizix.core.adapter.persistence.common.model.AuditEntity;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.CreationTimestamp;
 import org.beizix.core.config.enums.AppType;
@@ -16,11 +19,11 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "operation_log")
 @org.hibernate.annotations.Table(appliesTo = "operation_log", comment = "관리자 로그 테이블")
-@Data
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OperationLog {
+public class OperationLog extends AuditEntity {
   @Id
   @GeneratedValue
   @Comment("로그 아이디")
@@ -36,18 +39,9 @@ public class OperationLog {
   @Comment("운영 타입")
   private OperationLogType operationLogType;
 
-  @Column(nullable = false)
-  @Comment("수행자")
-  private String operatorId;
-
   @Column
   @Comment("피수행자")
   private String targetId;
-
-  @CreationTimestamp
-  @Column(updatable = false, nullable = false)
-  @Comment("수행일")
-  private LocalDateTime operatedAt;
 
   @Column
   @Comment("아이피")

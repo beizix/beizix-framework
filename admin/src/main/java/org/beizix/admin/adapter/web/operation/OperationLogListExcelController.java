@@ -68,10 +68,10 @@ public class OperationLogListExcelController {
                 item.getAppType().name(),
                 item.getOperationLogType().name(),
                 item.getIp(),
-                Optional.ofNullable(item.getOperatedAt())
+                Optional.ofNullable(item.getCreatedAt())
                     .map(localDateTime -> localDateTime.format(formatter))
                     .orElse(""),
-                item.getOperatorId(),
+                item.getCreatedBy(),
                 item.getTargetId(),
                 item.getTaskDesc());
           });

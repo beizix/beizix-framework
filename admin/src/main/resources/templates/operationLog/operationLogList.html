@@ -108,8 +108,8 @@
             <span th:remove="tag" th:if="${not #strings.isEmpty(item.ip)}">[[${item.ip}]]</span>
             <span th:remove="tag" th:if="${#strings.isEmpty(item.ip)}"><i class="bi bi-slash-circle"></i></span>
           </td>
-          <td>[[${#temporals.format(item.operatedAt, 'yyyy-MM-dd HH:mm')}]]</td>
-          <td>[[${item.operatorId}]]</td>
+          <td>[[${#temporals.format(item.createdAt, 'yyyy-MM-dd HH:mm')}]]</td>
+          <td>[[${item.createdBy}]]</td>
           <td>
             <span th:remove="tag" th:if="${not #strings.isEmpty(item.targetId)}">[[${item.targetId}]]</span>
             <span th:remove="tag" th:if="${#strings.isEmpty(item.targetId)}"><i class="bi bi-slash-circle"></i></span>

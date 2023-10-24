@@ -36,7 +36,7 @@ public class LoginSuccessAspect {
         OperationLog.builder()
             .appType(AppType.ADMIN)
             .operationLogType(OperationLogType.LOGIN_SUCCESS)
-            .operatorId(authentication.getName())
+            .createdBy(authentication.getName())
             .ip(commonUtil.getClientIP(request))
             .taskDesc(messageUtil.getMessage("operate.login.success", authentication.getName()))
             .build());
