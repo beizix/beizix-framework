@@ -29,19 +29,6 @@ class URIHierarchyService implements URIHierarchyPortIn {
     node.setDepth(startDepth++);
 
     if (!node.getNodes().isEmpty()) {
-
-      // orderNo 오름차순 정렬
-      node.getNodes()
-          .sort(
-              (menu1, menu2) -> {
-                if (menu1.getOrderNo() > menu2.getOrderNo()) {
-                  return 1;
-                } else if (menu1.getOrderNo() < menu2.getOrderNo()) {
-                  return -1;
-                }
-                return 0;
-              });
-
       for (URIOutput subURI : node.getNodes()) {
         scanningNodes(subURI, startDepth);
       }

@@ -3,9 +3,9 @@ package org.beizix.core.adapter.persistence.uri.model;
 import java.util.Set;
 import javax.persistence.*;
 import lombok.*;
+import org.beizix.core.config.enums.AppType;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Comment;
-import org.beizix.core.config.enums.AppType;
 
 @Entity
 @Getter
@@ -32,31 +32,31 @@ public class URI {
   @Column
   @Comment("정렬순서")
   private Integer orderNo;
-  
+
   @Column
   @Comment("메뉴명")
   private String text;
-  
+
   @Column
   @Comment("URI 경로")
   private String uri;
-  
+
   @Column
   @Comment("노출여부")
   private Boolean showOnNavi;
-  
+
   @Column
   @Comment("og 제목")
   private String ogTitle;
-  
+
   @Column
   @Comment("og 설명")
   private String ogDesc;
-  
+
   @Column
   @Comment("og 키워드")
   private String ogKeywords;
-  
+
   @Column
   @Comment("og 이미지 URL")
   private String ogImage;
@@ -69,9 +69,10 @@ public class URI {
   @BatchSize(size = 100)
   @JoinColumn(
       name = "parent_id",
-      referencedColumnName = "id",
+      referencedColumnName = URI_.ID,
       insertable = false,
       updatable = false)
+  @OrderBy(value = URI_.ORDER_NO + " ASC")
   private Set<URI> nodes;
 
   @ElementCollection(fetch = FetchType.EAGER)
