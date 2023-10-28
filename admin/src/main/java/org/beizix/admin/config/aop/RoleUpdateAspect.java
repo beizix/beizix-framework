@@ -11,7 +11,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.beizix.core.application.domain.operationlog.model.OperationLog;
+import org.beizix.core.application.domain.operationlog.model.save.OperationLogInput;
 import org.beizix.core.application.port.in.operationlog.OperationLogSavePortIn;
 import org.beizix.core.config.enums.AppType;
 import org.beizix.core.config.enums.OperationLogType;
@@ -74,17 +74,14 @@ public class RoleUpdateAspect {
       HttpServletRequest request = commonUtil.getRequest();
 
       operationLogSavePortIn.connect(
-          OperationLog.builder()
-              .appType(AppType.ADMIN)
-              .operationLogType(OperationLogType.ROLE_UPDATE)
-              .createdBy(operatorId)
-              .targetId(adminId)
-              .ip(request != null ? commonUtil.getClientIP(request) : null)
-              .taskDesc(
-                  String.format(
-                      "`%s` grants [%s] permissions to `%s`",
-                      operatorId, StringUtils.join(currentRoles, ", "), adminId))
-              .build());
+          new OperationLogInput(
+              AppType.ADMIN,
+              OperationLogType.ROLE_UPDATE,
+              adminId,
+              request != null ? commonUtil.getClientIP(request) : null,
+              String.format(
+                  "`%s` grants [%s] permissions to `%s`",
+                  operatorId, StringUtils.join(currentRoles, ", "), adminId)));
     }
 
     return joinPoint.proceed();

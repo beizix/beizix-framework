@@ -1,18 +1,17 @@
 package org.beizix.admin.config.aop;
 
+import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.stereotype.Component;
-import org.beizix.utility.common.CommonUtil;
-import org.beizix.utility.common.MessageUtil;
+import org.beizix.core.application.domain.operationlog.model.save.OperationLogInput;
+import org.beizix.core.application.port.in.operationlog.OperationLogSavePortIn;
 import org.beizix.core.config.enums.AppType;
 import org.beizix.core.config.enums.OperationLogType;
-import org.beizix.core.application.domain.operationlog.model.OperationLog;
-import org.beizix.core.application.port.in.operationlog.OperationLogSavePortIn;
-
-import javax.servlet.http.HttpServletRequest;
+import org.beizix.utility.common.CommonUtil;
+import org.beizix.utility.common.MessageUtil;
+import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
@@ -29,13 +28,11 @@ public class LoginFailAspect {
     String targetId = request.getParameter("username");
 
     operationLogSavePortIn.connect(
-        OperationLog.builder()
-            .appType(AppType.ADMIN)
-            .operationLogType(OperationLogType.LOGIN_FAIL)
-            .createdBy("anonymous")
-            .targetId(targetId)
-            .ip(commonUtil.getClientIP(request))
-            .taskDesc(messageUtil.getMessage("operate.login.fail", targetId))
-            .build());
+        new OperationLogInput(
+            AppType.ADMIN,
+            OperationLogType.LOGIN_FAIL,
+            targetId,
+            commonUtil.getClientIP(request),
+            messageUtil.getMessage("operate.login.fail", targetId)));
   }
 }

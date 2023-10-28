@@ -1,20 +1,19 @@
 package org.beizix.admin.config.aop;
 
+import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Component;
-import org.beizix.utility.common.CommonUtil;
-import org.beizix.utility.common.MessageUtil;
+import org.beizix.core.application.domain.operationlog.model.save.OperationLogInput;
+import org.beizix.core.application.port.in.operationlog.OperationLogSavePortIn;
 import org.beizix.core.config.enums.AppType;
 import org.beizix.core.config.enums.OperationLogType;
-import org.beizix.core.application.domain.operationlog.model.OperationLog;
-import org.beizix.core.application.port.in.operationlog.OperationLogSavePortIn;
-
-import javax.servlet.http.HttpServletRequest;
+import org.beizix.utility.common.CommonUtil;
+import org.beizix.utility.common.MessageUtil;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
@@ -33,12 +32,11 @@ public class LoginSuccessAspect {
     Authentication authentication = (Authentication) args[2];
 
     operationLogSavePortIn.connect(
-        OperationLog.builder()
-            .appType(AppType.ADMIN)
-            .operationLogType(OperationLogType.LOGIN_SUCCESS)
-            .createdBy(authentication.getName())
-            .ip(commonUtil.getClientIP(request))
-            .taskDesc(messageUtil.getMessage("operate.login.success", authentication.getName()))
-            .build());
+        new OperationLogInput(
+            AppType.ADMIN,
+            OperationLogType.LOGIN_SUCCESS,
+            null,
+            commonUtil.getClientIP(request),
+            messageUtil.getMessage("operate.login.success", authentication.getName())));
   }
 }

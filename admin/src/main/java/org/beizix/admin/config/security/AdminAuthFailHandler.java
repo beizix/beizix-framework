@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.config.aop.LoginFailOperateLog;
-import org.beizix.core.application.domain.operationlog.model.OperationLog;
+import org.beizix.core.application.domain.operationlog.model.save.OperationLogInput;
 import org.beizix.core.application.port.in.operationlog.OperationLogSavePortIn;
 import org.beizix.core.config.enums.AppType;
 import org.beizix.core.config.enums.OperationLogType;
@@ -64,16 +64,13 @@ public class AdminAuthFailHandler extends SimpleUrlAuthenticationFailureHandler 
 
                   // 계정 잠금 로그 기록
                   operationLogSavePortIn.connect(
-                      OperationLog.builder()
-                          .appType(AppType.ADMIN)
-                          .operationLogType(OperationLogType.ACCOUNT_LOCKED)
-                          .createdBy("anonymous")
-                          .targetId(adminUserViewInfo.getId())
-                          .ip(commonUtil.getClientIP(request))
-                          .taskDesc(
-                              messageUtil.getMessage(
-                                  "operate.account.locked", adminUserViewInfo.getId()))
-                          .build());
+                      new OperationLogInput(
+                          AppType.ADMIN,
+                          OperationLogType.ACCOUNT_LOCKED,
+                          adminUserViewInfo.getId(),
+                          commonUtil.getClientIP(request),
+                          messageUtil.getMessage(
+                              "operate.account.locked", adminUserViewInfo.getId())));
                 }
               });
     }
