@@ -63,11 +63,11 @@
         </div>
 
         <div class="row mb-3">
-          <label class="col-sm-3 col-form-label" for="roleDtos">접근 권한</label>
+          <label class="col-sm-3 col-form-label" for="roles">역할</label>
           <div class="col-sm-9">
-            <select class="form-select" id="roleDtos" name="roleDtos" multiple>
-              <option th:each="item : ${roleDtos}" th:value="${item.roleDto}"
-                      th:text="${item.roleDto + ' (' + item.description + ')'}"></option>
+            <select class="form-select" id="roles" name="roles" multiple>
+              <option th:each="role : ${roles}" th:value="${role.id}"
+                      th:text="${role.id + ' (' + role.description + ')'}"></option>
             </select>
           </div>
         </div>
@@ -247,10 +247,10 @@
                   f.ogImage.value = item.ogImage;
 
                   let roleIds = [];
-                  $(item.roleDtos).each(function (idx, roleDto) {
-                      roleIds.push(roleDto);
+                  $(item.roles).each(function (idx, role) {
+                      roleIds.push(role);
                   });
-                  $(f.roleDtos).val(roleIds);
+                  $(f.roles).val(roleIds);
 
                   switchOgImage('ogImageText');
               }

@@ -1,14 +1,13 @@
 package org.beizix.core.application.domain.uri;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Service;
-import org.beizix.core.config.enums.AppType;
-import org.beizix.core.application.domain.uri.model.URIInput;
+import org.beizix.core.application.domain.uri.model.list.URIOutput;
 import org.beizix.core.application.port.in.uri.URIHierarchyPortIn;
 import org.beizix.core.application.port.in.uri.URIListPortIn;
-
-import java.util.Optional;
+import org.beizix.core.config.enums.AppType;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -17,16 +16,16 @@ class URIHierarchyService implements URIHierarchyPortIn {
 
   @Cacheable("URITopItemCache")
   @Override
-  public URIInput connect(AppType appType) {
-    Optional<URIInput> topURI =
+  public URIOutput connect(AppType appType) {
+    Optional<URIOutput> topURI =
         uriListPortIn.connect(appType).stream()
             .filter(uri -> uri.getParentId() == null)
             .findFirst();
     topURI.ifPresent(uri -> scanningNodes(uri, 1));
-    return topURI.orElse(URIInput.builder().build());
+    return topURI.orElse(URIOutput.builder().build());
   }
 
-  private void scanningNodes(URIInput node, int startDepth) {
+  private void scanningNodes(URIOutput node, int startDepth) {
     node.setDepth(startDepth++);
 
     if (!node.getNodes().isEmpty()) {
@@ -43,7 +42,7 @@ class URIHierarchyService implements URIHierarchyPortIn {
                 return 0;
               });
 
-      for (URIInput subURI : node.getNodes()) {
+      for (URIOutput subURI : node.getNodes()) {
         scanningNodes(subURI, startDepth);
       }
     }

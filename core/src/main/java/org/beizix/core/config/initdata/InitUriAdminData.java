@@ -4,14 +4,14 @@ import java.io.IOException;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.beizix.core.application.domain.uri.model.URIInput;
+import org.beizix.core.application.port.in.uri.URISavePortIn;
+import org.beizix.core.config.enums.AppType;
+import org.beizix.utility.common.PropertyUtil;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.beizix.core.config.enums.AppType;
-import org.beizix.core.application.domain.uri.model.URIInput;
-import org.beizix.core.application.port.in.uri.URISavePortIn;
-import org.beizix.utility.common.PropertyUtil;
 
 @Component
 @RequiredArgsConstructor
@@ -92,7 +92,7 @@ public class InitUriAdminData implements ApplicationRunner {
             .text("Settings")
             .uri("/settings")
             .showOnNavi(true)
-            .roles(Set.of("ROLE_MANAGER"))
+            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER"))
             .build(),
         false);
 
@@ -104,7 +104,7 @@ public class InitUriAdminData implements ApplicationRunner {
             .text("관리자 & 역할")
             .uri("/settings/adminGroup")
             .showOnNavi(true)
-            .roles(Set.of("ROLE_MANAGER"))
+            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER"))
             .ogTitle("org.beizix - 관리자")
             .ogDesc("org.beizix 관리자 목록 화면")
             .ogKeywords("org.beizix,notice,list")
@@ -119,7 +119,7 @@ public class InitUriAdminData implements ApplicationRunner {
             .text("관리자")
             .uri("/settings/admins")
             .showOnNavi(true)
-            .roles(Set.of("ROLE_MANAGER"))
+            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER"))
             .ogTitle("org.beizix - 관리자")
             .ogDesc("org.beizix 관리자 목록 화면")
             .ogKeywords("org.beizix,notice,list")
@@ -134,7 +134,7 @@ public class InitUriAdminData implements ApplicationRunner {
             .text("등록")
             .uri("/settings/admins/create")
             .showOnNavi(false)
-            .roles(Set.of("ROLE_MANAGER"))
+            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER"))
             .ogTitle("org.beizix - 관리자")
             .ogDesc("org.beizix 관리자 등록 화면")
             .ogKeywords("org.beizix,notice,create")
@@ -149,7 +149,7 @@ public class InitUriAdminData implements ApplicationRunner {
             .text("수정")
             .uri("/settings/admins/update/{{pathVars}}")
             .showOnNavi(false)
-            .roles(Set.of("ROLE_MANAGER"))
+            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER"))
             .ogTitle("org.beizix - 관리자")
             .ogDesc("org.beizix 관리자 수정 화면")
             .ogKeywords("org.beizix,notice,update")
@@ -164,7 +164,7 @@ public class InitUriAdminData implements ApplicationRunner {
             .text("관리자 역할")
             .uri("/settings/adminRoles")
             .showOnNavi(true)
-            .roles(Set.of("ROLE_MANAGER"))
+            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER"))
             .ogTitle("org.beizix - 관리자 역할")
             .ogDesc("org.beizix 관리자 역할 목록 화면")
             .ogKeywords("org.beizix,role,authorities")
@@ -179,7 +179,7 @@ public class InitUriAdminData implements ApplicationRunner {
             .text("관리자 권한")
             .uri("/settings/adminPrivilege")
             .showOnNavi(true)
-            .roles(Set.of("ROLE_MANAGER"))
+            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER"))
             .ogTitle("org.beizix - 관리자 권한")
             .ogDesc("org.beizix 관리자 권한 목록 화면")
             .ogKeywords("org.beizix,role,authorities")
@@ -194,7 +194,7 @@ public class InitUriAdminData implements ApplicationRunner {
             .text("URI 관리 (관리자)")
             .uri("/settings/uri/ADMIN")
             .showOnNavi(true)
-            .roles(Set.of("ROLE_MANAGER"))
+            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER"))
             .ogTitle("org.beizix - URI")
             .ogDesc("org.beizix URI 관리 화면")
             .ogKeywords("org.beizix,uri")
@@ -209,7 +209,7 @@ public class InitUriAdminData implements ApplicationRunner {
             .text("예제 게시판")
             .uri("/board/exampleBoard")
             .showOnNavi(true)
-            .roles(Set.of("ROLE_STAFF"))
+            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"))
             .ogTitle("org.beizix - 예제 게시판")
             .ogDesc("org.beizix 예제 게시판 관리 페이지")
             .ogKeywords("org.beizix,notice")
@@ -224,7 +224,7 @@ public class InitUriAdminData implements ApplicationRunner {
             .text("등록")
             .uri("/board/exampleBoard/create")
             .showOnNavi(false)
-            .roles(Set.of("ROLE_STAFF"))
+            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"))
             .ogTitle("org.beizix - 예제 게시판")
             .ogDesc("org.beizix 예제 게시판 등록 페이지")
             .ogKeywords("org.beizix,notice,create")
@@ -239,7 +239,7 @@ public class InitUriAdminData implements ApplicationRunner {
             .text("수정")
             .uri("/board/exampleBoard/update/{{pathVars}}")
             .showOnNavi(false)
-            .roles(Set.of("ROLE_STAFF"))
+            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"))
             .ogTitle("org.beizix - 예제 게시판")
             .ogDesc("org.beizix 예제 게시판 수정 페이지")
             .ogKeywords("org.beizix,notice,update")
@@ -254,7 +254,7 @@ public class InitUriAdminData implements ApplicationRunner {
             .text("삭제")
             .uri("/board/exampleBoard/delete")
             .showOnNavi(false)
-            .roles(Set.of("ROLE_STAFF"))
+            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"))
             .build(),
         false);
 
@@ -266,7 +266,7 @@ public class InitUriAdminData implements ApplicationRunner {
             .text("삭제")
             .uri("/settings/admins/delete")
             .showOnNavi(false)
-            .roles(Set.of("ROLE_MANAGER"))
+            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER"))
             .build(),
         false);
 
@@ -278,7 +278,7 @@ public class InitUriAdminData implements ApplicationRunner {
             .text("엑셀 다운로드")
             .uri("/board/exampleBoard/excel")
             .showOnNavi(false)
-            .roles(Set.of("ROLE_STAFF"))
+            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"))
             .build(),
         false);
 
@@ -290,7 +290,7 @@ public class InitUriAdminData implements ApplicationRunner {
             .text("엑셀 다운로드")
             .uri("/settings/admins/excel")
             .showOnNavi(false)
-            .roles(Set.of("ROLE_MANAGER"))
+            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER"))
             .build(),
         false);
 
@@ -302,7 +302,7 @@ public class InitUriAdminData implements ApplicationRunner {
             .text("URI 관리 (FRONT)")
             .uri("/settings/uri/FRONT")
             .showOnNavi(true)
-            .roles(Set.of("ROLE_MANAGER"))
+            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER"))
             .ogTitle("org.beizix - URI")
             .ogDesc("org.beizix URI 관리 화면")
             .ogKeywords("org.beizix,uri")
@@ -317,7 +317,7 @@ public class InitUriAdminData implements ApplicationRunner {
             .text("UI 코드 관리")
             .uri("/settings/uicode")
             .showOnNavi(true)
-            .roles(Set.of("ROLE_MANAGER"))
+            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER"))
             .ogTitle("org.beizix - UI 코드")
             .ogDesc("org.beizix UI 코드 관리 페이지")
             .ogKeywords("org.beizix,uicode")

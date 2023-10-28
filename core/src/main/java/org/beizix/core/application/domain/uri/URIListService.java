@@ -1,6 +1,7 @@
 package org.beizix.core.application.domain.uri;
 
 import lombok.RequiredArgsConstructor;
+import org.beizix.core.application.domain.uri.model.list.URIOutput;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.beizix.core.config.enums.AppType;
@@ -17,7 +18,7 @@ class URIListService implements URIListPortIn {
 
   @Cacheable("URIItemsByAppTypeCache")
   @Override
-  public List<URIInput> connect(AppType appType) {
+  public List<URIOutput> connect(AppType appType) {
     return uriListPortOut.connect(appType);
   }
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.beizix.core.application.domain.uri.model.list.URIOutput;
 import org.springframework.stereotype.Service;
 import org.beizix.core.config.enums.AppType;
 import org.beizix.core.application.domain.uri.model.URIInput;
@@ -20,7 +21,7 @@ class URIMatchingService implements URIMatchingPortIn {
   private final CommonUtil commonUtil;
 
   @Override
-  public URIInput connect(AppType appType, String uri) {
+  public URIOutput connect(AppType appType, String uri) {
     String targetUri = commonUtil.removeLastChar(uri, "/");
     return uriListPortIn.connect(appType).stream()
         .filter(

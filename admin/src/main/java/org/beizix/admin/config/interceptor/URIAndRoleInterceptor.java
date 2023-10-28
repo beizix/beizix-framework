@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.beizix.core.application.domain.uri.model.list.URIOutput;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,7 +36,7 @@ public class URIAndRoleInterceptor implements HandlerInterceptor {
       return true;
     }
 
-    URIInput currentURI = uriMatchingPortIn.connect(AppType.ADMIN, requestURI);
+    URIOutput currentURI = uriMatchingPortIn.connect(AppType.ADMIN, requestURI);
     if (currentURI == null) {
       request.setAttribute("message", String.format("매핑되는 않은 URI - %s", requestURI));
       request.setAttribute("exception", "NoMatchingURIException");

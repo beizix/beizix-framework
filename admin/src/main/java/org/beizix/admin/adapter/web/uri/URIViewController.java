@@ -1,6 +1,7 @@
 package org.beizix.admin.adapter.web.uri;
 
 import lombok.RequiredArgsConstructor;
+import org.beizix.core.application.domain.uri.model.list.URIOutput;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class URIViewController {
 
   @GetMapping(path = "/api/uri/get/{appType}/{id}")
   ResponseEntity<?> operate(@PathVariable AppType appType, @PathVariable String id) {
-    URIInput item =
+    URIOutput item =
         uriViewPortIn
             .connect(appType, id)
             .orElseThrow(

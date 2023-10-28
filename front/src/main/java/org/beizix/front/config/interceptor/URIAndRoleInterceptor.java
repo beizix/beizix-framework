@@ -1,6 +1,7 @@
 package org.beizix.front.config.interceptor;
 
 import lombok.RequiredArgsConstructor;
+import org.beizix.core.application.domain.uri.model.list.URIOutput;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,7 +31,7 @@ public class URIAndRoleInterceptor implements HandlerInterceptor {
       return true;
     }
 
-    URIInput currentURI = uriMatchingPortIn.connect(AppType.FRONT, requestURI);
+    URIOutput currentURI = uriMatchingPortIn.connect(AppType.FRONT, requestURI);
     if (currentURI == null) {
       request.setAttribute("message", String.format("매핑되는 않은 URI - %s", requestURI));
       request.setAttribute("exception", "NoMatchingURIException");
