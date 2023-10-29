@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.uri;
+package org.beizix.admin.adapter.web.uri.model.sort;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,10 +14,10 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class URISortDto {
+public class URISortVO {
   @NotNull(message = "{valid.common.required}")
   @Size(min = 2, max = 2, message = "{valid.uri.sort.size}")
-  private List<URISortDto> updateList;
+  private List<URISortVO> updateList;
 
   @NotBlank(message = "{valid.common.required}")
   private String id;
