@@ -1,20 +1,18 @@
 package org.beizix.front.config.interceptor;
 
-import lombok.RequiredArgsConstructor;
-import org.beizix.core.application.domain.uri.model.list.URIOutput;
-import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
-import org.beizix.core.config.enums.AppType;
-import org.beizix.core.application.domain.uri.model.URIInput;
-import org.beizix.core.application.port.in.uri.URIHierarchyPortIn;
-import org.beizix.core.application.port.in.uri.URIMatchingParentsPortIn;
-import org.beizix.core.application.port.in.uri.URIMatchingPortIn;
-
+import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import lombok.RequiredArgsConstructor;
+import org.beizix.core.application.domain.uri.model.list.URIOutput;
+import org.beizix.core.application.port.in.uri.URIHierarchyPortIn;
+import org.beizix.core.application.port.in.uri.URIMatchingParentsPortIn;
+import org.beizix.core.application.port.in.uri.URIMatchingPortIn;
+import org.beizix.core.config.enums.AppType;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
 @Component
 @RequiredArgsConstructor

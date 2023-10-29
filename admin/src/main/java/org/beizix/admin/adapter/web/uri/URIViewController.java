@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.beizix.core.config.enums.AppType;
-import org.beizix.core.application.domain.uri.model.URIInput;
 import org.beizix.core.application.port.in.uri.URIViewPortIn;
 import org.beizix.utility.common.MessageUtil;
 import org.beizix.core.common.rest.RestResponse;

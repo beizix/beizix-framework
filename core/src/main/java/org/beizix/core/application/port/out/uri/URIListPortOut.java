@@ -1,10 +1,8 @@
 package org.beizix.core.application.port.out.uri;
 
+import java.util.List;
 import org.beizix.core.application.domain.uri.model.list.URIOutput;
 import org.beizix.core.config.enums.AppType;
-import org.beizix.core.application.domain.uri.model.URIInput;
-
-import java.util.List;
 
 public interface URIListPortOut {
   List<URIOutput> connect(AppType appType);

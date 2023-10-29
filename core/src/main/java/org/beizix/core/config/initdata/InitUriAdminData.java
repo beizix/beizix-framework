@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.beizix.core.application.domain.uri.model.URIInput;
+import org.beizix.core.application.domain.uri.model.save.URIInput;
 import org.beizix.core.application.port.in.uri.URISavePortIn;
 import org.beizix.core.config.enums.AppType;
 import org.beizix.utility.common.PropertyUtil;
@@ -59,374 +59,445 @@ public class InitUriAdminData implements ApplicationRunner {
     final String ADMIN_ADD_ONS_SEND_EMAIL_CREATE = "uri.admin.addons.email.create";
 
     uriSavePortIn.connect(
-        URIInput.builder()
-            .id(ADMIN)
-            .parentId(null)
-            .appType(AppType.ADMIN)
-            .text("관리자")
-            .uri("/")
-            .showOnNavi(true)
-            .ogTitle("어드민 홈")
-            .ogDesc("어드민 홈 페이지")
-            .ogKeywords("admin")
-            .build(),
+        new URIInput(
+            ADMIN,
+            null,
+            AppType.ADMIN,
+            "/",
+            true,
+            "관리자",
+            null,
+            "어드민 홈",
+            "어드민 홈 페이지",
+            "admin",
+            null,
+            null),
+        null,
         false);
 
     uriSavePortIn.connect(
-        URIInput.builder()
-            .id(ADMIN_BOARD)
-            .parentId(ADMIN)
-            .appType(AppType.ADMIN)
-            .text("게시판")
-            .uri("/board")
-            .showOnNavi(true)
-            .roles(Set.of("ROLE_SUPER"))
-            .build(),
+        new URIInput(
+            ADMIN_BOARD,
+            ADMIN,
+            AppType.ADMIN,
+            "/board",
+            true,
+            "게시판",
+            null,
+            null,
+            null,
+            null,
+            null,
+            Set.of("ROLE_SUPER")),
+        null,
         false);
 
     uriSavePortIn.connect(
-        URIInput.builder()
-            .id(ADMIN_SETTINGS)
-            .parentId(ADMIN)
-            .appType(AppType.ADMIN)
-            .text("Settings")
-            .uri("/settings")
-            .showOnNavi(true)
-            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER"))
-            .build(),
+        new URIInput(
+            ADMIN_SETTINGS,
+            ADMIN,
+            AppType.ADMIN,
+            "/settings",
+            true,
+            "Settings",
+            null,
+            null,
+            null,
+            null,
+            null,
+            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
+        null,
         false);
 
     uriSavePortIn.connect(
-        URIInput.builder()
-            .id(ADMIN_SETTINGS_ADMIN_GROUP)
-            .parentId(ADMIN_SETTINGS)
-            .appType(AppType.ADMIN)
-            .text("관리자 & 역할")
-            .uri("/settings/adminGroup")
-            .showOnNavi(true)
-            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER"))
-            .ogTitle("org.beizix - 관리자")
-            .ogDesc("org.beizix 관리자 목록 화면")
-            .ogKeywords("org.beizix,notice,list")
-            .build(),
+        new URIInput(
+            ADMIN_SETTINGS_ADMIN_GROUP,
+            ADMIN_SETTINGS,
+            AppType.ADMIN,
+            "/settings/adminGroup",
+            true,
+            "관리자 & 역할",
+            null,
+            "org.beizix - 관리자",
+            "org.beizix 관리자 목록 화면",
+            "org.beizix,notice,list",
+            null,
+            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
+        null,
         false);
 
     uriSavePortIn.connect(
-        URIInput.builder()
-            .id(ADMIN_SETTINGS_ADMIN)
-            .parentId(ADMIN_SETTINGS_ADMIN_GROUP)
-            .appType(AppType.ADMIN)
-            .text("관리자")
-            .uri("/settings/admins")
-            .showOnNavi(true)
-            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER"))
-            .ogTitle("org.beizix - 관리자")
-            .ogDesc("org.beizix 관리자 목록 화면")
-            .ogKeywords("org.beizix,notice,list")
-            .build(),
+        new URIInput(
+            ADMIN_SETTINGS_ADMIN,
+            ADMIN_SETTINGS_ADMIN_GROUP,
+            AppType.ADMIN,
+            "/settings/admins",
+            true,
+            "관리자",
+            null,
+            "org.beizix - 관리자",
+            "org.beizix 관리자 목록 화면",
+            "org.beizix,notice,list",
+            null,
+            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
+        null,
         false);
 
     uriSavePortIn.connect(
-        URIInput.builder()
-            .id(ADMIN_SETTINGS_ADMIN_CREATE)
-            .parentId(ADMIN_SETTINGS_ADMIN)
-            .appType(AppType.ADMIN)
-            .text("등록")
-            .uri("/settings/admins/create")
-            .showOnNavi(false)
-            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER"))
-            .ogTitle("org.beizix - 관리자")
-            .ogDesc("org.beizix 관리자 등록 화면")
-            .ogKeywords("org.beizix,notice,create")
-            .build(),
+        new URIInput(
+            ADMIN_SETTINGS_ADMIN_CREATE,
+            ADMIN_SETTINGS_ADMIN,
+            AppType.ADMIN,
+            "/settings/admins/create",
+            false,
+            "등록",
+            null,
+            "org.beizix - 관리자",
+            "org.beizix 관리자 등록 화면",
+            "org.beizix,notice,create",
+            null,
+            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
+        null,
         false);
 
     uriSavePortIn.connect(
-        URIInput.builder()
-            .id(ADMIN_SETTINGS_ADMIN_UPDATE)
-            .parentId(ADMIN_SETTINGS_ADMIN)
-            .appType(AppType.ADMIN)
-            .text("수정")
-            .uri("/settings/admins/update/{{pathVars}}")
-            .showOnNavi(false)
-            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER"))
-            .ogTitle("org.beizix - 관리자")
-            .ogDesc("org.beizix 관리자 수정 화면")
-            .ogKeywords("org.beizix,notice,update")
-            .build(),
+        new URIInput(
+            ADMIN_SETTINGS_ADMIN_UPDATE,
+            ADMIN_SETTINGS_ADMIN,
+            AppType.ADMIN,
+            "/settings/admins/update/{{pathVars}}",
+            false,
+            "수정",
+            null,
+            "org.beizix - 관리자",
+            "org.beizix 관리자 수정 화면",
+            "org.beizix,notice,update",
+            null,
+            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
+        null,
         false);
 
     uriSavePortIn.connect(
-        URIInput.builder()
-            .id(ADMIN_SETTINGS_ADMIN_ROLE)
-            .parentId(ADMIN_SETTINGS_ADMIN_GROUP)
-            .appType(AppType.ADMIN)
-            .text("관리자 역할")
-            .uri("/settings/adminRoles")
-            .showOnNavi(true)
-            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER"))
-            .ogTitle("org.beizix - 관리자 역할")
-            .ogDesc("org.beizix 관리자 역할 목록 화면")
-            .ogKeywords("org.beizix,role,authorities")
-            .build(),
+        new URIInput(
+            ADMIN_SETTINGS_ADMIN_ROLE,
+            ADMIN_SETTINGS_ADMIN_GROUP,
+            AppType.ADMIN,
+            "/settings/adminRoles",
+            true,
+            "관리자 역할",
+            null,
+            "org.beizix - 관리자 역할",
+            "org.beizix 관리자 역할 목록 화면",
+            "org.beizix,role,authorities",
+            null,
+            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
+        null,
         false);
 
     uriSavePortIn.connect(
-        URIInput.builder()
-            .id(ADMIN_SETTINGS_ADMIN_PRIVILEGE)
-            .parentId(ADMIN_SETTINGS_ADMIN_GROUP)
-            .appType(AppType.ADMIN)
-            .text("관리자 권한")
-            .uri("/settings/adminPrivilege")
-            .showOnNavi(true)
-            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER"))
-            .ogTitle("org.beizix - 관리자 권한")
-            .ogDesc("org.beizix 관리자 권한 목록 화면")
-            .ogKeywords("org.beizix,role,authorities")
-            .build(),
+        new URIInput(
+            ADMIN_SETTINGS_ADMIN_PRIVILEGE,
+            ADMIN_SETTINGS_ADMIN_GROUP,
+            AppType.ADMIN,
+            "/settings/adminPrivilege",
+            true,
+            "관리자 권한",
+            null,
+            "org.beizix - 관리자 권한",
+            "org.beizix 관리자 권한 목록 화면",
+            "org.beizix,role,authorities",
+            null,
+            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
+        null,
         false);
 
     uriSavePortIn.connect(
-        URIInput.builder()
-            .id(ADMIN_SETTINGS_URI_ADMIN)
-            .parentId(ADMIN_SETTINGS)
-            .appType(AppType.ADMIN)
-            .text("URI 관리 (관리자)")
-            .uri("/settings/uri/ADMIN")
-            .showOnNavi(true)
-            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER"))
-            .ogTitle("org.beizix - URI")
-            .ogDesc("org.beizix URI 관리 화면")
-            .ogKeywords("org.beizix,uri")
-            .build(),
+        new URIInput(
+            ADMIN_SETTINGS_URI_ADMIN,
+            ADMIN_SETTINGS,
+            AppType.ADMIN,
+            "/settings/uri/ADMIN",
+            true,
+            "URI 관리 (관리자)",
+            null,
+            "org.beizix - URI",
+            "org.beizix URI 관리 화면",
+            "org.beizix,uri",
+            null,
+            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
+        null,
         false);
 
     uriSavePortIn.connect(
-        URIInput.builder()
-            .id(ADMIN_BOARD_EXAMPLE)
-            .parentId(ADMIN_BOARD)
-            .appType(AppType.ADMIN)
-            .text("예제 게시판")
-            .uri("/board/exampleBoard")
-            .showOnNavi(true)
-            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"))
-            .ogTitle("org.beizix - 예제 게시판")
-            .ogDesc("org.beizix 예제 게시판 관리 페이지")
-            .ogKeywords("org.beizix,notice")
-            .build(),
+        new URIInput(
+            ADMIN_BOARD_EXAMPLE,
+            ADMIN_BOARD,
+            AppType.ADMIN,
+            "/board/exampleBoard",
+            true,
+            "예제 게시판",
+            null,
+            "org.beizix - 예제 게시판",
+            "org.beizix 예제 게시판 관리 페이지",
+            "org.beizix,notice",
+            null,
+            Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF")),
+        null,
         false);
 
     uriSavePortIn.connect(
-        URIInput.builder()
-            .id(ADMIN_BOARD_EXAMPLE_CREATE)
-            .parentId(ADMIN_BOARD_EXAMPLE)
-            .appType(AppType.ADMIN)
-            .text("등록")
-            .uri("/board/exampleBoard/create")
-            .showOnNavi(false)
-            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"))
-            .ogTitle("org.beizix - 예제 게시판")
-            .ogDesc("org.beizix 예제 게시판 등록 페이지")
-            .ogKeywords("org.beizix,notice,create")
-            .build(),
+        new URIInput(
+            ADMIN_BOARD_EXAMPLE_CREATE,
+            ADMIN_BOARD_EXAMPLE,
+            AppType.ADMIN,
+            "/board/exampleBoard/create",
+            false,
+            "등록",
+            null,
+            "org.beizix - 예제 게시판",
+            "org.beizix 예제 게시판 등록 페이지",
+            "org.beizix,notice,create",
+            null,
+            Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF")),
+        null,
         false);
 
     uriSavePortIn.connect(
-        URIInput.builder()
-            .id(ADMIN_BOARD_EXAMPLE_UPDATE)
-            .parentId(ADMIN_BOARD_EXAMPLE)
-            .appType(AppType.ADMIN)
-            .text("수정")
-            .uri("/board/exampleBoard/update/{{pathVars}}")
-            .showOnNavi(false)
-            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"))
-            .ogTitle("org.beizix - 예제 게시판")
-            .ogDesc("org.beizix 예제 게시판 수정 페이지")
-            .ogKeywords("org.beizix,notice,update")
-            .build(),
+        new URIInput(
+            ADMIN_BOARD_EXAMPLE_UPDATE,
+            ADMIN_BOARD_EXAMPLE,
+            AppType.ADMIN,
+            "/board/exampleBoard/update/{{pathVars}}",
+            false,
+            "수정",
+            null,
+            "org.beizix - 예제 게시판",
+            "org.beizix 예제 게시판 수정 페이지",
+            "org.beizix,notice,update",
+            null,
+            Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF")),
+        null,
         false);
 
     uriSavePortIn.connect(
-        URIInput.builder()
-            .id(ADMIN_BOARD_EXAMPLE_DELETE)
-            .parentId(ADMIN_BOARD_EXAMPLE)
-            .appType(AppType.ADMIN)
-            .text("삭제")
-            .uri("/board/exampleBoard/delete")
-            .showOnNavi(false)
-            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"))
-            .build(),
+        new URIInput(
+            ADMIN_BOARD_EXAMPLE_DELETE,
+            ADMIN_BOARD_EXAMPLE,
+            AppType.ADMIN,
+            "/board/exampleBoard/delete",
+            false,
+            "삭제",
+            null,
+            null,
+            null,
+            null,
+            null,
+            Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF")),
+        null,
         false);
 
     uriSavePortIn.connect(
-        URIInput.builder()
-            .id(ADMIN_SETTINGS_ADMIN_DELETE)
-            .parentId(ADMIN_SETTINGS_ADMIN)
-            .appType(AppType.ADMIN)
-            .text("삭제")
-            .uri("/settings/admins/delete")
-            .showOnNavi(false)
-            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER"))
-            .build(),
+        new URIInput(
+            ADMIN_SETTINGS_ADMIN_DELETE,
+            ADMIN_SETTINGS_ADMIN,
+            AppType.ADMIN,
+            "/settings/admins/delete",
+            false,
+            "삭제",
+            null,
+            null,
+            null,
+            null,
+            null,
+            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
+        null,
         false);
 
     uriSavePortIn.connect(
-        URIInput.builder()
-            .id(ADMIN_BOARD_EXAMPLE_EXCEL)
-            .parentId(ADMIN_BOARD_EXAMPLE)
-            .appType(AppType.ADMIN)
-            .text("엑셀 다운로드")
-            .uri("/board/exampleBoard/excel")
-            .showOnNavi(false)
-            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"))
-            .build(),
+        new URIInput(
+            ADMIN_BOARD_EXAMPLE_EXCEL,
+            ADMIN_BOARD_EXAMPLE,
+            AppType.ADMIN,
+            "/board/exampleBoard/excel",
+            false,
+            "엑셀 다운로드",
+            null,
+            null,
+            null,
+            null,
+            null,
+            Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF")),
+        null,
         false);
 
     uriSavePortIn.connect(
-        URIInput.builder()
-            .id(ADMIN_SETTINGS_ADMIN_EXCEL)
-            .parentId(ADMIN_SETTINGS_ADMIN)
-            .appType(AppType.ADMIN)
-            .text("엑셀 다운로드")
-            .uri("/settings/admins/excel")
-            .showOnNavi(false)
-            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER"))
-            .build(),
+        new URIInput(
+            ADMIN_SETTINGS_ADMIN_EXCEL,
+            ADMIN_SETTINGS_ADMIN,
+            AppType.ADMIN,
+            "/settings/admins/excel",
+            false,
+            "엑셀 다운로드",
+            null,
+            null,
+            null,
+            null,
+            null,
+            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
+        null,
         false);
 
     uriSavePortIn.connect(
-        URIInput.builder()
-            .id(ADMIN_SETTINGS_URI_FRONT)
-            .parentId(ADMIN_SETTINGS)
-            .appType(AppType.ADMIN)
-            .text("URI 관리 (FRONT)")
-            .uri("/settings/uri/FRONT")
-            .showOnNavi(true)
-            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER"))
-            .ogTitle("org.beizix - URI")
-            .ogDesc("org.beizix URI 관리 화면")
-            .ogKeywords("org.beizix,uri")
-            .build(),
+        new URIInput(
+            ADMIN_SETTINGS_URI_FRONT,
+            ADMIN_SETTINGS,
+            AppType.ADMIN,
+            "/settings/uri/FRONT",
+            true,
+            "URI 관리 (FRONT)",
+            null,
+            "org.beizix - URI",
+            "org.beizix URI 관리 화면",
+            "org.beizix,uri",
+            null,
+            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
+        null,
         false);
 
     uriSavePortIn.connect(
-        URIInput.builder()
-            .id(ADMIN_SETTINGS_CODE)
-            .parentId(ADMIN_SETTINGS)
-            .appType(AppType.ADMIN)
-            .text("UI 코드 관리")
-            .uri("/settings/uicode")
-            .showOnNavi(true)
-            .roles(Set.of("ROLE_SUPER", "ROLE_MANAGER"))
-            .ogTitle("org.beizix - UI 코드")
-            .ogDesc("org.beizix UI 코드 관리 페이지")
-            .ogKeywords("org.beizix,uicode")
-            .build(),
+        new URIInput(
+            ADMIN_SETTINGS_CODE,
+            ADMIN_SETTINGS,
+            AppType.ADMIN,
+            "/settings/uicode",
+            true,
+            "UI 코드 관리",
+            null,
+            "org.beizix - UI 코드",
+            "org.beizix UI 코드 관리 페이지",
+            "org.beizix,uicode",
+            null,
+            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
+        null,
         false);
 
     uriSavePortIn.connect(
-        URIInput.builder()
-            .id(ADMIN_ANALYSIS)
-            .parentId(ADMIN)
-            .appType(AppType.ADMIN)
-            .text("Analysis")
-            .uri("/analysis")
-            .showOnNavi(true)
-            .roles(Set.of("ROLE_SUPER"))
-            .ogTitle("org.beizix - analysis")
-            .ogDesc("org.beizix analysis")
-            .ogKeywords("org.beizix, analysis")
-            .build(),
+        new URIInput(
+            ADMIN_ANALYSIS,
+            ADMIN,
+            AppType.ADMIN,
+            "/analysis",
+            true,
+            "Analysis",
+            null,
+            "org.beizix - analysis",
+            "org.beizix analysis",
+            "org.beizix, analysis",
+            null,
+            Set.of("ROLE_SUPER")),
+        null,
         false);
 
     uriSavePortIn.connect(
-        URIInput.builder()
-            .id(ADMIN_ANALYSIS_OPERATION_LOG)
-            .parentId(ADMIN_ANALYSIS)
-            .appType(AppType.ADMIN)
-            .text("Operation Log (수행로그)")
-            .uri("/analysis/operationlog")
-            .showOnNavi(true)
-            .roles(Set.of("ROLE_SUPER"))
-            .ogTitle("org.beizix - Log")
-            .ogDesc("org.beizix Log")
-            .ogKeywords("org.beizix, Log")
-            .build(),
+        new URIInput(
+            ADMIN_ANALYSIS_OPERATION_LOG,
+            ADMIN_ANALYSIS,
+            AppType.ADMIN,
+            "/analysis/operationlog",
+            true,
+            "Operation Log (수행로그)",
+            null,
+            "org.beizix - Log",
+            "org.beizix Log",
+            "org.beizix, Log",
+            null,
+            Set.of("ROLE_SUPER")),
+        null,
         false);
 
     uriSavePortIn.connect(
-        URIInput.builder()
-            .id(ADMIN_ANALYSIS_OPERATION_LOG_UPDATE)
-            .parentId(ADMIN_ANALYSIS_OPERATION_LOG)
-            .appType(AppType.ADMIN)
-            .text("수행로그 상세")
-            .uri("/analysis/operationlog/{{pathVars}}")
-            .showOnNavi(false)
-            .roles(Set.of("ROLE_SUPER"))
-            .ogTitle("org.beizix - Log")
-            .ogDesc("org.beizix Log")
-            .ogKeywords("org.beizix, Log")
-            .build(),
+        new URIInput(
+            ADMIN_ANALYSIS_OPERATION_LOG_UPDATE,
+            ADMIN_ANALYSIS_OPERATION_LOG,
+            AppType.ADMIN,
+            "/analysis/operationlog/{{pathVars}}",
+            false,
+            "수행로그 상세",
+            null,
+            "org.beizix - Log",
+            "org.beizix Log",
+            "org.beizix, Log",
+            null,
+            Set.of("ROLE_SUPER")),
+        null,
         false);
 
     uriSavePortIn.connect(
-        URIInput.builder()
-            .id(ADMIN_ANALYSIS_OPERATION_LOG_EXCEL)
-            .parentId(ADMIN_ANALYSIS_OPERATION_LOG)
-            .appType(AppType.ADMIN)
-            .text("수행로그 Excel")
-            .uri("/analysis/operationlog/excel")
-            .showOnNavi(false)
-            .roles(Set.of("ROLE_SUPER"))
-            .ogTitle("org.beizix - Log")
-            .ogDesc("org.beizix Log")
-            .ogKeywords("org.beizix, Log")
-            .build(),
+        new URIInput(
+            ADMIN_ANALYSIS_OPERATION_LOG_EXCEL,
+            ADMIN_ANALYSIS_OPERATION_LOG,
+            AppType.ADMIN,
+            "/analysis/operationlog/excel",
+            false,
+            "수행로그 Excel",
+            null,
+            "org.beizix - Log",
+            "org.beizix Log",
+            "org.beizix, Log",
+            null,
+            Set.of("ROLE_SUPER")),
+        null,
         false);
 
     uriSavePortIn.connect(
-        URIInput.builder()
-            .id(ADMIN_ADD_ONS)
-            .parentId(ADMIN)
-            .appType(AppType.ADMIN)
-            .text("Add-ons (부가기능)")
-            .uri("/add-ons")
-            .showOnNavi(true)
-            .roles(Set.of("ROLE_SUPER"))
-            .ogTitle("org.beizix - Add-ons")
-            .ogDesc("org.beizix Add-ons")
-            .ogKeywords("org.beizix, Add-ons")
-            .build(),
+        new URIInput(
+            ADMIN_ADD_ONS,
+            ADMIN,
+            AppType.ADMIN,
+            "/add-ons",
+            true,
+            "Add-ons (부가기능)",
+            null,
+            "org.beizix - Add-ons",
+            "org.beizix Add-ons",
+            "org.beizix, Add-ons",
+            null,
+            Set.of("ROLE_SUPER")),
+        null,
         false);
 
     uriSavePortIn.connect(
-        URIInput.builder()
-            .id(ADMIN_ADD_ONS_SEND_EMAIL)
-            .parentId(ADMIN_ADD_ONS)
-            .appType(AppType.ADMIN)
-            .text("Email 발송")
-            .uri("/addons/email/form")
-            .showOnNavi(true)
-            .roles(Set.of("ROLE_SUPER"))
-            .ogTitle("org.beizix - Email")
-            .ogDesc("org.beizix Email")
-            .ogKeywords("org.beizix,email")
-            .build(),
+        new URIInput(
+            ADMIN_ADD_ONS_SEND_EMAIL,
+            ADMIN_ADD_ONS,
+            AppType.ADMIN,
+            "/addons/email/form",
+            true,
+            "Email 발송",
+            null,
+            "org.beizix - Email",
+            "org.beizix Email",
+            "org.beizix,email",
+            null,
+            Set.of("ROLE_SUPER")),
+        null,
         false);
 
     uriSavePortIn.connect(
-        URIInput.builder()
-            .id(ADMIN_ADD_ONS_SEND_EMAIL_CREATE)
-            .parentId(ADMIN_ADD_ONS_SEND_EMAIL)
-            .appType(AppType.ADMIN)
-            .text("Email 입력폼")
-            .uri("/addons/email/form")
-            .showOnNavi(false)
-            .roles(Set.of("ROLE_SUPER"))
-            .ogTitle("org.beizix - Email Form")
-            .ogDesc("org.beizix Email Form")
-            .ogKeywords("org.beizix,email")
-            .build(),
+        new URIInput(
+            ADMIN_ADD_ONS_SEND_EMAIL_CREATE,
+            ADMIN_ADD_ONS_SEND_EMAIL,
+            AppType.ADMIN,
+            "/addons/email/form",
+            false,
+            "Email 입력폼",
+            null,
+            "org.beizix - Email Form",
+            "org.beizix Email Form",
+            "org.beizix,email",
+            null,
+            Set.of("ROLE_SUPER")),
+        null,
         false);
   }
 }

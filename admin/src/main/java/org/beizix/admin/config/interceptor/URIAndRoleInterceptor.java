@@ -15,7 +15,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.beizix.utility.common.CommonUtil;
 import org.beizix.core.config.enums.AppType;
-import org.beizix.core.application.domain.uri.model.URIInput;
 import org.beizix.core.application.port.in.uri.URIHierarchyPortIn;
 import org.beizix.core.application.port.in.uri.URIMatchingParentsPortIn;
 import org.beizix.core.application.port.in.uri.URIMatchingPortIn;
