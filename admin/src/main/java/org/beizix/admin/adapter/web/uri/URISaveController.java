@@ -3,41 +3,53 @@ package org.beizix.admin.adapter.web.uri;
 import java.io.IOException;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
+import org.beizix.admin.adapter.web.uri.model.save.URIBindingVO;
+import org.beizix.core.application.domain.uri.model.save.URIInput;
+import org.beizix.core.application.port.in.uri.URISavePortIn;
+import org.beizix.core.common.rest.RestResponse;
+import org.beizix.core.common.util.CoreUtil;
+import org.beizix.core.config.exception.AlreadyExistItemException;
+import org.beizix.core.config.exception.UnAcceptableFileException;
+import org.beizix.utility.common.MessageUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.beizix.core.common.rest.RestResponse;
-import org.beizix.core.common.util.CoreUtil;
-import org.beizix.core.config.exception.AlreadyExistItemException;
-import org.beizix.core.config.exception.UnAcceptableFileException;
-import org.beizix.core.application.domain.uri.model.URIInput;
-import org.beizix.core.application.port.in.uri.URISavePortIn;
-import org.beizix.utility.common.MessageUtil;
 
 @RestController
 @RequiredArgsConstructor
-public class URICreateUpdateController {
+public class URISaveController {
   private final CoreUtil coreUtil;
   private final URISavePortIn uriSavePortIn;
-  private final ModelMapper modelMapper;
   private final MessageUtil messageUtil;
 
   @PostMapping(path = "/api/uri/save")
-  public ResponseEntity<?> save(@Valid URIDto formDto, BindingResult bindingResult)
+  public ResponseEntity<?> save(@Valid URIBindingVO bindingVO, BindingResult bindingResult)
       throws IOException {
 
     if (bindingResult.hasErrors()) {
       return coreUtil.getValidationFailResponseEntity(bindingResult);
     }
 
-    URIInput item;
+    String createdId;
     try {
-      item =
-          uriSavePortIn.connect(
-              modelMapper.map(formDto, URIInput.class), "create".equals(formDto.getMode()));
+      createdId = uriSavePortIn.connect(
+          new URIInput(
+              bindingVO.getId(),
+              bindingVO.getParentId(),
+              bindingVO.getAppType(),
+              bindingVO.getUri(),
+              bindingVO.isShowOnNavi(),
+              bindingVO.getText(),
+              bindingVO.getOrderNo(),
+              bindingVO.getOgTitle(),
+              bindingVO.getOgDesc(),
+              bindingVO.getOgKeywords(),
+              bindingVO.getOgImage(),
+              bindingVO.getRoles()),
+          bindingVO.getOgImageFile(),
+          true);
 
     } catch (UnAcceptableFileException e) {
       bindingResult.rejectValue("ogImageFile", "", e.getMessage());
@@ -51,7 +63,7 @@ public class URICreateUpdateController {
     return ResponseEntity.status(HttpStatus.OK)
         .body(
             RestResponse.builder()
-                .item(modelMapper.map(item, URIDto.class))
+                .item(createdId)
                 .message(messageUtil.getMessage("operation.common.save.done"))
                 .build());
   }

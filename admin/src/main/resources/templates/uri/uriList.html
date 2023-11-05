@@ -9,9 +9,11 @@
       <a href="javascript:expand();" class="link-secondary">Expand</a>
       <a href="javascript:collapse();" class="link-secondary">Collapse</a>
 
-      <button type="button" class="btn btn-sm btn-secondary float-end ms-1" onclick="searchNode();"><i
-              class="bi bi-search"></i></button>
-      <input class="form-control form-control-sm w-25 inline-block float-end" id="searchNode" type="text"
+      <button type="button" class="btn btn-sm btn-secondary float-end ms-1" onclick="searchNode();">
+        <i
+            class="bi bi-search"></i></button>
+      <input class="form-control form-control-sm w-25 inline-block float-end" id="searchNode"
+             type="text"
              placeholder="노드 검색">
     </div>
     <div class="col"></div>
@@ -21,16 +23,17 @@
     <div class="col fw-bold border rounded-3 overflow-auto lh-1" id="tree"></div>
     <div class="col fw-bold ms-4">
 
-      <form name="formDto" th:action="@{/settings/uri/update}" method="post" enctype="multipart/form-data">
+      <form name="formDto" th:action="@{/settings/uri/update}" method="post"
+            enctype="multipart/form-data">
         <input type="hidden" name="appType" th:value="${appType}">
         <input type="hidden" name="parentId" value="">
         <input type="hidden" name="orderNo" value="">
-        <input type="hidden" name="mode" value="create"/>
 
         <div class="row mb-3">
           <label class="col-sm-3 col-form-label" for="uri">URI *</label>
           <div class="col-sm-9">
-            <input type="text" id="uri" name="uri" class="form-control" placeholder="/path 경로를 입력하세요"
+            <input type="text" id="uri" name="uri" class="form-control"
+                   placeholder="/path 경로를 입력하세요"
                    onkeyup="uriKeyup(this);"/>
             <div class="invalid-feedback fw-bold field-uri"></div>
           </div>
@@ -63,11 +66,11 @@
         </div>
 
         <div class="row mb-3">
-          <label class="col-sm-3 col-form-label" for="roleDtos">접근 권한</label>
+          <label class="col-sm-3 col-form-label" for="roles">역할</label>
           <div class="col-sm-9">
-            <select class="form-select" id="roleDtos" name="roleDtos" multiple>
-              <option th:each="item : ${roleDtos}" th:value="${item.roleDto}"
-                      th:text="${item.roleDto + ' (' + item.description + ')'}"></option>
+            <select class="form-select" id="roles" name="roles" multiple>
+              <option th:each="role : ${roles}" th:value="${role.id}"
+                      th:text="${role.id + ' (' + role.description + ')'}"></option>
             </select>
           </div>
         </div>
@@ -89,14 +92,16 @@
         <div class="row mb-3">
           <label class="col-sm-3 col-form-label fw-normal" for="ogKeywords">og:keywords</label>
           <div class="col-sm-9">
-            <input type="text" id="ogKeywords" name="ogKeywords" class="form-control" placeholder=""/>
+            <input type="text" id="ogKeywords" name="ogKeywords" class="form-control"
+                   placeholder=""/>
           </div>
         </div>
 
         <div class="row mb-3">
           <label class="col-sm-3 col-form-label fw-normal" for="ogImage">og:image</label>
           <div class="col-sm-9 ogImageText">
-            <input type="text" id="ogImage" name="ogImage" class="form-control" placeholder="이미지 URL 을 입력하세요."/>
+            <input type="text" id="ogImage" name="ogImage" class="form-control"
+                   placeholder="이미지 URL 을 입력하세요."/>
             <button type="button" class="btn btn-sm btn-outline-secondary mt-1"
                     onclick="switchOgImage('ogImageFile');">
               파일 올리기
@@ -124,7 +129,9 @@
       <button type="button" class="btn btn-sm btn-outline-secondary mt-1" onclick="move('down');">
         <i class="bi bi-arrow-down-circle-fill"></i>
       </button>
-      <button type="button" class="btn btn-sm btn-secondary mt-1" onclick="addChildNode();">하위 노드 추가</button>
+      <button type="button" class="btn btn-sm btn-secondary mt-1" onclick="addChildNode();">하위 노드
+        추가
+      </button>
     </div>
     <div class="col text-end mt-2">
       <button type="button" class="btn btn-primary" onclick="goSave();">저장</button>
@@ -134,371 +141,370 @@
 
   <script th:inline="javascript">
 
-      // 노드가 보여질 level 전연벽수 기본값
-      let globalLevels = 2;
+    // 노드가 보여질 level 전연벽수 기본값
+    let globalLevels = 2;
 
-      $(document).ready(function () {
-          loadTree();
+    $(document).ready(function () {
+      loadTree();
+    });
+
+    function loadTree(currentId) {
+      $.ajax({
+        type: 'GET',
+        url: '/api/uri/get/recursiveItems/' + document.formDto.appType.value,
+        cache: false,
+        success: function (data) {
+          renderTree(data, currentId);
+        }
+      });
+    }
+
+    function renderTree(nodes, currentId) {
+      const tree = $('#tree');
+      tree.treeview({
+        data: [nodes],
+        color: "#428bca",
+        expandIcon: 'bi bi-plus-square-fill',
+        collapseIcon: 'bi bi-dash-square-fill',
+        // nodeIcon: 'bi bi-dot',
+        emptyIcon: 'bi bi-dot',
+        showBorder: false,
+        enableLinks: true,
+        levels: globalLevels,
       });
 
-      function loadTree(currentId) {
-          $.ajax({
-              type: 'GET',
-              url: '/api/uri/get/recursiveItems/' + document.formDto.appType.value,
-              cache: false,
-              success: function (data) {
-                  renderTree(data, currentId);
-              }
-          });
-      }
-
-      function renderTree(nodes, currentId) {
-          const tree = $('#tree');
-          tree.treeview({
-              data: [nodes],
-              color: "#428bca",
-              expandIcon: 'bi bi-plus-square-fill',
-              collapseIcon: 'bi bi-dash-square-fill',
-              // nodeIcon: 'bi bi-dot',
-              emptyIcon: 'bi bi-dot',
-              showBorder: false,
-              enableLinks: true,
-              levels: globalLevels,
-          });
-
-          tree.on('rendered', function () {
-              if (currentId) {
-                  setTimeout(function () {
-                      const currentNode = tree.treeview('findNodes', ['^' + currentId + '$', 'id']);
-                      tree.treeview('selectNode', [currentNode, {silent: false}]);
-                      currentNode[0].$el[0].scrollIntoView();
-                  }, 0);
-              }
-          });
-
-          tree.off('nodeSelected').on('nodeSelected', function (event, data) {
-              const f = document.formDto;
-
-              const currentNode = tree.treeview('getSelected')[0];
-              const parentNode = tree.treeview('getParents', currentNode)[0];
-
-              if (data.id === 'code.new.temp') { // 신규 노드일 경우 id가 없다.
-                  cleanFormFields();
-
-                  f.mode.value = 'create';
-
-                  f.text.value = currentNode.text;
-                  f.parentId.value = parentNode.id;
-
-                  switchOgImage('ogImageText');
-
-                  return;
-              } else {
-                  f.mode.value = 'update';
-              }
-              getInfo(data);
-          });
-      }
-
-      function addChildNode() {
-          const tree = $('#tree');
-          const parentNode = tree.treeview('getSelected');
-          tree.treeview('addNode', [{text: 'NEW NODE - 저장 필요', id: 'code.new.temp'}, parentNode]);
-
-          const currentNode = tree.treeview('findNodes', ['^code.new.temp$', 'id']);
-
+      tree.on('rendered', function () {
+        if (currentId) {
           setTimeout(function () {
-              tree.treeview('selectNode', [currentNode, {silent: false}]);
+            const currentNode = tree.treeview('findNodes', ['^' + currentId + '$', 'id']);
+            tree.treeview('selectNode', [currentNode, {silent: false}]);
+            currentNode[0].$el[0].scrollIntoView();
           }, 0);
-      }
+        }
+      });
 
-      function refreshTree(currentId) {
-          $('#tree').treeview('remove');
+      tree.off('nodeSelected').on('nodeSelected', function (event, data) {
+        const f = document.formDto;
+
+        const currentNode = tree.treeview('getSelected')[0];
+        const parentNode = tree.treeview('getParents', currentNode)[0];
+
+        if (data.id === 'code.new.temp') { // 신규 노드일 경우 id가 없다.
           cleanFormFields();
-          loadTree(currentId);
-      }
 
-      function getInfo(data) {
-          if (data.id === 'code.new.temp') return;
-
-          cleanFormFields();
-
-          const f = document.formDto;
-          $.ajax({
-              type: 'GET',
-              url: '/api/uri/get/' + f.appType.value + '/' + data.id,
-              cache: false,
-              statusCode: {
-                  400: function (response) {
-                      alert(response.responseJSON.message);
-                  }
-              },
-              success: function (response) {
-                  const item = response.item;
-                  f.id.value = item.id;
-                  f.text.value = item.text;
-                  f.uri.value = item.uri;
-                  f.orderNo.value = item.orderNo;
-                  f.parentId.value = item.parentId;
-                  f.showOnNavi.value = item.showOnNavi;
-                  f.ogTitle.value = item.ogTitle;
-                  f.ogDesc.value = item.ogDesc;
-                  f.ogKeywords.value = item.ogKeywords;
-                  f.ogImage.value = item.ogImage;
-
-                  let roleIds = [];
-                  $(item.roleDtos).each(function (idx, roleDto) {
-                      roleIds.push(roleDto);
-                  });
-                  $(f.roleDtos).val(roleIds);
-
-                  switchOgImage('ogImageText');
-              }
-          })
-      }
-
-      function goSave() {
-          const tree = $('#tree');
-          const selectedNode = tree.treeview('getSelected');
-
-          if (selectedNode.length === 0) {
-              alert([[#{operation.uri.save.choose.first}]]);
-              return;
-          }
-
-          const f = document.formDto;
-
-          $.ajax({
-              type: 'POST',
-              enctype: 'multipart/form-data',
-              processData: false,
-              contentType: false,
-              url: '/api/uri/save',
-              data: new FormData(f),
-              beforeSend: function (xhr) {
-                  xhr.setRequestHeader(
-                      $("meta[name='_csrf_header']").attr("content"),
-                      $("meta[name='_csrf']").attr("content"));
-              },
-              success: function (response) {
-                  alert(response.message);
-                  refreshTree(response.item.id);
-              },
-              statusCode: {
-                  // error
-                  400: function (response) {
-                      const resJson = response.responseJSON;
-                      alert(resJson.message);
-                  },
-                  // validation fail
-                  422: function (response) {
-                      const fieldErrors = response.responseJSON.fieldErrors;
-                      let form = document.formDto;
-                      $(fieldErrors).each(function (idx, error) {
-                          if (error.field === 'parentId') {
-                              alert(error.message);
-                          } else {
-                              $(form[error.field]).addClass('is-invalid');
-                              $('.field-' + error.field).text(error.message);
-                          }
-                      });
-                  }
-              }
-          });
-      }
-
-      function switchOgImage(type) {
-          switch (type) {
-              case 'ogImageText':
-                  $('.ogImageText').show();
-                  $('.ogImageFile').hide();
-                  break;
-              case 'ogImageFile':
-                  $('.ogImageText').hide();
-                  $('.ogImageFile').show();
-                  break;
-          }
-
-          $('input[name=ogImageFile]').val('');
-      }
-
-      function goRemove() {
-          const tree = $('#tree');
-          const selectedNode = tree.treeview('getSelected');
-
-          if (selectedNode.length === 0) {
-              alert([[#{operation.uri.remove.choose.first}]]);
-              return;
-          }
-
-          const info = selectedNode[0];
-
-          if (confirm("'" + info.text + "' " + [[#{operation.uri.remove.ask(info.text)}]])) {
-              if (!info.id) {
-                  // 신규생성 임시 노드인 경우
-                  tree.treeview('removeNode', [selectedNode]);
-                  alert([[#{operation.common.remove.done}]]);
-                  refreshTree();
-                  return;
-              }
-
-              $.ajax({
-                  type: 'POST',
-                  url: '/api/uri/remove',
-                  data: {id: info.id, parentId: document.formDto.parentId.value},
-                  beforeSend: function (xhr) {
-                      xhr.setRequestHeader(
-                          $("meta[name='_csrf_header']").attr("content"),
-                          $("meta[name='_csrf']").attr("content"));
-                  },
-                  success: function (response) {
-                      alert(response.message);
-                      refreshTree();
-                  },
-                  statusCode: {
-                      // validation fail
-                      422: function (response) {
-                          // object error 핸들링 (not field error!)
-                          const objectErrors = response.responseJSON.objectErrors;
-                          $(objectErrors).each(function (idx, error) {
-                              alert(error.message);
-                          });
-                      }
-                  }
-              })
-          }
-      }
-
-      function cleanFormFields() {
-          const f = document.formDto;
-          f.id.value = '';
-          f.parentId.value = '';
-          f.orderNo.value = '';
-          f.text.value = '';
-          f.uri.value = '';
-          f.ogTitle.value = '';
-          f.ogDesc.value = '';
-          f.ogKeywords.value = '';
-          f.ogImage.value = '';
+          f.text.value = currentNode.text;
+          f.parentId.value = parentNode.id;
 
           switchOgImage('ogImageText');
 
-          $(f).find('.is-invalid').removeClass('is-invalid');
+          return;
+        } else {
+        }
+        getInfo(data);
+      });
+    }
+
+    function addChildNode() {
+      const tree = $('#tree');
+      const parentNode = tree.treeview('getSelected');
+      tree.treeview('addNode', [{text: 'NEW NODE - 저장 필요', id: 'code.new.temp'}, parentNode]);
+
+      const currentNode = tree.treeview('findNodes', ['^code.new.temp$', 'id']);
+
+      setTimeout(function () {
+        tree.treeview('selectNode', [currentNode, {silent: false}]);
+      }, 0);
+    }
+
+    function refreshTree(currentId) {
+      $('#tree').treeview('remove');
+      cleanFormFields();
+      loadTree(currentId);
+    }
+
+    function getInfo(data) {
+      if (data.id === 'code.new.temp') {
+        return;
       }
 
-      function move(dir) {
-          const curNode = $('#tree').treeview('getSelected');
-          if (curNode.length === 0) {
-              alert([[#{operation.uri.move.choose}]]);
-              return;
+      cleanFormFields();
+
+      const f = document.formDto;
+      $.ajax({
+        type: 'GET',
+        url: '/api/uri/get/' + f.appType.value + '/' + data.id,
+        cache: false,
+        statusCode: {
+          400: function (response) {
+            alert(response.responseJSON.message);
           }
+        },
+        success: function (response) {
+          const item = response.item;
+          f.id.value = item.id;
+          f.text.value = item.text;
+          f.uri.value = item.uri;
+          f.orderNo.value = item.orderNo;
+          f.parentId.value = item.parentId;
+          f.showOnNavi.value = item.showOnNavi;
+          f.ogTitle.value = item.ogTitle;
+          f.ogDesc.value = item.ogDesc;
+          f.ogKeywords.value = item.ogKeywords;
+          f.ogImage.value = item.ogImage;
 
-          const info = curNode[0];
-          if (!info.id) {
-              alert([[#{operation.uri.move.save.first}]]);
-              return;
-          }
+          let roleIds = [];
+          $(item.roles).each(function (idx, role) {
+            roleIds.push(role);
+          });
+          $(f.roles).val(roleIds);
 
-          const curOrderNo = info.orderNo;
-          const siblingsWithoutMe = $('#tree').treeview('getSiblings', curNode);
-          let updateList = [];
-          let targetItem;
-          switch (dir) {
-              case 'up':
-                  $(siblingsWithoutMe).each(function (idx, item) {
-                      if (item.orderNo < curOrderNo) {
-                          targetItem = item;
-                      }
-                  });
-                  if (!targetItem) {
-                      alert([[#{operation.uri.move.cannot.before}]]);
-                      return;
-                  }
-                  updateList.push({id: info.id, orderNo: targetItem.orderNo});
-                  updateList.push({id: targetItem.id, orderNo: info.orderNo});
-                  break;
-              case 'down':
-                  $(siblingsWithoutMe).each(function (idx, item) {
-                      if (item.orderNo > curOrderNo) {
-                          console.log('nextNode is ', item);
-                          targetItem = item;
-                          return false;
-                      }
-                  });
-                  if (!targetItem) {
-                      alert([[#{operation.uri.move.cannot.after}]]);
-                      return;
-                  }
-                  updateList.push({id: info.id, orderNo: targetItem.orderNo});
-                  updateList.push({id: targetItem.id, orderNo: info.orderNo});
-                  break;
-          }
+          switchOgImage('ogImageText');
+        }
+      })
+    }
 
-          // 다음 tree 랜더링시 보여줄 level 설정
-          globalLevels = info.nodeId.split('.').length - 1;
+    function goSave() {
+      const tree = $('#tree');
+      const selectedNode = tree.treeview('getSelected');
 
-          $.ajax({
-              type: 'POST',
-              url: '/api/uri/switchOrderNo',
-              headers: {
-                  'content-type': 'application/json'
-              },
-              data: JSON.stringify({'id': info.id, 'updateList': updateList}),
-              beforeSend: function (xhr) {
-                  xhr.setRequestHeader(
-                      $("meta[name='_csrf_header']").attr("content"),
-                      $("meta[name='_csrf']").attr("content"));
-              },
-              success: function (response) {
-                  refreshTree(response.item.id);
-              },
-              statusCode: {
-                  // validation fail
-                  422: function (response) {
-                      const objectErrors = response.responseJSON.objectErrors;
-                      alert(objectErrors[0].message);
-                  }
+      if (selectedNode.length === 0) {
+        alert([[#{operation.uri.save.choose.first}]]);
+        return;
+      }
+
+      const f = document.formDto;
+
+      $.ajax({
+        type: 'POST',
+        enctype: 'multipart/form-data',
+        processData: false,
+        contentType: false,
+        url: '/api/uri/save',
+        data: new FormData(f),
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader(
+              $("meta[name='_csrf_header']").attr("content"),
+              $("meta[name='_csrf']").attr("content"));
+        },
+        success: function (response) {
+          alert(response.message);
+          refreshTree(response.item);
+        },
+        statusCode: {
+          // error
+          400: function (response) {
+            const resJson = response.responseJSON;
+            alert(resJson.message);
+          },
+          // validation fail
+          422: function (response) {
+            const fieldErrors = response.responseJSON.fieldErrors;
+            let form = document.formDto;
+            $(fieldErrors).each(function (idx, error) {
+              if (error.field === 'parentId') {
+                alert(error.message);
+              } else {
+                $(form[error.field]).addClass('is-invalid');
+                $('.field-' + error.field).text(error.message);
               }
-          })
-      }
-
-      function collapse() {
-          const tree = $('#tree');
-          tree.treeview('collapseAll', {silent: true});
-          tree.treeview('expandAll', {silent: true, levels: 1});
-      }
-
-      function expand() {
-          const tree = $('#tree');
-          tree.treeview('collapseAll', {silent: true});
-          tree.treeview('expandAll', {silent: true, levels: 6});
-      }
-
-      function searchNode() {
-          let searchVal = $('#searchNode').val().trim();
-          if (!searchVal) {
-              return;
+            });
           }
-          const tree = $('#tree');
-          const searchNode = tree.treeview('search', [
-              searchVal, {ignoreCase: true, revealResults: true}
-          ]);
-          if (searchNode.length) {
-              tree.treeview('selectNode', [searchNode[0], {silent: false}]);
-          }
+        }
+      });
+    }
+
+    function switchOgImage(type) {
+      switch (type) {
+        case 'ogImageText':
+          $('.ogImageText').show();
+          $('.ogImageFile').hide();
+          break;
+        case 'ogImageFile':
+          $('.ogImageText').hide();
+          $('.ogImageFile').show();
+          break;
       }
 
-      function uriKeyup(oj) {
-          let v = $.trim(oj.value);
-          if (!v) {
-              $('#id').val('');
-              return;
-          }
-          v = 'uri.' + document.formDto.appType.value.toLowerCase() + v;
-          v = v.replaceAll('/', '.');
+      $('input[name=ogImageFile]').val('');
+    }
 
-          $('#id').val(v);
+    function goRemove() {
+      const tree = $('#tree');
+      const selectedNode = tree.treeview('getSelected');
+
+      if (selectedNode.length === 0) {
+        alert([[#{operation.uri.remove.choose.first}]]);
+        return;
       }
+
+      const info = selectedNode[0];
+
+      if (confirm("'" + info.text + "' " + [[#{operation.uri.remove.ask(info.text)}]])) {
+        if (!info.id) {
+          // 신규생성 임시 노드인 경우
+          tree.treeview('removeNode', [selectedNode]);
+          alert([[#{operation.common.remove.done}]]);
+          refreshTree();
+          return;
+        }
+
+        $.ajax({
+          type: 'POST',
+          url: '/api/uri/remove',
+          data: {id: info.id, parentId: document.formDto.parentId.value},
+          beforeSend: function (xhr) {
+            xhr.setRequestHeader(
+                $("meta[name='_csrf_header']").attr("content"),
+                $("meta[name='_csrf']").attr("content"));
+          },
+          success: function (response) {
+            alert(response.message);
+            refreshTree();
+          },
+          statusCode: {
+            // validation fail
+            422: function (response) {
+              // object error 핸들링 (not field error!)
+              const objectErrors = response.responseJSON.objectErrors;
+              $(objectErrors).each(function (idx, error) {
+                alert(error.message);
+              });
+            }
+          }
+        })
+      }
+    }
+
+    function cleanFormFields() {
+      const f = document.formDto;
+      f.id.value = '';
+      f.parentId.value = '';
+      f.orderNo.value = '';
+      f.text.value = '';
+      f.uri.value = '';
+      f.ogTitle.value = '';
+      f.ogDesc.value = '';
+      f.ogKeywords.value = '';
+      f.ogImage.value = '';
+
+      switchOgImage('ogImageText');
+
+      $(f).find('.is-invalid').removeClass('is-invalid');
+    }
+
+    function move(dir) {
+      const curNode = $('#tree').treeview('getSelected');
+      if (curNode.length === 0) {
+        alert([[#{operation.uri.move.choose}]]);
+        return;
+      }
+
+      const info = curNode[0];
+      if (!info.id) {
+        alert([[#{operation.uri.move.save.first}]]);
+        return;
+      }
+
+      const curOrderNo = info.orderNo;
+      const siblingsWithoutMe = $('#tree').treeview('getSiblings', curNode);
+      let updateList = [];
+      let targetItem;
+      switch (dir) {
+        case 'up':
+          $(siblingsWithoutMe).each(function (idx, item) {
+            if (item.orderNo < curOrderNo) {
+              targetItem = item;
+            }
+          });
+          if (!targetItem) {
+            alert([[#{operation.uri.move.cannot.before}]]);
+            return;
+          }
+          updateList.push({id: info.id, orderNo: targetItem.orderNo});
+          updateList.push({id: targetItem.id, orderNo: info.orderNo});
+          break;
+        case 'down':
+          $(siblingsWithoutMe).each(function (idx, item) {
+            if (item.orderNo > curOrderNo) {
+              console.log('nextNode is ', item);
+              targetItem = item;
+              return false;
+            }
+          });
+          if (!targetItem) {
+            alert([[#{operation.uri.move.cannot.after}]]);
+            return;
+          }
+          updateList.push({id: info.id, orderNo: targetItem.orderNo});
+          updateList.push({id: targetItem.id, orderNo: info.orderNo});
+          break;
+      }
+
+      // 다음 tree 랜더링시 보여줄 level 설정
+      globalLevels = info.nodeId.split('.').length - 1;
+
+      $.ajax({
+        type: 'POST',
+        url: '/api/uri/switchOrderNo',
+        headers: {
+          'content-type': 'application/json'
+        },
+        data: JSON.stringify(updateList),
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader(
+              $("meta[name='_csrf_header']").attr("content"),
+              $("meta[name='_csrf']").attr("content"));
+        },
+        success: function () {
+          refreshTree(info.id);
+        },
+        statusCode: {
+          // validation fail
+          422: function (response) {
+            const objectErrors = response.responseJSON.objectErrors;
+            alert(objectErrors[0].message);
+          }
+        }
+      })
+    }
+
+    function collapse() {
+      const tree = $('#tree');
+      tree.treeview('collapseAll', {silent: true});
+      tree.treeview('expandAll', {silent: true, levels: 1});
+    }
+
+    function expand() {
+      const tree = $('#tree');
+      tree.treeview('collapseAll', {silent: true});
+      tree.treeview('expandAll', {silent: true, levels: 6});
+    }
+
+    function searchNode() {
+      let searchVal = $('#searchNode').val().trim();
+      if (!searchVal) {
+        return;
+      }
+      const tree = $('#tree');
+      const searchNode = tree.treeview('search', [
+        searchVal, {ignoreCase: true, revealResults: true}
+      ]);
+      if (searchNode.length) {
+        tree.treeview('selectNode', [searchNode[0], {silent: false}]);
+      }
+    }
+
+    function uriKeyup(oj) {
+      let v = $.trim(oj.value);
+      if (!v) {
+        $('#id').val('');
+        return;
+      }
+      v = 'uri.' + document.formDto.appType.value.toLowerCase() + v;
+      v = v.replaceAll('/', '.');
+
+      $('#id').val(v);
+    }
   </script>
 </section>
 

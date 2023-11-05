@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.role.model.sort.RoleSortReqVO;
 import org.beizix.security.application.domain.role.model.sort.RoleSortInput;
 import org.beizix.security.application.port.in.role.RoleSortPortIn;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 class RoleSortRestController {
   private final RoleSortPortIn roleSortPortIn;
-  private final ModelMapper modelMapper;
 
   @PostMapping("/api/adminRole/switchOrderNo")
   ResponseEntity<?> switchOrderNo(@RequestBody List<RoleSortReqVO> sortVOs) {

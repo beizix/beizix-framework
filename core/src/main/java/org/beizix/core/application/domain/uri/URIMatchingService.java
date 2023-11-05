@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.beizix.core.application.domain.uri.model.list.URIOutput;
 import org.springframework.stereotype.Service;
 import org.beizix.core.config.enums.AppType;
-import org.beizix.core.application.domain.uri.model.URIInput;
 import org.beizix.core.application.port.in.uri.URIListPortIn;
 import org.beizix.core.application.port.in.uri.URIMatchingPortIn;
 import org.beizix.utility.common.CommonUtil;
@@ -20,7 +20,7 @@ class URIMatchingService implements URIMatchingPortIn {
   private final CommonUtil commonUtil;
 
   @Override
-  public URIInput connect(AppType appType, String uri) {
+  public URIOutput connect(AppType appType, String uri) {
     String targetUri = commonUtil.removeLastChar(uri, "/");
     return uriListPortIn.connect(appType).stream()
         .filter(
@@ -28,8 +28,8 @@ class URIMatchingService implements URIMatchingPortIn {
               String itemUri = commonUtil.removeLastChar(item.getUri(), "/");
               if (itemUri.equals(targetUri)) return true;
 
-              // {{pathVars}} 을 가진 URI 라면 배열검증 수행
-              if (itemUri.endsWith("/{{pathVars}}")) {
+              // {{pathVar}} 을 가진 URI 라면 배열검증 수행
+              if (itemUri.endsWith("/{{pathVar}}")) {
                 List<String> itemValues =
                     Arrays.stream(itemUri.split("/")).collect(Collectors.toList());
                 List<String> targetValues =

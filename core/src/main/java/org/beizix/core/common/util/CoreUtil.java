@@ -3,6 +3,11 @@ package org.beizix.core.common.util;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.beizix.core.application.domain.uri.model.list.URIOutput;
+import org.beizix.core.common.rest.RestErrorDto;
+import org.beizix.core.common.rest.RestFieldErrorDto;
+import org.beizix.core.common.rest.RestObjectErrorDto;
+import org.beizix.utility.common.MessageUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -10,11 +15,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.thymeleaf.util.StringUtils;
-import org.beizix.core.common.rest.RestErrorDto;
-import org.beizix.core.common.rest.RestFieldErrorDto;
-import org.beizix.core.common.rest.RestObjectErrorDto;
-import org.beizix.core.application.domain.uri.model.URIInput;
-import org.beizix.utility.common.MessageUtil;
 
 @Component
 @RequiredArgsConstructor
@@ -27,22 +27,23 @@ public class CoreUtil {
    * @param findId 찾는 URI 아이디
    * @return boolean 매칭 여부
    */
-  public boolean containsCurrentURI(List<URIInput> uriList, String findId) {
+  public boolean containsCurrentURI(List<URIOutput> uriList, String findId) {
     return uriList.stream().anyMatch(node -> node.getId().equals(findId));
   }
 
-  public String getUriTitle(URIInput uri) {
+  public String getUriTitle(URIOutput uri) {
     return StringUtils.isEmpty(messageUtil.getMessage(uri.getId()))
         ? uri.getText()
         : messageUtil.getMessage(uri.getId());
   }
 
-  public boolean shouldDisplaySubNodes(List<URIInput> uriList) {
+  public boolean shouldDisplaySubNodes(
+      List<org.beizix.core.application.domain.uri.model.toptier.URIOutput> uriList) {
     boolean result = false;
     if (uriList == null || uriList.isEmpty()) {
       result = false;
     } else {
-      for (URIInput uri : uriList) {
+      for (org.beizix.core.application.domain.uri.model.toptier.URIOutput uri : uriList) {
         if (uri.getShowOnNavi()) {
           result = true;
           break;

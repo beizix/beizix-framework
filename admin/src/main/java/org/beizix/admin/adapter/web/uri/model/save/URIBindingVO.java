@@ -1,20 +1,18 @@
-package org.beizix.admin.adapter.web.uri;
+package org.beizix.admin.adapter.web.uri.model.save;
 
 import java.util.Set;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
+import lombok.Getter;
+import lombok.Setter;
 import org.beizix.core.config.enums.AppType;
+import org.springframework.web.multipart.MultipartFile;
 
-@Data
-@Builder
-@NoArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
-public class URIDto {
+public class URIBindingVO {
   private String id;
   private AppType appType;
 
@@ -38,8 +36,6 @@ public class URIDto {
   private String ogDesc;
   private String ogKeywords;
   private String ogImage;
-
-  private String mode;
 
   private MultipartFile ogImageFile;
 
