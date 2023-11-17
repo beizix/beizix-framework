@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class URITopTierService implements URITopTierPortIn {
-  private final URITopTierPortOut portOut;
+  private final URITopTierPortOut topTierPortOut;
 
   @Override
   public URITopTierOutput connect(AppType appType) {
-    return portOut.connect(appType);
+    return topTierPortOut.connect(appType);
   }
 }

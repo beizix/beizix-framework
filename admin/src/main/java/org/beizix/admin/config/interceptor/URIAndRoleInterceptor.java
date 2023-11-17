@@ -29,7 +29,7 @@ public class URIAndRoleInterceptor implements HandlerInterceptor {
   private final CommonUtil commonUtil;
   private final URIMatchingPortIn uriMatchingPortIn;
   private final URIMatchingParentsPortIn uriMatchingParentsPortIn;
-  private final URITopTierPortIn uriTopTierPortIn;
+  private final URITopTierPortIn topTierPortIn;
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -85,7 +85,7 @@ public class URIAndRoleInterceptor implements HandlerInterceptor {
     if (modelAndView == null) return;
 
     if (!commonUtil.isAjaxRequest(request)) {
-      URITopTierOutput topTierOutput = uriTopTierPortIn.connect(AppType.ADMIN);
+      URITopTierOutput topTierOutput = topTierPortIn.connect(AppType.ADMIN);
       modelAndView.addObject("topNode", recursiveMapping(topTierOutput));
 
       if (modelAndView.getModelMap().getAttribute("currentURI") == null) {

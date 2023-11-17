@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 class URIHierarchyController {
-  private final URITopTierPortIn uriTopTierPortIn;
+  private final URITopTierPortIn topTierPortIn;
 
   @GetMapping(path = "/api/uri/get/recursiveItems/{appType}")
   ResponseEntity<?> recursiveItems(@PathVariable AppType appType) {
-    URITopTierOutput topTierOutput = uriTopTierPortIn.connect(appType);
+    URITopTierOutput topTierOutput = topTierPortIn.connect(appType);
     return ResponseEntity.status(HttpStatus.OK).body(recursiveMapping(topTierOutput));
   }
 
