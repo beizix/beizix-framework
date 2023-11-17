@@ -79,6 +79,4 @@ public class URI {
   @CollectionTable(name = "uri_roles")
   @BatchSize(size = 100)
   private Set<String> roles;
-
-  @Transient private int depth;
 }
