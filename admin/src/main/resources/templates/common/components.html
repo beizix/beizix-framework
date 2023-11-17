@@ -81,40 +81,40 @@
           <a class="nav-link active" aria-current="page" th:href="${topNode.uri}" th:text="#{uri}">Home</a>
         </li>
 
-        <li class="nav-item" th:each="menu : ${topNode.nodes}" th:if="${menu.showOnNavi}"
-            th:classappend="${#lists.size(menu.nodes) > 0} ? 'dropdown'">
+        <li class="nav-item" th:each="menu : ${topNode.children}" th:if="${menu.showOnNavi}"
+            th:classappend="${#lists.size(menu.children) > 0} ? 'dropdown'">
 
-          <!-- 자식 nodes 가 없는 경우 -->
-          <a th:if="${#lists.size(menu.nodes) == 0}" class="nav-link"
+          <!-- 자식 children 가 없는 경우 -->
+          <a th:if="${#lists.size(menu.children) == 0}" class="nav-link"
              th:classappend="${currentURI.id == menu.id}? 'active'" th:href="${menu.uri}"
              th:text="${#messages.msg(menu.id)}">메뉴명</a>
 
-          <!-- 자식 nodes 가 있는 경우 -->
-          <th:block th:if="${#lists.size(menu.nodes) > 0}">
+          <!-- 자식 children 가 있는 경우 -->
+          <th:block th:if="${#lists.size(menu.children) > 0}">
             <a class="nav-link dropdown-toggle"
                th:classappend="${@coreUtil.containsCurrentURI(menuHierarchy, menu.id)}? 'active'"
                th:href="${menu.uri}" th:text="${#messages.msg(menu.id)}"
                roleDto="button"
                data-bs-toggle="dropdown" aria-expanded="false">메뉴명</a>
 
-            <th:block th:include="this :: subMenuFrag" th:with="subMenus = ${menu.nodes}, addSubMenuClass = false">
+            <th:block th:include="this :: subMenuFrag" th:with="subMenus = ${menu.children}, addSubMenuClass = false">
             </th:block>
           </th:block>
         </li>
 
         <!-- submenu fragment -->
         <th:block th:fragment="subMenuFrag">
-          <ul th:if="${@coreUtil.shouldDisplaySubNodes(subMenus)}" class="dropdown-menu"
+          <ul th:if="${@adminUtil.shouldDisplaySubNodes(subMenus)}" class="dropdown-menu"
               aria-labelledby="navbarDropdown" th:classappend="${addSubMenuClass ? 'submenu' : ''}">
             <li th:each="child : ${subMenus}" th:if="${child.showOnNavi}">
               <a class="dropdown-item"
                  th:classappend="${@coreUtil.containsCurrentURI(menuHierarchy, child.id)}? 'active'"
-                 th:href="${@coreUtil.shouldDisplaySubNodes(child.nodes) ? 'javascript:void(0)' : child.uri}">
+                 th:href="${@adminUtil.shouldDisplaySubNodes(child.children) ? 'javascript:void(0)' : child.uri}">
                 [[${#messages.msg(child.id)}]]
-                <i th:if="${@coreUtil.shouldDisplaySubNodes(child.nodes)}" class="bi bi-arrow-right-circle-fill"></i>
+                <i th:if="${@adminUtil.shouldDisplaySubNodes(child.children)}" class="bi bi-arrow-right-circle-fill"></i>
               </a>
 
-              <th:block th:include="this :: subMenuFrag" th:with="subMenus = ${child.nodes}, addSubMenuClass = true">
+              <th:block th:include="this :: subMenuFrag" th:with="subMenus = ${child.children}, addSubMenuClass = true">
               </th:block>
             </li>
           </ul>

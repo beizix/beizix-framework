@@ -73,7 +73,7 @@ public class URI {
       insertable = false,
       updatable = false)
   @OrderBy(value = URI_.ORDER_NO + " ASC")
-  private Set<URI> nodes;
+  private Set<URI> children;
 
   @ElementCollection(fetch = FetchType.EAGER)
   @CollectionTable(name = "uri_roles")

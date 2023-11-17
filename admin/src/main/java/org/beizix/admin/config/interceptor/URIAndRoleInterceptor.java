@@ -2,11 +2,15 @@ package org.beizix.admin.config.interceptor;
 
 import java.io.IOException;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
+import org.beizix.admin.config.interceptor.model.URITopTierVO;
 import org.beizix.core.application.domain.uri.model.list.URIOutput;
+import org.beizix.core.application.domain.uri.model.toptier.URITopTierOutput;
 import org.beizix.core.application.port.in.uri.URIMatchingParentsPortIn;
 import org.beizix.core.application.port.in.uri.URIMatchingPortIn;
 import org.beizix.core.application.port.in.uri.URITopTierPortIn;
@@ -81,7 +85,8 @@ public class URIAndRoleInterceptor implements HandlerInterceptor {
     if (modelAndView == null) return;
 
     if (!commonUtil.isAjaxRequest(request)) {
-      modelAndView.addObject("topNode", uriTopTierPortIn.connect(AppType.ADMIN));
+      URITopTierOutput topTierOutput = uriTopTierPortIn.connect(AppType.ADMIN);
+      modelAndView.addObject("topNode", recursiveMapping(topTierOutput));
 
       if (modelAndView.getModelMap().getAttribute("currentURI") == null) {
         modelAndView.addObject("currentURI", request.getAttribute("currentURI"));
@@ -91,5 +96,16 @@ public class URIAndRoleInterceptor implements HandlerInterceptor {
           "menuHierarchy",
           uriMatchingParentsPortIn.connect(AppType.ADMIN, request.getRequestURI()));
     }
+  }
+
+  private URITopTierVO recursiveMapping(URITopTierOutput output) {
+    return new URITopTierVO(
+        output.getId(),
+        output.getText(),
+        output.getUri(),
+        output.getShowOnNavi(),
+        CollectionUtils.emptyIfNull(output.getChildren()).stream()
+            .map(this::recursiveMapping)
+            .collect(Collectors.toList()));
   }
 }

@@ -37,22 +37,6 @@ public class CoreUtil {
         : messageUtil.getMessage(uri.getId());
   }
 
-  public boolean shouldDisplaySubNodes(
-      List<org.beizix.core.application.domain.uri.model.toptier.URIOutput> uriList) {
-    boolean result = false;
-    if (uriList == null || uriList.isEmpty()) {
-      result = false;
-    } else {
-      for (org.beizix.core.application.domain.uri.model.toptier.URIOutput uri : uriList) {
-        if (uri.getShowOnNavi()) {
-          result = true;
-          break;
-        }
-      }
-    }
-    return result;
-  }
-
   /**
    * ObjectError 목록을 DTO 객체로 변환
    *
