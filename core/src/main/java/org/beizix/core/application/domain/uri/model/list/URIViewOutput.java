@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class URIOutput {
+public class URIViewOutput {
   private String id;
   private AppType appType;
   private String parentId;
@@ -28,7 +28,7 @@ public class URIOutput {
   private String ogImage;
   private MultipartFile ogImageFile;
 
-  private List<URIOutput> nodes;
+  private List<URIViewOutput> nodes;
   private Set<String> roles;
   private int depth;
 }

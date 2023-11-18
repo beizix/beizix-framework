@@ -3,7 +3,7 @@ package org.beizix.admin.adapter.web.uri;
 import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.uri.model.view.URIBindingVO;
-import org.beizix.core.application.domain.uri.model.list.URIOutput;
+import org.beizix.core.application.domain.uri.model.list.URIViewOutput;
 import org.beizix.core.application.port.in.uri.URIViewPortIn;
 import org.beizix.core.common.rest.RestResponse;
 import org.beizix.core.config.enums.AppType;
@@ -22,7 +22,7 @@ public class URIViewController {
 
   @GetMapping(path = "/api/uri/get/{appType}/{id}")
   ResponseEntity<?> operate(@PathVariable AppType appType, @PathVariable String id) {
-    URIOutput output =
+    URIViewOutput output =
         uriViewPortIn
             .connect(appType, id)
             .orElseThrow(

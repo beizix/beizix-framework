@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.beizix.admin.config.interceptor.model.URITopTierVO;
-import org.beizix.core.application.domain.uri.model.list.URIOutput;
+import org.beizix.core.application.domain.uri.model.list.URIViewOutput;
 import org.beizix.core.application.domain.uri.model.toptier.URITopTierOutput;
 import org.beizix.core.application.port.in.uri.URIMatchingParentsPortIn;
 import org.beizix.core.application.port.in.uri.URIMatchingPortIn;
@@ -39,7 +39,7 @@ public class URIAndRoleInterceptor implements HandlerInterceptor {
       return true;
     }
 
-    URIOutput currentURI = uriMatchingPortIn.connect(AppType.ADMIN, requestURI);
+    URIViewOutput currentURI = uriMatchingPortIn.connect(AppType.ADMIN, requestURI);
     if (currentURI == null) {
       request.setAttribute("message", String.format("매핑되는 않은 URI - %s", requestURI));
       request.setAttribute("exception", "NoMatchingURIException");

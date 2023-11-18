@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.beizix.core.application.domain.uri.model.list.URIOutput;
+import org.beizix.core.application.domain.uri.model.list.URIViewOutput;
 import org.springframework.stereotype.Service;
 import org.beizix.core.config.enums.AppType;
 import org.beizix.core.application.port.in.uri.URIListPortIn;
@@ -20,31 +20,31 @@ class URIMatchingService implements URIMatchingPortIn {
   private final CommonUtil commonUtil;
 
   @Override
-  public URIOutput connect(AppType appType, String uri) {
+  public URIViewOutput connect(AppType appType, String uri) {
     String targetUri = commonUtil.removeLastChar(uri, "/");
     return uriListPortIn.connect(appType).stream()
         .filter(
-            item -> {
-              String itemUri = commonUtil.removeLastChar(item.getUri(), "/");
-              if (itemUri.equals(targetUri)) return true;
+            uriItem -> {
+              String comparePath = commonUtil.removeLastChar(uriItem.getUri(), "/");
+              if (comparePath.equals(targetUri)) return true;
 
               // {{pathVar}} 을 가진 URI 라면 배열검증 수행
-              if (itemUri.endsWith("/{{pathVar}}")) {
-                List<String> itemValues =
-                    Arrays.stream(itemUri.split("/")).collect(Collectors.toList());
-                List<String> targetValues =
+              if (comparePath.endsWith("/{{pathVar}}")) {
+                List<String> pathComponents =
+                    Arrays.stream(comparePath.split("/")).collect(Collectors.toList());
+                List<String> targetComponents =
                     Arrays.stream(targetUri.split("/")).collect(Collectors.toList());
 
-                if (itemValues.size() != targetValues.size()) return false;
+                if (pathComponents.size() != targetComponents.size()) return false;
 
                 boolean matchResult = true;
-                for (int i = 0; i < itemValues.size(); i++) {
-                  String itemVal = itemValues.get(i);
-                  if (itemVal.equals(pathVariable)) continue;
+                for (int i = 0; i < pathComponents.size(); i++) {
+                  String pathComponent = pathComponents.get(i);
+                  if (pathComponent.equals(PATH_VAR)) continue;
 
-                  String targetVal = targetValues.get(i);
+                  String targetComponent = targetComponents.get(i);
 
-                  matchResult = itemVal.equals(targetVal);
+                  matchResult = pathComponent.equals(targetComponent);
                   if (!matchResult) break;
                 }
                 return matchResult;

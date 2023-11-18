@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.beizix.core.adapter.persistence.uri.repository.URIListRepo;
-import org.beizix.core.application.domain.uri.model.list.URIOutput;
+import org.beizix.core.application.domain.uri.model.list.URIViewOutput;
 import org.beizix.core.application.port.out.uri.URIListPortOut;
 import org.beizix.core.config.enums.AppType;
 import org.modelmapper.ModelMapper;
@@ -17,9 +17,9 @@ class URIListDao implements URIListPortOut {
   private final ModelMapper modelMapper;
 
   @Override
-  public List<URIOutput> connect(AppType appType) {
+  public List<URIViewOutput> connect(AppType appType) {
     return uriListRepo.findAllByAppType(appType).stream()
-        .map(uriEntity -> modelMapper.map(uriEntity, URIOutput.class))
+        .map(uriEntity -> modelMapper.map(uriEntity, URIViewOutput.class))
         .collect(Collectors.toList());
   }
 }
