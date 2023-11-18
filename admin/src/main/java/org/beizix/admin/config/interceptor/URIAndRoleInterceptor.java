@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.beizix.admin.config.interceptor.model.URITopTierVO;
 import org.beizix.core.application.domain.uri.model.list.URIViewOutput;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class URIAndRoleInterceptor implements HandlerInterceptor {
   private final CommonUtil commonUtil;
   private final URIMatchingPortIn uriMatchingPortIn;
@@ -81,8 +83,12 @@ public class URIAndRoleInterceptor implements HandlerInterceptor {
       HttpServletResponse response,
       Object handler,
       ModelAndView modelAndView) {
+    log.info("POST_HANDLE_START");
 
-    if (modelAndView == null) return;
+    if (modelAndView == null) {
+      log.info("POST_HANDLE_END::since modelAndView is null");
+      return;
+    }
 
     if (!commonUtil.isAjaxRequest(request)) {
       URITopTierOutput topTierOutput = topTierPortIn.connect(AppType.ADMIN);
@@ -96,6 +102,8 @@ public class URIAndRoleInterceptor implements HandlerInterceptor {
           "menuHierarchy",
           uriMatchingParentsPortIn.connect(AppType.ADMIN, request.getRequestURI()));
     }
+
+    log.info("POST_HANDLE_END");
   }
 
   private URITopTierVO recursiveMapping(URITopTierOutput output) {

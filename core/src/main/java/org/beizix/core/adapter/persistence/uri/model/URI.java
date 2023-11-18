@@ -65,7 +65,7 @@ public class URI {
    * JPA 에서 재귀 쿼리를 구현하는 하나의 방법 - https://stackoverflow.com/questions/3638082/recursive-jpa-query
    * "This will cause multiple queries , but for small menu like things it will be ok."
    */
-  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
   @BatchSize(size = 100)
   @JoinColumn(
       name = "parent_id",

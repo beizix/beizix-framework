@@ -1,6 +1,7 @@
 package org.beizix.core.adapter.persistence.uri;
 
 import java.util.stream.Collectors;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.beizix.core.adapter.persistence.uri.model.URI;
@@ -16,6 +17,7 @@ public class URITopTierDao implements URITopTierPortOut {
   private final URIRepo uriRepo;
 
   @Override
+  @Transactional
   public URITopTierOutput connect(AppType appType) {
     URI topTier =
         uriRepo

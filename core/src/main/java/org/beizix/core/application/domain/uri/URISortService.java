@@ -15,7 +15,7 @@ class URISortService implements URISortPortIn {
   private final URISortPortOut uriSortPortOut;
 
   @CacheEvict(
-      value = {"URITopItemCache", "URIItemsByAppTypeCache"},
+      value = {"URIItemsByAppTypeCache", "URITopTierCache"},
       allEntries = true)
   @Override
   public void connect(List<URISortInput> uris) {

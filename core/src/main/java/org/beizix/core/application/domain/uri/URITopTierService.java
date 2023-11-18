@@ -5,6 +5,7 @@ import org.beizix.core.application.domain.uri.model.toptier.URITopTierOutput;
 import org.beizix.core.application.port.in.uri.URITopTierPortIn;
 import org.beizix.core.application.port.out.uri.URITopTierPortOut;
 import org.beizix.core.config.enums.AppType;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,6 +14,7 @@ public class URITopTierService implements URITopTierPortIn {
   private final URITopTierPortOut topTierPortOut;
 
   @Override
+  @Cacheable("URITopTierCache")
   public URITopTierOutput connect(AppType appType) {
     return topTierPortOut.connect(appType);
   }

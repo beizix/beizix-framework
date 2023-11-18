@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.beizix.core.application.domain.uri.model.list.URIViewOutput;
+import org.beizix.core.application.domain.uri.model.matchparent.URIMatchParentVO;
 import org.beizix.core.common.rest.RestErrorDto;
 import org.beizix.core.common.rest.RestFieldErrorDto;
 import org.beizix.core.common.rest.RestObjectErrorDto;
@@ -27,11 +28,11 @@ public class CoreUtil {
    * @param findId 찾는 URI 아이디
    * @return boolean 매칭 여부
    */
-  public boolean containsCurrentURI(List<URIViewOutput> uriList, String findId) {
+  public boolean containsCurrentURI(List<URIMatchParentVO> uriList, String findId) {
     return uriList.stream().anyMatch(node -> node.getId().equals(findId));
   }
 
-  public String getUriTitle(URIViewOutput uri) {
+  public String getUriTitle(URIMatchParentVO uri) {
     return StringUtils.isEmpty(messageUtil.getMessage(uri.getId()))
         ? uri.getText()
         : messageUtil.getMessage(uri.getId());

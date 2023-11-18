@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.beizix.core.application.domain.uri.model.list.URIViewOutput;
+import org.beizix.core.application.domain.uri.model.matchparent.URIMatchParentVO;
 import org.beizix.core.application.port.in.uri.URIMatchingParentsPortIn;
 import org.beizix.core.application.port.in.uri.URIMatchingPortIn;
 import org.beizix.core.application.port.in.uri.URIViewPortIn;
@@ -19,15 +20,15 @@ class URIMatchingParentsService implements URIMatchingParentsPortIn {
   private final URIViewPortIn uriViewPortIn;
 
   @Override
-  public List<URIViewOutput> connect(AppType appType, String uri) {
-    List<URIViewOutput> hierarchy = new ArrayList<>();
+  public List<URIMatchParentVO> connect(AppType appType, String uri) {
+    List<URIMatchParentVO> hierarchy = new ArrayList<>();
     URIViewOutput currentURI = uriMatchingPortIn.connect(appType, uri);
-    hierarchy.add(currentURI);
+    hierarchy.add(mapToVO(currentURI));
 
     while (currentURI.getParentId() != null) {
       Optional<URIViewOutput> parentURI = uriViewPortIn.connect(appType, currentURI.getParentId());
       if (parentURI.isPresent()) {
-        hierarchy.add(parentURI.get());
+        hierarchy.add(mapToVO(parentURI.get()));
         currentURI = parentURI.get();
       }
     }
@@ -35,5 +36,9 @@ class URIMatchingParentsService implements URIMatchingParentsPortIn {
     Collections.reverse(hierarchy);
 
     return hierarchy;
+  }
+
+  private URIMatchParentVO mapToVO(URIViewOutput output) {
+    return new URIMatchParentVO(output.getId(), output.getUri(), output.getText());
   }
 }

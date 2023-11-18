@@ -1,17 +1,13 @@
 package org.beizix.core.application.domain.uri.model.list;
 
-import java.util.List;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.beizix.core.config.enums.AppType;
-import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 public class URIViewOutput {
   private String id;
@@ -21,14 +17,9 @@ public class URIViewOutput {
   private String text;
   private String uri;
   private Boolean showOnNavi;
-
   private String ogTitle;
   private String ogDesc;
   private String ogKeywords;
   private String ogImage;
-  private MultipartFile ogImageFile;
-
-  private List<URIViewOutput> nodes;
   private Set<String> roles;
-  private int depth;
 }

@@ -18,7 +18,7 @@ class URIRemoveService implements URIRemovePortIn {
   private final MessageUtil messageUtil;
 
   @CacheEvict(
-      value = {"URITopItemCache", "URIItemsByAppTypeCache"},
+      value = {"URIItemsByAppTypeCache", "URITopTierCache"},
       allEntries = true)
   @Override
   public void connect(AppType appType, String id) {

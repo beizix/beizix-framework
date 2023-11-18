@@ -30,7 +30,7 @@ class URISaveService implements URISavePortIn {
 
   @Transactional
   @CacheEvict(
-      value = {"URITopItemCache", "URIItemsByAppTypeCache"},
+      value = {"URIItemsByAppTypeCache", "URITopTierCache"},
       allEntries = true)
   @Override
   public String connect(URIInput uri, MultipartFile ogImageFile, boolean checkDuplicate)
