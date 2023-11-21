@@ -2,7 +2,7 @@ package org.beizix.admin.adapter.web.admin;
 
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.admin.model.filter.AdminListStatusVO;
-import org.beizix.admin.config.aop.PageDefault;
+import org.beizix.core.config.aop.PageDefault;
 import org.beizix.core.application.domain.common.model.PageableInput;
 import org.beizix.core.config.enums.OrderDir;
 import org.beizix.security.adapter.persistence.admin.model.Admin_;

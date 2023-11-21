@@ -83,17 +83,17 @@
         <a th:href="${topNode.uri}"
            th:classappend="${topNode.uri eq currentURI.uri} ? 'active'">[[${#messages.msg(topNode.id)}]]</a>
       </li>
-      <li th:each="menu : ${topNode.nodes}" th:if="${menu.showOnNavi}">
+      <li th:each="menu : ${topNode.children}" th:if="${menu.showOnNavi}">
         <!-- 자식 nodes 가 없는 경우 -->
-        <a th:if="${#lists.size(menu.nodes) == 0}"
+        <a th:if="${#lists.size(menu.children) == 0}"
            th:classappend="${currentURI.id == menu.id}? 'active'" th:href="${menu.uri}"
            th:text="${#messages.msg(menu.id)}">메뉴명</a>
         <!-- 자식 nodes 가 있는 경우 -->
-        <a th:if="${#lists.size(menu.nodes) > 0}"
+        <a th:if="${#lists.size(menu.children) > 0}"
            th:classappend="${@coreUtil.containsCurrentURI(menuHierarchy, menu.id)}? 'active'"
            th:href="${menu.uri}" th:text="${#messages.msg(menu.id)}">메뉴명</a>
-        <ul th:if="${#lists.size(menu.nodes) > 0}">
-          <li th:each="child : ${menu.nodes}" th:if="${child.showOnNavi}">
+        <ul th:if="${#lists.size(menu.children) > 0}">
+          <li th:each="child : ${menu.children}" th:if="${child.showOnNavi}">
             <a class="dropdown-item"
                th:classappend="${@coreUtil.containsCurrentURI(menuHierarchy, child.id)}? 'active'"
                th:href="${child.uri}" th:text="${#messages.msg(child.id)}">메뉴명</a>

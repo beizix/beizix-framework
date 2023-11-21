@@ -2,7 +2,7 @@ package org.beizix.admin.adapter.web.operation;
 
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.operation.model.filter.OperationLogListStatusVO;
-import org.beizix.admin.config.aop.PageDefault;
+import org.beizix.core.config.aop.PageDefault;
 import org.beizix.core.application.domain.common.model.PageableInput;
 import org.beizix.core.application.domain.operationlog.model.filter.OperationLogListStatus;
 import org.beizix.core.application.domain.operationlog.model.list.OperationLogListOutput;

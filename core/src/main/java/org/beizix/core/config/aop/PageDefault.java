@@ -1,4 +1,4 @@
-package org.beizix.admin.config.aop;
+package org.beizix.core.config.aop;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

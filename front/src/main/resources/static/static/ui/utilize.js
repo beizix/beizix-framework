@@ -4,10 +4,11 @@
  * @param {int} size
  * @param {string} sort
  */
-function goPageable(page, size, sort) {
+function goPageable(page, size, orderBy, orderDir) {
     let uri = new Uri(location.href);
-    uri.replaceQueryParam('page', page).replaceQueryParam('size', size)
-        .replaceQueryParam('sort', convertToPageableSortValue(sort));
+    uri.replaceQueryParam('pageNumber', page).replaceQueryParam('pageSize', size)
+    .replaceQueryParam('orderBy', orderBy).replaceQueryParam('orderDir',
+        orderDir);
 
     location.href = uri.toString();
 }

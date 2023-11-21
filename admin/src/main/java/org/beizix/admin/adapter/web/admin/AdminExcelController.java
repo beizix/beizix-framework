@@ -11,7 +11,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.beizix.admin.adapter.web.admin.model.filter.AdminListStatusVO;
-import org.beizix.admin.config.aop.PageDefault;
+import org.beizix.core.config.aop.PageDefault;
 import org.beizix.core.application.domain.common.model.PageableInput;
 import org.beizix.core.config.enums.OrderDir;
 import org.beizix.security.adapter.persistence.admin.model.Admin_;

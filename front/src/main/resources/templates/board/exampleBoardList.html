@@ -6,10 +6,14 @@
 
   <form method="post" name="paramForm" th:action="@{/board/exampleBoard}"
         th:object="${paramDto}" onsubmit="goSearch();">
-    <input type="hidden" name="page"
-           th:value="${items.pageable.pageNumber}"/>
+
+    <!-- hidden parameters -->
+    <input type="hidden" name="pageNumber"
+           th:value="${listOutput.pageable.pageNumber}"/>
     <input type="hidden"
-           name="sort" th:value="${items.pageable.sort}"/>
+           name="orderBy" th:value="${listOutput.pageable.orderBy}"/>
+    <input type="hidden"
+           name="orderDir" th:value="${listOutput.pageable.orderDir}"/>
 
     <div style="--bs-bg-opacity: .2;">
       <div>
@@ -46,7 +50,7 @@
     <div>
       <div>
         <div>
-          Total: <span th:text="${items.totalElements}"></span>
+          Total: <span th:text="${listOutput.pageable.totalElements}"></span>
         </div>
       </div>
       <div>
@@ -54,8 +58,9 @@
               th:field="*{size}"
               onchange="goSearch()">
         <option
-                th:each="item : ${@uiCodeListService.connect('code.pageable.rows')}"
-                th:value="${item.codeValue}" th:text="${item.codeText}"></option>
+            th:each="item : ${@uiCodeListService.connect('code.pageable.rows')}"
+            th:value="${item.codeValue}" th:text="${item.codeText}"
+            th:selected="${#strings.toString(listOutput.pageable.pageSize) eq item.codeValue}"></option>
       </select>
       </label>
       </div>
@@ -84,9 +89,9 @@
       </tr>
       </thead>
       <tbody>
-      <tr th:each="item, status : ${items}">
+      <tr th:each="item, status : ${listOutput.contents}">
         <th
-                th:text="${status.count + (items.pageable.pageNumber * items.pageable.pageSize)}"
+                th:text="${status.count + (listOutput.pageable.pageNumber * listOutput.pageable.pageSize)}"
                 scope="row">게시물번호
         </th>
         <td><label>
@@ -112,17 +117,16 @@
 
   </form>
 
-  <div th:replace="common/list-components :: pagination(${items})"></div>
+  <div th:replace="common/list-components :: pagination(${listOutput.pageable})"></div>
 
-  <div th:replace="common/list-components :: listColumnOrder(${items})"></div>
+  <div th:replace="common/list-components :: listColumnOrder(${listOutput.pageable})"></div>
 
   <script th:inline="javascript">
       // 검색
       function goSearch() {
           const f = document.paramForm;
           f.action = '/board/exampleBoard';
-          f.page.value = 0;
-          f.sort.value = convertToPageableSortValue(f.sort.value);
+          f.pageNumber.value = 0;
           f.method = 'get';
           f.submit();
       }
@@ -138,7 +142,6 @@
       // 수정페이지 이동
       function goSave(itemId) {
           const f = document.paramForm;
-          f.sort.value = convertToPageableSortValue(f.sort.value);
           f.action = '/board/exampleBoard/update/' + itemId;
           f.method = 'get';
           f.submit();
@@ -146,7 +149,6 @@
 
       function goExcel() {
           const f = document.paramForm;
-          f.sort.value = convertToPageableSortValue(f.sort.value);
           f.action = '/board/exampleBoard/excel';
           f.method = 'get';
           f.submit();

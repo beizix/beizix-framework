@@ -1,4 +1,4 @@
-package org.beizix.admin.config.aop;
+package org.beizix.core.config.aop;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -18,7 +18,12 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class PageDefaultAspect {
 
-  @Before("execution(* *(.., @PageDefault (*), ..))")
+  /**
+   * Controller 메서드에 선언된 @PageDefault 어노테이션 속성값을 기반으로 pageableInput 속성을 셋업해준다.
+   *
+   * @param joinPoint
+   */
+  @Before("execution(* *(.., @org.beizix.core.config.aop.PageDefault (*), ..))")
   public void operate1(JoinPoint joinPoint) {
 
     Arrays.stream(joinPoint.getArgs())
@@ -26,8 +31,8 @@ public class PageDefaultAspect {
         .map(arg -> (PageableInput) arg)
         .findFirst()
         .ifPresent(
-            pageableBase -> {
-              if (pageableBase.getPageNumber() == null) {
+            pageableInput -> {
+              if (pageableInput.getPageNumber() == null) {
 
                 MethodSignature signature = (MethodSignature) joinPoint.getSignature();
                 Method method = signature.getMethod();
@@ -37,7 +42,7 @@ public class PageDefaultAspect {
                   for (Annotation annot : annotArr) {
                     if (annot instanceof PageDefault) {
                       PageDefault pageDefault = (PageDefault) annot;
-                      pageableBase
+                      pageableInput
                           .setPageNumber(pageDefault.pageNumber())
                           .setPageSize(pageDefault.pageSize())
                           .setOrderBy(pageDefault.orderBy())
