@@ -25,6 +25,7 @@ class UICodeTopTierDao implements UICodeTopTierPortOut {
     return new UICodeTopTier(
         topTier.getId(),
         topTier.getCodeText(),
+        topTier.getOrderNo(),
         CollectionUtils.emptyIfNull(topTier.getChildren()).stream()
             .map(this::recursiveMapping)
             .collect(Collectors.toList()));

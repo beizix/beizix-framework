@@ -1,10 +1,8 @@
-package org.beizix.core.adapter.persistence.uicode;
-
-import org.springframework.stereotype.Repository;
+package org.beizix.admin.usecases.uicode.sort.adapter.persistence;
 
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.application.port.out.uicode.UICodeSortPortOut;
-import org.beizix.core.adapter.persistence.uicode.repository.UICodeSortRepo;
+import org.beizix.admin.usecases.uicode.sort.application.port.out.UICodeSortPortOut;
+import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor

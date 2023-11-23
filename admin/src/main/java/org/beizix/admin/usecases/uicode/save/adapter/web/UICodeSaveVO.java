@@ -24,5 +24,4 @@ public class UICodeSaveVO {
   private String msgCode;
   private Boolean inUse;
   private String mode;
-  private List<UICodeSaveVO> updateList;
 }

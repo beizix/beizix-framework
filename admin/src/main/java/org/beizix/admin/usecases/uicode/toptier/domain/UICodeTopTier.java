@@ -11,5 +11,6 @@ import lombok.Setter;
 public class UICodeTopTier {
   private String id;
   private String codeText;
+  private Integer orderNo;
   private List<UICodeTopTier> nodes;
 }
