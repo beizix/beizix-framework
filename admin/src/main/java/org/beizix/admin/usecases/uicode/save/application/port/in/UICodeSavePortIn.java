@@ -1,4 +1,4 @@
-package org.beizix.core.application.port.in.uicode;
+package org.beizix.admin.usecases.uicode.save.application.port.in;
 
 import org.beizix.core.application.domain.uicode.model.UICodeInput;
 

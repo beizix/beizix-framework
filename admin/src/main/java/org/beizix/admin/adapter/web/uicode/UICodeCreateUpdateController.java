@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.beizix.core.common.util.CoreUtil;
 import org.beizix.core.config.exception.AlreadyExistItemException;
 import org.beizix.core.application.domain.uicode.model.UICodeInput;
-import org.beizix.core.application.port.in.uicode.UICodeSavePortIn;
+import org.beizix.admin.usecases.uicode.save.application.port.in.UICodeSavePortIn;
 
 @RestController
 @RequiredArgsConstructor

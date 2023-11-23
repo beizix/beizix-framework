@@ -1,15 +1,14 @@
-package org.beizix.core.application.domain.uicode;
+package org.beizix.admin.usecases.uicode.save.application.port.in;
 
 import lombok.RequiredArgsConstructor;
+import org.beizix.admin.usecases.uicode.view.application.port.in.UICodeViewPortIn;
+import org.beizix.core.application.domain.uicode.model.UICodeInput;
+import org.beizix.core.application.port.out.uicode.UICodeMaxOrderNoPortOut;
+import org.beizix.core.application.port.out.uicode.UICodeSavePortOut;
+import org.beizix.core.config.exception.AlreadyExistItemException;
+import org.beizix.utility.common.MessageUtil;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
-import org.beizix.core.config.exception.AlreadyExistItemException;
-import org.beizix.core.application.domain.uicode.model.UICodeInput;
-import org.beizix.core.application.port.in.uicode.UICodeSavePortIn;
-import org.beizix.core.application.port.in.uicode.UICodeViewPortIn;
-import org.beizix.core.application.port.out.uicode.UICodeSavePortOut;
-import org.beizix.core.application.port.out.uicode.UICodeMaxOrderNoPortOut;
-import org.beizix.utility.common.MessageUtil;
 
 @Service
 @RequiredArgsConstructor

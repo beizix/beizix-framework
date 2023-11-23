@@ -55,5 +55,5 @@ public class UICode {
       referencedColumnName = "id",
       insertable = false,
       updatable = false)
-  private Set<UICode> nodes;
+  private Set<UICode> children;
 }

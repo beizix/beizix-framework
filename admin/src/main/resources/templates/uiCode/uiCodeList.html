@@ -98,7 +98,7 @@
       function loadTree(currentId) {
           $.ajax({
               type: 'GET',
-              url: '/api/uicode/get/hierarchy',
+              url: '/api/uicode/topTier',
               cache: false,
               success: function (data) {
                   renderTree(data, currentId);
@@ -188,7 +188,7 @@
 
           $.ajax({
               type: 'GET',
-              url: '/api/uicode/get/' + data.id,
+              url: '/api/uicode/' + data.id,
               cache: false,
               statusCode: {
                   // error
