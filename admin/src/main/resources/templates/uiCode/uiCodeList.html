@@ -225,7 +225,7 @@
           $.ajax({
               type: 'POST',
               contentType: 'application/json',
-              url: '/api/uicode/createUpdate',
+              url: '/api/uicode/save',
               data: JSON.stringify(obj),
               beforeSend: function (xhr) {
                   xhr.setRequestHeader(

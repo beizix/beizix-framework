@@ -1,10 +1,9 @@
 package org.beizix.admin.usecases.uicode.save.application.port.in;
 
 import lombok.RequiredArgsConstructor;
+import org.beizix.admin.usecases.uicode.save.application.port.out.UICodeSavePortOut;
 import org.beizix.admin.usecases.uicode.view.application.port.in.UICodeViewPortIn;
-import org.beizix.core.application.domain.uicode.model.UICodeInput;
 import org.beizix.core.application.port.out.uicode.UICodeMaxOrderNoPortOut;
-import org.beizix.core.application.port.out.uicode.UICodeSavePortOut;
 import org.beizix.core.config.exception.AlreadyExistItemException;
 import org.beizix.utility.common.MessageUtil;
 import org.springframework.cache.annotation.CacheEvict;
@@ -22,18 +21,19 @@ class UICodeSaveService implements UICodeSavePortIn {
       value = {"UICodeHierarchyCache", "ChildUICodesByParentIdCache"},
       allEntries = true)
   @Override
-  public UICodeInput connect(UICodeInput uiCodeInput, boolean checkDuplicate) {
-    if (checkDuplicate)
+  public String connect(UICodeSaveCommand createCommand, boolean isUpdate) {
+    if (isUpdate)
       uiCodeViewPortIn
-          .connect(uiCodeInput.getId())
+          .connect(createCommand.getId())
           .ifPresent(
               item -> {
                 throw new AlreadyExistItemException(
                     messageUtil.getMessage("valid.common.already.exists", "ID"));
               });
 
-    if (uiCodeInput.getOrderNo() == null)
-      uiCodeInput.setOrderNo(maxOrderNoDao.connect(uiCodeInput.getParentId()).orElse(-1) + 1);
-    return createUpdateDao.connect(uiCodeInput);
+    if (createCommand.getOrderNo() == null)
+      createCommand.setOrderNo(maxOrderNoDao.connect(createCommand.getParentId()).orElse(-1) + 1);
+
+    return createUpdateDao.connect(createCommand);
   }
 }

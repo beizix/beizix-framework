@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.uicode.model;
+package org.beizix.admin.usecases.uicode.save.adapter.web;
 
 import lombok.*;
 
@@ -10,7 +10,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UICodeDto {
+public class UICodeSaveVO {
   @NotBlank(message = "{valid.common.required}")
   @Pattern(regexp = "^.*[^\\\\.]$", message = "{valid.admin.id.notEndWith.dot}")
   @NonNull
@@ -24,5 +24,5 @@ public class UICodeDto {
   private String msgCode;
   private Boolean inUse;
   private String mode;
-  private List<UICodeDto> updateList;
+  private List<UICodeSaveVO> updateList;
 }
