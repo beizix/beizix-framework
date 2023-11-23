@@ -34,6 +34,7 @@ public class URITopTierDao implements URITopTierPortOut {
         uri.getText(),
         uri.getUri(),
         uri.getShowOnNavi(),
+        uri.getOrderNo(),
         CollectionUtils.emptyIfNull(uri.getChildren()).stream()
             .map(this::recursiveMapping)
             .collect(Collectors.toList()));

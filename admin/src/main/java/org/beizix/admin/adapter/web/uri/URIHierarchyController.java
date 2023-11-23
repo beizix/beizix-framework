@@ -29,6 +29,7 @@ class URIHierarchyController {
         output.getId(),
         output.getText(),
         output.getUri(),
+        output.getOrderNo(),
         CollectionUtils.emptyIfNull(output.getChildren()).stream()
             .map(this::recursiveMapping)
             .collect(Collectors.toList()));

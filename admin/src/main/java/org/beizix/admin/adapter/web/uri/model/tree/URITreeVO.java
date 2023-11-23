@@ -12,5 +12,6 @@ public class URITreeVO {
   private String id;
   private String text;
   private String uri;
+  private Integer orderNo;
   private List<URITreeVO> nodes;
 }

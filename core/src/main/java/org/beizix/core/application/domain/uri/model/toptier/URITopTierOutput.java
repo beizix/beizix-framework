@@ -15,5 +15,6 @@ public class URITopTierOutput {
   private String text;
   private String uri;
   private Boolean showOnNavi;
+  private Integer orderNo;
   private List<URITopTierOutput> children;
 }
