@@ -232,7 +232,7 @@
       const f = document.formDto;
       $.ajax({
         type: 'GET',
-        url: '/api/uri/get/' + f.appType.value + '/' + data.id,
+        url: '/api/uri/' + f.appType.value + '/' + data.id,
         cache: false,
         statusCode: {
           400: function (response) {

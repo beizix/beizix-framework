@@ -5,40 +5,50 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.application.domain.uri.model.list.URIViewOutput;
 import org.beizix.core.application.domain.uri.model.matchparent.URIMatchParentVO;
 import org.beizix.core.application.port.in.uri.URIMatchingParentsPortIn;
-import org.beizix.core.application.port.in.uri.URIMatchingPortIn;
-import org.beizix.core.application.port.in.uri.URIViewPortIn;
 import org.beizix.core.config.enums.AppType;
+import org.beizix.core.usecase.uri.currentmatch.application.port.in.URICurrentMatchingPortIn;
+import org.beizix.core.usecase.uri.currentmatch.domain.URICurrentMatching;
+import org.beizix.core.usecase.uri.view.application.port.in.URIViewPortIn;
+import org.beizix.core.usecase.uri.view.domain.URIView;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 class URIMatchingParentsService implements URIMatchingParentsPortIn {
-  private final URIMatchingPortIn uriMatchingPortIn;
+
+  private final URICurrentMatchingPortIn URICurrentMatchingPortIn;
   private final URIViewPortIn uriViewPortIn;
 
   @Override
   public List<URIMatchParentVO> connect(AppType appType, String uri) {
     List<URIMatchParentVO> hierarchy = new ArrayList<>();
-    URIViewOutput currentURI = uriMatchingPortIn.connect(appType, uri);
-    hierarchy.add(mapToVO(currentURI));
+    URICurrentMatching currentMatchingURI = URICurrentMatchingPortIn.connect(appType, uri);
+    URIMatchParentVO mm =
+        new URIMatchParentVO(
+            currentMatchingURI.getId(),
+            currentMatchingURI.getParentId(),
+            currentMatchingURI.getUri(),
+            currentMatchingURI.getText());
 
-    while (currentURI.getParentId() != null) {
-      Optional<URIViewOutput> parentURI = uriViewPortIn.connect(appType, currentURI.getParentId());
+    hierarchy.add(mm);
+
+    while (mm.getParentId() != null) {
+      Optional<URIView> parentURI = uriViewPortIn.connect(appType, mm.getParentId());
       if (parentURI.isPresent()) {
-        hierarchy.add(mapToVO(parentURI.get()));
-        currentURI = parentURI.get();
+        mm =
+            new URIMatchParentVO(
+                parentURI.get().getId(),
+                parentURI.get().getParentId(),
+                parentURI.get().getUri(),
+                parentURI.get().getText());
+        hierarchy.add(mm);
       }
     }
 
     Collections.reverse(hierarchy);
 
     return hierarchy;
-  }
-
-  private URIMatchParentVO mapToVO(URIViewOutput output) {
-    return new URIMatchParentVO(output.getId(), output.getUri(), output.getText());
   }
 }

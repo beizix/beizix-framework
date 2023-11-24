@@ -9,6 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class URIMatchParentVO {
   private String id;
+  private String parentId;
   private String uri;
   private String text;
 }

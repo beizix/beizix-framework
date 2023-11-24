@@ -1,15 +1,16 @@
-package org.beizix.core.application.domain.uri.model.list;
+package org.beizix.core.usecase.uri.list.domain;
 
 import java.util.Set;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.beizix.core.config.enums.AppType;
 
-@Data
-@Builder
+@Getter
+@Setter
 @AllArgsConstructor
-public class URIViewOutput {
+public class URIDetail {
+
   private String id;
   private AppType appType;
   private String parentId;

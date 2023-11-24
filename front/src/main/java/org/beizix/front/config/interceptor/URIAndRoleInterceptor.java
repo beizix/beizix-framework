@@ -5,9 +5,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.application.domain.uri.model.list.URIViewOutput;
+import org.beizix.core.usecase.uri.currentmatch.domain.URICurrentMatching;
 import org.beizix.core.application.port.in.uri.URIMatchingParentsPortIn;
-import org.beizix.core.application.port.in.uri.URIMatchingPortIn;
+import org.beizix.core.usecase.uri.currentmatch.application.port.in.URICurrentMatchingPortIn;
 import org.beizix.core.config.enums.AppType;
 import org.beizix.front.usecase.uri.toptier.port.in.URITopTierPortIn;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Component
 @RequiredArgsConstructor
 public class URIAndRoleInterceptor implements HandlerInterceptor {
-  private final URIMatchingPortIn uriMatchingPortIn;
+  private final URICurrentMatchingPortIn URICurrentMatchingPortIn;
   private final URIMatchingParentsPortIn uriMatchingParentsPortIn;
   private final URITopTierPortIn uriTopTierPortIn;
 
@@ -29,7 +29,7 @@ public class URIAndRoleInterceptor implements HandlerInterceptor {
       return true;
     }
 
-    URIViewOutput currentURI = uriMatchingPortIn.connect(AppType.FRONT, requestURI);
+    URICurrentMatching currentURI = URICurrentMatchingPortIn.connect(AppType.FRONT, requestURI);
     if (currentURI == null) {
       request.setAttribute("message", String.format("매핑되는 않은 URI - %s", requestURI));
       request.setAttribute("exception", "NoMatchingURIException");

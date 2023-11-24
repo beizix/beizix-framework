@@ -3,7 +3,6 @@ package org.beizix.core.common.util;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.application.domain.uri.model.list.URIViewOutput;
 import org.beizix.core.application.domain.uri.model.matchparent.URIMatchParentVO;
 import org.beizix.core.common.rest.RestErrorDto;
 import org.beizix.core.common.rest.RestFieldErrorDto;
