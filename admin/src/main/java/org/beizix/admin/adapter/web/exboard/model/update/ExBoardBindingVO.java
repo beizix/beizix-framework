@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.beizix.core.application.domain.common.model.AuditOutput;
-import org.beizix.core.application.domain.fileupload.model.FileUploadOutput;
+import org.beizix.core.usecase.file.upload.domain.FileUploadOutput;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Getter

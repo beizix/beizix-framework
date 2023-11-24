@@ -1,7 +1,7 @@
-package org.beizix.core.application.port.in.fileurl;
+package org.beizix.core.usecase.file.url.application.port.in;
 
 import org.beizix.core.config.enums.ContentDispositionType;
-import org.beizix.core.application.domain.fileupload.model.FileUploadOutput;
+import org.beizix.core.usecase.file.upload.domain.FileUploadOutput;
 
 public interface FileUrlPortIn {
   String connect(ContentDispositionType contentDispositionType, FileUploadOutput fileUploadOutput);

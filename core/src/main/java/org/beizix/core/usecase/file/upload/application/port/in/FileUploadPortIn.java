@@ -1,6 +1,6 @@
-package org.beizix.core.application.port.in.fileupload;
+package org.beizix.core.usecase.file.upload.application.port.in;
 
-import org.beizix.core.application.domain.fileupload.model.FileUploadOutput;
+import org.beizix.core.usecase.file.upload.domain.FileUploadOutput;
 import org.springframework.web.multipart.MultipartFile;
 import org.beizix.core.config.enums.FileUploadType;
 

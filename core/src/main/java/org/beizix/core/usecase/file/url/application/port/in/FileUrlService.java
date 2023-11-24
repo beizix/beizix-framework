@@ -1,12 +1,11 @@
-package org.beizix.core.application.domain.fileurl;
+package org.beizix.core.usecase.file.url.application.port.in;
 
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.application.domain.fileupload.model.FileUploadOutput;
+import org.beizix.core.usecase.file.upload.domain.FileUploadOutput;
 import org.springframework.stereotype.Service;
 import org.beizix.core.config.enums.ContentDispositionType;
 import org.beizix.core.config.enums.FileStorageType;
-import org.beizix.core.application.port.in.fileurl.FileUrlPortIn;
-import org.beizix.core.application.domain.fileurl.strategy.FileUrlStrategy;
+import org.beizix.core.usecase.file.url.strategy.FileUrlStrategy;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;

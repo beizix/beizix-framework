@@ -1,4 +1,4 @@
-package org.beizix.core.application.domain.fileupload.strategy;
+package org.beizix.core.usecase.file.upload.strategy;
 
 import org.springframework.web.multipart.MultipartFile;
 import org.beizix.core.config.enums.FileStorageType;

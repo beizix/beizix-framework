@@ -4,7 +4,7 @@ import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.application.domain.fileupload.model.FileUploadOutput;
+import org.beizix.core.usecase.file.upload.domain.FileUploadOutput;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;

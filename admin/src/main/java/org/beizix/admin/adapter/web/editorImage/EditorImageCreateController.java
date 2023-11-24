@@ -9,8 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.beizix.core.common.rest.RestResponse;
 import org.beizix.core.config.enums.ContentDispositionType;
 import org.beizix.core.config.enums.FileUploadType;
-import org.beizix.core.application.port.in.fileupload.FileUploadPortIn;
-import org.beizix.core.application.port.in.fileurl.FileUrlPortIn;
+import org.beizix.core.usecase.file.upload.application.port.in.FileUploadPortIn;
+import org.beizix.core.usecase.file.url.application.port.in.FileUrlPortIn;
 
 import java.io.IOException;
 

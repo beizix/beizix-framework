@@ -10,7 +10,7 @@ import org.beizix.core.adapter.persistence.common.model.FileUploadInfoEmbeddable
 import org.beizix.core.adapter.persistence.exboard.model.ExBoard;
 import org.beizix.core.adapter.persistence.exboard.model.ExBoardAttachment;
 import org.beizix.core.adapter.persistence.exboard.repository.ExBoardRepo;
-import org.beizix.core.application.domain.fileupload.model.FileUploadOutput;
+import org.beizix.core.usecase.file.upload.domain.FileUploadOutput;
 import org.beizix.core.application.port.out.exboard.ExBoardSavePortOut;
 import org.springframework.stereotype.Repository;
 
