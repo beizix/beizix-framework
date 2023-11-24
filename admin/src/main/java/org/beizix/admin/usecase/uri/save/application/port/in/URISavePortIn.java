@@ -1,4 +1,4 @@
-package org.beizix.core.application.port.in.uri;
+package org.beizix.admin.usecase.uri.save.application.port.in;
 
 import java.io.IOException;
 import org.beizix.core.application.domain.uri.model.save.URIInput;

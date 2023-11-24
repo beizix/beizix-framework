@@ -1,11 +1,10 @@
-package org.beizix.admin.adapter.web.uri;
+package org.beizix.admin.usecase.uri.save.adapter.web;
 
 import java.io.IOException;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.beizix.admin.adapter.web.uri.model.save.URIBindingVO;
 import org.beizix.core.application.domain.uri.model.save.URIInput;
-import org.beizix.core.application.port.in.uri.URISavePortIn;
+import org.beizix.admin.usecase.uri.save.application.port.in.URISavePortIn;
 import org.beizix.core.common.rest.RestResponse;
 import org.beizix.core.common.util.CoreUtil;
 import org.beizix.core.config.exception.AlreadyExistItemException;

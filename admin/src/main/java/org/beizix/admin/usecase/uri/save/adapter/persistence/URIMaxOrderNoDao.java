@@ -1,9 +1,8 @@
-package org.beizix.core.adapter.persistence.uri;
+package org.beizix.admin.usecase.uri.save.adapter.persistence;
 
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.adapter.persistence.uri.repository.URIMaxOrderNoRepo;
+import org.beizix.admin.usecase.uri.save.application.port.out.URIMaxOrderNoPortOut;
 import org.springframework.stereotype.Repository;
-import org.beizix.core.application.port.out.uri.URIMaxOrderNoPortOut;
 
 @Repository
 @RequiredArgsConstructor

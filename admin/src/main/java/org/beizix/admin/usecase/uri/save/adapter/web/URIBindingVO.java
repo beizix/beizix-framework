@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.uri.model.save;
+package org.beizix.admin.usecase.uri.save.adapter.web;
 
 import java.util.Set;
 import javax.validation.constraints.NotEmpty;
