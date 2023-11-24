@@ -151,7 +151,7 @@
     function loadTree(currentId) {
       $.ajax({
         type: 'GET',
-        url: '/api/uri/get/recursiveItems/' + document.formDto.appType.value,
+        url: '/api/uri/topTier/' + document.formDto.appType.value,
         cache: false,
         success: function (data) {
           renderTree(data, currentId);
@@ -232,7 +232,7 @@
       const f = document.formDto;
       $.ajax({
         type: 'GET',
-        url: '/api/uri/get/' + f.appType.value + '/' + data.id,
+        url: '/api/uri/' + f.appType.value + '/' + data.id,
         cache: false,
         statusCode: {
           400: function (response) {

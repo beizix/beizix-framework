@@ -10,11 +10,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.beizix.admin.config.interceptor.model.URITopTierVO;
-import org.beizix.core.application.domain.uri.model.list.URIViewOutput;
-import org.beizix.core.application.domain.uri.model.toptier.URITopTierOutput;
-import org.beizix.core.application.port.in.uri.URIMatchingParentsPortIn;
-import org.beizix.core.application.port.in.uri.URIMatchingPortIn;
-import org.beizix.core.application.port.in.uri.URITopTierPortIn;
+import org.beizix.core.usecase.uri.currentmatch.domain.URICurrentMatching;
+import org.beizix.admin.usecase.uri.toptier.domain.URITopTier;
+import org.beizix.core.usecase.uri.ancestry.application.port.in.URIAncestryPortIn;
+import org.beizix.core.usecase.uri.currentmatch.application.port.in.URICurrentMatchingPortIn;
+import org.beizix.admin.usecase.uri.toptier.application.port.in.URITopTierPortIn;
 import org.beizix.core.config.enums.AppType;
 import org.beizix.utility.common.CommonUtil;
 import org.springframework.security.access.AccessDeniedException;
@@ -29,8 +29,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Slf4j
 public class URIAndRoleInterceptor implements HandlerInterceptor {
   private final CommonUtil commonUtil;
-  private final URIMatchingPortIn uriMatchingPortIn;
-  private final URIMatchingParentsPortIn uriMatchingParentsPortIn;
+  private final URICurrentMatchingPortIn uriCurrentMatchingPortIn;
+  private final URIAncestryPortIn uriAncestryPortIn;
   private final URITopTierPortIn topTierPortIn;
 
   @Override
@@ -41,7 +41,7 @@ public class URIAndRoleInterceptor implements HandlerInterceptor {
       return true;
     }
 
-    URIViewOutput currentURI = uriMatchingPortIn.connect(AppType.ADMIN, requestURI);
+    URICurrentMatching currentURI = uriCurrentMatchingPortIn.connect(AppType.ADMIN, requestURI);
     if (currentURI == null) {
       request.setAttribute("message", String.format("매핑되는 않은 URI - %s", requestURI));
       request.setAttribute("exception", "NoMatchingURIException");
@@ -91,7 +91,7 @@ public class URIAndRoleInterceptor implements HandlerInterceptor {
     }
 
     if (!commonUtil.isAjaxRequest(request)) {
-      URITopTierOutput topTierOutput = topTierPortIn.connect(AppType.ADMIN);
+      URITopTier topTierOutput = topTierPortIn.connect(AppType.ADMIN);
       modelAndView.addObject("topNode", recursiveMapping(topTierOutput));
 
       if (modelAndView.getModelMap().getAttribute("currentURI") == null) {
@@ -100,13 +100,13 @@ public class URIAndRoleInterceptor implements HandlerInterceptor {
 
       modelAndView.addObject(
           "menuHierarchy",
-          uriMatchingParentsPortIn.connect(AppType.ADMIN, request.getRequestURI()));
+          uriAncestryPortIn.connect(AppType.ADMIN, request.getRequestURI()));
     }
 
     log.info("POST_HANDLE_END");
   }
 
-  private URITopTierVO recursiveMapping(URITopTierOutput output) {
+  private URITopTierVO recursiveMapping(URITopTier output) {
     return new URITopTierVO(
         output.getId(),
         output.getText(),
