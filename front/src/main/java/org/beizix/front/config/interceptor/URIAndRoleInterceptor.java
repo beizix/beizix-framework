@@ -9,7 +9,7 @@ import org.beizix.core.usecase.uri.currentmatch.domain.URICurrentMatching;
 import org.beizix.core.usecase.uri.ancestry.application.port.in.URIAncestryPortIn;
 import org.beizix.core.usecase.uri.currentmatch.application.port.in.URICurrentMatchingPortIn;
 import org.beizix.core.config.enums.AppType;
-import org.beizix.front.usecase.uri.toptier.port.in.URITopTierPortIn;
+import org.beizix.core.usecase.uri.toptier.application.port.in.URITopTierPortIn;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;

@@ -1,4 +1,4 @@
-package org.beizix.front.usecase.uri.toptier.adapter.persistence;
+package org.beizix.core.usecase.uri.toptier.adapter.persistence;
 
 import java.util.Optional;
 import org.beizix.core.adapter.persistence.uri.model.URI;

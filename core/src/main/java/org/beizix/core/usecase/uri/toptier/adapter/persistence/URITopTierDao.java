@@ -1,4 +1,4 @@
-package org.beizix.front.usecase.uri.toptier.adapter.persistence;
+package org.beizix.core.usecase.uri.toptier.adapter.persistence;
 
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.beizix.core.adapter.persistence.uri.model.URI;
 import org.beizix.core.config.enums.AppType;
-import org.beizix.front.usecase.uri.toptier.URITopTier;
-import org.beizix.front.usecase.uri.toptier.port.out.URITopTierPortOut;
+import org.beizix.core.usecase.uri.toptier.application.port.out.URITopTierPortOut;
+import org.beizix.core.usecase.uri.toptier.domain.URITopTier;
 import org.springframework.stereotype.Repository;
 
 @Repository

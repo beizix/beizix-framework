@@ -1,4 +1,4 @@
-package org.beizix.front.usecase.uri.toptier;
+package org.beizix.core.usecase.uri.toptier.domain;
 
 import java.util.List;
 import lombok.AllArgsConstructor;
