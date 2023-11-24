@@ -2,8 +2,8 @@ package org.beizix.admin.config.initdata;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.beizix.admin.usecases.uicode.save.application.port.in.UICodeSaveCommand;
-import org.beizix.admin.usecases.uicode.save.application.port.in.UICodeSavePortIn;
+import org.beizix.admin.usecase.uicode.save.application.port.in.UICodeSaveCommand;
+import org.beizix.admin.usecase.uicode.save.application.port.in.UICodeSavePortIn;
 import org.beizix.utility.common.PropertyUtil;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
