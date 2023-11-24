@@ -1,4 +1,4 @@
-package org.beizix.core.application.domain.uri.model.toptier;
+package org.beizix.front.usecase.uri.toptier;
 
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -9,12 +9,12 @@ import org.beizix.core.config.enums.AppType;
 @Getter
 @Setter
 @AllArgsConstructor
-public class URITopTierOutput {
+public class URITopTier {
   private String id;
   private AppType appType;
   private String text;
   private String uri;
   private Boolean showOnNavi;
   private Integer orderNo;
-  private List<URITopTierOutput> children;
+  private List<URITopTier> children;
 }

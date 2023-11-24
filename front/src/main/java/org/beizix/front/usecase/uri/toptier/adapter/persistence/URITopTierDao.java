@@ -1,34 +1,34 @@
-package org.beizix.core.adapter.persistence.uri;
+package org.beizix.front.usecase.uri.toptier.adapter.persistence;
 
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.beizix.core.adapter.persistence.uri.model.URI;
-import org.beizix.core.adapter.persistence.uri.repository.URIRepo;
-import org.beizix.core.application.domain.uri.model.toptier.URITopTierOutput;
-import org.beizix.core.application.port.out.uri.URITopTierPortOut;
 import org.beizix.core.config.enums.AppType;
+import org.beizix.front.usecase.uri.toptier.URITopTier;
+import org.beizix.front.usecase.uri.toptier.port.out.URITopTierPortOut;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
 public class URITopTierDao implements URITopTierPortOut {
-  private final URIRepo uriRepo;
+
+  private final URITopTierRepo topTierRepo;
 
   @Override
   @Transactional
-  public URITopTierOutput connect(AppType appType) {
+  public URITopTier connect(AppType appType) {
     URI topTier =
-        uriRepo
+        topTierRepo
             .findByAppTypeAndParentIdIsNull(appType)
             .orElseThrow(() -> new RuntimeException("There is no top tier item of " + appType));
 
     return recursiveMapping(topTier);
   }
 
-  private URITopTierOutput recursiveMapping(URI uri) {
-    return new URITopTierOutput(
+  private URITopTier recursiveMapping(URI uri) {
+    return new URITopTier(
         uri.getId(),
         uri.getAppType(),
         uri.getText(),
