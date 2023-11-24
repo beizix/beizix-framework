@@ -1,4 +1,4 @@
-package org.beizix.core.application.domain.uri.model.matchparent;
+package org.beizix.core.usecase.uri.ancestry.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class URIMatchParentVO {
+public class URIAncestry {
   private String id;
   private String parentId;
   private String uri;

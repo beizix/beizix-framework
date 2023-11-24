@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.beizix.core.usecase.uri.currentmatch.domain.URICurrentMatching;
-import org.beizix.core.application.port.in.uri.URIMatchingParentsPortIn;
+import org.beizix.core.usecase.uri.ancestry.application.port.in.URIAncestryPortIn;
 import org.beizix.core.usecase.uri.currentmatch.application.port.in.URICurrentMatchingPortIn;
 import org.beizix.core.config.enums.AppType;
 import org.beizix.front.usecase.uri.toptier.port.in.URITopTierPortIn;
@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequiredArgsConstructor
 public class URIAndRoleInterceptor implements HandlerInterceptor {
   private final URICurrentMatchingPortIn URICurrentMatchingPortIn;
-  private final URIMatchingParentsPortIn uriMatchingParentsPortIn;
+  private final URIAncestryPortIn uriAncestryPortIn;
   private final URITopTierPortIn uriTopTierPortIn;
 
   @Override
@@ -57,6 +57,6 @@ public class URIAndRoleInterceptor implements HandlerInterceptor {
     }
 
     modelAndView.addObject(
-        "menuHierarchy", uriMatchingParentsPortIn.connect(AppType.FRONT, request.getRequestURI()));
+        "menuHierarchy", uriAncestryPortIn.connect(AppType.FRONT, request.getRequestURI()));
   }
 }
