@@ -9,6 +9,7 @@ import org.beizix.core.application.domain.exboard.model.filter.ExBoardListFilter
 import org.beizix.core.application.domain.exboard.model.list.ExBoardListOutput;
 import org.beizix.core.application.port.in.exboard.ExBoardListPortIn;
 import org.beizix.core.config.enums.OrderDir;
+import org.beizix.core.usecase.uicode.list.application.port.in.UICodeListPortIn;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @RequiredArgsConstructor
 class ExBoardListController {
   private final ExBoardListPortIn exBoardListPortIn;
+  private final UICodeListPortIn uiCodeListPortIn;
 
   @GetMapping("/board/exampleBoard")
   String operate(
@@ -35,6 +37,7 @@ class ExBoardListController {
                 filterReqVO.getSearchOpen()));
 
     model.addAttribute("listOutput", listOutput);
+    model.addAttribute("pageRows", uiCodeListPortIn.connect("code.pageable.rows"));
 
     // title, seo 속성 변경 예제
     //    URI currentURI = (URI) request.getAttribute("currentURI");

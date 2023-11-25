@@ -9,7 +9,7 @@ import org.beizix.core.application.domain.exboard.model.list.ExBoardListOutput;
 import org.beizix.core.application.port.in.exboard.ExBoardListPortIn;
 import org.beizix.core.config.aop.PageDefault;
 import org.beizix.core.config.enums.OrderDir;
-import org.modelmapper.ModelMapper;
+import org.beizix.core.usecase.uicode.list.application.port.in.UICodeListPortIn;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,25 +20,23 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 class ExBoardListController {
 
   private final ExBoardListPortIn exBoardListPortIn;
-  private final ModelMapper modelMapper;
+  private final UICodeListPortIn uiCodeListPortIn;
 
   @GetMapping(path = "/board/exampleBoard")
   String list(
       HttpServletRequest request,
       Model model,
       @PageDefault(orderBy = ExBoard_.ORDER_NO, orderDir = OrderDir.DESC)
-      PageableInput pageableInput,
-      @ModelAttribute("paramDto") ExBoardListConditionDto paramDto
-  ) {
+          PageableInput pageableInput,
+      @ModelAttribute("paramDto") ExBoardListConditionDto paramDto) {
     ExBoardListOutput listOutput =
         exBoardListPortIn.connect(
             pageableInput,
             new ExBoardListFilterInput(
-                paramDto.getSearchField(),
-                paramDto.getSearchValue(),
-                paramDto.getSearchOpen()));
+                paramDto.getSearchField(), paramDto.getSearchValue(), paramDto.getSearchOpen()));
 
     model.addAttribute("listOutput", listOutput);
+    model.addAttribute("pageRows", uiCodeListPortIn.connect("code.pageable.rows"));
 
     return "board/exampleBoardList";
   }

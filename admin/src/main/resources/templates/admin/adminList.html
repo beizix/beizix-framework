@@ -57,7 +57,7 @@
           <select class="form-select form-select-sm" name="pageSize" id="pageSize"
                   onchange="goSearch()">
             <option
-                th:each="item : ${@uiCodeListService.connect('code.pageable.rows')}"
+                th:each="item : ${pageRows}"
                 th:value="${item.codeValue}" th:text="${item.codeText}"
                 th:selected="${#strings.toString(listOutput.pageable.pageSize) eq item.codeValue}"></option>
           </select>

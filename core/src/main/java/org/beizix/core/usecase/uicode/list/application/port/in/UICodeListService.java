@@ -8,7 +8,7 @@ import org.beizix.core.usecase.uicode.list.application.port.out.UICodeListPortOu
 
 import java.util.List;
 
-@Service(value = "uiCodeListService")
+@Service
 @RequiredArgsConstructor
 class UICodeListService implements UICodeListPortIn {
   private final UICodeListPortOut uiCodeListPortOut;
