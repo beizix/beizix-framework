@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.uri.model.remove;
+package org.beizix.admin.usecase.uri.remove.adapter.web;
 
 import javax.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
