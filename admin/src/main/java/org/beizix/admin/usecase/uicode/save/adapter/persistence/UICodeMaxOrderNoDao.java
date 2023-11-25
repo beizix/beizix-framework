@@ -1,16 +1,15 @@
-package org.beizix.core.adapter.persistence.uicode;
+package org.beizix.admin.usecase.uicode.save.adapter.persistence;
 
 import java.util.Optional;
 
+import org.beizix.admin.usecase.uicode.save.application.port.out.UICodeMaxOrderNoPortOut;
 import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.application.port.out.uicode.UICodeMaxOrderNoPortOut;
-import org.beizix.core.adapter.persistence.uicode.repository.UICodeMaxOrderNoRepo;
 
 @Repository
 @RequiredArgsConstructor
-class UICodeMaxDao implements UICodeMaxOrderNoPortOut {
+class UICodeMaxOrderNoDao implements UICodeMaxOrderNoPortOut {
   private final UICodeMaxOrderNoRepo uiCodeMaxOrderNoRepo;
 
   @Override

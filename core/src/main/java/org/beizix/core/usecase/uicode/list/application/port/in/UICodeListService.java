@@ -1,11 +1,10 @@
-package org.beizix.core.application.domain.uicode;
+package org.beizix.core.usecase.uicode.list.application.port.in;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.beizix.core.application.domain.uicode.model.UICodeInput;
-import org.beizix.core.application.port.in.uicode.UICodeListPortIn;
-import org.beizix.core.application.port.out.uicode.UICodeListPortOut;
+import org.beizix.core.usecase.uicode.list.domain.UICodeElement;
+import org.beizix.core.usecase.uicode.list.application.port.out.UICodeListPortOut;
 
 import java.util.List;
 
@@ -16,7 +15,7 @@ class UICodeListService implements UICodeListPortIn {
 
   @Cacheable("ChildUICodesByParentIdCache")
   @Override
-  public List<UICodeInput> connect(String parentId) {
+  public List<UICodeElement> connect(String parentId) {
     return uiCodeListPortOut.connect(parentId);
   }
 }

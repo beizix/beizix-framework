@@ -1,4 +1,4 @@
-package org.beizix.core.application.port.out.uicode;
+package org.beizix.admin.usecase.uicode.save.application.port.out;
 
 import java.util.Optional;
 

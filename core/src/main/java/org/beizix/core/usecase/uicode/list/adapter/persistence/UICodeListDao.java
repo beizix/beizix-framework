@@ -1,15 +1,14 @@
-package org.beizix.core.adapter.persistence.uicode;
+package org.beizix.core.usecase.uicode.list.adapter.persistence;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.beizix.core.application.domain.uicode.model.UICodeInput;
+import org.beizix.core.usecase.uicode.list.domain.UICodeElement;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.application.port.out.uicode.UICodeListPortOut;
-import org.beizix.core.adapter.persistence.uicode.repository.UICodeListRepo;
+import org.beizix.core.usecase.uicode.list.application.port.out.UICodeListPortOut;
 import org.beizix.core.adapter.persistence.uicode.model.UICode;
 
 @Repository
@@ -18,15 +17,15 @@ class UICodeListDao implements UICodeListPortOut {
   private final UICodeListRepo uiCodeListRepo;
 
   @Override
-  public List<UICodeInput> connect(String parentId) {
+  public List<UICodeElement> connect(String parentId) {
     ModelMapper modelMapper = new ModelMapper();
     modelMapper.getConfiguration().setAmbiguityIgnored(true);
     modelMapper
-        .typeMap(UICode.class, UICodeInput.class)
-        .addMappings(mapper -> mapper.skip(UICodeInput::setNodes));
+        .typeMap(UICode.class, UICodeElement.class)
+        .addMappings(mapper -> mapper.skip(UICodeElement::setNodes));
 
     return uiCodeListRepo.operate(parentId).stream()
-        .map(item -> modelMapper.map(item, UICodeInput.class))
+        .map(item -> modelMapper.map(item, UICodeElement.class))
         .collect(Collectors.toList());
   }
 }

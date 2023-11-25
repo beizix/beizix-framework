@@ -1,4 +1,4 @@
-package org.beizix.core.application.domain.uicode.model;
+package org.beizix.core.usecase.uicode.list.domain;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class UICodeInput {
+public class UICodeElement {
   private String id;
   private String parentId;
   private Integer orderNo;
@@ -15,10 +15,10 @@ public class UICodeInput {
   private String codeValue;
   private String msgCode;
   private Boolean inUse;
-  private List<UICodeInput> nodes;
+  private List<UICodeElement> nodes;
   private Integer depth;
 
-  public UICodeInput(
+  public UICodeElement(
       String id,
       String parentId,
       Integer orderNo,
@@ -26,7 +26,7 @@ public class UICodeInput {
       String codeValue,
       String msgCode,
       Boolean inUse,
-      List<UICodeInput> nodes,
+      List<UICodeElement> nodes,
       Integer depth) {
     this.id = id;
     this.parentId = parentId;
