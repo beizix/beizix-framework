@@ -1,13 +1,11 @@
-package org.beizix.core.application.domain.uri;
-
-import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.stereotype.Service;
-import org.beizix.core.application.domain.uri.model.URISortInput;
-import org.beizix.core.application.port.in.uri.URISortPortIn;
-import org.beizix.core.application.port.out.uri.URISortPortOut;
+package org.beizix.admin.usecase.uri.sort.application.port.in;
 
 import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.beizix.admin.usecase.uri.sort.application.port.out.URISortPortOut;
+import org.beizix.core.application.domain.uri.model.URISortInput;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor

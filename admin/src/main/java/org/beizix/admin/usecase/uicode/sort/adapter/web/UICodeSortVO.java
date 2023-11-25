@@ -1,6 +1,5 @@
 package org.beizix.admin.usecase.uicode.sort.adapter.web;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,5 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UICodeSortVO {
-  private List<UICodeSortCompVO> updateList;
+  private String id;
+  private Integer orderNo;
 }

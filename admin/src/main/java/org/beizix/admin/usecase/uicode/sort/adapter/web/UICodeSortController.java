@@ -1,5 +1,6 @@
 package org.beizix.admin.usecase.uicode.sort.adapter.web;
 
+import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.usecase.uicode.sort.application.port.in.UICodeSortCommand;
@@ -16,10 +17,10 @@ class UICodeSortController {
   private final UICodeSortPortIn uiCodeSortPortIn;
 
   @PostMapping("/api/uicode/sort")
-  ResponseEntity<?> process(@RequestBody UICodeSortVO sortVO) {
+  ResponseEntity<?> process(@RequestBody List<UICodeSortVO> sortVOs) {
     uiCodeSortPortIn.connect(
-        sortVO.getUpdateList().stream()
-            .map(sortCompVO -> new UICodeSortCommand(sortCompVO.getId(), sortCompVO.getOrderNo()))
+        sortVOs.stream()
+            .map(sortVO -> new UICodeSortCommand(sortVO.getId(), sortVO.getOrderNo()))
             .collect(Collectors.toList()));
 
     return ResponseEntity.status(HttpStatus.OK).body(null);

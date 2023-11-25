@@ -1,4 +1,4 @@
-package org.beizix.core.application.port.out.uri;
+package org.beizix.admin.usecase.uri.remove.application.port.out;
 
 public interface URIRemovePortOut {
   void connect(String id);

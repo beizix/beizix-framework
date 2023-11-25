@@ -1,4 +1,4 @@
-package org.beizix.core.application.port.out.uri;
+package org.beizix.admin.usecase.uri.save.application.port.out;
 
 
 import org.beizix.core.application.domain.uri.model.save.URIInput;

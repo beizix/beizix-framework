@@ -1,4 +1,4 @@
-package org.beizix.core.application.port.in.uri;
+package org.beizix.admin.usecase.uri.remove.application.port.in;
 
 import org.beizix.core.config.enums.AppType;
 

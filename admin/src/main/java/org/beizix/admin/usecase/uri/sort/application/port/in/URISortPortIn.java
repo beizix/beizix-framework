@@ -1,4 +1,4 @@
-package org.beizix.core.application.port.in.uri;
+package org.beizix.admin.usecase.uri.sort.application.port.in;
 
 import org.beizix.core.application.domain.uri.model.URISortInput;
 

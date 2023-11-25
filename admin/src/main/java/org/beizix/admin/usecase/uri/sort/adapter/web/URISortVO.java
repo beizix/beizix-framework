@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.uri.model.sort;
+package org.beizix.admin.usecase.uri.sort.adapter.web;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

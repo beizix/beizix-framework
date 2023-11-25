@@ -8,16 +8,19 @@
       <a href="javascript:expand();" class="link-secondary">Expand</a>
       <a href="javascript:collapse();" class="link-secondary">Collapse</a>
 
-      <button type="button" class="btn btn-sm btn-secondary float-end ms-1" onclick="searchNode();"><i
-              class="bi bi-search"></i></button>
-      <input class="form-control form-control-sm w-25 inline-block float-end" id="searchNode" type="text"
+      <button type="button" class="btn btn-sm btn-secondary float-end ms-1" onclick="searchNode();">
+        <i
+            class="bi bi-search"></i></button>
+      <input class="form-control form-control-sm w-25 inline-block float-end" id="searchNode"
+             type="text"
              placeholder="노드 검색">
     </div>
     <div class="col"></div>
   </div>
 
   <div class="row">
-    <div class="col fw-bold border rounded-3 overflow-auto lh-1" id="tree" style="height:450px;"></div>
+    <div class="col fw-bold border rounded-3 overflow-auto lh-1" id="tree"
+         style="height:450px;"></div>
     <div class="col fw-bold ms-4" style="height:450px;">
 
       <form name="formDto" th:action="@{/settings/uri/update}" method="post">
@@ -36,7 +39,8 @@
         <div class="row mb-3">
           <label class="col-sm-3 col-form-label" for="text">Text *</label>
           <div class="col-sm-9">
-            <input type="text" id="codeText" name="codeText" class="form-control" placeholder="코드명을 입력하세요"/>
+            <input type="text" id="codeText" name="codeText" class="form-control"
+                   placeholder="코드명을 입력하세요"/>
             <div class="invalid-feedback fw-bold field-codeText"></div>
           </div>
         </div>
@@ -44,7 +48,8 @@
         <div class="row mb-3">
           <label class="col-sm-3 col-form-label" for="codeValue">Value</label>
           <div class="col-sm-9">
-            <input type="text" id="codeValue" name="codeValue" class="form-control" placeholder="코드값을 입력하세요"/>
+            <input type="text" id="codeValue" name="codeValue" class="form-control"
+                   placeholder="코드값을 입력하세요"/>
             <div class="invalid-feedback fw-bold field-codeValue"></div>
           </div>
         </div>
@@ -52,7 +57,8 @@
         <div class="row mb-3">
           <label class="col-sm-3 col-form-label" for="msgCode">메세지 코드</label>
           <div class="col-sm-9">
-            <input type="text" id="msgCode" name="msgCode" class="form-control" placeholder="메세지 코드를 입력하세요"/>
+            <input type="text" id="msgCode" name="msgCode" class="form-control"
+                   placeholder="메세지 코드를 입력하세요"/>
           </div>
         </div>
 
@@ -78,7 +84,9 @@
       <button type="button" class="btn btn-sm btn-outline-secondary mt-1" onclick="move('down');">
         <i class="bi bi-arrow-down-circle-fill"></i>
       </button>
-      <button type="button" class="btn btn-sm btn-secondary mt-1" onclick="addChildNode();">하위 노드 추가</button>
+      <button type="button" class="btn btn-sm btn-secondary mt-1" onclick="addChildNode();">하위 노드
+        추가
+      </button>
     </div>
     <div class="col text-end">
       <button type="button" class="btn btn-primary" onclick="goSave();">저장</button>
@@ -88,312 +96,314 @@
 
   <script th:inline="javascript">
 
-      // 노드가 보여질 level 전연벽수 기본값 6
-      let globalLevels = 6;
+    // 노드가 보여질 level 전연벽수 기본값 6
+    let globalLevels = 6;
 
-      $(document).ready(function () {
-          loadTree();
+    $(document).ready(function () {
+      loadTree();
+    });
+
+    function loadTree(currentId) {
+      $.ajax({
+        type: 'GET',
+        url: '/api/uicode/topTier',
+        cache: false,
+        success: function (data) {
+          renderTree(data, currentId);
+        }
+      });
+    }
+
+    function convertToTreeValue(data) {
+      data.text = data.codeText;
+      data.value = data.codeValue;
+      $(data.nodes).each(function (idx, el) {
+        convertToTreeValue(el);
+      });
+    }
+
+    function renderTree(nodes, currentId) {
+      const tree = $('#tree');
+      let json = nodes;
+      convertToTreeValue(json);
+
+      tree.treeview({
+        data: [json],
+        color: "#428bca",
+        expandIcon: 'bi bi-plus-square-fill',
+        collapseIcon: 'bi bi-dash-square-fill',
+        emptyIcon: 'bi bi-dot',
+        // nodeIcon: 'bi bi-dot',
+        showBorder: false,
+        enableLinks: true,
+        levels: globalLevels,
       });
 
-      function loadTree(currentId) {
-          $.ajax({
-              type: 'GET',
-              url: '/api/uicode/topTier',
-              cache: false,
-              success: function (data) {
-                  renderTree(data, currentId);
-              }
-          });
-      }
-
-      function convertToTreeValue(data) {
-          data.text = data.codeText;
-          data.value = data.codeValue;
-          $(data.nodes).each(function (idx, el) {
-              convertToTreeValue(el);
-          });
-      }
-
-      function renderTree(nodes, currentId) {
-          const tree = $('#tree');
-          let json = nodes;
-          convertToTreeValue(json);
-
-          tree.treeview({
-              data: [json],
-              color: "#428bca",
-              expandIcon: 'bi bi-plus-square-fill',
-              collapseIcon: 'bi bi-dash-square-fill',
-              emptyIcon: 'bi bi-dot',
-              // nodeIcon: 'bi bi-dot',
-              showBorder: false,
-              enableLinks: true,
-              levels: globalLevels,
-          });
-
-          tree.on('rendered', function () {
-              if (currentId) {
-                  setTimeout(function () {
-                      const currentNode = tree.treeview('findNodes', ['^' + currentId + '$', 'id']);
-                      tree.treeview('selectNode', [currentNode, {silent: false}]);
-                      currentNode[0].$el[0].scrollIntoView();
-                  }, 0);
-              }
-          });
-
-          tree.off('nodeSelected').on('nodeSelected', function (event, data) {
-              const f = document.formDto;
-              const currentNode = tree.treeview('getSelected')[0];
-              const parentNode = tree.treeview('getParents', currentNode)[0];
-
-              if (data.id === 'code.new.temp') {
-                  // 신규 노드일 경우 id는 'code.new.temp'
-                  cleanFormFields();
-                  f.mode.value = 'create';
-
-                  f.codeText.value = currentNode.text;
-                  f.parentId.value = parentNode.id;
-                  f.id.value = f.parentId.value + '.';
-                  f.id.focus();
-
-                  return;
-              } else {
-                  f.mode.value = 'update';
-              }
-              getInfo(data);
-          });
-      }
-
-      function addChildNode() {
-          const tree = $('#tree');
-          const parentNode = tree.treeview('getSelected');
-          tree.treeview('addNode', [{text: 'NEW NODE - 저장 필요', id: 'code.new.temp'}, parentNode]);
-          const currentNode = tree.treeview('findNodes', ['^code.new.temp$', 'id']);
-
+      tree.on('rendered', function () {
+        if (currentId) {
           setTimeout(function () {
-              tree.treeview('selectNode', [currentNode, {silent: false}]);
+            const currentNode = tree.treeview('findNodes', ['^' + currentId + '$', 'id']);
+            tree.treeview('selectNode', [currentNode, {silent: false}]);
+            currentNode[0].$el[0].scrollIntoView();
           }, 0);
-      }
+        }
+      });
 
-      function refreshTree(currentId) {
-          $('#tree').treeview('remove');
+      tree.off('nodeSelected').on('nodeSelected', function (event, data) {
+        const f = document.formDto;
+        const currentNode = tree.treeview('getSelected')[0];
+        const parentNode = tree.treeview('getParents', currentNode)[0];
+
+        if (data.id === 'code.new.temp') {
+          // 신규 노드일 경우 id는 'code.new.temp'
           cleanFormFields();
-          loadTree(currentId);
+          f.mode.value = 'create';
+
+          f.codeText.value = currentNode.text;
+          f.parentId.value = parentNode.id;
+          f.id.value = f.parentId.value + '.';
+          f.id.focus();
+
+          return;
+        } else {
+          f.mode.value = 'update';
+        }
+        getInfo(data);
+      });
+    }
+
+    function addChildNode() {
+      const tree = $('#tree');
+      const parentNode = tree.treeview('getSelected');
+      tree.treeview('addNode', [{text: 'NEW NODE - 저장 필요', id: 'code.new.temp'}, parentNode]);
+      const currentNode = tree.treeview('findNodes', ['^code.new.temp$', 'id']);
+
+      setTimeout(function () {
+        tree.treeview('selectNode', [currentNode, {silent: false}]);
+      }, 0);
+    }
+
+    function refreshTree(currentId) {
+      $('#tree').treeview('remove');
+      cleanFormFields();
+      loadTree(currentId);
+    }
+
+    function getInfo(data) {
+      if (data.id === 'code.new.temp') {
+        return;
       }
 
-      function getInfo(data) {
-          if (data.id === 'code.new.temp') return;
+      const f = document.formDto;
 
-          const f = document.formDto;
-
-          $.ajax({
-              type: 'GET',
-              url: '/api/uicode/' + data.id,
-              cache: false,
-              statusCode: {
-                  // error
-                  400: function (response) {
-                      alert(response.responseJSON.message);
-                  },
-                  // success
-                  200: function (data) {
-                      f.id.value = data.id;
-                      f.codeText.value = data.codeText;
-                      f.codeValue.value = data.codeValue;
-                      f.msgCode.value = data.msgCode;
-                      f.orderNo.value = data.orderNo;
-                      f.parentId.value = data.parentId;
-                      f.inUse.value = data.inUse;
-                  }
-              }
-          })
-      }
-
-      function goSave() {
-          const tree = $('#tree');
-          const selectedNode = tree.treeview('getSelected');
-
-          if (selectedNode.length === 0) {
-              alert(/*[[#{operation.adminRole.save.choose.first}]]*/);
-              return;
+      $.ajax({
+        type: 'GET',
+        url: '/api/uicode/' + data.id,
+        cache: false,
+        statusCode: {
+          // error
+          400: function (response) {
+            alert(response.responseJSON.message);
+          },
+          // success
+          200: function (data) {
+            f.id.value = data.id;
+            f.codeText.value = data.codeText;
+            f.codeValue.value = data.codeValue;
+            f.msgCode.value = data.msgCode;
+            f.orderNo.value = data.orderNo;
+            f.parentId.value = data.parentId;
+            f.inUse.value = data.inUse;
           }
+        }
+      })
+    }
 
-          const f = document.formDto;
-          const obj = $(f).serializeObject();
-          delete obj._csrf;
+    function goSave() {
+      const tree = $('#tree');
+      const selectedNode = tree.treeview('getSelected');
 
-          $.ajax({
-              type: 'POST',
-              contentType: 'application/json',
-              url: '/api/uicode/save',
-              data: JSON.stringify(obj),
-              beforeSend: function (xhr) {
-                  xhr.setRequestHeader(
-                      $("meta[name='_csrf_header']").attr("content"),
-                      $("meta[name='_csrf']").attr("content"));
-              },
-              success: function (data) {
-                  alert('저장되었습니다.');
-                  refreshTree(data.id);
-              },
-              statusCode: {
-                  // error
-                  400: function (response) {
-                      const resJson = response.responseJSON;
-                      alert(resJson.message);
-                  },
-                  // validation fail
-                  422: function (response) {
-                      const fieldErrors = response.responseJSON.fieldErrors;
-                      let form = document.formDto;
-                      $(fieldErrors).each(function (idx, error) {
-                          $(form[error.field]).addClass('is-invalid');
-                          $('.field-' + error.field).text(error.message);
-                      });
-                  }
-              }
-          })
+      if (selectedNode.length === 0) {
+        alert(/*[[#{operation.adminRole.save.choose.first}]]*/);
+        return;
       }
 
-      function goRemove() {
-          const tree = $('#tree');
-          const selectedNode = tree.treeview('getSelected');
+      const f = document.formDto;
+      const obj = $(f).serializeObject();
+      delete obj._csrf;
 
-          if (selectedNode.length === 0) {
-              alert('삭제할 노드를 선택하세요.');
-              return;
+      $.ajax({
+        type: 'POST',
+        contentType: 'application/json',
+        url: '/api/uicode/save',
+        data: JSON.stringify(obj),
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader(
+              $("meta[name='_csrf_header']").attr("content"),
+              $("meta[name='_csrf']").attr("content"));
+        },
+        success: function (data) {
+          alert('저장되었습니다.');
+          refreshTree(data.id);
+        },
+        statusCode: {
+          // error
+          400: function (response) {
+            const resJson = response.responseJSON;
+            alert(resJson.message);
+          },
+          // validation fail
+          422: function (response) {
+            const fieldErrors = response.responseJSON.fieldErrors;
+            let form = document.formDto;
+            $(fieldErrors).each(function (idx, error) {
+              $(form[error.field]).addClass('is-invalid');
+              $('.field-' + error.field).text(error.message);
+            });
           }
+        }
+      })
+    }
 
-          const info = selectedNode[0];
+    function goRemove() {
+      const tree = $('#tree');
+      const selectedNode = tree.treeview('getSelected');
 
-          if (confirm("'" + info.text + "' 메뉴를 정말 삭제하시겠습니까?")) {
-              if (!info.id) {
-                  // 신규생성 임시 노드인 경우
-                  tree.treeview('removeNode', [selectedNode]);
-                  alert('삭제되었습니다.');
-                  refreshTree();
-                  return;
-              }
+      if (selectedNode.length === 0) {
+        alert('삭제할 노드를 선택하세요.');
+        return;
+      }
 
-              $.ajax({
-                  type: 'POST',
-                  url: '/api/uicode/remove',
-                  data: {id: info.id},
-                  beforeSend: function (xhr) {
-                      xhr.setRequestHeader(
-                          $("meta[name='_csrf_header']").attr("content"),
-                          $("meta[name='_csrf']").attr("content"));
-                  },
-                  success: function (data) {
-                      alert('삭제되었습니다.');
-                      refreshTree();
-                  }
-              })
+      const info = selectedNode[0];
+
+      if (confirm("'" + info.text + "' 메뉴를 정말 삭제하시겠습니까?")) {
+        if (!info.id) {
+          // 신규생성 임시 노드인 경우
+          tree.treeview('removeNode', [selectedNode]);
+          alert('삭제되었습니다.');
+          refreshTree();
+          return;
+        }
+
+        $.ajax({
+          type: 'POST',
+          url: '/api/uicode/remove',
+          data: {id: info.id},
+          beforeSend: function (xhr) {
+            xhr.setRequestHeader(
+                $("meta[name='_csrf_header']").attr("content"),
+                $("meta[name='_csrf']").attr("content"));
+          },
+          success: function () {
+            alert('삭제되었습니다.');
+            refreshTree();
           }
+        })
+      }
+    }
+
+    function cleanFormFields() {
+      const f = document.formDto;
+      f.id.value = '';
+      f.parentId.value = '';
+      f.orderNo.value = '';
+      f.codeText.value = '';
+      f.codeValue.value = '';
+      f.msgCode.value = '';
+      f.inUse.value = 'true';
+    }
+
+    function move(dir) {
+      const curNode = $('#tree').treeview('getSelected');
+      if (curNode.length === 0) {
+        alert('이동할 아이템을 선택해주세요.');
+        return;
       }
 
-      function cleanFormFields() {
-          const f = document.formDto;
-          f.id.value = '';
-          f.parentId.value = '';
-          f.orderNo.value = '';
-          f.codeText.value = '';
-          f.codeValue.value = '';
-          f.msgCode.value = '';
-          f.inUse.value = 'true';
+      const info = curNode[0];
+      if (!info.id) {
+        alert('먼저 아이템을 저장한 후 이동해주세요.');
+        return;
       }
 
-      function move(dir) {
-          const curNode = $('#tree').treeview('getSelected');
-          if (curNode.length === 0) {
-              alert('이동할 아이템을 선택해주세요.');
-              return;
+      const curOrderNo = info.orderNo;
+      const siblingsWithoutMe = $('#tree').treeview('getSiblings', curNode);
+      let updateList = [];
+      let targetItem;
+      switch (dir) {
+        case 'up':
+          $(siblingsWithoutMe).each(function (idx, item) {
+            if (item.orderNo < curOrderNo) {
+              targetItem = item;
+            }
+          });
+          if (!targetItem) {
+            alert([[#{operation.uri.move.cannot.before}]]);
+            return;
           }
-
-          const info = curNode[0];
-          if (!info.id) {
-              alert('먼저 아이템을 저장한 후 이동해주세요.');
-              return;
+          updateList.push({id: info.id, orderNo: targetItem.orderNo});
+          updateList.push({id: targetItem.id, orderNo: info.orderNo});
+          break;
+        case 'down':
+          $(siblingsWithoutMe).each(function (idx, item) {
+            if (item.orderNo > curOrderNo) {
+              console.log('nextNode is ', item);
+              targetItem = item;
+              return false;
+            }
+          });
+          if (!targetItem) {
+            alert([[#{operation.uri.move.cannot.after}]]);
+            return;
           }
-
-          const curOrderNo = info.orderNo;
-          const siblingsWithoutMe = $('#tree').treeview('getSiblings', curNode);
-          let updateList = [];
-          let targetItem;
-          switch (dir) {
-              case 'up':
-                  $(siblingsWithoutMe).each(function (idx, item) {
-                      if (item.orderNo < curOrderNo) {
-                          targetItem = item;
-                      }
-                  });
-                  if (!targetItem) {
-                      alert([[#{operation.uri.move.cannot.before}]]);
-                      return;
-                  }
-                  updateList.push({id: info.id, orderNo: targetItem.orderNo});
-                  updateList.push({id: targetItem.id, orderNo: info.orderNo});
-                  break;
-              case 'down':
-                  $(siblingsWithoutMe).each(function (idx, item) {
-                      if (item.orderNo > curOrderNo) {
-                          console.log('nextNode is ', item);
-                          targetItem = item;
-                          return false;
-                      }
-                  });
-                  if (!targetItem) {
-                      alert([[#{operation.uri.move.cannot.after}]]);
-                      return;
-                  }
-                  updateList.push({id: info.id, orderNo: targetItem.orderNo});
-                  updateList.push({id: targetItem.id, orderNo: info.orderNo});
-                  break;
-          }
-
-          // 다음 tree 랜더링시 보여줄 level 설정
-          globalLevels = info.nodeId.split('.').length - 1;
-
-          $.ajax({
-              type: 'POST',
-              url: '/api/uicode/sort',
-              headers: {
-                  'content-type': 'application/json'
-              },
-              data: JSON.stringify({'updateList': updateList}),
-              beforeSend: function (xhr) {
-                  xhr.setRequestHeader(
-                      $("meta[name='_csrf_header']").attr("content"),
-                      $("meta[name='_csrf']").attr("content"));
-              },
-              success: function (data) {
-                  refreshTree(info.id);
-              }
-          })
+          updateList.push({id: info.id, orderNo: targetItem.orderNo});
+          updateList.push({id: targetItem.id, orderNo: info.orderNo});
+          break;
       }
 
-      function collapse() {
-          const tree = $('#tree');
-          tree.treeview('collapseAll', {silent: true});
-          tree.treeview('expandAll', {silent: true, levels: 1});
-      }
+      // 다음 tree 랜더링시 보여줄 level 설정
+      globalLevels = info.nodeId.split('.').length - 1;
 
-      function expand() {
-          const tree = $('#tree');
-          tree.treeview('collapseAll', {silent: true});
-          tree.treeview('expandAll', {silent: true, levels: 6});
-      }
+      $.ajax({
+        type: 'POST',
+        url: '/api/uicode/sort',
+        headers: {
+          'content-type': 'application/json'
+        },
+        data: JSON.stringify(updateList),
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader(
+              $("meta[name='_csrf_header']").attr("content"),
+              $("meta[name='_csrf']").attr("content"));
+        },
+        success: function (data) {
+          refreshTree(info.id);
+        }
+      })
+    }
 
-      function searchNode() {
-          let searchVal = $('#searchNode').val().trim();
-          if (!searchVal) {
-              return;
-          }
-          const tree = $('#tree');
-          const searchNode = tree.treeview('findNodes', [searchVal, 'text']);
-          tree.treeview('selectNode', [searchNode, {silent: false}]);
-          tree.treeview('revealNode', [searchNode, {silent: true}]);
+    function collapse() {
+      const tree = $('#tree');
+      tree.treeview('collapseAll', {silent: true});
+      tree.treeview('expandAll', {silent: true, levels: 1});
+    }
+
+    function expand() {
+      const tree = $('#tree');
+      tree.treeview('collapseAll', {silent: true});
+      tree.treeview('expandAll', {silent: true, levels: 6});
+    }
+
+    function searchNode() {
+      let searchVal = $('#searchNode').val().trim();
+      if (!searchVal) {
+        return;
       }
+      const tree = $('#tree');
+      const searchNode = tree.treeview('findNodes', [searchVal, 'text']);
+      tree.treeview('selectNode', [searchNode, {silent: false}]);
+      tree.treeview('revealNode', [searchNode, {silent: true}]);
+    }
   </script>
 </section>
 

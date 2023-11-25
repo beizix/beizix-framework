@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.uri;
+package org.beizix.admin.usecase.uri.index.adapter.web;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

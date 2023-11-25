@@ -7,7 +7,7 @@ import org.beizix.core.application.domain.uri.model.save.URIInput;
 import org.beizix.core.usecase.file.upload.application.port.in.FileUploadPortIn;
 import org.beizix.core.usecase.file.url.application.port.in.FileUrlPortIn;
 import org.beizix.admin.usecase.uri.save.application.port.out.URIMaxOrderNoPortOut;
-import org.beizix.core.application.port.out.uri.URISavePortOut;
+import org.beizix.admin.usecase.uri.save.application.port.out.URISavePortOut;
 import org.beizix.core.config.enums.ContentDispositionType;
 import org.beizix.core.config.enums.FileUploadType;
 import org.beizix.core.config.exception.AlreadyExistItemException;

@@ -1,17 +1,16 @@
-package org.beizix.core.adapter.persistence.uri;
+package org.beizix.admin.usecase.uri.save.adapter.persistence;
 
 import lombok.RequiredArgsConstructor;
+import org.beizix.admin.usecase.uri.save.application.port.out.URISavePortOut;
 import org.beizix.core.adapter.persistence.uri.model.URI;
-import org.beizix.core.adapter.persistence.uri.repository.URIRepo;
 import org.beizix.core.application.domain.uri.model.save.URIInput;
-import org.beizix.core.application.port.out.uri.URISavePortOut;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
 public class URISaveDao implements URISavePortOut {
-  private final URIRepo uriRepo;
+  private final URISaveRepo uriRepo;
   private final ModelMapper modelMapper;
 
   @Override

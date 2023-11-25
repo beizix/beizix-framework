@@ -1,12 +1,11 @@
-package org.beizix.admin.adapter.web.uri;
+package org.beizix.admin.usecase.uri.sort.adapter.web;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.beizix.admin.adapter.web.uri.model.sort.URISortVO;
 import org.beizix.core.application.domain.uri.model.URISortInput;
-import org.beizix.core.application.port.in.uri.URISortPortIn;
+import org.beizix.admin.usecase.uri.sort.application.port.in.URISortPortIn;
 import org.beizix.core.common.util.CoreUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

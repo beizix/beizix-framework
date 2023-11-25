@@ -1,9 +1,9 @@
-package org.beizix.admin.adapter.web.uri;
+package org.beizix.admin.usecase.uri.remove.adapter.web;
 
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.uri.model.remove.URIRemoveVO;
-import org.beizix.core.application.port.in.uri.URIRemovePortIn;
+import org.beizix.admin.usecase.uri.remove.application.port.in.URIRemovePortIn;
 import org.beizix.core.common.rest.RestResponse;
 import org.beizix.core.common.util.CoreUtil;
 import org.beizix.core.config.enums.AppType;
