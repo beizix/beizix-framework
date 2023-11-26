@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
-import org.beizix.core.application.domain.exboard.model.view.ExBoardViewOutput;
-import org.beizix.core.application.port.in.exboard.ExBoardViewPortIn;
+import org.beizix.core.usecase.exboard.view.domain.ExBoardView;
+import org.beizix.core.usecase.exboard.view.application.port.in.ExBoardViewPortIn;
 import org.beizix.admin.usecase.exboard.save.application.port.out.ExBoardAttachmentRemovePortOut;
 import org.beizix.admin.usecase.exboard.save.application.port.out.ExBoardNextOrderNoPortOut;
 import org.beizix.admin.usecase.exboard.save.application.port.out.ExBoardSavePortOut;
@@ -26,7 +26,7 @@ class ExBoardSaveService implements ExBoardSavePortIn {
   private final FileUploadPortIn fileUploadPortIn;
   private final ExBoardAttachmentRemovePortOut exBoardAttachmentRemovePortOut;
   private final ExBoardNextOrderNoPortOut exBoardNextOrderNoPortOut;
-  private final ExBoardViewPortIn<ExBoardViewOutput> exBoardViewPortIn;
+  private final ExBoardViewPortIn<ExBoardView> exBoardViewPortIn;
 
   @Override
   @Transactional
@@ -46,7 +46,7 @@ class ExBoardSaveService implements ExBoardSavePortIn {
       throws IOException {
 
     // 수정일 경우, 대표 이미지와 비공개 첨부 정보는 전달받지 않기에 기존 저장된 정보를 조회해서 가져온다.
-    Optional<ExBoardViewOutput> viewOpt =
+    Optional<ExBoardView> viewOpt =
         id != null ? Optional.ofNullable(exBoardViewPortIn.connect(id)) : Optional.empty();
 
     // 정렬 순서 지정하기
@@ -55,13 +55,13 @@ class ExBoardSaveService implements ExBoardSavePortIn {
     // 대표 이미지 파일 저장
     FileUploadOutput repImg =
         representImgFile.isEmpty()
-            ? viewOpt.map(ExBoardViewOutput::getRepresentImage).orElse(null)
+            ? viewOpt.map(ExBoardView::getRepresentImage).orElse(null)
             : fileUploadPortIn.connect(FileUploadType.EXAMPLE_REP, representImgFile).orElse(null);
 
     // 외부 비공개 파일 저장
     FileUploadOutput privateFile =
         privateAttachment.isEmpty()
-            ? viewOpt.map(ExBoardViewOutput::getPrivateAttachment).orElse(null)
+            ? viewOpt.map(ExBoardView::getPrivateAttachment).orElse(null)
             : fileUploadPortIn
                 .connect(FileUploadType.EXAMPLE_PRIVATE, privateAttachment)
                 .orElse(null);

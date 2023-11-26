@@ -1,21 +1,20 @@
-package org.beizix.core.application.domain.exboard;
+package org.beizix.core.usecase.exboard.view.application.port.in;
 
 import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.application.domain.exboard.model.view.ExBoardViewOutput;
-import org.beizix.core.application.port.in.exboard.ExBoardViewPortIn;
-import org.beizix.core.application.port.out.exboard.ExBoardViewPortOut;
+import org.beizix.core.usecase.exboard.view.domain.ExBoardView;
+import org.beizix.core.usecase.exboard.view.application.port.out.ExBoardViewPortOut;
 import org.beizix.utility.common.MessageUtil;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-class ExBoardViewService implements ExBoardViewPortIn<ExBoardViewOutput> {
-  private final ExBoardViewPortOut<ExBoardViewOutput> exBoardViewPortOut;
+class ExBoardViewService implements ExBoardViewPortIn<ExBoardView> {
+  private final ExBoardViewPortOut<ExBoardView> exBoardViewPortOut;
   private final MessageUtil messageUtil;
 
   @Override
-  public ExBoardViewOutput connect(Long id) {
+  public ExBoardView connect(Long id) {
     return exBoardViewPortOut
         .connect(id)
         .orElseThrow(

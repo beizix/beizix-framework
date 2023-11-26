@@ -1,4 +1,4 @@
-package org.beizix.core.application.port.out.exboard;
+package org.beizix.core.usecase.exboard.view.application.port.out;
 
 
 import java.util.Optional;

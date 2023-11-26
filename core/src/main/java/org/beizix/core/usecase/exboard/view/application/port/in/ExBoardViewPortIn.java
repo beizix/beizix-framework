@@ -1,4 +1,4 @@
-package org.beizix.core.application.port.in.exboard;
+package org.beizix.core.usecase.exboard.view.application.port.in;
 
 import org.beizix.core.application.domain.common.model.AuditOutput;
 

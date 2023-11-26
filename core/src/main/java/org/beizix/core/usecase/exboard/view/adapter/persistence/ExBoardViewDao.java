@@ -1,28 +1,29 @@
-package org.beizix.core.adapter.persistence.exboard;
+package org.beizix.core.usecase.exboard.view.adapter.persistence;
 
 import java.util.Optional;
 import java.util.stream.Collectors;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.beizix.core.adapter.persistence.exboard.model.ExBoard;
-import org.beizix.core.adapter.persistence.exboard.repository.ExBoardRepo;
 import org.beizix.core.application.domain.exboard.model.view.ExBoardViewAttachOutput;
-import org.beizix.core.application.domain.exboard.model.view.ExBoardViewOutput;
+import org.beizix.core.usecase.exboard.view.domain.ExBoardView;
+import org.beizix.core.usecase.exboard.view.application.port.out.ExBoardViewPortOut;
 import org.beizix.core.usecase.file.upload.domain.FileUploadOutput;
-import org.beizix.core.application.port.out.exboard.ExBoardViewPortOut;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-class ExBoardViewDao implements ExBoardViewPortOut<ExBoardViewOutput> {
-  private final ExBoardRepo exBoardRepo;
+class ExBoardViewDao implements ExBoardViewPortOut<ExBoardView> {
+  private final ExBoardViewRepo exBoardRepo;
 
   @Override
-  public Optional<ExBoardViewOutput> connect(Long id) {
+  @Transactional
+  public Optional<ExBoardView> connect(Long id) {
     Optional<ExBoard> result = exBoardRepo.findById(id);
     return result.map(
         item ->
-            new ExBoardViewOutput(
+            new ExBoardView(
                 item.getCreatedBy(),
                 item.getCreatedAt(),
                 item.getUpdatedBy(),
