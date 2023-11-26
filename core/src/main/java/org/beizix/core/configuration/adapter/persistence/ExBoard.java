@@ -10,7 +10,6 @@ import javax.persistence.Table;
 import lombok.*;
 import org.beizix.core.adapter.persistence.common.model.AuditEntity;
 import org.beizix.core.adapter.persistence.exboard.model.ExBoardAttachment;
-import org.beizix.core.adapter.persistence.exboard.model.ExBoard_;
 import org.hibernate.annotations.*;
 import org.beizix.core.adapter.persistence.common.model.FileUploadInfoEmbeddable;
 

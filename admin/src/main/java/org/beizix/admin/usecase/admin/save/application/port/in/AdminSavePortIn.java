@@ -1,4 +1,4 @@
-package org.beizix.security.application.port.in.admin;
+package org.beizix.admin.usecase.admin.save.application.port.in;
 
 import java.util.List;
 

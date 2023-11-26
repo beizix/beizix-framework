@@ -3,7 +3,6 @@ package org.beizix.core.configuration.adapter.persistence;
 import java.util.Set;
 import javax.persistence.*;
 import lombok.*;
-import org.beizix.core.adapter.persistence.uicode.model.UICode_;
 import org.hibernate.annotations.Comment;
 
 @Entity

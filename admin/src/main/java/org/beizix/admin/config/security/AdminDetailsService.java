@@ -8,8 +8,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.beizix.admin.usecase.admin.view.application.domain.AdminView;
 import org.beizix.security.application.domain.admin.model.view.*;
-import org.beizix.security.application.port.in.admin.AdminViewPortIn;
+import org.beizix.admin.usecase.admin.view.application.port.in.AdminViewPortIn;
 import org.beizix.utility.common.PropertyUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,7 +31,7 @@ public class AdminDetailsService implements UserDetailsService {
   @Override
   @Transactional
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    AdminViewOutput adminUser =
+    AdminView adminUser =
         adminViewPortIn
             .connect(username)
             .orElseThrow(() -> new UsernameNotFoundException("Invalid username or password."));

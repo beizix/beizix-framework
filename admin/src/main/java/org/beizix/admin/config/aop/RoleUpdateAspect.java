@@ -15,9 +15,9 @@ import org.beizix.core.application.domain.operationlog.model.save.OperationLogIn
 import org.beizix.core.application.port.in.operationlog.OperationLogSavePortIn;
 import org.beizix.core.configuration.application.enums.AppType;
 import org.beizix.core.configuration.application.enums.OperationLogType;
-import org.beizix.security.application.domain.admin.model.view.AdminViewOutput;
+import org.beizix.admin.usecase.admin.view.application.domain.AdminView;
 import org.beizix.security.application.domain.admin.model.view.RoleOutput;
-import org.beizix.security.application.port.in.admin.AdminViewPortIn;
+import org.beizix.admin.usecase.admin.view.application.port.in.AdminViewPortIn;
 import org.beizix.utility.common.CommonUtil;
 import org.beizix.utility.common.PropertyUtil;
 import org.springframework.stereotype.Component;
@@ -31,7 +31,7 @@ public class RoleUpdateAspect {
   private final OperationLogSavePortIn operationLogSavePortIn;
   private final CommonUtil commonUtil;
 
-  @Around("execution(* org.beizix.security.application.domain.admin.AdminSaveService.connect(..))")
+  @Around("execution(* org.beizix.admin.usecase.admin.save.application.port.in.AdminSaveService.connect(..))")
   public Object operate(ProceedingJoinPoint joinPoint) throws Throwable {
     if (PropertyUtil.isAdminSingleRole()) return joinPoint.proceed();
 
@@ -49,7 +49,7 @@ public class RoleUpdateAspect {
         currentRoles = (List<String>) args[i];
     }
 
-    Optional<AdminViewOutput> beforeAdmin = adminViewPortIn.connect(adminId);
+    Optional<AdminView> beforeAdmin = adminViewPortIn.connect(adminId);
 
     //    List<String> currentRoles =
     //        adminId.getWithRoles().stream()

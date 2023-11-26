@@ -1,11 +1,10 @@
-package org.beizix.security.application.domain.admin;
+package org.beizix.admin.usecase.admin.save.application.port.in;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.beizix.security.application.domain.admin.model.view.AdminViewOutput;
-import org.beizix.security.application.port.in.admin.AdminSavePortIn;
-import org.beizix.security.application.port.in.admin.AdminViewPortIn;
+import org.beizix.admin.usecase.admin.view.application.domain.AdminView;
+import org.beizix.admin.usecase.admin.view.application.port.in.AdminViewPortIn;
 import org.beizix.security.application.port.out.admin.AdminSavePortOut;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,7 +29,7 @@ public class AdminSaveService implements AdminSavePortIn {
     LocalDateTime passwordUpdatedAt;
     Integer loginFailCnt;
 
-    AdminViewOutput viewOutput = adminViewPortIn.connect(id).orElse(null);
+    AdminView viewOutput = adminViewPortIn.connect(id).orElse(null);
 
     if (viewOutput != null) {
       if (!StringUtils.isEmptyOrWhitespace(password)) {
@@ -49,6 +48,13 @@ public class AdminSaveService implements AdminSavePortIn {
     }
 
     return adminSavePortOut.connect(
-        id, password, passwordUpdatedAt, email, accountDisabled, loginFailCnt, accountLocked, roleIds);
+        id,
+        password,
+        passwordUpdatedAt,
+        email,
+        accountDisabled,
+        loginFailCnt,
+        accountLocked,
+        roleIds);
   }
 }

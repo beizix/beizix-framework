@@ -3,7 +3,6 @@ package org.beizix.core.configuration.adapter.persistence;
 import java.util.Set;
 import javax.persistence.*;
 import lombok.*;
-import org.beizix.core.adapter.persistence.uri.model.URI_;
 import org.beizix.core.configuration.application.enums.AppType;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Comment;

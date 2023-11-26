@@ -1,9 +1,9 @@
-package org.beizix.security.config.initData;
+package org.beizix.admin.config.initdata;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.beizix.security.application.port.in.admin.AdminSavePortIn;
+import org.beizix.admin.usecase.admin.save.application.port.in.AdminSavePortIn;
 import org.beizix.utility.common.PropertyUtil;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

@@ -1,30 +1,29 @@
-package org.beizix.security.adapter.persistence.admin;
+package org.beizix.admin.usecase.admin.view.adapter.persistence;
 
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.beizix.security.adapter.persistence.admin.repository.AdminRepo;
+import org.beizix.admin.usecase.admin.view.application.domain.AdminView;
+import org.beizix.admin.usecase.admin.view.application.port.out.AdminViewPortOut;
 import org.beizix.security.adapter.persistence.privilege.model.Privilege;
 import org.beizix.security.adapter.persistence.role.model.Role;
-import org.beizix.security.application.domain.admin.model.view.AdminViewOutput;
 import org.beizix.security.application.domain.admin.model.view.PrivilegeOutput;
 import org.beizix.security.application.domain.admin.model.view.RoleOutput;
-import org.beizix.security.application.port.out.admin.AdminViewPortOut;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 class AdminViewDao implements AdminViewPortOut {
-  private final AdminRepo adminRepo;
+  private final AdminViewRepo adminRepo;
 
   @Override
   @Transactional
-  public Optional<AdminViewOutput> connect(String id) {
+  public Optional<AdminView> connect(String id) {
     return adminRepo.findAdminUserById(id).stream()
         .map(
             admin ->
-                new AdminViewOutput(
+                new AdminView(
                     admin.getCreatedAt(),
                     admin.getCreatedBy(),
                     admin.getUpdatedAt(),

@@ -6,9 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.beizix.admin.usecase.admin.list.adapter.web.AdminListFilterVO;
 import org.beizix.admin.adapter.web.admin.model.update.AdminUpdateBindingVO;
 import org.beizix.core.application.domain.common.model.PageableInput;
-import org.beizix.security.application.domain.admin.model.view.AdminViewOutput;
+import org.beizix.admin.usecase.admin.view.application.domain.AdminView;
 import org.beizix.security.application.domain.admin.model.view.RoleOutput;
-import org.beizix.security.application.port.in.admin.AdminViewPortIn;
+import org.beizix.admin.usecase.admin.view.application.port.in.AdminViewPortIn;
 import org.beizix.security.application.port.in.role.RoleListPortIn;
 import org.beizix.utility.common.MessageUtil;
 import org.springframework.stereotype.Controller;
@@ -31,7 +31,7 @@ class AdminUpdateGetController {
       @ModelAttribute("pageable") final PageableInput pageableInput,
       @ModelAttribute("listStatus") AdminListFilterVO listStatus) {
 
-    AdminViewOutput output =
+    AdminView output =
         adminViewPortIn
             .connect(adminId)
             .orElseThrow(

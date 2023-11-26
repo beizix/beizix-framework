@@ -2,8 +2,8 @@ package org.beizix.front.feature.exboard.web;
 
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.adapter.persistence.exboard.model.ExBoard_;
 import org.beizix.core.application.domain.common.model.PageableInput;
+import org.beizix.core.configuration.adapter.persistence.ExBoard_;
 import org.beizix.core.usecase.exboard.list.application.domain.ExBoardListFilterCommand;
 import org.beizix.core.usecase.exboard.list.application.domain.ExBoardPageableList;
 import org.beizix.core.usecase.exboard.list.application.port.in.ExBoardListPortIn;
