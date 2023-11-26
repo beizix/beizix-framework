@@ -4,7 +4,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.usecase.exboard.list.adapter.web.ExBoardListFilterVO;
 import org.beizix.core.application.domain.common.model.PageableInput;
-import org.beizix.core.usecase.exboard.view.domain.ExBoardView;
+import org.beizix.core.usecase.exboard.view.application.domain.ExBoardView;
 import org.beizix.core.usecase.exboard.view.application.port.in.ExBoardViewPortIn;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

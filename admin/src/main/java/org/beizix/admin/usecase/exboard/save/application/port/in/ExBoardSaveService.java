@@ -8,14 +8,14 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
-import org.beizix.core.usecase.exboard.view.domain.ExBoardView;
+import org.beizix.core.usecase.exboard.view.application.domain.ExBoardView;
 import org.beizix.core.usecase.exboard.view.application.port.in.ExBoardViewPortIn;
 import org.beizix.admin.usecase.exboard.save.application.port.out.ExBoardAttachmentRemovePortOut;
 import org.beizix.admin.usecase.exboard.save.application.port.out.ExBoardNextOrderNoPortOut;
 import org.beizix.admin.usecase.exboard.save.application.port.out.ExBoardSavePortOut;
 import org.beizix.core.configuration.application.enums.FileUploadType;
 import org.beizix.core.usecase.file.upload.application.port.in.FileUploadPortIn;
-import org.beizix.core.usecase.file.upload.domain.FileUploadOutput;
+import org.beizix.core.usecase.file.upload.application.domain.FileUploadOutput;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

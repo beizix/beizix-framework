@@ -9,7 +9,7 @@ import org.beizix.core.usecase.exboard.list.domain.ExBoardListFilterCommand;
 import org.beizix.core.usecase.exboard.list.domain.ExBoardPageableList;
 import org.beizix.core.usecase.exboard.list.domain.ExBoardElement;
 import org.beizix.core.usecase.exboard.list.application.port.out.ExBoardListPortOut;
-import org.beizix.core.usecase.file.upload.domain.FileUploadOutput;
+import org.beizix.core.usecase.file.upload.application.domain.FileUploadOutput;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

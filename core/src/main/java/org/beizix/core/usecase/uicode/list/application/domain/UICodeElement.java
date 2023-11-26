@@ -1,4 +1,4 @@
-package org.beizix.core.usecase.uicode.list.domain;
+package org.beizix.core.usecase.uicode.list.application.domain;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

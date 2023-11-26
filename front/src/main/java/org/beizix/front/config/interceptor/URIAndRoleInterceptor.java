@@ -5,7 +5,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.usecase.uri.currentmatch.domain.URICurrentMatching;
+import org.beizix.core.usecase.uri.currentmatch.application.domain.URICurrentMatching;
 import org.beizix.core.usecase.uri.ancestry.application.port.in.URIAncestryPortIn;
 import org.beizix.core.usecase.uri.currentmatch.application.port.in.URICurrentMatchingPortIn;
 import org.beizix.core.configuration.application.enums.AppType;

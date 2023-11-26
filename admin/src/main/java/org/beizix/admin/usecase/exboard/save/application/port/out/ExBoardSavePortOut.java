@@ -2,7 +2,7 @@ package org.beizix.admin.usecase.exboard.save.application.port.out;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import org.beizix.core.usecase.file.upload.domain.FileUploadOutput;
+import org.beizix.core.usecase.file.upload.application.domain.FileUploadOutput;
 
 public interface ExBoardSavePortOut {
   Long connect(

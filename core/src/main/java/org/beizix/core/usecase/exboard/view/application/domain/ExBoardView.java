@@ -1,4 +1,4 @@
-package org.beizix.core.usecase.exboard.view.domain;
+package org.beizix.core.usecase.exboard.view.application.domain;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.beizix.core.application.domain.common.model.AuditOutput;
 import org.beizix.core.application.domain.exboard.model.view.ExBoardViewAttachOutput;
-import org.beizix.core.usecase.file.upload.domain.FileUploadOutput;
+import org.beizix.core.usecase.file.upload.application.domain.FileUploadOutput;
 
 @Getter
 @AllArgsConstructor

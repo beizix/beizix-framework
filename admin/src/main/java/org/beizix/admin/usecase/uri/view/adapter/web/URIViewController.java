@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.beizix.core.configuration.adapter.web.rest.RestResponse;
 import org.beizix.core.configuration.application.enums.AppType;
 import org.beizix.core.usecase.uri.view.application.port.in.URIViewPortIn;
-import org.beizix.core.usecase.uri.view.domain.URIView;
+import org.beizix.core.usecase.uri.view.application.domain.URIView;
 import org.beizix.utility.common.MessageUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

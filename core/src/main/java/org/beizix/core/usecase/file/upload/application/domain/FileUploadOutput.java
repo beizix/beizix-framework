@@ -1,4 +1,4 @@
-package org.beizix.core.usecase.file.upload.domain;
+package org.beizix.core.usecase.file.upload.application.domain;
 
 import lombok.*;
 import org.beizix.core.configuration.application.enums.FileUploadType;

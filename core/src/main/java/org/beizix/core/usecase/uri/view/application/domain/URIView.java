@@ -1,4 +1,4 @@
-package org.beizix.core.usecase.uri.view.domain;
+package org.beizix.core.usecase.uri.view.application.domain;
 
 import java.util.Set;
 import lombok.AllArgsConstructor;

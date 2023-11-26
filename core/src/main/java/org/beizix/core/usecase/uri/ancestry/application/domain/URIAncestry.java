@@ -1,4 +1,4 @@
-package org.beizix.core.usecase.uri.ancestry.domain;
+package org.beizix.core.usecase.uri.ancestry.application.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package org.beizix.core.usecase.uicode.list.application.port.out;
 
-import org.beizix.core.usecase.uicode.list.domain.UICodeElement;
+import org.beizix.core.usecase.uicode.list.application.domain.UICodeElement;
 
 import java.util.List;
 

@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.beizix.core.usecase.file.upload.domain.FileUploadOutput;
+import org.beizix.core.usecase.file.upload.application.domain.FileUploadOutput;
 import org.beizix.core.application.port.in.imagecrop.ImageCropPortIn;
 import org.beizix.utility.common.CommonUtil;
 import org.beizix.utility.common.ImageUtil;

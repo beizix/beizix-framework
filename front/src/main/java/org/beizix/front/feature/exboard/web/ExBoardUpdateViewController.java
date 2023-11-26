@@ -1,7 +1,7 @@
 package org.beizix.front.feature.exboard.web;
 
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.usecase.exboard.view.domain.ExBoardView;
+import org.beizix.core.usecase.exboard.view.application.domain.ExBoardView;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -3,7 +3,7 @@ package org.beizix.admin.usecase.uicode.view.adapter.web;
 import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.usecase.uicode.view.application.port.in.UICodeViewPortIn;
-import org.beizix.admin.usecase.uicode.view.domain.UICodeView;
+import org.beizix.admin.usecase.uicode.view.application.domain.UICodeView;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

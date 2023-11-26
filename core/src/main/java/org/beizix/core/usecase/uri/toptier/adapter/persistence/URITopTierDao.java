@@ -7,7 +7,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.beizix.core.configuration.adapter.persistence.URI;
 import org.beizix.core.configuration.application.enums.AppType;
 import org.beizix.core.usecase.uri.toptier.application.port.out.URITopTierPortOut;
-import org.beizix.core.usecase.uri.toptier.domain.URITopTier;
+import org.beizix.core.usecase.uri.toptier.application.domain.URITopTier;
 import org.springframework.stereotype.Repository;
 
 @Repository

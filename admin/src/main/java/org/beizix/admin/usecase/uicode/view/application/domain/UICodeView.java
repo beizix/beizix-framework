@@ -1,4 +1,4 @@
-package org.beizix.admin.usecase.uicode.view.domain;
+package org.beizix.admin.usecase.uicode.view.application.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

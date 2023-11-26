@@ -11,7 +11,7 @@ import org.beizix.core.configuration.application.enums.AcceptableFileType;
 import org.beizix.core.configuration.application.enums.FileStorageType;
 import org.beizix.core.configuration.application.enums.FileUploadType;
 import org.beizix.core.configuration.application.exception.UnAcceptableFileException;
-import org.beizix.core.usecase.file.upload.domain.FileUploadOutput;
+import org.beizix.core.usecase.file.upload.application.domain.FileUploadOutput;
 
 import java.io.IOException;
 import java.io.InputStream;

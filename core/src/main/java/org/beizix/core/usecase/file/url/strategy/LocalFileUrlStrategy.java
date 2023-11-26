@@ -1,6 +1,6 @@
 package org.beizix.core.usecase.file.url.strategy;
 
-import org.beizix.core.usecase.file.upload.domain.FileUploadOutput;
+import org.beizix.core.usecase.file.upload.application.domain.FileUploadOutput;
 import org.springframework.stereotype.Service;
 import org.beizix.core.configuration.application.enums.ContentDispositionType;
 import org.beizix.core.configuration.application.enums.FileStorageType;

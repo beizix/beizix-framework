@@ -4,7 +4,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.beizix.core.usecase.uri.list.application.port.out.URIListPortOut;
 import org.beizix.core.configuration.application.enums.AppType;
-import org.beizix.core.usecase.uri.list.domain.URIElement;
+import org.beizix.core.usecase.uri.list.application.domain.URIElement;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
 package org.beizix.core.usecase.uri.currentmatch.application.port.in;
 
-import org.beizix.core.usecase.uri.currentmatch.domain.URICurrentMatching;
+import org.beizix.core.usecase.uri.currentmatch.application.domain.URICurrentMatching;
 import org.beizix.core.configuration.application.enums.AppType;
 
 public interface URICurrentMatchingPortIn {

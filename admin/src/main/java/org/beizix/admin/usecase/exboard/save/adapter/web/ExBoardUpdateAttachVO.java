@@ -2,7 +2,7 @@ package org.beizix.admin.usecase.exboard.save.adapter.web;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.beizix.core.usecase.file.upload.domain.FileUploadOutput;
+import org.beizix.core.usecase.file.upload.application.domain.FileUploadOutput;
 
 @Getter
 @AllArgsConstructor

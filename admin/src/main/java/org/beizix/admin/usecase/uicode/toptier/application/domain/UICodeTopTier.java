@@ -1,4 +1,4 @@
-package org.beizix.admin.usecase.uicode.toptier.domain;
+package org.beizix.admin.usecase.uicode.toptier.application.domain;
 
 import java.util.List;
 import lombok.AllArgsConstructor;

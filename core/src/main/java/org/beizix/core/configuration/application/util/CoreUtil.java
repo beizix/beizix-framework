@@ -3,7 +3,7 @@ package org.beizix.core.configuration.application.util;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.usecase.uri.ancestry.domain.URIAncestry;
+import org.beizix.core.usecase.uri.ancestry.application.domain.URIAncestry;
 import org.beizix.core.configuration.adapter.web.rest.RestErrorDto;
 import org.beizix.core.configuration.adapter.web.rest.RestFieldErrorDto;
 import org.beizix.core.configuration.adapter.web.rest.RestObjectErrorDto;

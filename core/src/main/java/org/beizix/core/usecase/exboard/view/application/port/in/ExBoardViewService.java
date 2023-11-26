@@ -2,7 +2,7 @@ package org.beizix.core.usecase.exboard.view.application.port.in;
 
 import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.usecase.exboard.view.domain.ExBoardView;
+import org.beizix.core.usecase.exboard.view.application.domain.ExBoardView;
 import org.beizix.core.usecase.exboard.view.application.port.out.ExBoardViewPortOut;
 import org.beizix.utility.common.MessageUtil;
 import org.springframework.stereotype.Service;
