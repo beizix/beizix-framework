@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.beizix.core.adapter.persistence.exboard.model.ExBoard_;
 import org.beizix.core.application.domain.common.model.PageableInput;
 import org.beizix.core.application.domain.exboard.model.filter.ExBoardListFilterInput;
-import org.beizix.core.application.domain.exboard.model.list.ExBoardListOutput;
-import org.beizix.core.application.port.in.exboard.ExBoardListPortIn;
+import org.beizix.core.usecase.exboard.list.domain.ExBoardPageableList;
+import org.beizix.core.usecase.exboard.list.application.port.in.ExBoardListPortIn;
 import org.beizix.core.config.aop.PageDefault;
 import org.beizix.core.config.enums.OrderDir;
 import org.beizix.core.usecase.uicode.list.application.port.in.UICodeListPortIn;
@@ -29,7 +29,7 @@ class ExBoardListController {
       @PageDefault(orderBy = ExBoard_.ORDER_NO, orderDir = OrderDir.DESC)
           PageableInput pageableInput,
       @ModelAttribute("paramDto") ExBoardListConditionDto paramDto) {
-    ExBoardListOutput listOutput =
+    ExBoardPageableList listOutput =
         exBoardListPortIn.connect(
             pageableInput,
             new ExBoardListFilterInput(

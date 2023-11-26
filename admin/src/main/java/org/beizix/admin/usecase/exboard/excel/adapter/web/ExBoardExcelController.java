@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.exboard;
+package org.beizix.admin.usecase.exboard.excel.adapter.web;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -12,8 +12,8 @@ import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
 import org.beizix.core.config.aop.PageDefault;
 import org.beizix.core.application.domain.common.model.PageableInput;
 import org.beizix.core.application.domain.exboard.model.filter.ExBoardListFilterInput;
-import org.beizix.core.application.domain.exboard.model.list.ExBoardListOutput;
-import org.beizix.core.application.port.in.exboard.ExBoardListPortIn;
+import org.beizix.core.usecase.exboard.list.domain.ExBoardPageableList;
+import org.beizix.core.usecase.exboard.list.application.port.in.ExBoardListPortIn;
 import org.beizix.core.config.enums.OrderDir;
 import org.beizix.utility.common.ExcelUtil;
 import org.springframework.stereotype.Controller;
@@ -34,7 +34,7 @@ class ExBoardExcelController {
     Workbook wb = new XSSFWorkbook();
     Sheet sheet = wb.createSheet("예제 게시판 목록");
 
-    ExBoardListOutput listOutput =
+    ExBoardPageableList listOutput =
         exBoardListPortIn.connect(
             pageableInput,
             new ExBoardListFilterInput(

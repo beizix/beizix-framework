@@ -1,16 +1,15 @@
-package org.beizix.core.adapter.persistence.exboard;
+package org.beizix.core.usecase.exboard.list.adapter.persistence;
 
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.beizix.core.adapter.persistence.exboard.model.ExBoard;
-import org.beizix.core.adapter.persistence.exboard.repository.ExBoardRepo;
 import org.beizix.core.application.domain.common.model.PageableInput;
 import org.beizix.core.application.domain.common.model.PageableOutput;
 import org.beizix.core.application.domain.exboard.model.filter.ExBoardListFilterInput;
-import org.beizix.core.application.domain.exboard.model.list.ExBoardListOutput;
-import org.beizix.core.application.domain.exboard.model.list.ExBoardOutput;
+import org.beizix.core.usecase.exboard.list.domain.ExBoardPageableList;
+import org.beizix.core.usecase.exboard.list.domain.ExBoardElement;
+import org.beizix.core.usecase.exboard.list.application.port.out.ExBoardListPortOut;
 import org.beizix.core.usecase.file.upload.domain.FileUploadOutput;
-import org.beizix.core.application.port.out.exboard.ExBoardListPortOut;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,10 +22,10 @@ import org.thymeleaf.util.StringUtils;
 @Repository
 @RequiredArgsConstructor
 class ExBoardListDao implements ExBoardListPortOut {
-  private final ExBoardRepo exBoardRepo;
+  private final ExBoardListRepo exBoardRepo;
 
   @Override
-  public ExBoardListOutput connect(
+  public ExBoardPageableList connect(
       PageableInput pageableInput, ExBoardListFilterInput exBoardListFilterInput) {
     // 검색조건 초기화
     Specification<ExBoard> spec = (root, query, criteriaBuilder) -> null;
@@ -62,7 +61,7 @@ class ExBoardListDao implements ExBoardListPortOut {
     Page<ExBoard> result = exBoardRepo.findAll(spec, pageRequest);
     Pageable pageable = result.getPageable();
 
-    return new ExBoardListOutput(
+    return new ExBoardPageableList(
         new PageableOutput(
             pageable.hasPrevious(),
             pageable.getPageNumber(),
@@ -74,7 +73,7 @@ class ExBoardListDao implements ExBoardListPortOut {
         result.getContent().stream()
             .map(
                 item ->
-                    new ExBoardOutput(
+                    new ExBoardElement(
                         item.getCreatedBy(),
                         item.getCreatedAt(),
                         item.getUpdatedBy(),

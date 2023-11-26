@@ -1,4 +1,4 @@
-package org.beizix.core.application.domain.exboard.model.list;
+package org.beizix.core.usecase.exboard.list.domain;
 
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import org.beizix.core.usecase.file.upload.domain.FileUploadOutput;
 @Getter
 @Setter
 @AllArgsConstructor
-public class ExBoardOutput implements AuditOutput {
+public class ExBoardElement implements AuditOutput {
   private String createdBy;
   private LocalDateTime createdAt;
   private String updatedBy;

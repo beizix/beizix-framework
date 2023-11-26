@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.exboard;
+package org.beizix.admin.usecase.exboard.list.adapter.web;
 
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
@@ -6,8 +6,8 @@ import org.beizix.core.config.aop.PageDefault;
 import org.beizix.core.adapter.persistence.exboard.model.ExBoard_;
 import org.beizix.core.application.domain.common.model.PageableInput;
 import org.beizix.core.application.domain.exboard.model.filter.ExBoardListFilterInput;
-import org.beizix.core.application.domain.exboard.model.list.ExBoardListOutput;
-import org.beizix.core.application.port.in.exboard.ExBoardListPortIn;
+import org.beizix.core.usecase.exboard.list.domain.ExBoardPageableList;
+import org.beizix.core.usecase.exboard.list.application.port.in.ExBoardListPortIn;
 import org.beizix.core.config.enums.OrderDir;
 import org.beizix.core.usecase.uicode.list.application.port.in.UICodeListPortIn;
 import org.springframework.stereotype.Controller;
@@ -28,7 +28,7 @@ class ExBoardListController {
           PageableInput pageableInput,
       @ModelAttribute("filterReqVO") ExBoardListFilterReqVO filterReqVO) {
 
-    ExBoardListOutput listOutput =
+    ExBoardPageableList listOutput =
         exBoardListPortIn.connect(
             pageableInput,
             new ExBoardListFilterInput(
