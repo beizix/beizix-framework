@@ -10,8 +10,8 @@ import org.beizix.core.application.domain.operationlog.model.filter.OperationLog
 import org.beizix.core.application.domain.operationlog.model.list.OperationLogListOutput;
 import org.beizix.core.application.domain.operationlog.model.list.OperationLogOutput;
 import org.beizix.core.application.port.out.operationlog.OperationLogListPortOut;
-import org.beizix.core.config.enums.AppType;
-import org.beizix.core.config.enums.OperationLogType;
+import org.beizix.core.configuration.application.enums.AppType;
+import org.beizix.core.configuration.application.enums.OperationLogType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

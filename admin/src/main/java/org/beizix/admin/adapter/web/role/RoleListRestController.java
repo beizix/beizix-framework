@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.beizix.admin.adapter.web.role.model.list.PrivilegeBindingVO;
 import org.beizix.admin.adapter.web.role.model.list.RoleBindingVO;
-import org.beizix.core.common.rest.RestResponse;
+import org.beizix.core.configuration.adapter.web.rest.RestResponse;
 import org.beizix.security.application.domain.role.model.list.RoleOutput;
 import org.beizix.security.application.port.in.role.RoleListPortIn;
 import org.springframework.http.HttpStatus;

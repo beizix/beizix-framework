@@ -2,7 +2,7 @@ package org.beizix.admin.adapter.web.privilege;
 
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.role.model.remove.RoleRemoveReqVO;
-import org.beizix.core.common.rest.RestResponse;
+import org.beizix.core.configuration.adapter.web.rest.RestResponse;
 import org.beizix.security.application.port.in.privilege.PrivilegeRemovePortIn;
 import org.beizix.utility.common.MessageUtil;
 import org.springframework.http.HttpStatus;

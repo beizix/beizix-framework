@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.beizix.core.adapter.persistence.common.model.AuditEntity;
-import org.beizix.core.config.enums.AppType;
-import org.beizix.core.config.enums.OperationLogType;
+import org.beizix.core.configuration.application.enums.AppType;
+import org.beizix.core.configuration.application.enums.OperationLogType;
 import org.hibernate.annotations.Comment;
 
 @Entity

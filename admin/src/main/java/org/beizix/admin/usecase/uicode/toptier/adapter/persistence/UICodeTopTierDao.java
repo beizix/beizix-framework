@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.beizix.admin.usecase.uicode.toptier.application.port.out.UICodeTopTierPortOut;
 import org.beizix.admin.usecase.uicode.toptier.domain.UICodeTopTier;
-import org.beizix.core.adapter.persistence.uicode.model.UICode;
+import org.beizix.core.configuration.adapter.persistence.UICode;
 import org.springframework.stereotype.Repository;
 
 @Repository

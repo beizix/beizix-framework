@@ -3,7 +3,7 @@ package org.beizix.core.adapter.persistence.loggedinuser.model;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.Comment;
-import org.beizix.core.config.enums.AppType;
+import org.beizix.core.configuration.application.enums.AppType;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;

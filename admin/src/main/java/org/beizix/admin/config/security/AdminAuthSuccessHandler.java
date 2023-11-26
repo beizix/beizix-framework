@@ -11,7 +11,7 @@ import org.beizix.core.application.domain.loggedinuser.model.LoggedInUserIdInput
 import org.beizix.core.application.domain.loggedinuser.model.LoggedInUserInput;
 import org.beizix.core.application.port.in.loggedinuser.LoggedInUserSavePortIn;
 import org.beizix.core.application.port.in.loggedinuser.LoggedInUserViewPortIn;
-import org.beizix.core.config.enums.AppType;
+import org.beizix.core.configuration.application.enums.AppType;
 import org.beizix.security.application.port.in.admin.AdminUpdateLoginFailPortIn;
 import org.beizix.security.application.port.in.admin.AdminViewPortIn;
 import org.beizix.utility.common.CommonUtil;

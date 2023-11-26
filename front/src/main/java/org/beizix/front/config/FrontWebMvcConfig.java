@@ -5,7 +5,7 @@ import com.navercorp.lucy.security.xss.servletfilter.XssEscapeServletFilter;
 import java.util.List;
 import java.util.Locale;
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.common.util.HTMLCharacterEscapes;
+import org.beizix.core.configuration.adapter.web.xss.HTMLCharacterEscapes;
 import org.beizix.front.config.interceptor.CurrentDeviceInterceptor;
 import org.beizix.front.config.interceptor.URIAndRoleInterceptor;
 import org.springframework.beans.factory.annotation.Value;

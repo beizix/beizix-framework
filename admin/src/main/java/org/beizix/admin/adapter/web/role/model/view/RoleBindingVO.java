@@ -8,8 +8,7 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.beizix.core.config.converter.CustomLocalDateTimeSerializer;
-import org.beizix.utility.enums.OperationType;
+import org.beizix.core.configuration.application.converter.CustomLocalDateTimeSerializer;
 
 @Getter
 @Setter

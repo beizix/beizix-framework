@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.beizix.utility.common.CommonUtil;
-import org.beizix.core.config.enums.FileStorageType;
+import org.beizix.core.configuration.application.enums.FileStorageType;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;

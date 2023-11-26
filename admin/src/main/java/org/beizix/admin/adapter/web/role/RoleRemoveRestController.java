@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.beizix.core.common.rest.RestResponse;
+import org.beizix.core.configuration.adapter.web.rest.RestResponse;
 import org.beizix.utility.common.MessageUtil;
 import org.beizix.security.application.port.in.role.RoleRemovePortIn;
 

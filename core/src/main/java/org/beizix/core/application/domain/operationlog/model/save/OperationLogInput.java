@@ -3,8 +3,8 @@ package org.beizix.core.application.domain.operationlog.model.save;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.beizix.core.config.enums.AppType;
-import org.beizix.core.config.enums.OperationLogType;
+import org.beizix.core.configuration.application.enums.AppType;
+import org.beizix.core.configuration.application.enums.OperationLogType;
 
 @Getter
 @Setter

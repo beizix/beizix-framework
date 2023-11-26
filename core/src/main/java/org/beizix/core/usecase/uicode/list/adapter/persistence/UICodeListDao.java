@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
 import org.beizix.core.usecase.uicode.list.application.port.out.UICodeListPortOut;
-import org.beizix.core.adapter.persistence.uicode.model.UICode;
+import org.beizix.core.configuration.adapter.persistence.UICode;
 
 @Repository
 @RequiredArgsConstructor

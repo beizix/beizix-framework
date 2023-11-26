@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.beizix.admin.usecase.uicode.save.application.port.out.UICodeSavePortOut;
 import org.beizix.admin.usecase.uicode.view.application.port.in.UICodeViewPortIn;
 import org.beizix.admin.usecase.uicode.save.application.port.out.UICodeMaxOrderNoPortOut;
-import org.beizix.core.config.exception.AlreadyExistItemException;
+import org.beizix.core.configuration.application.exception.AlreadyExistItemException;
 import org.beizix.utility.common.MessageUtil;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;

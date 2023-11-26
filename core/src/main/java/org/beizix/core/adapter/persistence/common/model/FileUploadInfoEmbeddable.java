@@ -1,7 +1,7 @@
 package org.beizix.core.adapter.persistence.common.model;
 
 import lombok.*;
-import org.beizix.core.config.enums.FileUploadType;
+import org.beizix.core.configuration.application.enums.FileUploadType;
 
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;

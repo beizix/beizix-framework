@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.beizix.utility.common.CommonUtil;
 import org.beizix.utility.common.MessageUtil;
-import org.beizix.core.config.enums.AcceptableFileType;
-import org.beizix.core.config.enums.FileStorageType;
-import org.beizix.core.config.enums.FileUploadType;
-import org.beizix.core.config.exception.UnAcceptableFileException;
+import org.beizix.core.configuration.application.enums.AcceptableFileType;
+import org.beizix.core.configuration.application.enums.FileStorageType;
+import org.beizix.core.configuration.application.enums.FileUploadType;
+import org.beizix.core.configuration.application.exception.UnAcceptableFileException;
 import org.beizix.core.usecase.file.upload.domain.FileUploadOutput;
 
 import java.io.IOException;

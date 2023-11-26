@@ -3,7 +3,7 @@ package org.beizix.admin.adapter.web.privilege;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.privilege.model.list.PrivilegeBindingVO;
-import org.beizix.core.common.rest.RestResponse;
+import org.beizix.core.configuration.adapter.web.rest.RestResponse;
 import org.beizix.security.application.domain.privilege.model.list.PrivilegeOutput;
 import org.beizix.security.application.port.in.privilege.PrivilegeListPortIn;
 import org.springframework.http.HttpStatus;

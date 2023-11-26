@@ -6,7 +6,7 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.beizix.core.application.domain.uri.model.URISortInput;
 import org.beizix.admin.usecase.uri.sort.application.port.in.URISortPortIn;
-import org.beizix.core.common.util.CoreUtil;
+import org.beizix.core.configuration.application.util.CoreUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;

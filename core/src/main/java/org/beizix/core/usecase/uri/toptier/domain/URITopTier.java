@@ -4,7 +4,7 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.beizix.core.config.enums.AppType;
+import org.beizix.core.configuration.application.enums.AppType;
 
 @Getter
 @Setter

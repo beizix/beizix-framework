@@ -3,7 +3,7 @@ package org.beizix.admin.usecase.uri.toptier.adapter.web;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
-import org.beizix.core.config.enums.AppType;
+import org.beizix.core.configuration.application.enums.AppType;
 import org.beizix.core.usecase.uri.toptier.application.port.in.URITopTierPortIn;
 import org.beizix.core.usecase.uri.toptier.domain.URITopTier;
 import org.springframework.http.HttpStatus;

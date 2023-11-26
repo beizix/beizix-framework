@@ -1,7 +1,7 @@
 package org.beizix.core.usecase.file.upload.domain;
 
 import lombok.*;
-import org.beizix.core.config.enums.FileUploadType;
+import org.beizix.core.configuration.application.enums.FileUploadType;
 
 @Getter
 @Setter

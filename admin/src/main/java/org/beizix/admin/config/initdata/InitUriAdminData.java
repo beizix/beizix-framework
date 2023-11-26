@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.beizix.admin.usecase.uri.save.application.port.in.URISavePortIn;
 import org.beizix.core.application.domain.uri.model.save.URIInput;
-import org.beizix.core.config.enums.AppType;
+import org.beizix.core.configuration.application.enums.AppType;
 import org.beizix.utility.common.PropertyUtil;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

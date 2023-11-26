@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
-import org.beizix.core.adapter.persistence.exboard.model.ExBoard;
+import org.beizix.core.configuration.adapter.persistence.ExBoard;
 import org.beizix.core.application.domain.exboard.model.view.ExBoardViewAttachOutput;
 import org.beizix.core.usecase.exboard.view.domain.ExBoardView;
 import org.beizix.core.usecase.exboard.view.application.port.out.ExBoardViewPortOut;

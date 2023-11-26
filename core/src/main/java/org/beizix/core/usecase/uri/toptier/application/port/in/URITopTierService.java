@@ -1,7 +1,7 @@
 package org.beizix.core.usecase.uri.toptier.application.port.in;
 
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.config.enums.AppType;
+import org.beizix.core.configuration.application.enums.AppType;
 import org.beizix.core.usecase.uri.toptier.application.port.out.URITopTierPortOut;
 import org.beizix.core.usecase.uri.toptier.domain.URITopTier;
 import org.springframework.cache.annotation.Cacheable;

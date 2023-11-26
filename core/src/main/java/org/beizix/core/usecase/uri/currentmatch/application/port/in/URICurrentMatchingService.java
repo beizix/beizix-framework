@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.beizix.core.config.enums.AppType;
+import org.beizix.core.configuration.application.enums.AppType;
 import org.beizix.core.usecase.uri.currentmatch.domain.URICurrentMatching;
 import org.beizix.core.usecase.uri.list.application.port.in.URIListPortIn;
 import org.beizix.utility.common.CommonUtil;

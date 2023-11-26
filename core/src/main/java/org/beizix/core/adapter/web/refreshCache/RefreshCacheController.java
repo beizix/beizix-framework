@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.beizix.core.common.rest.RestResponse;
+import org.beizix.core.configuration.adapter.web.rest.RestResponse;
 
 import java.util.Optional;
 

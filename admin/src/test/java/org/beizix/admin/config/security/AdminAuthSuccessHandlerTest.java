@@ -8,7 +8,7 @@ import static org.springframework.security.test.web.servlet.response.SecurityMoc
 import java.util.Arrays;
 import org.beizix.core.application.domain.loggedinuser.model.LoggedInUserIdInput;
 import org.beizix.core.application.port.out.loggedinuser.LoggedInUserViewPortOut;
-import org.beizix.core.config.enums.AppType;
+import org.beizix.core.configuration.application.enums.AppType;
 import org.beizix.security.application.port.in.admin.AdminSavePortIn;
 import org.beizix.security.application.port.in.admin.AdminViewPortIn;
 import org.junit.jupiter.api.BeforeAll;

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.beizix.core.usecase.uri.ancestry.domain.URIAncestry;
-import org.beizix.core.config.enums.AppType;
+import org.beizix.core.configuration.application.enums.AppType;
 import org.beizix.core.usecase.uri.currentmatch.application.port.in.URICurrentMatchingPortIn;
 import org.beizix.core.usecase.uri.currentmatch.domain.URICurrentMatching;
 import org.beizix.core.usecase.uri.view.application.port.in.URIViewPortIn;

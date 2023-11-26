@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.beizix.core.adapter.persistence.common.model.AuditEntity;
 import org.beizix.core.adapter.persistence.common.model.FileUploadInfoEmbeddable;
+import org.beizix.core.configuration.adapter.persistence.ExBoard;
 import org.hibernate.annotations.Comment;
 
 @Entity

@@ -3,7 +3,7 @@ package org.beizix.admin.usecase.uicode.save.adapter.persistence;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.usecase.uicode.save.application.port.in.UICodeSaveCommand;
 import org.beizix.admin.usecase.uicode.save.application.port.out.UICodeSavePortOut;
-import org.beizix.core.adapter.persistence.uicode.model.UICode;
+import org.beizix.core.configuration.adapter.persistence.UICode;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Repository;
 

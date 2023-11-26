@@ -4,7 +4,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.privilege.model.view.PrivilegeBindingVO;
-import org.beizix.core.common.rest.RestResponse;
+import org.beizix.core.configuration.adapter.web.rest.RestResponse;
 import org.beizix.security.application.domain.privilege.model.view.PrivilegeOutput;
 import org.beizix.security.application.port.in.privilege.PrivilegeViewPortIn;
 import org.beizix.utility.common.MessageUtil;

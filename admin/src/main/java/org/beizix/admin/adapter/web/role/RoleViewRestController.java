@@ -4,7 +4,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.role.model.view.RoleBindingVO;
-import org.beizix.core.common.rest.RestResponse;
+import org.beizix.core.configuration.adapter.web.rest.RestResponse;
 import org.beizix.security.application.domain.role.model.view.RoleViewOutput;
 import org.beizix.security.application.port.in.role.RoleViewPortIn;
 import org.beizix.utility.common.MessageUtil;

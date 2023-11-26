@@ -18,7 +18,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.beizix.admin.config.interceptor.URIAndRoleInterceptor;
-import org.beizix.core.common.util.HTMLCharacterEscapes;
+import org.beizix.core.configuration.adapter.web.xss.HTMLCharacterEscapes;
 
 @Configuration
 @RequiredArgsConstructor

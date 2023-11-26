@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.beizix.core.usecase.uri.currentmatch.domain.URICurrentMatching;
 import org.beizix.core.usecase.uri.ancestry.application.port.in.URIAncestryPortIn;
 import org.beizix.core.usecase.uri.currentmatch.application.port.in.URICurrentMatchingPortIn;
-import org.beizix.core.config.enums.AppType;
+import org.beizix.core.configuration.application.enums.AppType;
 import org.beizix.core.usecase.uri.toptier.application.port.in.URITopTierPortIn;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;

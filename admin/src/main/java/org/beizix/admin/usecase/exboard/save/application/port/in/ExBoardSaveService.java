@@ -13,7 +13,7 @@ import org.beizix.core.usecase.exboard.view.application.port.in.ExBoardViewPortI
 import org.beizix.admin.usecase.exboard.save.application.port.out.ExBoardAttachmentRemovePortOut;
 import org.beizix.admin.usecase.exboard.save.application.port.out.ExBoardNextOrderNoPortOut;
 import org.beizix.admin.usecase.exboard.save.application.port.out.ExBoardSavePortOut;
-import org.beizix.core.config.enums.FileUploadType;
+import org.beizix.core.configuration.application.enums.FileUploadType;
 import org.beizix.core.usecase.file.upload.application.port.in.FileUploadPortIn;
 import org.beizix.core.usecase.file.upload.domain.FileUploadOutput;
 import org.springframework.stereotype.Service;

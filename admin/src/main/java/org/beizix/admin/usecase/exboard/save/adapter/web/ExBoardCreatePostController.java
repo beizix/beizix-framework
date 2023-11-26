@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.exboard.model.create.ExBoardBindingVO;
 import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
 import org.beizix.admin.usecase.exboard.save.application.port.in.ExBoardSavePortIn;
-import org.beizix.core.config.exception.UnAcceptableFileException;
+import org.beizix.core.configuration.application.exception.UnAcceptableFileException;
 import org.beizix.utility.common.MessageUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
