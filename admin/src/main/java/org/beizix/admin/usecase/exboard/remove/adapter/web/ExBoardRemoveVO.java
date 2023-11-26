@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.exboard.model.remove;
+package org.beizix.admin.usecase.exboard.remove.adapter.web;
 
 import java.util.List;
 import lombok.Getter;
@@ -6,6 +6,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ExBoardRemoveReqVO {
+public class ExBoardRemoveVO {
   private List<Long> selectedItemIds;
 }
