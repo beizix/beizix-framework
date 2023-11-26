@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.exboard.model.create;
+package org.beizix.admin.usecase.exboard.save.adapter.web;
 
 import java.time.LocalDateTime;
 import javax.validation.constraints.NotBlank;
@@ -11,7 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Setter
 @NoArgsConstructor
 @Accessors(chain = true)
-public class ExBoardBindingVO {
+public class ExBoardCreateBindingVO {
 
   private Boolean visible;
 

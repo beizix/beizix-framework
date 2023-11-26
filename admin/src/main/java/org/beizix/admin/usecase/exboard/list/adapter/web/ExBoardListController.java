@@ -1,11 +1,10 @@
 package org.beizix.admin.usecase.exboard.list.adapter.web;
 
 import lombok.RequiredArgsConstructor;
-import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
+import org.beizix.core.configuration.adapter.persistence.ExBoard_;
 import org.beizix.core.configuration.application.aop.PageDefault;
-import org.beizix.core.adapter.persistence.exboard.model.ExBoard_;
 import org.beizix.core.application.domain.common.model.PageableInput;
-import org.beizix.core.application.domain.exboard.model.filter.ExBoardListFilterInput;
+import org.beizix.core.usecase.exboard.list.domain.ExBoardListFilterCommand;
 import org.beizix.core.usecase.exboard.list.domain.ExBoardPageableList;
 import org.beizix.core.usecase.exboard.list.application.port.in.ExBoardListPortIn;
 import org.beizix.core.configuration.application.enums.OrderDir;
@@ -26,12 +25,12 @@ class ExBoardListController {
       Model model,
       @PageDefault(orderBy = ExBoard_.ORDER_NO, orderDir = OrderDir.DESC)
           PageableInput pageableInput,
-      @ModelAttribute("filterReqVO") ExBoardListFilterReqVO filterReqVO) {
+      @ModelAttribute("filterReqVO") ExBoardListFilterVO filterReqVO) {
 
     ExBoardPageableList listOutput =
         exBoardListPortIn.connect(
             pageableInput,
-            new ExBoardListFilterInput(
+            new ExBoardListFilterCommand(
                 filterReqVO.getSearchField(),
                 filterReqVO.getSearchValue(),
                 filterReqVO.getSearchOpen()));

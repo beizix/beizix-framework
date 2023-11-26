@@ -1,4 +1,4 @@
-package org.beizix.core.application.port.out.exboard;
+package org.beizix.admin.usecase.exboard.remove.application.port.out;
 
 import org.springframework.stereotype.Component;
 

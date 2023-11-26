@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.exboard.model.update;
+package org.beizix.admin.usecase.exboard.save.adapter.web;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,7 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Getter
 @Setter
 @AllArgsConstructor
-public class ExBoardBindingVO implements AuditOutput {
+public class ExBoardUpdateBindingVO implements AuditOutput {
   private final String createdBy;
   private final LocalDateTime createdAt;
   private final String updatedBy;

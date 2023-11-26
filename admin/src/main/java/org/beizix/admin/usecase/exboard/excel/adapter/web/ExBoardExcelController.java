@@ -8,10 +8,10 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
+import org.beizix.admin.usecase.exboard.list.adapter.web.ExBoardListFilterVO;
 import org.beizix.core.configuration.application.aop.PageDefault;
 import org.beizix.core.application.domain.common.model.PageableInput;
-import org.beizix.core.application.domain.exboard.model.filter.ExBoardListFilterInput;
+import org.beizix.core.usecase.exboard.list.domain.ExBoardListFilterCommand;
 import org.beizix.core.usecase.exboard.list.domain.ExBoardPageableList;
 import org.beizix.core.usecase.exboard.list.application.port.in.ExBoardListPortIn;
 import org.beizix.core.configuration.application.enums.OrderDir;
@@ -29,7 +29,7 @@ class ExBoardExcelController {
   public void excelDownload(
       HttpServletResponse response,
       @PageDefault(orderBy = "orderNo", orderDir = OrderDir.DESC) PageableInput pageableInput,
-      ExBoardListFilterReqVO exBoardListFilterReqVO) {
+      ExBoardListFilterVO exBoardListFilterVO) {
 
     Workbook wb = new XSSFWorkbook();
     Sheet sheet = wb.createSheet("예제 게시판 목록");
@@ -37,10 +37,10 @@ class ExBoardExcelController {
     ExBoardPageableList listOutput =
         exBoardListPortIn.connect(
             pageableInput,
-            new ExBoardListFilterInput(
-                exBoardListFilterReqVO.getSearchField(),
-                exBoardListFilterReqVO.getSearchValue(),
-                exBoardListFilterReqVO.getSearchOpen()));
+            new ExBoardListFilterCommand(
+                exBoardListFilterVO.getSearchField(),
+                exBoardListFilterVO.getSearchValue(),
+                exBoardListFilterVO.getSearchOpen()));
 
     if (!listOutput.getContents().isEmpty()) {
       // Header

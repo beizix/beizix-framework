@@ -4,8 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.beizix.admin.adapter.web.exboard.model.create.ExBoardBindingVO;
-import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
+import org.beizix.admin.usecase.exboard.list.adapter.web.ExBoardListFilterVO;
 import org.beizix.admin.usecase.exboard.save.application.port.in.ExBoardSavePortIn;
 import org.beizix.core.configuration.application.exception.UnAcceptableFileException;
 import org.beizix.utility.common.MessageUtil;
@@ -26,8 +25,8 @@ class ExBoardCreatePostController {
   @PostMapping(path = {"/board/exampleBoard/create"})
   String operate(
       RedirectAttributes redirectAttributes,
-      @ModelAttribute("filterReqVO") ExBoardListFilterReqVO filterReqVO,
-      @Valid @ModelAttribute("bindingVO") ExBoardBindingVO bindingVO,
+      @ModelAttribute("filterReqVO") ExBoardListFilterVO filterReqVO,
+      @Valid @ModelAttribute("bindingVO") ExBoardCreateBindingVO bindingVO,
       BindingResult bindingResult,
       MultipartFile representImgFile, // 대표 이미지 파일
       List<MultipartFile> multipartAttachments, // 다건 첨부 파일 목록

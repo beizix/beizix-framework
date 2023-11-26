@@ -2,9 +2,7 @@ package org.beizix.admin.usecase.exboard.save.adapter.web;
 
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
-import org.beizix.admin.adapter.web.exboard.model.update.ExBoardUpdateAttachVO;
-import org.beizix.admin.adapter.web.exboard.model.update.ExBoardBindingVO;
+import org.beizix.admin.usecase.exboard.list.adapter.web.ExBoardListFilterVO;
 import org.beizix.core.application.domain.common.model.PageableInput;
 import org.beizix.core.usecase.exboard.view.domain.ExBoardView;
 import org.beizix.core.usecase.exboard.view.application.port.in.ExBoardViewPortIn;
@@ -24,13 +22,13 @@ class ExBoardUpdateGetController {
       Model model,
       @PathVariable(required = false) final Long id,
       @ModelAttribute("pageable") final PageableInput pageableInput,
-      @ModelAttribute("filterReqVO") final ExBoardListFilterReqVO filterReqVO) {
+      @ModelAttribute("filterReqVO") final ExBoardListFilterVO filterReqVO) {
 
     ExBoardView output = exBoardViewPortIn.connect(id);
 
     model.addAttribute(
         "bindingVO",
-        new ExBoardBindingVO(
+        new ExBoardUpdateBindingVO(
             output.getCreatedBy(),
             output.getCreatedAt(),
             output.getUpdatedBy(),

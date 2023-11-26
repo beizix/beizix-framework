@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.beizix.core.adapter.persistence.exboard.model.ExBoard_;
 import org.beizix.core.application.domain.common.model.PageableInput;
-import org.beizix.core.application.domain.exboard.model.filter.ExBoardListFilterInput;
+import org.beizix.core.usecase.exboard.list.domain.ExBoardListFilterCommand;
 import org.beizix.core.usecase.exboard.list.domain.ExBoardPageableList;
 import org.beizix.core.usecase.exboard.list.application.port.in.ExBoardListPortIn;
 import org.beizix.core.configuration.application.aop.PageDefault;
@@ -32,7 +32,7 @@ class ExBoardListController {
     ExBoardPageableList listOutput =
         exBoardListPortIn.connect(
             pageableInput,
-            new ExBoardListFilterInput(
+            new ExBoardListFilterCommand(
                 paramDto.getSearchField(), paramDto.getSearchValue(), paramDto.getSearchOpen()));
 
     model.addAttribute("listOutput", listOutput);

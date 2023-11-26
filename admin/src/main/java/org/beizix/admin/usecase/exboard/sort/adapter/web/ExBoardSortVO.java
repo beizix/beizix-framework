@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.exboard.model.sort;
+package org.beizix.admin.usecase.exboard.sort.adapter.web;
 
 import javax.validation.constraints.NotNull;
 import lombok.*;
@@ -9,7 +9,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class ExBoardSortReqVO {
+public class ExBoardSortVO {
   @NotNull(message = "{valid.common.required}")
   private Long id;
   @NotNull(message = "{valid.common.required}")

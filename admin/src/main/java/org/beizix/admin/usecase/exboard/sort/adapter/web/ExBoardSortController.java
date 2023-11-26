@@ -1,11 +1,10 @@
-package org.beizix.admin.adapter.web.exboard;
+package org.beizix.admin.usecase.exboard.sort.adapter.web;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.beizix.admin.adapter.web.exboard.model.sort.ExBoardSortReqVO;
 import org.beizix.core.application.domain.exboard.model.sort.ExBoardSortInput;
-import org.beizix.core.application.port.in.exboard.ExBoardSortPortIn;
+import org.beizix.admin.usecase.exboard.sort.application.port.in.ExBoardSortPortIn;
 import org.beizix.core.configuration.adapter.web.rest.RestResponse;
 import org.beizix.utility.common.MessageUtil;
 import org.springframework.http.HttpStatus;
@@ -21,7 +20,7 @@ class ExBoardSortController {
   private final MessageUtil messageUtil;
 
   @PostMapping("/api/exBoard/update/orderNo")
-  ResponseEntity<?> operate(@RequestBody List<ExBoardSortReqVO> sortItems) {
+  ResponseEntity<?> operate(@RequestBody List<ExBoardSortVO> sortItems) {
     exBoardSortPortIn.operate(
         sortItems.stream()
             .map(item -> new ExBoardSortInput(item.getId(), item.getOrderNo()))

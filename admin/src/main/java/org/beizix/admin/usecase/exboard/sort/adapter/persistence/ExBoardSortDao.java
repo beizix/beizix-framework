@@ -1,9 +1,8 @@
-package org.beizix.core.adapter.persistence.exboard;
+package org.beizix.admin.usecase.exboard.sort.adapter.persistence;
 
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.adapter.persistence.exboard.repository.ExBoardSortRepo;
+import org.beizix.admin.usecase.exboard.sort.application.port.out.ExBoardSortPortOut;
 import org.springframework.stereotype.Repository;
-import org.beizix.core.application.port.out.exboard.ExBoardSortPortOut;
 
 @Repository
 @RequiredArgsConstructor

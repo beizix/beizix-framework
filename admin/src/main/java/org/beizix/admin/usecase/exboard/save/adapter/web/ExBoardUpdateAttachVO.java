@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.exboard.model.update;
+package org.beizix.admin.usecase.exboard.save.adapter.web;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

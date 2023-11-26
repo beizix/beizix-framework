@@ -1,10 +1,9 @@
-package org.beizix.admin.adapter.web.exboard;
+package org.beizix.admin.usecase.exboard.remove.adapter.web;
 
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.beizix.admin.adapter.web.exboard.model.remove.ExBoardRemoveReqVO;
-import org.beizix.core.application.port.in.exboard.ExBoardRemovePortIn;
+import org.beizix.admin.usecase.exboard.remove.application.port.in.ExBoardRemovePortIn;
 import org.beizix.utility.common.MessageUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,15 +1,13 @@
-package org.beizix.core.application.domain.exboard.model.filter;
+package org.beizix.admin.usecase.exboard.list.adapter.web;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @AllArgsConstructor
-public class ExBoardListFilterInput {
+public class ExBoardListFilterVO {
   private String searchField;
   private String searchValue;
   private String searchOpen;

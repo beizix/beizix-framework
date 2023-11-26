@@ -1,11 +1,9 @@
-package org.beizix.core.application.domain.exboard;
-
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.beizix.core.application.port.in.exboard.ExBoardRemovePortIn;
-import org.beizix.core.application.port.out.exboard.ExBoardRemovePortOut;
+package org.beizix.admin.usecase.exboard.remove.application.port.in;
 
 import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.beizix.admin.usecase.exboard.remove.application.port.out.ExBoardRemovePortOut;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor

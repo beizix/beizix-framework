@@ -1,4 +1,4 @@
-package org.beizix.core.application.port.in.exboard;
+package org.beizix.admin.usecase.exboard.remove.application.port.in;
 
 import java.util.List;
 

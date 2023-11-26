@@ -1,4 +1,4 @@
-package org.beizix.core.adapter.persistence.exboard.repository;
+package org.beizix.admin.usecase.exboard.sort.adapter.persistence;
 
 import org.beizix.core.configuration.adapter.persistence.ExBoard;
 import org.springframework.data.jpa.repository.JpaRepository;

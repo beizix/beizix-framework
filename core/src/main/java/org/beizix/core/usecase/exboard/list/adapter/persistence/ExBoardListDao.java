@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.beizix.core.configuration.adapter.persistence.ExBoard;
 import org.beizix.core.application.domain.common.model.PageableInput;
 import org.beizix.core.application.domain.common.model.PageableOutput;
-import org.beizix.core.application.domain.exboard.model.filter.ExBoardListFilterInput;
+import org.beizix.core.usecase.exboard.list.domain.ExBoardListFilterCommand;
 import org.beizix.core.usecase.exboard.list.domain.ExBoardPageableList;
 import org.beizix.core.usecase.exboard.list.domain.ExBoardElement;
 import org.beizix.core.usecase.exboard.list.application.port.out.ExBoardListPortOut;
@@ -26,28 +26,28 @@ class ExBoardListDao implements ExBoardListPortOut {
 
   @Override
   public ExBoardPageableList connect(
-      PageableInput pageableInput, ExBoardListFilterInput exBoardListFilterInput) {
+      PageableInput pageableInput, ExBoardListFilterCommand exBoardListFilterCommand) {
     // 검색조건 초기화
     Specification<ExBoard> spec = (root, query, criteriaBuilder) -> null;
 
     // 검색어 - like 검색
-    if (!StringUtils.isEmpty(exBoardListFilterInput.getSearchField())) {
+    if (!StringUtils.isEmpty(exBoardListFilterCommand.getSearchField())) {
       spec =
           spec.and(
               (root, query, builder) ->
                   builder.like(
-                      root.get(exBoardListFilterInput.getSearchField()),
-                      "%" + exBoardListFilterInput.getSearchValue() + "%"));
+                      root.get(exBoardListFilterCommand.getSearchField()),
+                      "%" + exBoardListFilterCommand.getSearchValue() + "%"));
     }
 
     // 공개여부 검색
-    if (!StringUtils.isEmpty(exBoardListFilterInput.getSearchOpen())) {
+    if (!StringUtils.isEmpty(exBoardListFilterCommand.getSearchOpen())) {
       spec =
           spec.and(
               ((root, query, criteriaBuilder) ->
                   criteriaBuilder.equal(
                       root.get("visible"),
-                      Boolean.valueOf(exBoardListFilterInput.getSearchOpen()))));
+                      Boolean.valueOf(exBoardListFilterCommand.getSearchOpen()))));
     }
 
     PageRequest pageRequest =
