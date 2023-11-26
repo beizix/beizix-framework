@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.sendemail;
+package org.beizix.admin.usecase.email.send.adapter.web;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -7,8 +7,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.beizix.core.application.domain.email.model.Email;
-import org.beizix.core.application.port.in.email.EmailSendPortIn;
+import org.beizix.admin.usecase.email.send.application.domain.Email;
+import org.beizix.admin.usecase.email.send.application.port.in.EmailSendPortIn;
 import org.beizix.utility.common.MessageUtil;
 
 import javax.mail.MessagingException;

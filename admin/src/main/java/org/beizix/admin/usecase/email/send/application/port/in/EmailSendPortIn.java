@@ -1,6 +1,6 @@
-package org.beizix.core.application.port.in.email;
+package org.beizix.admin.usecase.email.send.application.port.in;
 
-import org.beizix.core.application.domain.email.model.Email;
+import org.beizix.admin.usecase.email.send.application.domain.Email;
 
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;

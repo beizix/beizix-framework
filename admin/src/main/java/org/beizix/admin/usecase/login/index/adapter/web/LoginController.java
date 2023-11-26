@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.login;
+package org.beizix.admin.usecase.login.index.adapter.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

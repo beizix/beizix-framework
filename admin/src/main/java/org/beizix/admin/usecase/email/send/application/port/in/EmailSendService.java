@@ -1,19 +1,17 @@
-package org.beizix.core.application.domain.email;
+package org.beizix.admin.usecase.email.send.application.port.in;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Objects;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeUtility;
 import lombok.RequiredArgsConstructor;
+import org.beizix.admin.usecase.email.send.application.domain.Email;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.beizix.core.application.domain.email.model.Email;
-import org.beizix.core.application.port.in.email.EmailSendPortIn;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeUtility;
-import java.io.UnsupportedEncodingException;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor

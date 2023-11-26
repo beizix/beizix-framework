@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.home;
+package org.beizix.admin.usecase.home.index.adapter.web;
 
 import java.security.Principal;
 import lombok.RequiredArgsConstructor;

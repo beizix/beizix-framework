@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.operation;
+package org.beizix.admin.usecase.operationlog.list.adapter.web;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -9,7 +9,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.beizix.admin.adapter.web.operation.model.filter.OperationLogListStatusVO;
+import org.beizix.admin.usecase.operationlog.list.adapter.web.OperationLogListFilterVO;
 import org.beizix.core.configuration.application.aop.PageDefault;
 import org.beizix.core.adapter.persistence.operationlog.model.OperationLog_;
 import org.beizix.core.application.domain.common.model.PageableInput;
@@ -34,7 +34,7 @@ public class OperationLogListExcelController {
   public void operate(
       HttpServletResponse response,
       @PageDefault(orderBy = OperationLog_.ID, orderDir = OrderDir.DESC) PageableInput pageable,
-      @ModelAttribute("paramDto") OperationLogListStatusVO paramDto) {
+      @ModelAttribute("paramDto") OperationLogListFilterVO paramDto) {
     Workbook wb = new XSSFWorkbook();
     Sheet sheet = wb.createSheet("수행로그 목록");
 

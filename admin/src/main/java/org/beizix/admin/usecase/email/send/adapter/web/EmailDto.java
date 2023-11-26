@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.sendemail;
+package org.beizix.admin.usecase.email.send.adapter.web;
 
 import lombok.Builder;
 import lombok.Data;

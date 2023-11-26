@@ -1,4 +1,4 @@
-package org.beizix.core.application.domain.email.model;
+package org.beizix.admin.usecase.email.send.application.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

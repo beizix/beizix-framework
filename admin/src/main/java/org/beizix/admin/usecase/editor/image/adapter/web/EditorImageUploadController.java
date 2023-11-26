@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.editorImage;
+package org.beizix.admin.usecase.editor.image.adapter.web;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,7 +16,7 @@ import java.io.IOException;
 
 @Controller
 @RequiredArgsConstructor
-public class EditorImageCreateController {
+public class EditorImageUploadController {
   private final FileUploadPortIn fileUploadPortIn;
   private final FileUrlPortIn fileUrlPortIn;
 

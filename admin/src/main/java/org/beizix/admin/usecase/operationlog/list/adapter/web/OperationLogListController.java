@@ -1,7 +1,6 @@
-package org.beizix.admin.adapter.web.operation;
+package org.beizix.admin.usecase.operationlog.list.adapter.web;
 
 import lombok.RequiredArgsConstructor;
-import org.beizix.admin.adapter.web.operation.model.filter.OperationLogListStatusVO;
 import org.beizix.core.application.domain.common.model.PageableInput;
 import org.beizix.core.application.domain.operationlog.model.filter.OperationLogListStatus;
 import org.beizix.core.application.domain.operationlog.model.list.OperationLogListOutput;
@@ -25,7 +24,7 @@ public class OperationLogListController {
   String operate(
       Model model,
       @PageDefault(orderBy = Admin_.CREATED_AT, orderDir = OrderDir.DESC) PageableInput pageable,
-      @ModelAttribute("paramDto") OperationLogListStatusVO statusVO) {
+      @ModelAttribute("paramDto") OperationLogListFilterVO statusVO) {
 
     OperationLogListOutput listOutput =
         operationLogListPortIn.connect(
