@@ -1,4 +1,4 @@
-package org.beizix.core.application.port.in.exboard;
+package org.beizix.admin.usecase.exboard.save.application.port.in;
 
 import java.io.IOException;
 import java.time.LocalDateTime;

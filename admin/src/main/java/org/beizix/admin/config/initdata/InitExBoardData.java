@@ -1,9 +1,9 @@
-package org.beizix.core.config.initdata;
+package org.beizix.admin.config.initdata;
 
 import java.time.LocalDateTime;
 import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.application.port.out.exboard.ExBoardSavePortOut;
+import org.beizix.admin.usecase.exboard.save.application.port.out.ExBoardSavePortOut;
 import org.beizix.utility.common.PropertyUtil;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

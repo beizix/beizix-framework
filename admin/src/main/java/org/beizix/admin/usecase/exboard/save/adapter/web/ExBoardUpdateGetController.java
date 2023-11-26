@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.exboard;
+package org.beizix.admin.usecase.exboard.save.adapter.web;
 
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;

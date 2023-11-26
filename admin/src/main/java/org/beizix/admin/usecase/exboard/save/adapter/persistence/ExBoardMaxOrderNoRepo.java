@@ -1,4 +1,4 @@
-package org.beizix.core.adapter.persistence.exboard.repository;
+package org.beizix.admin.usecase.exboard.save.adapter.persistence;
 
 import java.util.Optional;
 

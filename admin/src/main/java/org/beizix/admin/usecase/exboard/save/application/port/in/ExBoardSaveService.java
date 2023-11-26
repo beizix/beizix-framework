@@ -1,4 +1,4 @@
-package org.beizix.core.application.domain.exboard;
+package org.beizix.admin.usecase.exboard.save.application.port.in;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -9,14 +9,13 @@ import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.beizix.core.application.domain.exboard.model.view.ExBoardViewOutput;
-import org.beizix.core.usecase.file.upload.domain.FileUploadOutput;
-import org.beizix.core.application.port.in.exboard.ExBoardSavePortIn;
 import org.beizix.core.application.port.in.exboard.ExBoardViewPortIn;
-import org.beizix.core.usecase.file.upload.application.port.in.FileUploadPortIn;
-import org.beizix.core.application.port.out.exboard.ExBoardAttachmentRemovePortOut;
-import org.beizix.core.application.port.out.exboard.ExBoardNextOrderNoPortOut;
-import org.beizix.core.application.port.out.exboard.ExBoardSavePortOut;
+import org.beizix.admin.usecase.exboard.save.application.port.out.ExBoardAttachmentRemovePortOut;
+import org.beizix.admin.usecase.exboard.save.application.port.out.ExBoardNextOrderNoPortOut;
+import org.beizix.admin.usecase.exboard.save.application.port.out.ExBoardSavePortOut;
 import org.beizix.core.config.enums.FileUploadType;
+import org.beizix.core.usecase.file.upload.application.port.in.FileUploadPortIn;
+import org.beizix.core.usecase.file.upload.domain.FileUploadOutput;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

@@ -1,4 +1,4 @@
-package org.beizix.core.application.port.out.exboard;
+package org.beizix.admin.usecase.exboard.save.application.port.out;
 
 import java.time.LocalDateTime;
 import java.util.List;

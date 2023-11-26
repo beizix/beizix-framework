@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.exboard;
+package org.beizix.admin.usecase.exboard.save.adapter.web;
 
 import java.io.IOException;
 import java.util.List;
@@ -6,7 +6,7 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.exboard.model.filter.ExBoardListFilterReqVO;
 import org.beizix.admin.adapter.web.exboard.model.update.ExBoardBindingVO;
-import org.beizix.core.application.port.in.exboard.ExBoardSavePortIn;
+import org.beizix.admin.usecase.exboard.save.application.port.in.ExBoardSavePortIn;
 import org.beizix.core.config.exception.UnAcceptableFileException;
 import org.beizix.utility.common.MessageUtil;
 import org.springframework.stereotype.Controller;
