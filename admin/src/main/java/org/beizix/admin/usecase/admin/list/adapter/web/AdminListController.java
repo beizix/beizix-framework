@@ -1,15 +1,14 @@
-package org.beizix.admin.adapter.web.admin;
+package org.beizix.admin.usecase.admin.list.adapter.web;
 
 import lombok.RequiredArgsConstructor;
-import org.beizix.admin.adapter.web.admin.model.filter.AdminListStatusVO;
 import org.beizix.core.configuration.application.aop.PageDefault;
 import org.beizix.core.application.domain.common.model.PageableInput;
 import org.beizix.core.configuration.application.enums.OrderDir;
 import org.beizix.security.adapter.persistence.admin.model.Admin_;
-import org.beizix.security.application.domain.admin.model.filter.AdminListStatus;
-import org.beizix.security.application.domain.admin.model.list.AdminListOutput;
+import org.beizix.admin.usecase.admin.list.application.domain.AdminListFilterCommand;
+import org.beizix.admin.usecase.admin.list.application.domain.AdminPageableList;
 import org.beizix.security.application.domain.role.model.list.RoleOutput;
-import org.beizix.security.application.port.in.admin.AdminListPortIn;
+import org.beizix.admin.usecase.admin.list.application.port.in.AdminListPortIn;
 import org.beizix.security.application.port.in.role.RoleListPortIn;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,15 +26,15 @@ class AdminListController {
       Model model,
       @PageDefault(orderBy = Admin_.CREATED_AT, orderDir = OrderDir.DESC)
           PageableInput pageableInput,
-      @ModelAttribute("listStatus") AdminListStatusVO adminListStatusVO) {
+      @ModelAttribute("listStatus") AdminListFilterVO adminListFilterVO) {
 
-    AdminListOutput listOutput =
+    AdminPageableList listOutput =
         adminListPortIn.connect(
             pageableInput,
-            new AdminListStatus(
-                adminListStatusVO.getSearchField(),
-                adminListStatusVO.getSearchValue(),
-                adminListStatusVO.getSearchRole()));
+            new AdminListFilterCommand(
+                adminListFilterVO.getSearchField(),
+                adminListFilterVO.getSearchValue(),
+                adminListFilterVO.getSearchRole()));
 
     model.addAttribute("listOutput", listOutput);
     model.addAttribute("roles", roleListPortIn.connect());

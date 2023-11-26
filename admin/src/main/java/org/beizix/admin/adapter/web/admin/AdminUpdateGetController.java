@@ -3,7 +3,7 @@ package org.beizix.admin.adapter.web.admin;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.beizix.admin.adapter.web.admin.model.filter.AdminListStatusVO;
+import org.beizix.admin.usecase.admin.list.adapter.web.AdminListFilterVO;
 import org.beizix.admin.adapter.web.admin.model.update.AdminUpdateBindingVO;
 import org.beizix.core.application.domain.common.model.PageableInput;
 import org.beizix.security.application.domain.admin.model.view.AdminViewOutput;
@@ -29,7 +29,7 @@ class AdminUpdateGetController {
       Model model,
       @PathVariable String adminId,
       @ModelAttribute("pageable") final PageableInput pageableInput,
-      @ModelAttribute("listStatus") AdminListStatusVO listStatus) {
+      @ModelAttribute("listStatus") AdminListFilterVO listStatus) {
 
     AdminViewOutput output =
         adminViewPortIn

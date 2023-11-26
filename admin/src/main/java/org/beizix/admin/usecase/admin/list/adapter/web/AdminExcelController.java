@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.admin;
+package org.beizix.admin.usecase.admin.list.adapter.web;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -10,15 +10,15 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.beizix.admin.adapter.web.admin.model.filter.AdminListStatusVO;
+import org.beizix.admin.usecase.admin.list.adapter.web.AdminListFilterVO;
 import org.beizix.core.configuration.application.aop.PageDefault;
 import org.beizix.core.application.domain.common.model.PageableInput;
 import org.beizix.core.configuration.application.enums.OrderDir;
 import org.beizix.security.adapter.persistence.admin.model.Admin_;
-import org.beizix.security.application.domain.admin.model.filter.AdminListStatus;
-import org.beizix.security.application.domain.admin.model.list.AdminListOutput;
+import org.beizix.admin.usecase.admin.list.application.domain.AdminListFilterCommand;
+import org.beizix.admin.usecase.admin.list.application.domain.AdminPageableList;
 import org.beizix.security.application.domain.admin.model.list.RoleOutput;
-import org.beizix.security.application.port.in.admin.AdminListPortIn;
+import org.beizix.admin.usecase.admin.list.application.port.in.AdminListPortIn;
 import org.beizix.utility.common.ExcelUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,18 +35,18 @@ class AdminExcelController {
       HttpServletResponse response,
       @PageDefault(orderBy = Admin_.CREATED_AT, orderDir = OrderDir.DESC)
           PageableInput pageableInput,
-      @ModelAttribute("paramDto") AdminListStatusVO adminListStatusVO) {
+      @ModelAttribute("paramDto") AdminListFilterVO adminListFilterVO) {
 
     Workbook wb = new XSSFWorkbook();
     Sheet sheet = wb.createSheet("예제 관리자 목록");
 
-    AdminListOutput listOutput =
+    AdminPageableList listOutput =
         adminListPortIn.connect(
             pageableInput,
-            new AdminListStatus(
-                adminListStatusVO.getSearchField(),
-                adminListStatusVO.getSearchValue(),
-                adminListStatusVO.getSearchRole()));
+            new AdminListFilterCommand(
+                adminListFilterVO.getSearchField(),
+                adminListFilterVO.getSearchValue(),
+                adminListFilterVO.getSearchRole()));
 
     if (CollectionUtils.isNotEmpty(listOutput.getContents())) {
       // Header

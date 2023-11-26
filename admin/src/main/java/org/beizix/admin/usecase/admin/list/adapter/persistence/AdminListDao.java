@@ -1,25 +1,24 @@
-package org.beizix.security.adapter.persistence.admin;
+package org.beizix.admin.usecase.admin.list.adapter.persistence;
 
 import java.util.stream.Collectors;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.beizix.admin.usecase.admin.list.application.domain.AdminElement;
+import org.beizix.admin.usecase.admin.list.application.domain.AdminListFilterCommand;
+import org.beizix.admin.usecase.admin.list.application.domain.AdminPageableList;
+import org.beizix.admin.usecase.admin.list.application.port.out.AdminListPortOut;
 import org.beizix.core.application.domain.common.model.PageableInput;
 import org.beizix.core.application.domain.common.model.PageableOutput;
 import org.beizix.security.adapter.persistence.admin.model.Admin;
 import org.beizix.security.adapter.persistence.admin.model.Admin_;
-import org.beizix.security.adapter.persistence.admin.repository.AdminRepo;
 import org.beizix.security.adapter.persistence.admin_role.model.AdminWithRole_;
 import org.beizix.security.adapter.persistence.privilege.model.Privilege;
 import org.beizix.security.adapter.persistence.role.model.Role;
 import org.beizix.security.adapter.persistence.role.model.Role_;
-import org.beizix.security.application.domain.admin.model.filter.AdminListStatus;
-import org.beizix.security.application.domain.admin.model.list.AdminListOutput;
-import org.beizix.security.application.domain.admin.model.list.AdminOutput;
 import org.beizix.security.application.domain.admin.model.list.PrivilegeOutput;
 import org.beizix.security.application.domain.admin.model.list.RoleOutput;
-import org.beizix.security.application.port.out.admin.AdminListPortOut;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -32,32 +31,33 @@ import org.thymeleaf.util.StringUtils;
 @Component
 @RequiredArgsConstructor
 class AdminListDao implements AdminListPortOut {
-  private final AdminRepo adminRepo;
+  private final AdminListRepo adminRepo;
 
   @Override
   @Transactional
-  public AdminListOutput connect(PageableInput pageableInput, AdminListStatus adminListStatus) {
+  public AdminPageableList connect(
+      PageableInput pageableInput, AdminListFilterCommand filterCommand) {
     // 검색조건 초기화
     Specification<Admin> spec = (root, query, criteriaBuilder) -> null;
 
     // 검색어 - like 검색
-    if (!StringUtils.isEmpty(adminListStatus.getSearchField())) {
+    if (!StringUtils.isEmpty(filterCommand.getSearchField())) {
       spec =
           spec.and(
               (root, query, builder) ->
                   builder.like(
-                      root.get(adminListStatus.getSearchField()),
-                      "%" + adminListStatus.getSearchValue() + "%"));
+                      root.get(filterCommand.getSearchField()),
+                      "%" + filterCommand.getSearchValue() + "%"));
     }
 
     // 권한 검색 - Join 절 검색이기에 List 순회가 필요하다.
-    if (!StringUtils.isEmpty(adminListStatus.getSearchRole())) {
+    if (!StringUtils.isEmpty(filterCommand.getSearchRole())) {
       spec =
           spec.and(
               (root, query, builder) -> {
                 Join<Object, Object> join = root.join(Admin_.WITH_ROLES, JoinType.INNER);
                 return builder.equal(
-                    join.get(AdminWithRole_.ROLE).get(Role_.ID), adminListStatus.getSearchRole());
+                    join.get(AdminWithRole_.ROLE).get(Role_.ID), filterCommand.getSearchRole());
               });
     }
 
@@ -72,7 +72,7 @@ class AdminListDao implements AdminListPortOut {
     Page<Admin> result = adminRepo.findAll(spec, pageRequest);
     Pageable pageable = result.getPageable();
 
-    return new AdminListOutput(
+    return new AdminPageableList(
         new PageableOutput(
             pageable.hasPrevious(),
             pageable.getPageNumber(),
@@ -84,7 +84,7 @@ class AdminListDao implements AdminListPortOut {
         result.getContent().stream()
             .map(
                 admin ->
-                    new AdminOutput(
+                    new AdminElement(
                         admin.getCreatedBy(),
                         admin.getCreatedAt(),
                         admin.getUpdatedBy(),

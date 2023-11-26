@@ -1,15 +1,15 @@
-package org.beizix.security.application.domain.admin.model.list;
+package org.beizix.admin.usecase.admin.list.application.domain;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.beizix.core.application.domain.common.model.AuditOutput;
+import org.beizix.security.application.domain.admin.model.list.RoleOutput;
 
 @Getter
 @AllArgsConstructor
-public class AdminOutput implements AuditOutput {
+public class AdminElement implements AuditOutput {
   private String createdBy;
   private LocalDateTime createdAt;
   private String updatedBy;

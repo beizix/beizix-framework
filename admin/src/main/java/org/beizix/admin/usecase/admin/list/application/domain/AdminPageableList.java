@@ -1,4 +1,4 @@
-package org.beizix.security.application.domain.admin.model.list;
+package org.beizix.admin.usecase.admin.list.application.domain;
 
 import java.io.Serializable;
 import java.util.List;
@@ -11,13 +11,13 @@ import org.beizix.core.application.domain.common.model.PageableOutput;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdminListOutput implements PageableListOutput<AdminOutput>, Serializable {
+public class AdminPageableList implements PageableListOutput<AdminElement>, Serializable {
 
   private PageableOutput pageable;
-  private List<AdminOutput> outputs;
+  private List<AdminElement> outputs;
 
   @Override
-  public List<AdminOutput> getContents() {
+  public List<AdminElement> getContents() {
     return this.outputs;
   }
 

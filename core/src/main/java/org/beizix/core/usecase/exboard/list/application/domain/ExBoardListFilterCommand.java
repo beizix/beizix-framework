@@ -1,15 +1,14 @@
-package org.beizix.admin.adapter.web.admin.model.filter;
+package org.beizix.core.usecase.exboard.list.application.domain;
 
 import lombok.AllArgsConstructor;
-
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @AllArgsConstructor
-public class AdminListStatusVO {
+public class ExBoardListFilterCommand {
   private String searchField;
   private String searchValue;
-  private String searchRole;
+  private String searchOpen;
 }

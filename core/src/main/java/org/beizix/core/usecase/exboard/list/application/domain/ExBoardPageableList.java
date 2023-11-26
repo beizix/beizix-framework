@@ -1,4 +1,4 @@
-package org.beizix.core.usecase.exboard.list.domain;
+package org.beizix.core.usecase.exboard.list.application.domain;
 
 import java.util.List;
 import lombok.AllArgsConstructor;

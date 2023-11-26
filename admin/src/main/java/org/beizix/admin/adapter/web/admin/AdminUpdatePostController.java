@@ -2,7 +2,7 @@ package org.beizix.admin.adapter.web.admin;
 
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.beizix.admin.adapter.web.admin.model.filter.AdminListStatusVO;
+import org.beizix.admin.usecase.admin.list.adapter.web.AdminListFilterVO;
 import org.beizix.admin.adapter.web.admin.model.update.AdminUpdateBindingVO;
 import org.beizix.admin.adapter.web.admin.validator.AdminUpdateValidator;
 import org.beizix.security.application.port.in.admin.AdminSavePortIn;
@@ -29,7 +29,7 @@ class AdminUpdatePostController {
   String operate(
       Model model,
       RedirectAttributes redirectAttributes,
-      @ModelAttribute("listStatus") AdminListStatusVO listStatus,
+      @ModelAttribute("listStatus") AdminListFilterVO listStatus,
       @Valid @ModelAttribute("bindingVO") AdminUpdateBindingVO bindingVO,
       BindingResult bindingResult) {
 
