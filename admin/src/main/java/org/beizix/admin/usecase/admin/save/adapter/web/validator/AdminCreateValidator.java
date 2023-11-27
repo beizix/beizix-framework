@@ -1,7 +1,7 @@
-package org.beizix.admin.adapter.web.admin.validator;
+package org.beizix.admin.usecase.admin.save.adapter.web.validator;
 
 import java.util.Optional;
-import org.beizix.admin.adapter.web.admin.model.create.AdminCreateBindingVO;
+import org.beizix.admin.usecase.admin.save.adapter.web.AdminCreateBindingVO;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;

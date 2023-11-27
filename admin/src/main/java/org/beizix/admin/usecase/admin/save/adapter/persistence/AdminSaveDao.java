@@ -1,4 +1,4 @@
-package org.beizix.security.adapter.persistence.admin;
+package org.beizix.admin.usecase.admin.save.adapter.persistence;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -6,18 +6,16 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.beizix.admin.usecase.admin.save.application.port.out.AdminSavePortOut;
 import org.beizix.security.adapter.persistence.admin.model.Admin;
-import org.beizix.security.adapter.persistence.admin.repository.AdminRepo;
 import org.beizix.security.adapter.persistence.admin_role.model.AdminWithRole;
-import org.beizix.security.adapter.persistence.admin_role.repository.AdminWithRoleRepo;
 import org.beizix.security.adapter.persistence.role.model.Role;
-import org.beizix.security.application.port.out.admin.AdminSavePortOut;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 class AdminSaveDao implements AdminSavePortOut {
-  private final AdminRepo adminRepo;
+  private final AdminSaveRepo saveRepo;
   private final AdminWithRoleRepo adminWithRoleRepo;
 
   @Override
@@ -33,7 +31,7 @@ class AdminSaveDao implements AdminSavePortOut {
       List<String> roleIds) {
 
     Admin createdItem =
-        adminRepo.save(
+        saveRepo.save(
             new Admin(
                 id,
                 encodedPassword,

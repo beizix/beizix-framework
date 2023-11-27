@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.beizix.security.adapter.persistence.admin.repository.AdminRepo;
 import org.beizix.admin.usecase.admin.save.application.port.in.AdminSavePortIn;
 import org.beizix.admin.usecase.admin.view.application.port.in.AdminViewPortIn;
-import org.beizix.security.application.port.out.admin.AdminSavePortOut;
+import org.beizix.admin.usecase.admin.save.application.port.out.AdminSavePortOut;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

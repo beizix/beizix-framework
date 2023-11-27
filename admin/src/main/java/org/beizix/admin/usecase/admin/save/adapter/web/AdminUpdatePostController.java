@@ -1,9 +1,9 @@
-package org.beizix.admin.adapter.web.admin;
+package org.beizix.admin.usecase.admin.save.adapter.web;
 
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.beizix.admin.adapter.web.admin.model.create.AdminCreateBindingVO;
-import org.beizix.admin.adapter.web.admin.validator.AdminCreateValidator;
+import org.beizix.admin.usecase.admin.list.adapter.web.AdminListFilterVO;
+import org.beizix.admin.usecase.admin.save.adapter.web.validator.AdminUpdateValidator;
 import org.beizix.admin.usecase.admin.save.application.port.in.AdminSavePortIn;
 import org.beizix.security.application.port.in.role.RoleListPortIn;
 import org.beizix.utility.common.MessageUtil;
@@ -17,29 +17,30 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
-public class AdminCreatePostController {
+class AdminUpdatePostController {
+  private final AdminUpdateValidator adminUpdateValidator;
   private final RoleListPortIn roleListPortIn;
-  private final MessageUtil messageUtil;
-  private final AdminSavePortIn savePortIn;
+  private final AdminSavePortIn adminSavePortIn;
   private final ModelMapper modelMapper;
-  private final AdminCreateValidator adminCreateValidator;
+  private final MessageUtil messageUtil;
 
-  @PostMapping(path = "/settings/admins/create")
+  @PostMapping(path = "/settings/admins/update/{id}")
   String operate(
-      RedirectAttributes redirectAttributes,
       Model model,
-      @Valid @ModelAttribute("bindingVO") AdminCreateBindingVO bindingVO,
+      RedirectAttributes redirectAttributes,
+      @ModelAttribute("listStatus") AdminListFilterVO listStatus,
+      @Valid @ModelAttribute("bindingVO") AdminUpdateBindingVO bindingVO,
       BindingResult bindingResult) {
 
-    adminCreateValidator.validate(bindingVO, bindingResult);
+    adminUpdateValidator.validate(bindingVO, bindingResult);
     if (bindingResult.hasErrors()) {
       model.addAttribute("roles", roleListPortIn.connect());
-      return "admin/adminCreateForm";
+      return "admin/adminUpdateForm";
     }
 
-    savePortIn.connect(
+    adminSavePortIn.connect(
         bindingVO.getId(),
-        bindingVO.getPassword(),
+        bindingVO.getUpdatePassword(),
         bindingVO.getEmail(),
         bindingVO.getAccountDisabled(),
         bindingVO.getAccountLocked(),
@@ -47,7 +48,7 @@ public class AdminCreatePostController {
 
     redirectAttributes.addFlashAttribute(
         "operationMessage",
-        messageUtil.getMessage("operation.settings.admin.created", bindingVO.getId()));
+        messageUtil.getMessage("operation.settings.admin.updated", bindingVO.getId()));
 
     return "redirect:/settings/admins";
   }

@@ -1,10 +1,9 @@
-package org.beizix.security.application.domain.admin;
+package org.beizix.admin.usecase.admin.remove.application.port.in;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.beizix.admin.usecase.admin.remove.application.port.out.AdminRemovePortOut;
 import org.springframework.stereotype.Service;
-import org.beizix.security.application.port.in.admin.AdminRemovePortIn;
-import org.beizix.security.application.port.out.admin.AdminRemovePortOut;
 
 @Service
 @RequiredArgsConstructor

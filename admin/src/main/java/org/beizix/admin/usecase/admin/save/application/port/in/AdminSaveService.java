@@ -5,7 +5,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.usecase.admin.view.application.domain.AdminView;
 import org.beizix.admin.usecase.admin.view.application.port.in.AdminViewPortIn;
-import org.beizix.security.application.port.out.admin.AdminSavePortOut;
+import org.beizix.admin.usecase.admin.save.application.port.out.AdminSavePortOut;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;

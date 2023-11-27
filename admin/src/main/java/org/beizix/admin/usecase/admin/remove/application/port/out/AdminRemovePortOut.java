@@ -1,4 +1,4 @@
-package org.beizix.security.application.port.out.admin;
+package org.beizix.admin.usecase.admin.remove.application.port.out;
 
 import java.util.List;
 

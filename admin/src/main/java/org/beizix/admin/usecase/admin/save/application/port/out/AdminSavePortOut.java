@@ -1,4 +1,4 @@
-package org.beizix.security.application.port.out.admin;
+package org.beizix.admin.usecase.admin.save.application.port.out;
 
 import java.time.LocalDateTime;
 import java.util.List;

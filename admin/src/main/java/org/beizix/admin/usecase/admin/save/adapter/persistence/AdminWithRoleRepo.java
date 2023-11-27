@@ -1,4 +1,4 @@
-package org.beizix.security.adapter.persistence.admin_role.repository;
+package org.beizix.admin.usecase.admin.save.adapter.persistence;
 
 import org.beizix.security.adapter.persistence.admin_role.model.AdminWithRole;
 import org.springframework.data.jpa.repository.JpaRepository;

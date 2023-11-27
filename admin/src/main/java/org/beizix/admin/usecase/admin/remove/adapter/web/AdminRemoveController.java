@@ -1,9 +1,9 @@
-package org.beizix.admin.adapter.web.admin;
+package org.beizix.admin.usecase.admin.remove.adapter.web;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
-import org.beizix.security.application.port.in.admin.AdminRemovePortIn;
+import org.beizix.admin.usecase.admin.remove.application.port.in.AdminRemovePortIn;
 import org.beizix.utility.common.MessageUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;

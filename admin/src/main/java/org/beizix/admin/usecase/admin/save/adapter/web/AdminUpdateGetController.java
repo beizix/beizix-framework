@@ -1,10 +1,9 @@
-package org.beizix.admin.adapter.web.admin;
+package org.beizix.admin.usecase.admin.save.adapter.web;
 
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.usecase.admin.list.adapter.web.AdminListFilterVO;
-import org.beizix.admin.adapter.web.admin.model.update.AdminUpdateBindingVO;
 import org.beizix.core.application.domain.common.model.PageableInput;
 import org.beizix.admin.usecase.admin.view.application.domain.AdminView;
 import org.beizix.security.application.domain.admin.model.view.RoleOutput;

@@ -1,15 +1,14 @@
-package org.beizix.security.adapter.persistence.admin;
+package org.beizix.admin.usecase.admin.remove.adapter.persistence;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.beizix.admin.usecase.admin.remove.application.port.out.AdminRemovePortOut;
 import org.springframework.stereotype.Component;
-import org.beizix.security.adapter.persistence.admin.repository.AdminRepo;
-import org.beizix.security.application.port.out.admin.AdminRemovePortOut;
 
 @Component
 @RequiredArgsConstructor
 class AdminRemoveDao implements AdminRemovePortOut {
-  private final AdminRepo adminRepo;
+  private final AdminRemoveRepo adminRepo;
 
   @Override
   public void connect(List<String> checkedIds) {
