@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import lombok.*;
 import org.beizix.core.application.domain.common.model.AuditOutput;
-import org.beizix.security.application.domain.role.model.list.PrivilegeOutput;
 
 @Getter
 @Setter
@@ -17,5 +16,5 @@ public class RoleElement implements AuditOutput {
   private String id;
   private String description;
   private Integer orderNo;
-  private List<PrivilegeOutput> privileges;
+  private List<PrivilegeElement> privileges;
 }

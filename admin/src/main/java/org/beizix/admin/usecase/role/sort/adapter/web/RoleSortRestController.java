@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.usecase.role.sort.application.port.in.RoleSortPortIn;
-import org.beizix.security.application.domain.role.model.sort.RoleSortInput;
+import org.beizix.admin.usecase.role.sort.application.domain.RoleSortCommand;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +20,7 @@ class RoleSortRestController {
   ResponseEntity<?> switchOrderNo(@RequestBody List<RoleSortVO> sortVOs) {
     roleSortPortIn.connect(
         sortVOs.stream()
-            .map(item -> new RoleSortInput(item.getId(), item.getOrderNo()))
+            .map(item -> new RoleSortCommand(item.getId(), item.getOrderNo()))
             .collect(Collectors.toList()));
 
     return ResponseEntity.status(HttpStatus.OK).body(null);

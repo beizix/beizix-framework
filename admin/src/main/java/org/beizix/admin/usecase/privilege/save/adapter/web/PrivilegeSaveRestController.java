@@ -4,9 +4,9 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.beizix.core.configuration.adapter.web.rest.RestResponse;
 import org.beizix.core.configuration.application.util.CoreUtil;
-import org.beizix.security.application.domain.privilege.model.save.PrivilegeSaveInput;
+import org.beizix.admin.usecase.admin.save.application.domain.PrivilegeSaveCommand;
 import org.beizix.admin.usecase.privilege.save.application.port.in.PrivilegeSavePortIn;
-import org.beizix.security.config.exceptions.AlreadyExistsRoleException;
+import org.beizix.admin.configuration.application.exception.AlreadyExistsRoleException;
 import org.beizix.utility.common.MessageUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +27,8 @@ class PrivilegeSaveRestController {
       return coreUtil.getValidationFailResponseEntity(bindingResult);
     }
 
-    PrivilegeSaveInput saveInput =
-        new PrivilegeSaveInput(
+    PrivilegeSaveCommand saveInput =
+        new PrivilegeSaveCommand(
             bindingVO.getId(), bindingVO.getDescription(), bindingVO.getOrderNo());
 
     try {

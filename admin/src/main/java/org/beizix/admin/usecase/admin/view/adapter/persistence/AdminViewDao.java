@@ -6,10 +6,10 @@ import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.usecase.admin.view.application.domain.AdminView;
 import org.beizix.admin.usecase.admin.view.application.port.out.AdminViewPortOut;
-import org.beizix.security.adapter.persistence.privilege.model.Privilege;
-import org.beizix.security.adapter.persistence.role.model.Role;
-import org.beizix.security.application.domain.admin.model.view.PrivilegeOutput;
-import org.beizix.security.application.domain.admin.model.view.RoleOutput;
+import org.beizix.admin.configuration.adapter.persistence.entity.Privilege;
+import org.beizix.admin.configuration.adapter.persistence.entity.Role;
+import org.beizix.admin.usecase.admin.view.application.domain.PrivilegeView;
+import org.beizix.admin.usecase.admin.view.application.domain.RoleView;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -39,7 +39,7 @@ class AdminViewDao implements AdminViewPortOut {
                         .map(
                             withRole -> {
                               Role role = withRole.getRole();
-                              return new RoleOutput(
+                              return new RoleView(
                                   role.getCreatedAt(),
                                   role.getCreatedBy(),
                                   role.getUpdatedAt(),
@@ -51,7 +51,7 @@ class AdminViewDao implements AdminViewPortOut {
                                       .map(
                                           withPrivilege -> {
                                             Privilege privilege = withPrivilege.getPrivilege();
-                                            return new PrivilegeOutput(
+                                            return new PrivilegeView(
                                                 privilege.getCreatedAt(),
                                                 privilege.getCreatedBy(),
                                                 privilege.getUpdatedAt(),

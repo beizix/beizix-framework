@@ -7,9 +7,9 @@ import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.beizix.admin.usecase.admin.save.application.port.out.AdminSavePortOut;
-import org.beizix.security.adapter.persistence.admin.model.Admin;
-import org.beizix.security.adapter.persistence.admin_role.model.AdminWithRole;
-import org.beizix.security.adapter.persistence.role.model.Role;
+import org.beizix.admin.configuration.adapter.persistence.entity.Admin;
+import org.beizix.admin.configuration.adapter.persistence.entity.AdminWithRole;
+import org.beizix.admin.configuration.adapter.persistence.entity.Role;
 import org.springframework.stereotype.Component;
 
 @Component

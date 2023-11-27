@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.beizix.admin.usecase.admin.list.adapter.web.AdminListFilterVO;
 import org.beizix.core.application.domain.common.model.PageableInput;
 import org.beizix.admin.usecase.admin.view.application.domain.AdminView;
-import org.beizix.security.application.domain.admin.model.view.RoleOutput;
+import org.beizix.admin.usecase.admin.view.application.domain.RoleView;
 import org.beizix.admin.usecase.admin.view.application.port.in.AdminViewPortIn;
 import org.beizix.admin.usecase.role.list.application.port.in.RoleListPortIn;
 import org.beizix.utility.common.MessageUtil;
@@ -51,7 +51,7 @@ class AdminUpdateGetController {
             output.getAccountDisabled(),
             output.getLoginFailCnt(),
             output.getAccountLocked(),
-            output.getRoles().stream().map(RoleOutput::getId).collect(Collectors.toList()));
+            output.getRoles().stream().map(RoleView::getId).collect(Collectors.toList()));
 
     model.addAttribute("bindingVO", bindingVO);
     model.addAttribute("roles", roleListPortIn.connect());

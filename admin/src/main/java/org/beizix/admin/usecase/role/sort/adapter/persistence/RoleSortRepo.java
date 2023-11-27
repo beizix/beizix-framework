@@ -1,6 +1,6 @@
 package org.beizix.admin.usecase.role.sort.adapter.persistence;
 
-import org.beizix.security.adapter.persistence.role.model.Role;
+import org.beizix.admin.configuration.adapter.persistence.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

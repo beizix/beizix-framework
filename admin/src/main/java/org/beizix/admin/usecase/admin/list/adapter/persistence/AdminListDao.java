@@ -11,14 +11,14 @@ import org.beizix.admin.usecase.admin.list.application.domain.AdminPageableList;
 import org.beizix.admin.usecase.admin.list.application.port.out.AdminListPortOut;
 import org.beizix.core.application.domain.common.model.PageableInput;
 import org.beizix.core.application.domain.common.model.PageableOutput;
-import org.beizix.security.adapter.persistence.admin.model.Admin;
+import org.beizix.admin.configuration.adapter.persistence.entity.Admin;
 import org.beizix.security.adapter.persistence.admin.model.Admin_;
 import org.beizix.security.adapter.persistence.admin_role.model.AdminWithRole_;
-import org.beizix.security.adapter.persistence.privilege.model.Privilege;
-import org.beizix.security.adapter.persistence.role.model.Role;
+import org.beizix.admin.configuration.adapter.persistence.entity.Privilege;
+import org.beizix.admin.configuration.adapter.persistence.entity.Role;
 import org.beizix.security.adapter.persistence.role.model.Role_;
-import org.beizix.security.application.domain.admin.model.list.PrivilegeOutput;
-import org.beizix.security.application.domain.admin.model.list.RoleOutput;
+import org.beizix.admin.usecase.admin.list.application.domain.PrivilegeElement;
+import org.beizix.admin.usecase.admin.list.application.domain.RoleElement;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -97,7 +97,7 @@ class AdminListDao implements AdminListPortOut {
                             .map(
                                 withRole -> {
                                   Role role = withRole.getRole();
-                                  return new RoleOutput(
+                                  return new RoleElement(
                                       role.getId(),
                                       role.getDescription(),
                                       role.getOrderNo(),
@@ -105,7 +105,7 @@ class AdminListDao implements AdminListPortOut {
                                           .map(
                                               withPrivilege -> {
                                                 Privilege privilege = withPrivilege.getPrivilege();
-                                                return new PrivilegeOutput(privilege.getId());
+                                                return new PrivilegeElement(privilege.getId());
                                               })
                                           .collect(Collectors.toList()));
                                 })

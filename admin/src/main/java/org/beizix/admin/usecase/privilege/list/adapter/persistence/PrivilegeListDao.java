@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.usecase.privilege.list.application.port.out.PrivilegeListPortOut;
-import org.beizix.security.adapter.persistence.privilege.model.Privilege;
+import org.beizix.admin.configuration.adapter.persistence.entity.Privilege;
 import org.beizix.admin.usecase.privilege.list.application.domain.PrivilegeElement;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;

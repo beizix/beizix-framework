@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.beizix.admin.usecase.role.save.application.port.out.RoleSavePortOut;
-import org.beizix.security.adapter.persistence.privilege.model.Privilege;
-import org.beizix.security.adapter.persistence.role.model.Role;
-import org.beizix.security.adapter.persistence.role_privilege.model.RoleWithPrivilege;
+import org.beizix.admin.configuration.adapter.persistence.entity.Privilege;
+import org.beizix.admin.configuration.adapter.persistence.entity.Role;
+import org.beizix.admin.configuration.adapter.persistence.entity.RoleWithPrivilege;
 import org.springframework.stereotype.Repository;
 
 @Repository

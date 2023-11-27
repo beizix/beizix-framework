@@ -10,14 +10,13 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.beizix.admin.usecase.admin.list.adapter.web.AdminListFilterVO;
 import org.beizix.core.configuration.application.aop.PageDefault;
 import org.beizix.core.application.domain.common.model.PageableInput;
 import org.beizix.core.configuration.application.enums.OrderDir;
 import org.beizix.security.adapter.persistence.admin.model.Admin_;
 import org.beizix.admin.usecase.admin.list.application.domain.AdminListFilterCommand;
 import org.beizix.admin.usecase.admin.list.application.domain.AdminPageableList;
-import org.beizix.security.application.domain.admin.model.list.RoleOutput;
+import org.beizix.admin.usecase.admin.list.application.domain.RoleElement;
 import org.beizix.admin.usecase.admin.list.application.port.in.AdminListPortIn;
 import org.beizix.utility.common.ExcelUtil;
 import org.springframework.stereotype.Controller;
@@ -65,7 +64,7 @@ class AdminExcelController {
                     item.getId(),
                     item.getEmail(),
                     item.getRoles().stream()
-                        .map(RoleOutput::getId)
+                        .map(RoleElement::getId)
                         .collect(Collectors.joining(", ")),
                     Optional.ofNullable(item.getCreatedAt())
                         .map(localDateTime -> localDateTime.format(formatter))

@@ -5,7 +5,6 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.beizix.core.application.domain.common.model.AuditOutput;
-import org.beizix.security.application.domain.admin.model.list.RoleOutput;
 
 @Getter
 @AllArgsConstructor
@@ -18,5 +17,5 @@ public class AdminElement implements AuditOutput {
   private String email;
   private Boolean accountDisabled;
   private Boolean accountLocked;
-  private List<RoleOutput> roles;
+  private List<RoleElement> roles;
 }

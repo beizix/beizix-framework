@@ -6,8 +6,7 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.beizix.security.adapter.persistence.admin.model.Admin;
-import org.beizix.security.application.domain.admin.model.view.RoleOutput;
+import org.beizix.admin.configuration.adapter.persistence.entity.Admin;
 
 /** DTO for {@link Admin} */
 @Data
@@ -25,5 +24,5 @@ public class AdminView implements Serializable {
   private Boolean accountDisabled;
   private Integer loginFailCnt;
   private Boolean accountLocked;
-  private List<RoleOutput> roles;
+  private List<RoleView> roles;
 }

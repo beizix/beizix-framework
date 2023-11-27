@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.beizix.admin.usecase.role.view.application.port.in.RoleViewPortIn;
 import org.beizix.admin.usecase.role.save.application.port.out.RoleNextOrderNoPortOut;
 import org.beizix.admin.usecase.role.save.application.port.out.RoleSavePortOut;
-import org.beizix.security.config.exceptions.AlreadyExistsRoleException;
+import org.beizix.admin.configuration.application.exception.AlreadyExistsRoleException;
 import org.beizix.utility.common.MessageUtil;
 import org.springframework.stereotype.Service;
 

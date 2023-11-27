@@ -6,7 +6,7 @@ import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.beizix.admin.usecase.role.list.application.port.out.RoleListPortOut;
-import org.beizix.security.application.domain.role.model.list.PrivilegeOutput;
+import org.beizix.admin.usecase.role.list.application.domain.PrivilegeElement;
 import org.beizix.admin.usecase.role.list.application.domain.RoleElement;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
@@ -33,7 +33,7 @@ public class RoleListDao implements RoleListPortOut<RoleElement> {
                     CollectionUtils.emptyIfNull(role.getWithPrivileges()).stream()
                         .map(
                             w ->
-                                new PrivilegeOutput(
+                                new PrivilegeElement(
                                     w.getPrivilege().getId(), w.getPrivilege().getDescription()))
                         .collect(Collectors.toList())))
         .collect(Collectors.toList());

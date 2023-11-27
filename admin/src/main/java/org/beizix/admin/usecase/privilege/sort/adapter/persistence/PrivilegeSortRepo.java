@@ -1,6 +1,6 @@
 package org.beizix.admin.usecase.privilege.sort.adapter.persistence;
 
-import org.beizix.security.adapter.persistence.privilege.model.Privilege;
+import org.beizix.admin.configuration.adapter.persistence.entity.Privilege;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
