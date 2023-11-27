@@ -1,8 +1,7 @@
-package org.beizix.security.application.domain.privilege;
+package org.beizix.admin.usecase.privilege.remove.application.port.in;
 
 import lombok.RequiredArgsConstructor;
-import org.beizix.security.application.port.in.privilege.PrivilegeRemovePortIn;
-import org.beizix.security.application.port.out.privilege.PrivilegeRemovePortOut;
+import org.beizix.admin.usecase.privilege.remove.application.port.out.PrivilegeRemovePortOut;
 import org.springframework.stereotype.Service;
 
 @Service

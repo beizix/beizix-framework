@@ -1,9 +1,8 @@
-package org.beizix.admin.adapter.web.privilege;
+package org.beizix.admin.usecase.privilege.remove.adapter.web;
 
 import lombok.RequiredArgsConstructor;
-import org.beizix.admin.usecase.role.remove.adapter.web.RoleRemoveVO;
 import org.beizix.core.configuration.adapter.web.rest.RestResponse;
-import org.beizix.security.application.port.in.privilege.PrivilegeRemovePortIn;
+import org.beizix.admin.usecase.privilege.remove.application.port.in.PrivilegeRemovePortIn;
 import org.beizix.utility.common.MessageUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

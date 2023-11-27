@@ -1,14 +1,13 @@
-package org.beizix.security.adapter.persistence.privilege;
+package org.beizix.admin.usecase.privilege.sort.adapter.persistence;
 
 import lombok.RequiredArgsConstructor;
-import org.beizix.security.adapter.persistence.privilege.repository.PrivilegeRepo;
-import org.beizix.security.application.port.out.privilege.PrivilegeSortPortOut;
+import org.beizix.admin.usecase.privilege.sort.application.port.out.PrivilegeSortPortOut;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
 public class PrivilegeSortDao implements PrivilegeSortPortOut {
-  private final PrivilegeRepo privilegeRepo;
+  private final PrivilegeSortRepo privilegeRepo;
 
   @Override
   public void connect(String id, Integer orderNo) {

@@ -8,9 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface PrivilegeRepo extends JpaRepository<Privilege, String> {
-  @Modifying
-  @Query("update Privilege e set e.orderNo = :orderNo where e.id = :role")
-  void updateOrderNo(@Param("role") String role, @Param("orderNo") Integer orderNo);
+
 
 
 }

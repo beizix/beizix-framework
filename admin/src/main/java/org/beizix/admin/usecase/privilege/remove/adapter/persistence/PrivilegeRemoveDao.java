@@ -1,14 +1,13 @@
-package org.beizix.security.adapter.persistence.privilege;
+package org.beizix.admin.usecase.privilege.remove.adapter.persistence;
 
 import lombok.RequiredArgsConstructor;
-import org.beizix.security.adapter.persistence.privilege.repository.PrivilegeRepo;
-import org.beizix.security.application.port.out.privilege.PrivilegeRemovePortOut;
+import org.beizix.admin.usecase.privilege.remove.application.port.out.PrivilegeRemovePortOut;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
 public class PrivilegeRemoveDao implements PrivilegeRemovePortOut {
-  private final PrivilegeRepo privilegeRepo;
+  private final PrivilegeRemoveRepo privilegeRepo;
 
   @Override
   public void connect(String id) {

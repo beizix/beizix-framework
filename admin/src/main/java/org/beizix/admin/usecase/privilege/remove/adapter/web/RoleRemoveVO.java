@@ -1,4 +1,4 @@
-package org.beizix.admin.usecase.role.remove.adapter.web;
+package org.beizix.admin.usecase.privilege.remove.adapter.web;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

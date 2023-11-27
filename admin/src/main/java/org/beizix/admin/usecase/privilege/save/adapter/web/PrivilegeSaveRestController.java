@@ -2,7 +2,6 @@ package org.beizix.admin.usecase.privilege.save.adapter.web;
 
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.beizix.admin.adapter.web.privilege.model.save.PrivilegeBindingVO;
 import org.beizix.core.configuration.adapter.web.rest.RestResponse;
 import org.beizix.core.configuration.application.util.CoreUtil;
 import org.beizix.security.application.domain.privilege.model.save.PrivilegeSaveInput;
@@ -23,7 +22,7 @@ class PrivilegeSaveRestController {
   private final PrivilegeSavePortIn savePortIn;
 
   @PostMapping("/api/adminPrivilege/save")
-  ResponseEntity<?> operate(@Valid PrivilegeBindingVO bindingVO, BindingResult bindingResult) {
+  ResponseEntity<?> operate(@Valid PrivilegeSaveBindingVO bindingVO, BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
       return coreUtil.getValidationFailResponseEntity(bindingResult);
     }

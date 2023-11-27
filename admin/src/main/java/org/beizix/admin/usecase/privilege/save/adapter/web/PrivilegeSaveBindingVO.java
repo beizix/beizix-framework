@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.privilege.model.save;
+package org.beizix.admin.usecase.privilege.save.adapter.web;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class PrivilegeBindingVO {
+public class PrivilegeSaveBindingVO {
   private final String id;
   private final String description;
   private Integer orderNo;

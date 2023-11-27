@@ -1,11 +1,10 @@
-package org.beizix.admin.adapter.web.privilege;
+package org.beizix.admin.usecase.privilege.sort.adapter.web;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.beizix.admin.adapter.web.privilege.model.sort.PrivilegeSortReqVO;
-import org.beizix.security.application.domain.privilege.model.sort.PrivilegeSortInput;
-import org.beizix.security.application.port.in.privilege.PrivilegeSortPortIn;
+import org.beizix.admin.usecase.privilege.sort.application.domain.PrivilegeSortCommand;
+import org.beizix.admin.usecase.privilege.sort.application.port.in.PrivilegeSortPortIn;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,10 +17,10 @@ class PrivilegeSortRestController {
   private final PrivilegeSortPortIn sortPortIn;
 
   @PostMapping("/api/adminPrivilege/switchOrderNo")
-  ResponseEntity<?> switchOrderNo(@RequestBody List<PrivilegeSortReqVO> sortVOs) {
+  ResponseEntity<?> switchOrderNo(@RequestBody List<PrivilegeSortVO> sortVOs) {
     sortPortIn.connect(
         sortVOs.stream()
-            .map(s -> new PrivilegeSortInput(s.getId(), s.getOrderNo()))
+            .map(s -> new PrivilegeSortCommand(s.getId(), s.getOrderNo()))
             .collect(Collectors.toList()));
 
     return ResponseEntity.status(HttpStatus.OK).body(null);
