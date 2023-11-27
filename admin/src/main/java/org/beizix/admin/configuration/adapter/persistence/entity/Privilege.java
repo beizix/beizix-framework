@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.*;
-import org.beizix.core.adapter.persistence.common.model.AuditEntity;
+import org.beizix.core.configuration.adapter.persistence.component.AuditEntity;
 import org.hibernate.annotations.Comment;
 
 @Entity

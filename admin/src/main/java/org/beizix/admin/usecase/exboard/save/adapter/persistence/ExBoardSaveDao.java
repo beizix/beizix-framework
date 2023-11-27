@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.beizix.admin.usecase.exboard.save.application.port.out.ExBoardSavePortOut;
-import org.beizix.core.adapter.persistence.common.model.FileUploadInfoEmbeddable;
-import org.beizix.core.configuration.adapter.persistence.ExBoard;
-import org.beizix.core.adapter.persistence.exboard.model.ExBoardAttachment;
+import org.beizix.core.configuration.adapter.persistence.component.FileUploadInfoEmbeddable;
+import org.beizix.core.configuration.adapter.persistence.entity.ExBoard;
+import org.beizix.core.configuration.adapter.persistence.entity.ExBoardAttachment;
 import org.beizix.core.usecase.file.upload.application.domain.FileUploadOutput;
 import org.springframework.stereotype.Repository;
 

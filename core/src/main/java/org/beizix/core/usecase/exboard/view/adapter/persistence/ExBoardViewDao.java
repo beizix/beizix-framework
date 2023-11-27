@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.beizix.core.application.domain.exboard.model.view.ExBoardViewAttachOutput;
-import org.beizix.core.configuration.adapter.persistence.ExBoard;
+import org.beizix.core.configuration.adapter.persistence.entity.ExBoard;
 import org.beizix.core.usecase.exboard.view.application.port.out.ExBoardViewPortOut;
 import org.beizix.core.usecase.exboard.view.application.domain.ExBoardView;
 import org.beizix.core.usecase.file.upload.application.domain.FileUploadOutput;

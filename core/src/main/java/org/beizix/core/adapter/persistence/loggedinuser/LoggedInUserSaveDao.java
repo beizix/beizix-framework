@@ -5,12 +5,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Repository;
 import org.beizix.core.application.domain.loggedinuser.model.LoggedInUserInput;
 import org.beizix.core.application.port.out.loggedinuser.LoggedInUserSavePortOut;
-import org.beizix.core.adapter.persistence.loggedinuser.model.LoggedInUser;
+import org.beizix.core.configuration.adapter.persistence.entity.LoggedInUser;
 
 @Repository
 @RequiredArgsConstructor
 public class LoggedInUserSaveDao implements LoggedInUserSavePortOut {
-  private final LoggedInUserDao loggedInUserRepo;
+  private final LoggedInUserRepo loggedInUserRepo;
   private final ModelMapper modelMapper;
 
   @Override

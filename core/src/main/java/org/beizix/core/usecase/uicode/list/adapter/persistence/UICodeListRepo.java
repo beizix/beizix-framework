@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
-import org.beizix.core.configuration.adapter.persistence.UICode;
+import org.beizix.core.configuration.adapter.persistence.entity.UICode;
 
 public interface UICodeListRepo
     extends JpaRepository<UICode, String>, JpaSpecificationExecutor<UICode> {

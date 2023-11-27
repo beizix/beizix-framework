@@ -7,13 +7,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.configuration.application.aop.LoginSuccessOperateLog;
+import org.beizix.admin.usecase.admin.status.application.port.in.AdminUpdateLoginFailPortIn;
+import org.beizix.admin.usecase.admin.view.application.port.in.AdminViewPortIn;
+import org.beizix.admin.usecase.loggedinuser.view.application.domain.LoggedInUserIdView;
+import org.beizix.admin.usecase.loggedinuser.view.application.domain.LoggedInUserView;
+import org.beizix.admin.usecase.loggedinuser.view.application.port.in.LoggedInUserViewPortIn;
 import org.beizix.core.application.domain.loggedinuser.model.LoggedInUserIdInput;
 import org.beizix.core.application.domain.loggedinuser.model.LoggedInUserInput;
 import org.beizix.core.application.port.in.loggedinuser.LoggedInUserSavePortIn;
-import org.beizix.core.application.port.in.loggedinuser.LoggedInUserViewPortIn;
 import org.beizix.core.configuration.application.enums.AppType;
-import org.beizix.admin.usecase.admin.status.application.port.in.AdminUpdateLoginFailPortIn;
-import org.beizix.admin.usecase.admin.view.application.port.in.AdminViewPortIn;
 import org.beizix.utility.common.CommonUtil;
 import org.beizix.utility.common.MessageUtil;
 import org.springframework.beans.factory.annotation.Value;
@@ -89,9 +91,8 @@ public class AdminAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
 
   /** 사용자 로그인 여부 확인 */
   private boolean isAlreadyLoggedInSomewhere(String username, String currentIP) {
-    LoggedInUserInput loggedInUser =
-        loggedInUserViewPortIn.connect(
-            LoggedInUserIdInput.builder().appType(AppType.ADMIN).id(username).build());
+    LoggedInUserView loggedInUser =
+        loggedInUserViewPortIn.connect(new LoggedInUserIdView(AppType.ADMIN, username));
     if (loggedInUser == null) return false;
 
     LocalDateTime lastLoggedInAt = loggedInUser.getLastLoggedInAt();

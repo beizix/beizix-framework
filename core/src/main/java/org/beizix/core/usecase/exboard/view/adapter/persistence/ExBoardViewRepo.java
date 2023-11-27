@@ -1,7 +1,7 @@
 package org.beizix.core.usecase.exboard.view.adapter.persistence;
 
 import java.util.Optional;
-import org.beizix.core.configuration.adapter.persistence.ExBoard;
+import org.beizix.core.configuration.adapter.persistence.entity.ExBoard;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 

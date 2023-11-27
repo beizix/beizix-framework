@@ -2,7 +2,7 @@ package org.beizix.admin.configuration.adapter.persistence.entity;
 
 import javax.persistence.*;
 import lombok.*;
-import org.beizix.core.adapter.persistence.common.model.AuditEntity;
+import org.beizix.core.configuration.adapter.persistence.component.AuditEntity;
 import org.hibernate.annotations.Comment;
 
 @Getter
