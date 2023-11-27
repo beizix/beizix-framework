@@ -9,8 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import lombok.*;
 import org.beizix.core.adapter.persistence.common.model.AuditEntity;
-import org.beizix.security.adapter.persistence.admin.model.Admin_;
-import org.beizix.security.adapter.persistence.admin_role.model.AdminWithRole_;
 import org.hibernate.annotations.*;
 
 @Entity
@@ -18,7 +16,6 @@ import org.hibernate.annotations.*;
 @org.hibernate.annotations.Table(appliesTo = "admin", comment = "어드민 사용자 테이블")
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @NamedEntityGraph(

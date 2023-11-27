@@ -1,10 +1,10 @@
 package org.beizix.admin.usecase.admin.list.adapter.web;
 
 import lombok.RequiredArgsConstructor;
+import org.beizix.admin.configuration.adapter.persistence.entity.Admin_;
 import org.beizix.core.configuration.application.aop.PageDefault;
 import org.beizix.core.application.domain.common.model.PageableInput;
 import org.beizix.core.configuration.application.enums.OrderDir;
-import org.beizix.security.adapter.persistence.admin.model.Admin_;
 import org.beizix.admin.usecase.admin.list.application.domain.AdminListFilterCommand;
 import org.beizix.admin.usecase.admin.list.application.domain.AdminPageableList;
 import org.beizix.admin.usecase.role.list.application.domain.RoleElement;
