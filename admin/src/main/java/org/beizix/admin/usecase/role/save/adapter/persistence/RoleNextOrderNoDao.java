@@ -1,14 +1,13 @@
-package org.beizix.security.adapter.persistence.role;
+package org.beizix.admin.usecase.role.save.adapter.persistence;
 
 import lombok.RequiredArgsConstructor;
+import org.beizix.admin.usecase.role.save.application.port.out.RoleNextOrderNoPortOut;
 import org.springframework.stereotype.Repository;
-import org.beizix.security.adapter.persistence.role.repository.RoleRepo;
-import org.beizix.security.application.port.out.role.RoleNextOrderNoPortOut;
 
 @Repository
 @RequiredArgsConstructor
 public class RoleNextOrderNoDao implements RoleNextOrderNoPortOut {
-  private final RoleRepo roleRepo;
+  private final RoleNextOrderNoRepo roleRepo;
 
   @Override
   public Integer connect() {

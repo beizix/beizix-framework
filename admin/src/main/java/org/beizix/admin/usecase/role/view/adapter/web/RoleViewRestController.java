@@ -3,7 +3,6 @@ package org.beizix.admin.usecase.role.view.adapter.web;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.beizix.admin.adapter.web.role.model.view.RoleBindingVO;
 import org.beizix.core.configuration.adapter.web.rest.RestResponse;
 import org.beizix.admin.usecase.role.view.application.domain.RoleView;
 import org.beizix.admin.usecase.role.view.application.port.in.RoleViewPortIn;

@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.role.model.view;
+package org.beizix.admin.usecase.role.view.adapter.web;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;

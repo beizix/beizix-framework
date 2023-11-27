@@ -1,14 +1,13 @@
-package org.beizix.security.adapter.persistence.role;
+package org.beizix.admin.usecase.role.remove.adapter.persistence;
 
 import lombok.RequiredArgsConstructor;
+import org.beizix.admin.usecase.role.remove.application.port.out.RoleRemovePortOut;
 import org.springframework.stereotype.Repository;
-import org.beizix.security.adapter.persistence.role.repository.RoleRepo;
-import org.beizix.security.application.port.out.role.RoleRemovePortOut;
 
 @Repository
 @RequiredArgsConstructor
 public class RoleRemoveDao implements RoleRemovePortOut {
-  private final RoleRepo roleRepo;
+  private final RoleRemoveRepo roleRepo;
 
   @Override
   public void connect(String role) {

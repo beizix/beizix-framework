@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.role.model.list;
+package org.beizix.admin.usecase.role.list.adapter.web;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

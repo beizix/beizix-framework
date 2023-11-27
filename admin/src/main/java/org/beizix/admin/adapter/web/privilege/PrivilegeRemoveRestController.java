@@ -1,7 +1,7 @@
 package org.beizix.admin.adapter.web.privilege;
 
 import lombok.RequiredArgsConstructor;
-import org.beizix.admin.adapter.web.role.model.remove.RoleRemoveReqVO;
+import org.beizix.admin.usecase.role.remove.adapter.web.RoleRemoveVO;
 import org.beizix.core.configuration.adapter.web.rest.RestResponse;
 import org.beizix.security.application.port.in.privilege.PrivilegeRemovePortIn;
 import org.beizix.utility.common.MessageUtil;
@@ -17,7 +17,7 @@ class PrivilegeRemoveRestController {
   private final MessageUtil messageUtil;
 
   @PostMapping("/api/adminPrivilege/remove")
-  ResponseEntity<?> remove(RoleRemoveReqVO formDto) {
+  ResponseEntity<?> remove(RoleRemoveVO formDto) {
     removePortIn.connect(formDto.getId());
     return ResponseEntity.status(HttpStatus.OK)
         .body(

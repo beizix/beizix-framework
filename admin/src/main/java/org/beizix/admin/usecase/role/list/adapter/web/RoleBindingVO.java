@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.role.model.list;
+package org.beizix.admin.usecase.role.list.adapter.web;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -8,6 +8,7 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.beizix.admin.usecase.role.list.adapter.web.PrivilegeBindingVO;
 import org.beizix.core.configuration.application.converter.CustomLocalDateTimeSerializer;
 
 @Getter

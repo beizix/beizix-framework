@@ -3,8 +3,6 @@ package org.beizix.admin.usecase.role.list.adapter.web;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
-import org.beizix.admin.adapter.web.role.model.list.PrivilegeBindingVO;
-import org.beizix.admin.adapter.web.role.model.list.RoleBindingVO;
 import org.beizix.core.configuration.adapter.web.rest.RestResponse;
 import org.beizix.admin.usecase.role.list.application.domain.RoleElement;
 import org.beizix.admin.usecase.role.list.application.port.in.RoleListPortIn;

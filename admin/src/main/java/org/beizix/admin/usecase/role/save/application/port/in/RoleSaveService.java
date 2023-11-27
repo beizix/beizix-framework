@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.usecase.role.view.application.port.in.RoleViewPortIn;
-import org.beizix.security.application.port.out.role.RoleNextOrderNoPortOut;
+import org.beizix.admin.usecase.role.save.application.port.out.RoleNextOrderNoPortOut;
 import org.beizix.admin.usecase.role.save.application.port.out.RoleSavePortOut;
 import org.beizix.security.config.exceptions.AlreadyExistsRoleException;
 import org.beizix.utility.common.MessageUtil;

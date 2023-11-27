@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.role.model.sort;
+package org.beizix.admin.usecase.role.sort.adapter.web;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoleSortReqVO {
+public class RoleSortVO {
   private String id;
   private Integer orderNo;
 }

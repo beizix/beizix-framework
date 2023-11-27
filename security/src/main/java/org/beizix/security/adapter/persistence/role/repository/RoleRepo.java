@@ -8,10 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface RoleRepo extends JpaRepository<Role, String> {
-  @Modifying
-  @Query("update Role e set e.orderNo = :orderNo where e.id = :role")
-  void updateOrderNo(@Param("role") String role, @Param("orderNo") Integer orderNo);
 
-  @Query("select max(e.orderNo) from Role e")
-  Optional<Integer> getMaxOrderNo();
+
+
 }

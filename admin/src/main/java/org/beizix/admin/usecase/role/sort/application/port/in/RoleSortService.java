@@ -1,12 +1,11 @@
-package org.beizix.security.application.domain.role;
+package org.beizix.admin.usecase.role.sort.application.port.in;
 
 import java.util.List;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import org.beizix.security.application.domain.role.model.sort.RoleSortInput;
-import org.beizix.security.application.port.in.role.RoleSortPortIn;
-import org.beizix.security.application.port.out.role.RoleSortPortOut;
+import org.beizix.admin.usecase.role.sort.application.port.out.RoleSortPortOut;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor

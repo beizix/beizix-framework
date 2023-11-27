@@ -1,9 +1,8 @@
-package org.beizix.security.application.domain.role;
+package org.beizix.admin.usecase.role.remove.application.port.in;
 
 import lombok.RequiredArgsConstructor;
+import org.beizix.admin.usecase.role.remove.application.port.out.RoleRemovePortOut;
 import org.springframework.stereotype.Service;
-import org.beizix.security.application.port.in.role.RoleRemovePortIn;
-import org.beizix.security.application.port.out.role.RoleRemovePortOut;
 
 @Service
 @RequiredArgsConstructor
