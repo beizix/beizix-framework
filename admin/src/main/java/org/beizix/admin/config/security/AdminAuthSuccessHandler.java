@@ -12,7 +12,7 @@ import org.beizix.core.application.domain.loggedinuser.model.LoggedInUserInput;
 import org.beizix.core.application.port.in.loggedinuser.LoggedInUserSavePortIn;
 import org.beizix.core.application.port.in.loggedinuser.LoggedInUserViewPortIn;
 import org.beizix.core.configuration.application.enums.AppType;
-import org.beizix.security.application.port.in.admin.AdminUpdateLoginFailPortIn;
+import org.beizix.admin.usecase.admin.status.application.port.in.AdminUpdateLoginFailPortIn;
 import org.beizix.admin.usecase.admin.view.application.port.in.AdminViewPortIn;
 import org.beizix.utility.common.CommonUtil;
 import org.beizix.utility.common.MessageUtil;

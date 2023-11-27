@@ -11,8 +11,8 @@ import org.beizix.core.application.domain.operationlog.model.save.OperationLogIn
 import org.beizix.core.application.port.in.operationlog.OperationLogSavePortIn;
 import org.beizix.core.configuration.application.enums.AppType;
 import org.beizix.core.configuration.application.enums.OperationLogType;
-import org.beizix.security.application.port.in.admin.AdminUpdateAccountLockPortIn;
-import org.beizix.security.application.port.in.admin.AdminUpdateLoginFailPortIn;
+import org.beizix.admin.usecase.admin.status.application.port.in.AdminUpdateAccountLockPortIn;
+import org.beizix.admin.usecase.admin.status.application.port.in.AdminUpdateLoginFailPortIn;
 import org.beizix.admin.usecase.admin.view.application.port.in.AdminViewPortIn;
 import org.beizix.utility.common.CommonUtil;
 import org.beizix.utility.common.MessageUtil;

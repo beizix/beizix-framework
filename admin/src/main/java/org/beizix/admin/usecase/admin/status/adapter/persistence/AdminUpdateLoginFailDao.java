@@ -1,15 +1,14 @@
-package org.beizix.security.adapter.persistence.admin;
+package org.beizix.admin.usecase.admin.status.adapter.persistence;
 
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.beizix.security.adapter.persistence.admin.repository.AdminRepo;
-import org.beizix.security.application.port.out.admin.AdminUpdateLoginFailPortOut;
+import org.beizix.admin.usecase.admin.status.application.port.out.AdminUpdateLoginFailPortOut;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
 public class AdminUpdateLoginFailDao implements AdminUpdateLoginFailPortOut {
-  private final AdminRepo adminRepo;
+  private final AdminStatusRepo adminRepo;
 
   @Override
   @Transactional
