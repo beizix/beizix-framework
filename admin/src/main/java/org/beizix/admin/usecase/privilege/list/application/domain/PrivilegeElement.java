@@ -1,4 +1,4 @@
-package org.beizix.security.application.domain.privilege.model.list;
+package org.beizix.admin.usecase.privilege.list.application.domain;
 
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
@@ -9,7 +9,7 @@ import org.beizix.core.application.domain.common.model.AuditOutput;
 @Getter
 @Setter
 @AllArgsConstructor
-public class PrivilegeOutput implements AuditOutput {
+public class PrivilegeElement implements AuditOutput {
   private final String createdBy;
   private final LocalDateTime createdAt;
   private final String updatedBy;

@@ -1,29 +1,27 @@
-package org.beizix.security.adapter.persistence.privilege;
+package org.beizix.admin.usecase.privilege.list.adapter.persistence;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.beizix.admin.usecase.privilege.list.application.port.out.PrivilegeListPortOut;
 import org.beizix.security.adapter.persistence.privilege.model.Privilege;
-import org.beizix.security.adapter.persistence.privilege.model.Privilege_;
-import org.beizix.security.adapter.persistence.privilege.repository.PrivilegeRepo;
-import org.beizix.security.application.domain.privilege.model.list.PrivilegeOutput;
-import org.beizix.security.application.port.out.privilege.PrivilegeListPortOut;
+import org.beizix.admin.usecase.privilege.list.application.domain.PrivilegeElement;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class PrivilegeListDao implements PrivilegeListPortOut<PrivilegeOutput> {
-  private final PrivilegeRepo privilegeRepo;
+public class PrivilegeListDao implements PrivilegeListPortOut<PrivilegeElement> {
+  private final PrivilegeListRepo privilegeRepo;
 
   @Override
-  public List<PrivilegeOutput> connect() {
+  public List<PrivilegeElement> connect() {
     List<Privilege> result = privilegeRepo.findAll(Sort.by(Direction.ASC, "orderNo"));
     return result.stream()
         .map(
             privilege ->
-                new PrivilegeOutput(
+                new PrivilegeElement(
                     privilege.getCreatedBy(),
                     privilege.getCreatedAt(),
                     privilege.getUpdatedBy(),
