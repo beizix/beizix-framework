@@ -4,7 +4,7 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.usecase.admin.save.adapter.web.validator.AdminCreateValidator;
 import org.beizix.admin.usecase.admin.save.application.port.in.AdminSavePortIn;
-import org.beizix.security.application.port.in.role.RoleListPortIn;
+import org.beizix.admin.usecase.role.list.application.port.in.RoleListPortIn;
 import org.beizix.utility.common.MessageUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;

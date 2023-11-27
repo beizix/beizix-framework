@@ -7,9 +7,9 @@ import org.beizix.core.configuration.application.enums.OrderDir;
 import org.beizix.security.adapter.persistence.admin.model.Admin_;
 import org.beizix.admin.usecase.admin.list.application.domain.AdminListFilterCommand;
 import org.beizix.admin.usecase.admin.list.application.domain.AdminPageableList;
-import org.beizix.security.application.domain.role.model.list.RoleOutput;
+import org.beizix.admin.usecase.role.list.application.domain.RoleElement;
 import org.beizix.admin.usecase.admin.list.application.port.in.AdminListPortIn;
-import org.beizix.security.application.port.in.role.RoleListPortIn;
+import org.beizix.admin.usecase.role.list.application.port.in.RoleListPortIn;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @RequiredArgsConstructor
 class AdminListController {
   private final AdminListPortIn adminListPortIn;
-  private final RoleListPortIn<RoleOutput> roleListPortIn;
+  private final RoleListPortIn<RoleElement> roleListPortIn;
 
   @GetMapping(path = "/settings/admins")
   String operate(

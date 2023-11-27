@@ -8,7 +8,7 @@ import org.beizix.core.application.domain.common.model.PageableInput;
 import org.beizix.admin.usecase.admin.view.application.domain.AdminView;
 import org.beizix.security.application.domain.admin.model.view.RoleOutput;
 import org.beizix.admin.usecase.admin.view.application.port.in.AdminViewPortIn;
-import org.beizix.security.application.port.in.role.RoleListPortIn;
+import org.beizix.admin.usecase.role.list.application.port.in.RoleListPortIn;
 import org.beizix.utility.common.MessageUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

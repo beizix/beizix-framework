@@ -1,7 +1,7 @@
 package org.beizix.admin.usecase.admin.save.adapter.web;
 
 import lombok.RequiredArgsConstructor;
-import org.beizix.security.application.port.in.role.RoleListPortIn;
+import org.beizix.admin.usecase.role.list.application.port.in.RoleListPortIn;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
