@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.role.model.save;
+package org.beizix.admin.usecase.role.save.adapter.web;
 
 import java.util.List;
 import javax.validation.constraints.NotBlank;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoleBindingVO {
+public class RoleSaveBindingVO {
   @NotBlank(message = "{valid.common.required}")
   @Pattern(regexp = "^(ROLE_).+", message = "{valid.adminRole.id.mustStartWith.role}")
   private String id;

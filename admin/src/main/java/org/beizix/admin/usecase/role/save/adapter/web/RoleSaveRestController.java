@@ -1,8 +1,7 @@
-package org.beizix.admin.adapter.web.role;
+package org.beizix.admin.usecase.role.save.adapter.web;
 
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.beizix.admin.adapter.web.role.model.save.RoleBindingVO;
 import org.beizix.core.configuration.adapter.web.rest.RestResponse;
 import org.beizix.core.configuration.application.util.CoreUtil;
 import org.beizix.admin.usecase.role.save.application.port.in.RoleSavePortIn;
@@ -24,7 +23,7 @@ class RoleSaveRestController {
   private final RoleSavePortIn roleSavePortIn;
 
   @PostMapping("/api/adminRole/save")
-  ResponseEntity<?> operate(@Valid RoleBindingVO bindingVO, BindingResult bindingResult) {
+  ResponseEntity<?> operate(@Valid RoleSaveBindingVO bindingVO, BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
       return coreUtil.getValidationFailResponseEntity(bindingResult);
     }
