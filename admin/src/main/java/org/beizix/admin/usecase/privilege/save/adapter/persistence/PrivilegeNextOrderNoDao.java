@@ -1,14 +1,13 @@
-package org.beizix.security.adapter.persistence.privilege;
+package org.beizix.admin.usecase.privilege.save.adapter.persistence;
 
 import lombok.RequiredArgsConstructor;
-import org.beizix.security.adapter.persistence.privilege.repository.PrivilegeRepo;
-import org.beizix.security.application.port.out.privilege.PrivilegeNextOrderNoPortOut;
+import org.beizix.admin.usecase.privilege.save.application.port.out.PrivilegeNextOrderNoPortOut;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
 public class PrivilegeNextOrderNoDao implements PrivilegeNextOrderNoPortOut {
-  private final PrivilegeRepo privilegeRepo;
+  private final PrivilegeSaveRepo privilegeRepo;
 
   @Override
   public Integer connect() {

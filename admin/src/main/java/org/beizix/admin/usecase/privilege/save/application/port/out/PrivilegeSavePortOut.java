@@ -1,4 +1,4 @@
-package org.beizix.security.application.port.out.privilege;
+package org.beizix.admin.usecase.privilege.save.application.port.out;
 
 import org.beizix.security.application.domain.privilege.model.save.PrivilegeSaveInput;
 

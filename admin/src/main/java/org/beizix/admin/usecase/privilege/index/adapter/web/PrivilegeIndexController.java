@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.privilege;
+package org.beizix.admin.usecase.privilege.index.adapter.web;
 
 import groovy.util.logging.Slf4j;
 import lombok.RequiredArgsConstructor;

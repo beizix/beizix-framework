@@ -12,6 +12,5 @@ public interface PrivilegeRepo extends JpaRepository<Privilege, String> {
   @Query("update Privilege e set e.orderNo = :orderNo where e.id = :role")
   void updateOrderNo(@Param("role") String role, @Param("orderNo") Integer orderNo);
 
-  @Query("select max(e.orderNo) from Privilege e")
-  Optional<Integer> getMaxOrderNo();
+
 }

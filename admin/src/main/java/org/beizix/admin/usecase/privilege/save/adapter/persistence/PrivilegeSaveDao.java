@@ -1,16 +1,15 @@
-package org.beizix.security.adapter.persistence.privilege;
+package org.beizix.admin.usecase.privilege.save.adapter.persistence;
 
 import lombok.RequiredArgsConstructor;
+import org.beizix.admin.usecase.privilege.save.application.port.out.PrivilegeSavePortOut;
 import org.beizix.security.adapter.persistence.privilege.model.Privilege;
-import org.beizix.security.adapter.persistence.privilege.repository.PrivilegeRepo;
 import org.beizix.security.application.domain.privilege.model.save.PrivilegeSaveInput;
-import org.beizix.security.application.port.out.privilege.PrivilegeSavePortOut;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
 public class PrivilegeSaveDao implements PrivilegeSavePortOut {
-  private final PrivilegeRepo privilegeRepo;
+  private final PrivilegeSaveRepo privilegeRepo;
 
   @Override
   public String connect(PrivilegeSaveInput saveInput) {

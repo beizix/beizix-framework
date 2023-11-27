@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.privilege;
+package org.beizix.admin.usecase.privilege.save.adapter.web;
 
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
