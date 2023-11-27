@@ -1,8 +1,7 @@
-package org.beizix.security.application.domain.role.model.view;
+package org.beizix.admin.usecase.role.view.application.domain;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 import lombok.*;
 import org.beizix.core.application.domain.common.model.AuditOutput;
 
@@ -10,7 +9,7 @@ import org.beizix.core.application.domain.common.model.AuditOutput;
 @Setter
 @Builder
 @AllArgsConstructor
-public class RoleViewOutput implements AuditOutput {
+public class RoleView implements AuditOutput {
   private final String createdBy;
 
   private final LocalDateTime createdAt;

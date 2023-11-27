@@ -1,12 +1,12 @@
-package org.beizix.admin.adapter.web.role;
+package org.beizix.admin.usecase.role.view.adapter.web;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.role.model.view.RoleBindingVO;
 import org.beizix.core.configuration.adapter.web.rest.RestResponse;
-import org.beizix.security.application.domain.role.model.view.RoleViewOutput;
-import org.beizix.security.application.port.in.role.RoleViewPortIn;
+import org.beizix.admin.usecase.role.view.application.domain.RoleView;
+import org.beizix.admin.usecase.role.view.application.port.in.RoleViewPortIn;
 import org.beizix.utility.common.MessageUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 class RoleViewRestController {
   private final MessageUtil messageUtil;
-  private final RoleViewPortIn<RoleViewOutput> roleViewPortIn;
+  private final RoleViewPortIn<RoleView> roleViewPortIn;
 
   @GetMapping("/api/adminRole/get/{role}")
   ResponseEntity<?> view(@PathVariable String role) {
-    RoleViewOutput item =
+    RoleView item =
         Optional.ofNullable(roleViewPortIn.connect(role))
             .orElseThrow(
                 () ->

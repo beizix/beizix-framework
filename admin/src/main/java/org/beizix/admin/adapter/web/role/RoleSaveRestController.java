@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.beizix.admin.adapter.web.role.model.save.RoleBindingVO;
 import org.beizix.core.configuration.adapter.web.rest.RestResponse;
 import org.beizix.core.configuration.application.util.CoreUtil;
-import org.beizix.security.application.port.in.role.RoleSavePortIn;
+import org.beizix.admin.usecase.role.save.application.port.in.RoleSavePortIn;
 import org.beizix.security.config.exceptions.AlreadyExistsRoleException;
 import org.beizix.utility.common.MessageUtil;
 import org.modelmapper.ModelMapper;

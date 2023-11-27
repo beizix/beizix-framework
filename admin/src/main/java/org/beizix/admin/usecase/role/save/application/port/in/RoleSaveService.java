@@ -1,10 +1,9 @@
-package org.beizix.security.application.domain.role;
+package org.beizix.admin.usecase.role.save.application.port.in;
 
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.beizix.security.application.port.in.role.RoleSavePortIn;
-import org.beizix.security.application.port.in.role.RoleViewPortIn;
+import org.beizix.admin.usecase.role.view.application.port.in.RoleViewPortIn;
 import org.beizix.security.application.port.out.role.RoleNextOrderNoPortOut;
 import org.beizix.security.application.port.out.role.RoleSavePortOut;
 import org.beizix.security.config.exceptions.AlreadyExistsRoleException;

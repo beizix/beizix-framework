@@ -1,27 +1,26 @@
-package org.beizix.security.adapter.persistence.role;
+package org.beizix.admin.usecase.role.view.adapter.persistence;
 
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
-import org.beizix.security.adapter.persistence.role.repository.RoleRepo;
-import org.beizix.security.application.domain.role.model.view.RoleViewOutput;
-import org.beizix.security.application.port.out.role.RoleViewPortOut;
+import org.beizix.admin.usecase.role.view.application.port.out.RoleViewPortOut;
+import org.beizix.admin.usecase.role.view.application.domain.RoleView;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class RoleViewDao implements RoleViewPortOut<RoleViewOutput> {
-  private final RoleRepo roleRepo;
+public class RoleViewDao implements RoleViewPortOut<RoleView> {
+  private final RoleViewRepo roleRepo;
 
   @Override
   @Transactional
-  public RoleViewOutput connect(String roleId) {
+  public RoleView connect(String roleId) {
     return roleRepo
         .findById(roleId)
         .map(
             role ->
-                new RoleViewOutput(
+                new RoleView(
                     role.getCreatedBy(),
                     role.getCreatedAt(),
                     role.getUpdatedBy(),
