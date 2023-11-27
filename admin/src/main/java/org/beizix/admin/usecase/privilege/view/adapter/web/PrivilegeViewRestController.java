@@ -1,12 +1,11 @@
-package org.beizix.admin.adapter.web.privilege;
+package org.beizix.admin.usecase.privilege.view.adapter.web;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.beizix.admin.adapter.web.privilege.model.view.PrivilegeBindingVO;
 import org.beizix.core.configuration.adapter.web.rest.RestResponse;
-import org.beizix.security.application.domain.privilege.model.view.PrivilegeOutput;
-import org.beizix.security.application.port.in.privilege.PrivilegeViewPortIn;
+import org.beizix.admin.usecase.privilege.view.application.domain.PrivilegeView;
+import org.beizix.admin.usecase.privilege.view.application.port.in.PrivilegeViewPortIn;
 import org.beizix.utility.common.MessageUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 class PrivilegeViewRestController {
   private final MessageUtil messageUtil;
-  private final PrivilegeViewPortIn<PrivilegeOutput> privilegeViewPortIn;
+  private final PrivilegeViewPortIn<PrivilegeView> privilegeViewPortIn;
 
   @GetMapping("/api/adminPrivilege/get/{id}")
   ResponseEntity<?> view(@PathVariable String id) {
-    PrivilegeOutput item =
+    PrivilegeView item =
         Optional.ofNullable(privilegeViewPortIn.connect(id))
             .orElseThrow(
                 () ->
@@ -33,7 +32,7 @@ class PrivilegeViewRestController {
         .body(
             RestResponse.builder()
                 .item(
-                    new PrivilegeBindingVO(
+                    new PrivilegeViewVO(
                         item.getCreatedBy(),
                         item.getCreatedAt(),
                         item.getUpdatedBy(),

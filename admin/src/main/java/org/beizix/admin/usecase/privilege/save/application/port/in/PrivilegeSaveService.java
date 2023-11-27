@@ -1,13 +1,11 @@
-package org.beizix.security.application.domain.privilege;
+package org.beizix.admin.usecase.privilege.save.application.port.in;
 
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.beizix.security.application.domain.privilege.model.save.PrivilegeSaveInput;
-import org.beizix.security.application.domain.privilege.model.view.PrivilegeOutput;
-import org.beizix.security.application.port.in.privilege.PrivilegeSavePortIn;
+import org.beizix.admin.usecase.privilege.view.application.domain.PrivilegeView;
+import org.beizix.admin.usecase.privilege.view.application.port.out.PrivilegeViewPortOut;import org.beizix.security.application.domain.privilege.model.save.PrivilegeSaveInput;
 import org.beizix.security.application.port.out.privilege.PrivilegeNextOrderNoPortOut;
 import org.beizix.security.application.port.out.privilege.PrivilegeSavePortOut;
-import org.beizix.security.application.port.out.privilege.PrivilegeViewPortOut;
 import org.beizix.security.config.exceptions.AlreadyExistsRoleException;
 import org.beizix.utility.common.MessageUtil;
 import org.springframework.stereotype.Service;
@@ -16,7 +14,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PrivilegeSaveService implements PrivilegeSavePortIn {
   private final PrivilegeSavePortOut portOut;
-  private final PrivilegeViewPortOut<PrivilegeOutput> viewPortOut;
+  private final PrivilegeViewPortOut<PrivilegeView> viewPortOut;
   private final PrivilegeNextOrderNoPortOut nextOrderNoPortOut;
   private final MessageUtil messageUtil;
 

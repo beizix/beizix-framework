@@ -1,4 +1,4 @@
-package org.beizix.security.application.port.in.privilege;
+package org.beizix.admin.usecase.privilege.view.application.port.in;
 
 import org.beizix.core.application.domain.common.model.AuditOutput;
 

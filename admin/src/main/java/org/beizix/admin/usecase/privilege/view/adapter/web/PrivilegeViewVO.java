@@ -1,4 +1,4 @@
-package org.beizix.admin.adapter.web.privilege.model.view;
+package org.beizix.admin.usecase.privilege.view.adapter.web;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -12,7 +12,7 @@ import org.beizix.core.configuration.application.converter.CustomLocalDateTimeSe
 @Getter
 @Setter
 @AllArgsConstructor
-public class PrivilegeBindingVO {
+public class PrivilegeViewVO {
   private final String createdBy;
 
   @JsonSerialize(using = CustomLocalDateTimeSerializer.class)

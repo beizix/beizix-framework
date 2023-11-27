@@ -6,7 +6,7 @@ import org.beizix.admin.adapter.web.privilege.model.save.PrivilegeBindingVO;
 import org.beizix.core.configuration.adapter.web.rest.RestResponse;
 import org.beizix.core.configuration.application.util.CoreUtil;
 import org.beizix.security.application.domain.privilege.model.save.PrivilegeSaveInput;
-import org.beizix.security.application.port.in.privilege.PrivilegeSavePortIn;
+import org.beizix.admin.usecase.privilege.save.application.port.in.PrivilegeSavePortIn;
 import org.beizix.security.config.exceptions.AlreadyExistsRoleException;
 import org.beizix.utility.common.MessageUtil;
 import org.springframework.http.HttpStatus;
