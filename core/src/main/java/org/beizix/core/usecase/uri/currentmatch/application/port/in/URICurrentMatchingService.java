@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.beizix.core.config.enums.AppType;
-import org.beizix.core.usecase.uri.currentmatch.domain.URICurrentMatching;
+import org.beizix.core.config.application.enums.AppType;
+import org.beizix.core.usecase.uri.currentmatch.application.domain.URICurrentMatching;
 import org.beizix.core.usecase.uri.list.application.port.in.URIListPortIn;
-import org.beizix.utility.common.CommonUtil;
+import org.beizix.core.config.application.util.CommonUtil;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -5,12 +5,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.usecase.uri.ancestry.domain.URIAncestry;
-import org.beizix.core.config.enums.AppType;
+import org.beizix.core.usecase.uri.ancestry.application.domain.URIAncestry;
+import org.beizix.core.config.application.enums.AppType;
 import org.beizix.core.usecase.uri.currentmatch.application.port.in.URICurrentMatchingPortIn;
-import org.beizix.core.usecase.uri.currentmatch.domain.URICurrentMatching;
+import org.beizix.core.usecase.uri.currentmatch.application.domain.URICurrentMatching;
 import org.beizix.core.usecase.uri.view.application.port.in.URIViewPortIn;
-import org.beizix.core.usecase.uri.view.domain.URIView;
+import org.beizix.core.usecase.uri.view.application.domain.URIView;
 import org.springframework.stereotype.Service;
 
 @Service

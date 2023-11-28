@@ -3,13 +3,13 @@ package org.beizix.admin.usecase.uri.save.adapter.web;
 import java.io.IOException;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.application.domain.uri.model.save.URIInput;
+import org.beizix.admin.usecase.uri.save.application.domain.URISaveCommand;
 import org.beizix.admin.usecase.uri.save.application.port.in.URISavePortIn;
-import org.beizix.core.common.rest.RestResponse;
-import org.beizix.core.common.util.CoreUtil;
-import org.beizix.core.config.exception.AlreadyExistItemException;
-import org.beizix.core.config.exception.UnAcceptableFileException;
-import org.beizix.utility.common.MessageUtil;
+import org.beizix.core.config.adapter.web.rest.RestResponse;
+import org.beizix.core.config.application.util.CoreUtil;
+import org.beizix.core.config.application.exception.AlreadyExistItemException;
+import org.beizix.core.config.application.exception.UnAcceptableFileException;
+import org.beizix.core.config.application.util.MessageUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -34,7 +34,7 @@ public class URISaveController {
     String createdId;
     try {
       createdId = uriSavePortIn.connect(
-          new URIInput(
+          new URISaveCommand(
               bindingVO.getId(),
               bindingVO.getParentId(),
               bindingVO.getAppType(),

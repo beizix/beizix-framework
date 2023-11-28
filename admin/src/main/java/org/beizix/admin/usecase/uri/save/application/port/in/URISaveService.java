@@ -3,16 +3,16 @@ package org.beizix.admin.usecase.uri.save.application.port.in;
 import java.io.IOException;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.application.domain.uri.model.save.URIInput;
+import org.beizix.admin.usecase.uri.save.application.domain.URISaveCommand;
 import org.beizix.core.usecase.file.upload.application.port.in.FileUploadPortIn;
 import org.beizix.core.usecase.file.url.application.port.in.FileUrlPortIn;
 import org.beizix.admin.usecase.uri.save.application.port.out.URIMaxOrderNoPortOut;
 import org.beizix.admin.usecase.uri.save.application.port.out.URISavePortOut;
-import org.beizix.core.config.enums.ContentDispositionType;
-import org.beizix.core.config.enums.FileUploadType;
-import org.beizix.core.config.exception.AlreadyExistItemException;
+import org.beizix.core.config.application.enums.ContentDispositionType;
+import org.beizix.core.config.application.enums.FileUploadType;
+import org.beizix.core.config.application.exception.AlreadyExistItemException;
 import org.beizix.core.usecase.uri.view.application.port.in.URIViewPortIn;
-import org.beizix.utility.common.MessageUtil;
+import org.beizix.core.config.application.util.MessageUtil;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,7 +32,7 @@ class URISaveService implements URISavePortIn {
       value = {"URIItemsByAppTypeCache", "URITopTierCache"},
       allEntries = true)
   @Override
-  public String connect(URIInput uri, MultipartFile ogImageFile, boolean checkDuplicate)
+  public String connect(URISaveCommand uri, MultipartFile ogImageFile, boolean checkDuplicate)
       throws IOException {
     if (checkDuplicate) {
       // 중복 URI 정보 조회

@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.application.domain.uri.model.URISortInput;
+import org.beizix.admin.usecase.uri.sort.application.domain.URISortCommand;
 import org.beizix.admin.usecase.uri.sort.application.port.in.URISortPortIn;
-import org.beizix.core.common.util.CoreUtil;
+import org.beizix.core.config.application.util.CoreUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -29,7 +29,7 @@ public class URISortController {
 
     uriSortPortIn.connect(
         sortVOs.stream()
-            .map(item -> new URISortInput(item.getId(), item.getOrderNo()))
+            .map(item -> new URISortCommand(item.getId(), item.getOrderNo()))
             .collect(Collectors.toList()));
 
     return ResponseEntity.status(HttpStatus.OK).body(null);

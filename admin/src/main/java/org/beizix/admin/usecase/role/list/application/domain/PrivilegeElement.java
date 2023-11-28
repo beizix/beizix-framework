@@ -1,0 +1,11 @@
+package org.beizix.admin.usecase.role.list.application.domain;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
+public class PrivilegeElement {
+  private String id;
+  private String description;
+}

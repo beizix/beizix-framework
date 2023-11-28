@@ -1,9 +1,9 @@
 package org.beizix.core.usecase.uri.list.application.port.in;
 
 import java.util.List;
-import org.beizix.core.config.enums.AppType;
-import org.beizix.core.usecase.uri.list.domain.URIDetail;
+import org.beizix.core.config.application.enums.AppType;
+import org.beizix.core.usecase.uri.list.application.domain.URIElement;
 
 public interface URIListPortIn {
-  List<URIDetail> connect(AppType appType);
+  List<URIElement> connect(AppType appType);
 }

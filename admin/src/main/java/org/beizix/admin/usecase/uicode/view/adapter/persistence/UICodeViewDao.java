@@ -2,7 +2,7 @@ package org.beizix.admin.usecase.uicode.view.adapter.persistence;
 
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.usecase.uicode.view.application.port.out.UICodeViewPortOut;
-import org.beizix.admin.usecase.uicode.view.domain.UICodeView;
+import org.beizix.admin.usecase.uicode.view.application.domain.UICodeView;
 import org.springframework.stereotype.Repository;
 
 @Repository

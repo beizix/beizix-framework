@@ -4,7 +4,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.usecase.uri.sort.application.port.out.URISortPortOut;
-import org.beizix.core.application.domain.uri.model.URISortInput;
+import org.beizix.admin.usecase.uri.sort.application.domain.URISortCommand;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -14,7 +14,7 @@ class URISortDao implements URISortPortOut {
 
   @Transactional
   @Override
-  public void connect(List<URISortInput> uris) {
+  public void connect(List<URISortCommand> uris) {
     uris.forEach(uri -> uriSortRepo.operate(uri.getId(), uri.getOrderNo()));
   }
 }

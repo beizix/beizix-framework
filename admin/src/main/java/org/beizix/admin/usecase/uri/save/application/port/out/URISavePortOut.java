@@ -1,8 +1,8 @@
 package org.beizix.admin.usecase.uri.save.application.port.out;
 
 
-import org.beizix.core.application.domain.uri.model.save.URIInput;
+import org.beizix.admin.usecase.uri.save.application.domain.URISaveCommand;
 
 public interface URISavePortOut {
-  String connect(URIInput uri);
+  String connect(URISaveCommand uri);
 }

@@ -6,7 +6,7 @@ import javax.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.beizix.core.config.enums.AppType;
+import org.beizix.core.config.application.enums.AppType;
 import org.springframework.web.multipart.MultipartFile;
 
 @Getter

@@ -1,11 +1,11 @@
 package org.beizix.aws.usecase.file.url.strategy;
 
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.usecase.file.upload.domain.FileUploadOutput;
+import org.beizix.core.usecase.file.upload.application.domain.FileUploadOutput;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.beizix.core.config.enums.ContentDispositionType;
-import org.beizix.core.config.enums.FileStorageType;
+import org.beizix.core.config.application.enums.ContentDispositionType;
+import org.beizix.core.config.application.enums.FileStorageType;
 import org.beizix.core.usecase.file.url.strategy.FileUrlStrategy;
 
 import java.util.Optional;

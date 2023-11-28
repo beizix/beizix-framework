@@ -1,7 +1,7 @@
 package org.beizix.core.usecase.file.upload.strategy;
 
 import org.springframework.web.multipart.MultipartFile;
-import org.beizix.core.config.enums.FileStorageType;
+import org.beizix.core.config.application.enums.FileStorageType;
 
 import java.io.IOException;
 

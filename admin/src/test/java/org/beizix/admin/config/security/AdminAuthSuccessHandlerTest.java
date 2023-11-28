@@ -6,11 +6,11 @@ import static org.springframework.security.test.web.servlet.response.SecurityMoc
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
 
 import java.util.Arrays;
-import org.beizix.core.application.domain.loggedinuser.model.LoggedInUserIdInput;
-import org.beizix.core.application.port.out.loggedinuser.LoggedInUserViewPortOut;
-import org.beizix.core.config.enums.AppType;
-import org.beizix.security.application.port.in.admin.AdminSavePortIn;
-import org.beizix.security.application.port.in.admin.AdminViewPortIn;
+import org.beizix.admin.usecase.loggedinuser.view.application.domain.LoggedInUserIdView;
+import org.beizix.admin.usecase.loggedinuser.view.application.port.out.LoggedInUserViewPortOut;
+import org.beizix.core.config.application.enums.AppType;
+import org.beizix.admin.usecase.admin.save.application.port.in.AdminSavePortIn;
+import org.beizix.admin.usecase.admin.view.application.port.in.AdminViewPortIn;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -75,7 +75,7 @@ class AdminAuthSuccessHandlerTest {
     if (maxSessionNum == 1) {
       assertNotNull(
           loggedInUserViewPortOut.connect(
-              LoggedInUserIdInput.builder().appType(AppType.ADMIN).id(username).build()),
+              LoggedInUserIdView.builder().appType(AppType.ADMIN).id(username).build()),
           "maxSessionNum 이 1일때, 로그인 기록 레코드가 생성되어야 한다.");
     }
   }

@@ -2,10 +2,10 @@ package org.beizix.admin.usecase.uri.remove.application.port.in;
 
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.usecase.uri.remove.application.port.out.URIRemovePortOut;
-import org.beizix.core.config.enums.AppType;
-import org.beizix.core.config.exception.NonRemovableItemException;
+import org.beizix.core.config.application.enums.AppType;
+import org.beizix.core.config.application.exception.NonRemovableItemException;
 import org.beizix.core.usecase.uri.view.application.port.in.URIViewPortIn;
-import org.beizix.utility.common.MessageUtil;
+import org.beizix.core.config.application.util.MessageUtil;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 

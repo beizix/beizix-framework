@@ -1,6 +1,6 @@
 package org.beizix.admin.usecase.uri.sort.adapter.persistence;
 
-import org.beizix.core.adapter.persistence.uri.model.URI;
+import org.beizix.core.config.adapter.persistence.entity.URI;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

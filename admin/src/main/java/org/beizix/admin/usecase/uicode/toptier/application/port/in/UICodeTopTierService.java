@@ -2,7 +2,7 @@ package org.beizix.admin.usecase.uicode.toptier.application.port.in;
 
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.usecase.uicode.toptier.application.port.out.UICodeTopTierPortOut;
-import org.beizix.admin.usecase.uicode.toptier.domain.UICodeTopTier;
+import org.beizix.admin.usecase.uicode.toptier.application.domain.UICodeTopTier;
 import org.springframework.stereotype.Service;
 
 @Service

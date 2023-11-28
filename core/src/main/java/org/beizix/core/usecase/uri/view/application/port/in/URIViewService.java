@@ -2,9 +2,9 @@ package org.beizix.core.usecase.uri.view.application.port.in;
 
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.config.enums.AppType;
+import org.beizix.core.config.application.enums.AppType;
 import org.beizix.core.usecase.uri.list.application.port.in.URIListPortIn;
-import org.beizix.core.usecase.uri.view.domain.URIView;
+import org.beizix.core.usecase.uri.view.application.domain.URIView;
 import org.springframework.stereotype.Service;
 
 @Service

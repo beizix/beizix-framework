@@ -5,8 +5,8 @@ import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.beizix.admin.usecase.uicode.toptier.application.port.out.UICodeTopTierPortOut;
-import org.beizix.admin.usecase.uicode.toptier.domain.UICodeTopTier;
-import org.beizix.core.adapter.persistence.uicode.model.UICode;
+import org.beizix.admin.usecase.uicode.toptier.application.domain.UICodeTopTier;
+import org.beizix.core.config.adapter.persistence.entity.UICode;
 import org.springframework.stereotype.Repository;
 
 @Repository

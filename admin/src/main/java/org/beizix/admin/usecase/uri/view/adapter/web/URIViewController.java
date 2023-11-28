@@ -2,12 +2,11 @@ package org.beizix.admin.usecase.uri.view.adapter.web;
 
 import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
-import org.beizix.admin.adapter.web.uri.model.view.URIBindingVO;
-import org.beizix.core.common.rest.RestResponse;
-import org.beizix.core.config.enums.AppType;
+import org.beizix.core.config.adapter.web.rest.RestResponse;
+import org.beizix.core.config.application.enums.AppType;
 import org.beizix.core.usecase.uri.view.application.port.in.URIViewPortIn;
-import org.beizix.core.usecase.uri.view.domain.URIView;
-import org.beizix.utility.common.MessageUtil;
+import org.beizix.core.usecase.uri.view.application.domain.URIView;
+import org.beizix.core.config.application.util.MessageUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -174,8 +174,6 @@
 
     <modules>
         <module>core</module>
-        <module>security</module>
-        <module>utility</module>
         <module>aws</module>
         <module>admin</module>
         <module>front</module>
