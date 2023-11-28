@@ -12,12 +12,11 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.beizix.core.config.adapter.persistence.entity.OperationLog_;
 import org.beizix.core.config.application.aop.PageDefault;
 import org.beizix.core.config.application.component.PageableInput;
+import org.beizix.core.config.application.enums.OrderDir;
+import org.beizix.core.config.application.util.ExcelUtil;
 import org.beizix.core.usecase.operationlog.list.application.domain.OperationLogListFilterCommand;
 import org.beizix.core.usecase.operationlog.list.application.domain.OperationLogPageableList;
 import org.beizix.core.usecase.operationlog.list.application.port.in.OperationLogListPortIn;
-import org.beizix.core.config.application.enums.OrderDir;
-import org.beizix.core.config.application.util.ExcelUtil;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -26,7 +25,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @RequiredArgsConstructor
 public class OperationLogListExcelController {
   private final ExcelUtil excelUtil;
-  private final ModelMapper modelMapper;
   private final OperationLogListPortIn operationLogListPortIn;
 
   @GetMapping("/analysis/operationlog/excel")
@@ -39,7 +37,12 @@ public class OperationLogListExcelController {
 
     OperationLogPageableList listOutput =
         operationLogListPortIn.connect(
-            pageable, modelMapper.map(paramDto, OperationLogListFilterCommand.class));
+            pageable,
+            new OperationLogListFilterCommand(
+                paramDto.getSearchField(),
+                paramDto.getSearchValue(),
+                paramDto.getSearchAppType(),
+                paramDto.getSearchOperationType()));
 
     if (CollectionUtils.isNotEmpty(listOutput.getContents())) {
       // Header

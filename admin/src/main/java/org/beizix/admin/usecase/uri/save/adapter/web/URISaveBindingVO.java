@@ -7,12 +7,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.beizix.core.config.application.enums.AppType;
+import org.beizix.core.config.application.enums.SaveType;
 import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
 @AllArgsConstructor
-public class URIBindingVO {
+public class URISaveBindingVO {
   private String id;
   private AppType appType;
 
@@ -40,4 +41,6 @@ public class URIBindingVO {
   private MultipartFile ogImageFile;
 
   private Set<String> roles;
+
+  private SaveType saveType;
 }

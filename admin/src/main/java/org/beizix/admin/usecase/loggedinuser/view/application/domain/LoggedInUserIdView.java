@@ -6,7 +6,6 @@ import org.beizix.core.config.application.enums.AppType;
 @Getter
 @Setter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 public class LoggedInUserIdView {
   private AppType appType;

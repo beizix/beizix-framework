@@ -28,6 +28,8 @@
         <input type="hidden" name="appType" th:value="${appType}">
         <input type="hidden" name="parentId" value="">
         <input type="hidden" name="orderNo" value="">
+        <input type="hidden" name="saveType"
+               th:value="${T(org.beizix.core.config.application.enums.SaveType).CREATE}"/>
 
         <div class="row mb-3">
           <label class="col-sm-3 col-form-label" for="uri">URI *</label>
@@ -197,8 +199,11 @@
 
           switchOgImage('ogImageText');
 
+          f.saveType.value = [[${T(org.beizix.core.config.application.enums.SaveType).CREATE}]];
+
           return;
         } else {
+          f.saveType.value = [[${T(org.beizix.core.config.application.enums.SaveType).UPDATE}]];
         }
         getInfo(data);
       });

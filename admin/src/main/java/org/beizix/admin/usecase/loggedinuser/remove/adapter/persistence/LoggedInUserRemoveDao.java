@@ -4,17 +4,16 @@ import lombok.RequiredArgsConstructor;
 import org.beizix.admin.usecase.loggedinuser.remove.application.domain.LoggedInUserRemoveCommand;
 import org.beizix.admin.usecase.loggedinuser.remove.application.port.out.LoggedInUserRemovePortOut;
 import org.beizix.core.config.adapter.persistence.component.LoggedInUserEmbeddable;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
 public class LoggedInUserRemoveDao implements LoggedInUserRemovePortOut {
   private final LoggedInUserRemoveRepo loggedInUserRepo;
-  private final ModelMapper modelMapper;
 
   @Override
   public void connect(LoggedInUserRemoveCommand removeCommand) {
-    loggedInUserRepo.deleteById(modelMapper.map(removeCommand, LoggedInUserEmbeddable.class));
+    loggedInUserRepo.deleteById(
+        new LoggedInUserEmbeddable(removeCommand.getAppType(), removeCommand.getId()));
   }
 }

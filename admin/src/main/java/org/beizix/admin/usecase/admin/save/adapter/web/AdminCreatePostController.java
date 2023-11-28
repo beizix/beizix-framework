@@ -6,7 +6,6 @@ import org.beizix.admin.usecase.admin.save.adapter.web.validator.AdminCreateVali
 import org.beizix.admin.usecase.admin.save.application.port.in.AdminSavePortIn;
 import org.beizix.admin.usecase.role.list.application.port.in.RoleListPortIn;
 import org.beizix.core.config.application.util.MessageUtil;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,7 +19,6 @@ public class AdminCreatePostController {
   private final RoleListPortIn roleListPortIn;
   private final MessageUtil messageUtil;
   private final AdminSavePortIn savePortIn;
-  private final ModelMapper modelMapper;
   private final AdminCreateValidator adminCreateValidator;
 
   @PostMapping(path = "/settings/admins/create")

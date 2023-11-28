@@ -5,20 +5,25 @@ import org.beizix.admin.usecase.loggedinuser.view.application.domain.LoggedInUse
 import org.beizix.admin.usecase.loggedinuser.view.application.domain.LoggedInUserView;
 import org.beizix.admin.usecase.loggedinuser.view.application.port.out.LoggedInUserViewPortOut;
 import org.beizix.core.config.adapter.persistence.component.LoggedInUserEmbeddable;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
 public class LoggedInUserViewDao implements LoggedInUserViewPortOut {
   private final LoggedInUserViewRepo loggedInUserRepo;
-  private final ModelMapper modelMapper;
 
   @Override
   public LoggedInUserView connect(LoggedInUserIdView userCommand) {
     return loggedInUserRepo
         .findById(new LoggedInUserEmbeddable(userCommand.getAppType(), userCommand.getId()))
-        .map(loggedInUser -> modelMapper.map(loggedInUser, LoggedInUserView.class))
+        .map(
+            loggedInUser ->
+                new LoggedInUserView(
+                    new LoggedInUserIdView(
+                        loggedInUser.getLoggedInUserId().getAppType(),
+                        loggedInUser.getLoggedInUserId().getId()),
+                    loggedInUser.getClientIP(),
+                    loggedInUser.getLastLoggedInAt()))
         .orElse(null);
   }
 }

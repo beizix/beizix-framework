@@ -7,7 +7,6 @@ import org.beizix.admin.usecase.admin.save.adapter.web.validator.AdminUpdateVali
 import org.beizix.admin.usecase.admin.save.application.port.in.AdminSavePortIn;
 import org.beizix.admin.usecase.role.list.application.port.in.RoleListPortIn;
 import org.beizix.core.config.application.util.MessageUtil;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,7 +20,6 @@ class AdminUpdatePostController {
   private final AdminUpdateValidator adminUpdateValidator;
   private final RoleListPortIn roleListPortIn;
   private final AdminSavePortIn adminSavePortIn;
-  private final ModelMapper modelMapper;
   private final MessageUtil messageUtil;
 
   @PostMapping(path = "/settings/admins/update/{id}")

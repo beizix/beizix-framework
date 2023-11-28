@@ -6,9 +6,10 @@ import lombok.RequiredArgsConstructor;
 import org.beizix.admin.usecase.uri.save.application.domain.URISaveCommand;
 import org.beizix.admin.usecase.uri.save.application.port.in.URISavePortIn;
 import org.beizix.core.config.adapter.web.rest.RestResponse;
-import org.beizix.core.config.application.util.CoreUtil;
+import org.beizix.core.config.application.enums.SaveType;
 import org.beizix.core.config.application.exception.AlreadyExistItemException;
 import org.beizix.core.config.application.exception.UnAcceptableFileException;
+import org.beizix.core.config.application.util.CoreUtil;
 import org.beizix.core.config.application.util.MessageUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class URISaveController {
   private final MessageUtil messageUtil;
 
   @PostMapping(path = "/api/uri/save")
-  public ResponseEntity<?> save(@Valid URIBindingVO bindingVO, BindingResult bindingResult)
+  public ResponseEntity<?> save(@Valid URISaveBindingVO saveVO, BindingResult bindingResult)
       throws IOException {
 
     if (bindingResult.hasErrors()) {
@@ -33,22 +34,23 @@ public class URISaveController {
 
     String createdId;
     try {
-      createdId = uriSavePortIn.connect(
-          new URISaveCommand(
-              bindingVO.getId(),
-              bindingVO.getParentId(),
-              bindingVO.getAppType(),
-              bindingVO.getUri(),
-              bindingVO.isShowOnNavi(),
-              bindingVO.getText(),
-              bindingVO.getOrderNo(),
-              bindingVO.getOgTitle(),
-              bindingVO.getOgDesc(),
-              bindingVO.getOgKeywords(),
-              bindingVO.getOgImage(),
-              bindingVO.getRoles()),
-          bindingVO.getOgImageFile(),
-          true);
+      createdId =
+          uriSavePortIn.connect(
+              new URISaveCommand(
+                  saveVO.getId(),
+                  saveVO.getParentId(),
+                  saveVO.getAppType(),
+                  saveVO.getUri(),
+                  saveVO.isShowOnNavi(),
+                  saveVO.getText(),
+                  saveVO.getOrderNo(),
+                  saveVO.getOgTitle(),
+                  saveVO.getOgDesc(),
+                  saveVO.getOgKeywords(),
+                  saveVO.getOgImage(),
+                  saveVO.getRoles()),
+              saveVO.getOgImageFile(),
+              saveVO.getSaveType().equals(SaveType.CREATE));
 
     } catch (UnAcceptableFileException e) {
       bindingResult.rejectValue("ogImageFile", "", e.getMessage());

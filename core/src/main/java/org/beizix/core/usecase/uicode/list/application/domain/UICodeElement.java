@@ -1,12 +1,14 @@
 package org.beizix.core.usecase.uicode.list.application.domain;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@NoArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
 public class UICodeElement {
   private String id;
   private String parentId;
@@ -15,27 +17,4 @@ public class UICodeElement {
   private String codeValue;
   private String msgCode;
   private Boolean inUse;
-  private List<UICodeElement> nodes;
-  private Integer depth;
-
-  public UICodeElement(
-      String id,
-      String parentId,
-      Integer orderNo,
-      String codeText,
-      String codeValue,
-      String msgCode,
-      Boolean inUse,
-      List<UICodeElement> nodes,
-      Integer depth) {
-    this.id = id;
-    this.parentId = parentId;
-    this.orderNo = orderNo;
-    this.codeText = codeText;
-    this.codeValue = codeValue;
-    this.msgCode = msgCode;
-    this.inUse = inUse;
-    this.nodes = nodes;
-    this.depth = depth;
-  }
 }

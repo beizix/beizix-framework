@@ -10,7 +10,7 @@ import org.beizix.admin.usecase.admin.list.application.domain.AdminPageableList;
 import org.beizix.admin.usecase.role.list.application.domain.RoleElement;
 import org.beizix.admin.usecase.admin.list.application.port.in.AdminListPortIn;
 import org.beizix.admin.usecase.role.list.application.port.in.RoleListPortIn;
-import org.springframework.stereotype.Controller;
+import org.beizix.core.usecase.uicode.list.application.port.in.UICodeListPortIn;import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 class AdminListController {
   private final AdminListPortIn adminListPortIn;
   private final RoleListPortIn<RoleElement> roleListPortIn;
+  private final UICodeListPortIn uiCodeListPortIn;
 
   @GetMapping(path = "/settings/admins")
   String operate(
@@ -38,6 +39,7 @@ class AdminListController {
 
     model.addAttribute("listOutput", listOutput);
     model.addAttribute("roles", roleListPortIn.connect());
+    model.addAttribute("pageRows", uiCodeListPortIn.connect("code.pageable.rows"));
 
     return "admin/adminList";
   }
