@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.usecase.exboard.sort.application.domain.ExBoardSortCommand;
 import org.beizix.admin.usecase.exboard.sort.application.port.in.ExBoardSortPortIn;
-import org.beizix.core.config.adapter.web.rest.RestResponse;
+import org.beizix.core.config.adapter.web.rest.response.RestResponse;
 import org.beizix.core.config.application.util.MessageUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

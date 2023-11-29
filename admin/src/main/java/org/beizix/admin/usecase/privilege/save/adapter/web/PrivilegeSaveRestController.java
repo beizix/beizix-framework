@@ -2,7 +2,7 @@ package org.beizix.admin.usecase.privilege.save.adapter.web;
 
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.config.adapter.web.rest.RestResponse;
+import org.beizix.core.config.adapter.web.rest.response.RestResponse;
 import org.beizix.core.config.application.util.CoreUtil;
 import org.beizix.admin.usecase.admin.save.application.domain.PrivilegeSaveCommand;
 import org.beizix.admin.usecase.privilege.save.application.port.in.PrivilegeSavePortIn;

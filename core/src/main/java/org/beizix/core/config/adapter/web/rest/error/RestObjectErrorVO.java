@@ -1,10 +1,10 @@
-package org.beizix.core.config.adapter.web.rest;
+package org.beizix.core.config.adapter.web.rest.error;
 
 import lombok.Builder;
 import lombok.Data;
 
 @Builder
 @Data
-public class RestObjectErrorDto {
+public class RestObjectErrorVO {
   private String message;
 }

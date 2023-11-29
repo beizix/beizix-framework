@@ -1,17 +1,17 @@
-package org.beizix.core.config.adapter.persistence.component;
+package org.beizix.core.config.adapter.persistence.entity;
 
-import lombok.*;
-import org.hibernate.Hibernate;
-import org.hibernate.annotations.Comment;
-import org.beizix.core.config.application.enums.AppType;
-
+import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import java.io.Serializable;
-import java.util.Objects;
+import lombok.*;
+import org.beizix.core.config.application.enums.AppType;
+import org.hibernate.Hibernate;
+import org.hibernate.annotations.Comment;
 
+/** 로그인 기록 테이블 LoggedInUser 의 고유키 객체. AppType 과 id 로 구성된 합성키다. */
 @Embeddable
 @Getter
 @Setter

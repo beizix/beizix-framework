@@ -1,7 +1,6 @@
 package org.beizix.core.config.adapter.persistence.entity;
 
 import lombok.*;
-import org.beizix.core.config.adapter.persistence.component.LoggedInUserEmbeddable;
 import org.hibernate.annotations.Comment;
 
 import javax.persistence.Column;

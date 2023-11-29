@@ -2,7 +2,7 @@ package org.beizix.admin.usecase.privilege.list.adapter.web;
 
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.config.adapter.web.rest.RestResponse;
+import org.beizix.core.config.adapter.web.rest.response.RestResponse;
 import org.beizix.admin.usecase.privilege.list.application.domain.PrivilegeElement;
 import org.beizix.admin.usecase.privilege.list.application.port.in.PrivilegeListPortIn;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package org.beizix.core.config.adapter.web.rest;
+package org.beizix.core.config.adapter.web.rest.response;
 
 import lombok.Builder;
 import lombok.Data;

@@ -3,7 +3,7 @@ package org.beizix.admin.usecase.privilege.view.adapter.web;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.config.adapter.web.rest.RestResponse;
+import org.beizix.core.config.adapter.web.rest.response.RestResponse;
 import org.beizix.admin.usecase.privilege.view.application.domain.PrivilegeView;
 import org.beizix.admin.usecase.privilege.view.application.port.in.PrivilegeViewPortIn;
 import org.beizix.core.config.application.util.MessageUtil;

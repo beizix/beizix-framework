@@ -2,7 +2,7 @@ package org.beizix.admin.usecase.uri.view.adapter.web;
 
 import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
-import org.beizix.core.config.adapter.web.rest.RestResponse;
+import org.beizix.core.config.adapter.web.rest.response.RestResponse;
 import org.beizix.core.config.application.enums.AppType;
 import org.beizix.core.usecase.uri.view.application.port.in.URIViewPortIn;
 import org.beizix.core.usecase.uri.view.application.domain.URIView;

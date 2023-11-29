@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.beizix.core.config.application.util.CommonUtil;
-import org.beizix.core.config.adapter.web.rest.RestExceptionDto;
 import org.beizix.core.config.application.exception.NoMatchingURIException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
+/**
+ * 전역 예외 제어 객체.
+ */
 @ControllerAdvice
 @Slf4j
 @RequiredArgsConstructor
@@ -72,10 +74,10 @@ public class GlobalControllerAdvice {
   }
 
   @ResponseBody
-  public ResponseEntity<RestExceptionDto> getAjaxExceptionBody(RuntimeException e) {
+  public ResponseEntity<GlobalRestExceptionVO> getAjaxExceptionBody(RuntimeException e) {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
         .body(
-            RestExceptionDto.builder()
+            GlobalRestExceptionVO.builder()
                 .message(e.getClass().getSimpleName() + " - " + e.getMessage())
                 .httpStatus(HttpStatus.BAD_REQUEST)
                 .build());

@@ -3,7 +3,7 @@ package org.beizix.admin.usecase.uri.remove.adapter.web;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.usecase.uri.remove.application.port.in.URIRemovePortIn;
-import org.beizix.core.config.adapter.web.rest.RestResponse;
+import org.beizix.core.config.adapter.web.rest.response.RestResponse;
 import org.beizix.core.config.application.util.CoreUtil;
 import org.beizix.core.config.application.enums.AppType;
 import org.beizix.core.config.application.exception.NonRemovableItemException;

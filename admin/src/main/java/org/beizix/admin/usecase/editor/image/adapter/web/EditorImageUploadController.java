@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
-import org.beizix.core.config.adapter.web.rest.RestResponse;
+import org.beizix.core.config.adapter.web.rest.response.RestResponse;
 import org.beizix.core.config.application.enums.ContentDispositionType;
 import org.beizix.core.config.application.enums.FileUploadType;
 import org.beizix.core.usecase.file.upload.application.port.in.FileUploadPortIn;

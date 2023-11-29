@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.beizix.core.usecase.uri.ancestry.application.domain.URIAncestry;
-import org.beizix.core.config.adapter.web.rest.RestErrorDto;
-import org.beizix.core.config.adapter.web.rest.RestFieldErrorDto;
-import org.beizix.core.config.adapter.web.rest.RestObjectErrorDto;
+import org.beizix.core.config.adapter.web.rest.error.RestErrorVO;
+import org.beizix.core.config.adapter.web.rest.error.RestFieldErrorVO;
+import org.beizix.core.config.adapter.web.rest.error.RestObjectErrorVO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -42,11 +42,11 @@ public class CoreUtil {
    * @param objectErrors ObjectError 목록
    * @return List<RestObjectErrorDto>
    */
-  public List<RestObjectErrorDto> getRestObjectErrors(List<ObjectError> objectErrors) {
+  public List<RestObjectErrorVO> getRestObjectErrors(List<ObjectError> objectErrors) {
     return objectErrors.stream()
         .map(
             objectError ->
-                RestObjectErrorDto.builder()
+                RestObjectErrorVO.builder()
                     .message(
                         !StringUtils.isEmpty(objectError.getDefaultMessage())
                             ? objectError.getDefaultMessage()
@@ -59,7 +59,7 @@ public class CoreUtil {
   public ResponseEntity<?> getValidationFailResponseEntity(BindingResult bindingResult) {
     return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
         .body(
-            RestErrorDto.builder()
+            RestErrorVO.builder()
                 .objectErrors(getRestObjectErrors(bindingResult.getGlobalErrors()))
                 .fieldErrors(getRestFieldErrors(bindingResult.getFieldErrors()))
                 .build());
@@ -71,11 +71,11 @@ public class CoreUtil {
    * @param fieldErrors bindResult 의 fieldErrors
    * @return List<RestFieldErrorDto>
    */
-  public List<RestFieldErrorDto> getRestFieldErrors(List<FieldError> fieldErrors) {
+  public List<RestFieldErrorVO> getRestFieldErrors(List<FieldError> fieldErrors) {
     return fieldErrors.stream()
         .map(
             fieldError ->
-                new RestFieldErrorDto(
+                new RestFieldErrorVO(
                     fieldError.getField(),
                     !StringUtils.isEmpty(fieldError.getDefaultMessage())
                         ? fieldError.getDefaultMessage()

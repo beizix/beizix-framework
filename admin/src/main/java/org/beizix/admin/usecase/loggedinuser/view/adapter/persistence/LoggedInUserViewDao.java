@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.beizix.admin.usecase.loggedinuser.view.application.domain.LoggedInUserIdView;
 import org.beizix.admin.usecase.loggedinuser.view.application.domain.LoggedInUserView;
 import org.beizix.admin.usecase.loggedinuser.view.application.port.out.LoggedInUserViewPortOut;
-import org.beizix.core.config.adapter.persistence.component.LoggedInUserEmbeddable;
+import org.beizix.core.config.adapter.persistence.entity.LoggedInUserEmbeddable;
 import org.springframework.stereotype.Repository;
 
 @Repository

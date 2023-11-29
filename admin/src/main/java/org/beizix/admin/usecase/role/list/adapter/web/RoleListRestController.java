@@ -3,7 +3,7 @@ package org.beizix.admin.usecase.role.list.adapter.web;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
-import org.beizix.core.config.adapter.web.rest.RestResponse;
+import org.beizix.core.config.adapter.web.rest.response.RestResponse;
 import org.beizix.admin.usecase.role.list.application.domain.RoleElement;
 import org.beizix.admin.usecase.role.list.application.port.in.RoleListPortIn;
 import org.springframework.http.HttpStatus;

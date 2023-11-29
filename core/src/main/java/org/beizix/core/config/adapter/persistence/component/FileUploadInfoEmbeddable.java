@@ -1,14 +1,13 @@
 package org.beizix.core.config.adapter.persistence.component;
 
-import lombok.*;
-import org.beizix.core.config.application.enums.FileUploadType;
-
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-
+import lombok.*;
+import org.beizix.core.config.application.enums.FileUploadType;
 import org.hibernate.annotations.Comment;
 
+/** 파일 업로드 정보를 담는 공용 엔티티 속성. 다른 엔티티에 탑재(embed)되어 사용된다. */
 @Embeddable
 @Getter
 @Setter

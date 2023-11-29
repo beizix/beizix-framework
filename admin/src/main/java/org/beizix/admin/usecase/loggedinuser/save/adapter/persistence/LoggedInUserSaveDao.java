@@ -3,7 +3,7 @@ package org.beizix.admin.usecase.loggedinuser.save.adapter.persistence;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.usecase.loggedinuser.save.application.domain.LoggedInUserSaveCommand;
 import org.beizix.admin.usecase.loggedinuser.save.application.port.out.LoggedInUserSavePortOut;
-import org.beizix.core.config.adapter.persistence.component.LoggedInUserEmbeddable;
+import org.beizix.core.config.adapter.persistence.entity.LoggedInUserEmbeddable;
 import org.beizix.core.config.adapter.persistence.entity.LoggedInUser;
 import org.springframework.stereotype.Repository;
 
