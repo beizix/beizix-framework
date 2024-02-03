@@ -8,12 +8,8 @@
         th:object="${paramDto}" onsubmit="goSearch();">
 
     <!-- hidden parameters -->
-    <input type="hidden" name="pageNumber"
-           th:value="${listOutput.pageable.pageNumber}"/>
-    <input type="hidden"
-           name="orderBy" th:value="${listOutput.pageable.orderBy}"/>
-    <input type="hidden"
-           name="orderDir" th:value="${listOutput.pageable.orderDir}"/>
+    <input type="hidden" name="page" th:value="${listOutput.pageable.pageNumber}"/>
+    <input type="hidden" name="sort" th:value="${listOutput.pageable.sort}"/>
 
     <div style="--bs-bg-opacity: .2;">
       <div>
@@ -50,13 +46,13 @@
     <div>
       <div>
         <div>
-          Total: <span th:text="${listOutput.pageable.totalElements}"></span>
+          Total: <span th:text="${listOutput.totalElements}"></span>
         </div>
       </div>
       <div>
         <i></i> <label> <select
-              th:field="*{size}"
-              onchange="goSearch()">
+          th:field="*{size}"
+          onchange="goSearch()">
         <option
             th:each="item : ${pageRows}"
             th:value="${item.codeValue}" th:text="${item.codeText}"
@@ -72,7 +68,7 @@
         <th scope="col">#</th>
         <th scope="col"><label>
           <input
-                  type="checkbox" onchange="toggleCheckbox(this);"/></label>
+              type="checkbox" onchange="toggleCheckbox(this);"/></label>
         </th>
         <th scope="col"><a href="#"
                            data-sort-field="title">제목</a></th>
@@ -89,27 +85,27 @@
       </tr>
       </thead>
       <tbody>
-      <tr th:each="item, status : ${listOutput.contents}">
+      <tr th:each="item, status : ${listOutput.content}">
         <th
-                th:text="${status.count + (listOutput.pageable.pageNumber * listOutput.pageable.pageSize)}"
-                scope="row">게시물번호
+            th:text="${status.count + (listOutput.pageable.pageNumber * listOutput.pageable.pageSize)}"
+            scope="row">게시물번호
         </th>
         <td><label>
           <input
-                  name="checkedIds" type="checkbox" th:value="${item.id}"/></label>
+              name="checkedIds" type="checkbox" th:value="${item.id}"/></label>
         <td><a th:href="|javascript:goSave('${item.id}')|"
                th:text="${item.title}">Title</a></td>
         <td><i th:if="${item.visible}"></i> <i
-                th:if="${!item.visible}"></i></td>
+            th:if="${!item.visible}"></i></td>
         <td
-                th:text="${#temporals.format(item.boardStartDate, 'yyyy-MM-dd hh:mm')}">게시일
+            th:text="${#temporals.format(item.boardStartDate, 'yyyy-MM-dd hh:mm')}">게시일
         </td>
         <td
-                th:text="${#temporals.format(item.boardEndDate, 'yyyy-MM-dd hh:mm')}">종료일
+            th:text="${#temporals.format(item.boardEndDate, 'yyyy-MM-dd hh:mm')}">종료일
         </td>
         <td th:text="${item.updatedBy}">작성자</td>
         <td
-                th:text="${#temporals.format(item.updatedAt, 'yyyy-MM-dd hh:mm')}">수정일
+            th:text="${#temporals.format(item.updatedAt, 'yyyy-MM-dd hh:mm')}">수정일
         </td>
       </tr>
       </tbody>
@@ -117,61 +113,62 @@
 
   </form>
 
-  <div th:replace="common/list-components :: pagination(${listOutput.pageable})"></div>
+  <div th:replace="common/list-components :: pagination(${listOutput})"></div>
 
-  <div th:replace="common/list-components :: listColumnOrder(${listOutput.pageable})"></div>
+  <div th:replace="common/list-components :: listColumnOrder(${listOutput})"></div>
 
   <script th:inline="javascript">
-      // 검색
-      function goSearch() {
-          const f = document.paramForm;
-          f.action = '/board/exampleBoard';
-          f.pageNumber.value = 0;
-          f.method = 'get';
-          f.submit();
+    // 검색
+    function goSearch() {
+      const f = document.paramForm;
+      f.action = '/board/exampleBoard';
+      f.page.value = 0;
+      f.sort.value = convertToPageableSortValue(f.sort.value);
+      f.method = 'get';
+      f.submit();
+    }
+
+    // 초기화
+    function goInit() {
+      const f = document.paramForm;
+      f.searchField.value = '';
+      f.searchValue.value = '';
+      f.searchOpen.value = '';
+    }
+
+    // 수정페이지 이동
+    function goSave(itemId) {
+      const f = document.paramForm;
+      f.action = '/board/exampleBoard/update/' + itemId;
+      f.method = 'get';
+      f.submit();
+    }
+
+    function goExcel() {
+      const f = document.paramForm;
+      f.action = '/board/exampleBoard/excel';
+      f.method = 'get';
+      f.submit();
+    }
+
+    // 체크박스 선택/해제
+    function toggleCheckbox(oj) {
+      $('input[name=checkedIds]').prop("checked", oj.checked);
+    }
+
+    function goRemove() {
+      if (!$('input[name=checkedIds]').is(':checked')) {
+        alert(/*[[#{operation.common.remove.choose}]]*/);
+        return;
       }
 
-      // 초기화
-      function goInit() {
-          const f = document.paramForm;
-          f.searchField.value = '';
-          f.searchValue.value = '';
-          f.searchOpen.value = '';
+      if (confirm(/*[[#{operation.common.remove.ask}]]*/)) {
+        const f = document.paramForm;
+        f.action = '/board/exampleBoard/delete';
+        f.method = 'post';
+        f.submit();
       }
-
-      // 수정페이지 이동
-      function goSave(itemId) {
-          const f = document.paramForm;
-          f.action = '/board/exampleBoard/update/' + itemId;
-          f.method = 'get';
-          f.submit();
-      }
-
-      function goExcel() {
-          const f = document.paramForm;
-          f.action = '/board/exampleBoard/excel';
-          f.method = 'get';
-          f.submit();
-      }
-
-      // 체크박스 선택/해제
-      function toggleCheckbox(oj) {
-          $('input[name=checkedIds]').prop("checked", oj.checked);
-      }
-
-      function goRemove() {
-          if (!$('input[name=checkedIds]').is(':checked')) {
-              alert(/*[[#{operation.common.remove.choose}]]*/);
-              return;
-          }
-
-          if (confirm(/*[[#{operation.common.remove.ask}]]*/)) {
-              const f = document.paramForm;
-              f.action = '/board/exampleBoard/delete';
-              f.method = 'post';
-              f.submit();
-          }
-      }
+    }
   </script>
 </section>
 

@@ -1,8 +1,10 @@
 package org.beizix.core.usecase.operationlog.list.application.port.out;
 
-import org.beizix.core.config.application.component.ListPortOut;
+import org.beizix.core.usecase.operationlog.list.application.domain.OperationLogElement;
 import org.beizix.core.usecase.operationlog.list.application.domain.OperationLogListFilterCommand;
-import org.beizix.core.usecase.operationlog.list.application.domain.OperationLogPageableList;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-public interface OperationLogListPortOut
-    extends ListPortOut<OperationLogPageableList, OperationLogListFilterCommand> {}
+public interface OperationLogListPortOut {
+  Page<OperationLogElement> connect(Pageable pageable, OperationLogListFilterCommand condition);
+}

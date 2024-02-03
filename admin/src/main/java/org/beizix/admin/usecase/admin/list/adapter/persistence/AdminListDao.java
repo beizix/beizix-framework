@@ -13,17 +13,12 @@ import org.beizix.admin.config.adapter.persistence.entity.Role;
 import org.beizix.admin.config.adapter.persistence.entity.Role_;
 import org.beizix.admin.usecase.admin.list.application.domain.AdminElement;
 import org.beizix.admin.usecase.admin.list.application.domain.AdminListFilterCommand;
-import org.beizix.admin.usecase.admin.list.application.domain.AdminPageableList;
 import org.beizix.admin.usecase.admin.list.application.domain.PrivilegeElement;
 import org.beizix.admin.usecase.admin.list.application.domain.RoleElement;
 import org.beizix.admin.usecase.admin.list.application.port.out.AdminListPortOut;
-import org.beizix.core.config.application.component.PageableInput;
-import org.beizix.core.config.application.component.PageableOutput;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.util.StringUtils;
@@ -35,8 +30,7 @@ class AdminListDao implements AdminListPortOut {
 
   @Override
   @Transactional
-  public AdminPageableList connect(
-      PageableInput pageableInput, AdminListFilterCommand filterCommand) {
+  public Page<AdminElement> connect(Pageable pageable, AdminListFilterCommand filterCommand) {
     // 검색조건 초기화
     Specification<Admin> spec = (root, query, criteriaBuilder) -> null;
 
@@ -61,26 +55,9 @@ class AdminListDao implements AdminListPortOut {
               });
     }
 
-    PageRequest pageRequest =
-        PageRequest.of(
-            pageableInput.getPageNumber(),
-            pageableInput.getPageSize(),
-            Sort.by(
-                Direction.fromString(pageableInput.getOrderDir().name()),
-                pageableInput.getOrderBy()));
+    Page<Admin> result = adminRepo.findAll(spec, pageable);
 
-    Page<Admin> result = adminRepo.findAll(spec, pageRequest);
-    Pageable pageable = result.getPageable();
-
-    return new AdminPageableList(
-        new PageableOutput(
-            pageable.hasPrevious(),
-            pageable.getPageNumber(),
-            pageable.getPageSize(),
-            pageableInput.getOrderBy(),
-            pageableInput.getOrderDir(),
-            result.getTotalElements(),
-            result.getTotalPages()),
+    return new PageImpl<>(
         result.getContent().stream()
             .map(
                 admin ->
@@ -110,6 +87,8 @@ class AdminListDao implements AdminListPortOut {
                                           .collect(Collectors.toList()));
                                 })
                             .collect(Collectors.toList())))
-            .collect(Collectors.toList()));
+            .collect(Collectors.toList()),
+        result.getPageable(),
+        result.getTotalElements());
   }
 }

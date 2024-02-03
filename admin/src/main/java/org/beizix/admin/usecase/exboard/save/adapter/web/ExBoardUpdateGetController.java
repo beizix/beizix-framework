@@ -3,7 +3,7 @@ package org.beizix.admin.usecase.exboard.save.adapter.web;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.usecase.exboard.list.adapter.web.ExBoardListFilterVO;
-import org.beizix.core.config.application.component.PageableInput;
+import org.beizix.core.config.application.component.ListPageableInfo;
 import org.beizix.core.usecase.exboard.view.application.domain.ExBoardView;
 import org.beizix.core.usecase.exboard.view.application.port.in.ExBoardViewPortIn;
 import org.springframework.stereotype.Controller;
@@ -21,7 +21,7 @@ class ExBoardUpdateGetController {
   String operate(
       Model model,
       @PathVariable(required = false) final Long id,
-      @ModelAttribute("pageable") final PageableInput pageableInput,
+      @ModelAttribute("pageable") final ListPageableInfo pageable,
       @ModelAttribute("filterReqVO") final ExBoardListFilterVO filterReqVO) {
 
     ExBoardView output = exBoardViewPortIn.connect(id);

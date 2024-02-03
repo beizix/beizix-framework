@@ -7,12 +7,8 @@
   <form method="get" name="paramForm" th:action="@{/analysis/operationlog}"
         th:object="${paramDto}" onsubmit="goSearch();">
     <!-- hidden parameters -->
-    <input type="hidden" name="pageNumber"
-           th:value="${listOutput.pageable.pageNumber}"/>
-    <input type="hidden"
-           name="orderBy" th:value="${listOutput.pageable.orderBy}"/>
-    <input type="hidden"
-           name="orderDir" th:value="${listOutput.pageable.orderDir}"/>
+    <input type="hidden" name="page" th:value="${listOutput.pageable.pageNumber}"/>
+    <input type="hidden" name="sort" th:value="${listOutput.pageable.sort}"/>
 
     <div class="row bg-secondary p-2 mb-2" style="--bs-bg-opacity: .2;">
       <div class="col">
@@ -20,7 +16,8 @@
         <select class="form-select d-inline" th:field="*{searchAppType}" style="width: 110px;"
                 id="searchAppType">
           <option value="" selected>전체</option>
-          <option th:each="appType : ${T(org.beizix.core.config.enums.AppType).values()}" th:value="${appType.name}">
+          <option th:each="appType : ${T(org.beizix.core.config.application.enums.AppType).values()}"
+                  th:value="${appType.name}">
             [[${appType.name}]]
           </option>
         </select>
@@ -31,8 +28,9 @@
         <select class="form-select d-inline" th:field="*{searchOperationType}" style="width: 110px;"
                 id="searchOperationType">
           <option value="" selected>전체</option>
-          <option th:each="operationType : ${T(org.beizix.core.config.enums.OperationLogType).values()}"
-                  th:value="${operationType.name}">[[${operationType.name}]] ([[${operationType.desc}]])
+          <option
+              th:each="operationType : ${T(org.beizix.core.config.application.enums.OperationLogType).values()}"
+              th:value="${operationType.name}">[[${operationType.name}]] ([[${operationType.desc}]])
           </option>
         </select>
       </div>
@@ -64,16 +62,16 @@
     <div class="row">
       <div class="col text-start">
         <div class="fw-bolder text-muted">
-          Total: <span th:text="${listOutput.pageable.totalElements}"></span>
+          Total: <span th:text="${listOutput.totalElements}"></span>
         </div>
       </div>
       <div class="col text-end">
         <i class="bi bi-list-ol"></i> <label> <select
-              class="form-select form-select-sm" name="pageSize" id="pageSize"
-              onchange="goSearch()">
+          class="form-select form-select-sm" name="pageSize" id="pageSize"
+          onchange="goSearch()">
         <option
-                th:each="item : ${pageRows}"
-                th:value="${item.codeValue}" th:text="${item.codeText}"></option>
+            th:each="item : ${pageRows}"
+            th:value="${item.codeValue}" th:text="${item.codeText}"></option>
       </select>
       </label>
       </div>
@@ -101,21 +99,25 @@
       </thead>
       <tbody class="sortable">
 
-      <div th:remove="tag" th:each="item, status : ${listOutput.contents}">
+      <div th:remove="tag" th:each="item, status : ${listOutput.content}">
         <tr>
-          <td class="row">[[${status.count + (listOutput.pageable.pageNumber * listOutput.pageable.pageSize)}]]</td>
+          <td class="row">[[${status.count + (listOutput.pageable.pageNumber *
+            listOutput.pageable.pageSize)}]]
+          </td>
           <th class="bg-info">[[${item.id}]]</th>
           <td>[[${item.appType}]]</td>
           <td>[[${item.operationLogType}]]</td>
           <td>
             <span th:remove="tag" th:if="${not #strings.isEmpty(item.ip)}">[[${item.ip}]]</span>
-            <span th:remove="tag" th:if="${#strings.isEmpty(item.ip)}"><i class="bi bi-slash-circle"></i></span>
+            <span th:remove="tag" th:if="${#strings.isEmpty(item.ip)}"><i
+                class="bi bi-slash-circle"></i></span>
           </td>
           <td>[[${#temporals.format(item.createdAt, 'yyyy-MM-dd HH:mm')}]]</td>
           <td>[[${item.createdBy}]]</td>
           <td>
             <span th:remove="tag" th:if="${not #strings.isEmpty(item.targetId)}">[[${item.targetId}]]</span>
-            <span th:remove="tag" th:if="${#strings.isEmpty(item.targetId)}"><i class="bi bi-slash-circle"></i></span>
+            <span th:remove="tag" th:if="${#strings.isEmpty(item.targetId)}"><i
+                class="bi bi-slash-circle"></i></span>
           </td>
         </tr>
         <tr>
@@ -129,7 +131,7 @@
 
   </form>
 
-  <div th:replace="common/list-components-v2 :: pagination(${listOutput.pageable})"></div>
+  <div th:replace="common/list-components :: pagination(${listOutput})"></div>
 
   <div class="row">
     <div class="col text-start">
@@ -139,34 +141,35 @@
     </div>
   </div>
 
-  <div th:replace="common/list-components-v2 :: listColumnOrder(${listOutput.pageable})"></div>
+  <div th:replace="common/list-components :: listColumnOrder(${listOutput})"></div>
 
   <script th:inline="javascript">
-      // 검색
-      function goSearch() {
-          const f = document.paramForm;
-          f.action = '/analysis/operationlog';
-          f.pageNumber.value = 0;
-          f.method = 'get';
-          f.submit();
-      }
+    // 검색
+    function goSearch() {
+      const f = document.paramForm;
+      f.action = '/analysis/operationlog';
+      f.page.value = 0;
+      f.sort.value = convertToPageableSortValue(f.sort.value);
+      f.method = 'get';
+      f.submit();
+    }
 
-      // 초기화
-      function goInit() {
-          const f = document.paramForm;
-          f.searchField.value = '';
-          f.searchValue.value = '';
-          f.searchAppType.value = '';
-          f.searchOperationType.value = '';
-      }
+    // 초기화
+    function goInit() {
+      const f = document.paramForm;
+      f.searchField.value = '';
+      f.searchValue.value = '';
+      f.searchAppType.value = '';
+      f.searchOperationType.value = '';
+    }
 
-      function goExcel() {
-          const f = document.paramForm;
-          f.sort.value = convertToPageableSortValue(f.sort.value);
-          f.action = '/analysis/operationlog/excel';
-          f.method = 'get';
-          f.submit();
-      }
+    function goExcel() {
+      const f = document.paramForm;
+      f.sort.value = convertToPageableSortValue(f.sort.value);
+      f.action = '/analysis/operationlog/excel';
+      f.method = 'get';
+      f.submit();
+    }
   </script>
 </section>
 

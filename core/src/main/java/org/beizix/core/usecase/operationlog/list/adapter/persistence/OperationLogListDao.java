@@ -3,19 +3,14 @@ package org.beizix.core.usecase.operationlog.list.adapter.persistence;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.beizix.core.config.adapter.persistence.entity.OperationLog;
-import org.beizix.core.config.application.component.PageableInput;
-import org.beizix.core.config.application.component.PageableOutput;
-import org.beizix.core.usecase.operationlog.list.application.domain.OperationLogListFilterCommand;
 import org.beizix.core.config.application.enums.AppType;
 import org.beizix.core.config.application.enums.OperationLogType;
 import org.beizix.core.usecase.operationlog.list.application.domain.OperationLogElement;
-import org.beizix.core.usecase.operationlog.list.application.domain.OperationLogPageableList;
+import org.beizix.core.usecase.operationlog.list.application.domain.OperationLogListFilterCommand;
 import org.beizix.core.usecase.operationlog.list.application.port.out.OperationLogListPortOut;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.thymeleaf.util.StringUtils;
@@ -26,8 +21,8 @@ class OperationLogListDao implements OperationLogListPortOut {
   private final OperationLogListRepo operationLogRepo;
 
   @Override
-  public OperationLogPageableList connect(
-      PageableInput pageableInput, OperationLogListFilterCommand operationLogListFilterCommand) {
+  public Page<OperationLogElement> connect(
+      Pageable pageable, OperationLogListFilterCommand operationLogListFilterCommand) {
     // 검색조건 초기화
     Specification<OperationLog> spec = (root, query, builder) -> null;
 
@@ -56,28 +51,12 @@ class OperationLogListDao implements OperationLogListPortOut {
               ((root, query, criteriaBuilder) ->
                   criteriaBuilder.equal(
                       root.get("operationLogType"),
-                      OperationLogType.valueOf(operationLogListFilterCommand.getSearchOperationType()))));
+                      OperationLogType.valueOf(
+                          operationLogListFilterCommand.getSearchOperationType()))));
 
-    PageRequest pageRequest =
-        PageRequest.of(
-            pageableInput.getPageNumber(),
-            pageableInput.getPageSize(),
-            Sort.by(
-                Direction.fromString(pageableInput.getOrderDir().name()),
-                pageableInput.getOrderBy()));
+    Page<OperationLog> result = operationLogRepo.findAll(spec, pageable);
 
-    Page<OperationLog> result = operationLogRepo.findAll(spec, pageRequest);
-    Pageable pageable = result.getPageable();
-
-    return new OperationLogPageableList(
-        new PageableOutput(
-            pageable.hasPrevious(),
-            pageable.getPageNumber(),
-            pageable.getPageSize(),
-            pageableInput.getOrderBy(),
-            pageableInput.getOrderDir(),
-            result.getTotalElements(),
-            result.getTotalPages()),
+    return new PageImpl<>(
         result.getContent().stream()
             .map(
                 op ->
@@ -90,6 +69,8 @@ class OperationLogListDao implements OperationLogListPortOut {
                         op.getTargetId(),
                         op.getIp(),
                         op.getTaskDesc()))
-            .collect(Collectors.toList()));
+            .collect(Collectors.toList()),
+        result.getPageable(),
+        result.getTotalElements());
   }
 }

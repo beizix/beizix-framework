@@ -12,14 +12,6 @@ function goPageable(page, size, sort) {
   location.href = uri.toString();
 }
 
-function goPageable(page, size, orderBy, orderDir) {
-  let uri = new Uri(location.href);
-  uri.replaceQueryParam('pageNumber', page).replaceQueryParam('pageSize', size)
-  .replaceQueryParam('orderBy', orderBy).replaceQueryParam('orderDir',
-      orderDir);
-
-  location.href = uri.toString();
-}
 
 /**
  * UI 단의 sort 를 JPA pageable 이 인식할 수 있는 정렬값으로 변경

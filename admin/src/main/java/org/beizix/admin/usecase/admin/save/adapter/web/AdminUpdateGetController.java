@@ -8,7 +8,7 @@ import org.beizix.admin.usecase.admin.view.application.domain.AdminView;
 import org.beizix.admin.usecase.admin.view.application.domain.RoleView;
 import org.beizix.admin.usecase.admin.view.application.port.in.AdminViewPortIn;
 import org.beizix.admin.usecase.role.list.application.port.in.RoleListPortIn;
-import org.beizix.core.config.application.component.PageableInput;
+import org.beizix.core.config.application.component.ListPageableInfo;
 import org.beizix.core.config.application.util.MessageUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +27,7 @@ class AdminUpdateGetController {
   String operate(
       Model model,
       @PathVariable String adminId,
-      @ModelAttribute("pageable") final PageableInput pageableInput,
+      @ModelAttribute("pageable") final ListPageableInfo pageable,
       @ModelAttribute("listStatus") AdminListFilterVO listStatus) {
 
     AdminView output =

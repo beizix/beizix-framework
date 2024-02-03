@@ -116,17 +116,20 @@
     <input type="hidden" th:field="*{searchValue}">
     <input type="hidden" th:field="*{searchRole}">
     <th:block th:if="${pageable != null}">
-      <input type="hidden" name="pageNumber" th:value="${pageable.pageNumber}">
-      <input type="hidden" name="pageSize" th:value="${pageable.pageSize}">
-      <input type="hidden" name="orderBy" th:value="${pageable.orderBy}">
-      <input type="hidden" name="orderDir" th:value="${pageable.orderDir}">
+      <input type="hidden" name="page" th:value="${pageable.page}"/>
+      <input type="hidden" name="sort" th:value="${pageable.sort}"/>
     </th:block>
   </form>
 
   <script th:inline="javascript">
     function gotoList() {
-      document.prevAdminParamForm ? document.prevAdminParamForm.submit()
-          : location.href = '/settings/admins';
+      if (document.prevParamForm) {
+        const f = document.prevParamForm;
+        f.sort.value = convertToPageableSortValue(f.sort.value);
+        f.submit();
+      } else {
+        location.href = '/settings/admins';
+      }
     }
 
     $(document).ready(() => {

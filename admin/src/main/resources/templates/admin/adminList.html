@@ -8,12 +8,8 @@
         onsubmit="goSearch();">
 
     <!-- hidden parameters -->
-    <input type="hidden" name="pageNumber"
-           th:value="${listOutput.pageable.pageNumber}"/>
-    <input type="hidden"
-           name="orderBy" th:value="${listOutput.pageable.orderBy}"/>
-    <input type="hidden"
-           name="orderDir" th:value="${listOutput.pageable.orderDir}"/>
+    <input type="hidden" name="page" th:value="${listOutput.pageable.pageNumber}"/>
+    <input type="hidden" name="sort" th:value="${listOutput.pageable.sort}"/>
 
     <div class="row bg-secondary p-2 mb-2" style="--bs-bg-opacity: .2;">
       <div class="col-5">
@@ -49,7 +45,7 @@
     <div class="row">
       <div class="col text-start">
         <div class="fw-bolder text-muted">Total: <span
-            th:text="${listOutput.pageable.totalElements}"></span></div>
+            th:text="${listOutput.totalElements}"></span></div>
       </div>
       <div class="col text-end">
         <i class="bi bi-list-ol"></i>
@@ -82,7 +78,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr th:each="item, status : ${listOutput.contents}">
+      <tr th:each="item, status : ${listOutput.content}">
         <th th:text="${status.count + (listOutput.pageable.pageNumber * listOutput.pageable.pageSize)}"
             scope="row">
           게시물번호
@@ -106,7 +102,7 @@
 
   </form>
 
-  <div th:replace="common/list-components-v2 :: pagination(${listOutput.pageable})"></div>
+  <div th:replace="common/list-components :: pagination(${listOutput})"></div>
 
   <div class="row">
     <div class="col text-start">
@@ -120,14 +116,15 @@
     </div>
   </div>
 
-  <div th:replace="common/list-components-v2 :: listColumnOrder(${listOutput.pageable})"></div>
+  <div th:replace="common/list-components :: listColumnOrder(${listOutput})"></div>
 
   <script th:inline="javascript">
     // 검색
     function goSearch() {
       const f = document.adminParamForm;
       f.action = '/settings/admins';
-      f.pageNumber.value = 0;
+      f.page.value = 0;
+      f.sort.value = convertToPageableSortValue(f.sort.value);
       f.method = 'get';
       f.submit();
     }

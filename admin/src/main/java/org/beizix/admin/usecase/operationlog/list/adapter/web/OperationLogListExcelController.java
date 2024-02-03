@@ -9,14 +9,15 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.beizix.core.config.adapter.persistence.entity.OperationLog_;
-import org.beizix.core.config.application.aop.PageDefault;
-import org.beizix.core.config.application.component.PageableInput;
-import org.beizix.core.config.application.enums.OrderDir;
+import org.beizix.admin.config.adapter.persistence.entity.Admin_;
 import org.beizix.core.config.application.util.ExcelUtil;
+import org.beizix.core.usecase.operationlog.list.application.domain.OperationLogElement;
 import org.beizix.core.usecase.operationlog.list.application.domain.OperationLogListFilterCommand;
-import org.beizix.core.usecase.operationlog.list.application.domain.OperationLogPageableList;
 import org.beizix.core.usecase.operationlog.list.application.port.in.OperationLogListPortIn;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,21 +31,21 @@ public class OperationLogListExcelController {
   @GetMapping("/analysis/operationlog/excel")
   public void operate(
       HttpServletResponse response,
-      @PageDefault(orderBy = OperationLog_.ID, orderDir = OrderDir.DESC) PageableInput pageable,
-      @ModelAttribute("paramDto") OperationLogListFilterVO paramDto) {
+      @PageableDefault(sort = Admin_.CREATED_AT, direction = Direction.DESC) Pageable pageable,
+      @ModelAttribute("paramDto") OperationLogListFilterVO statusVO) {
     Workbook wb = new XSSFWorkbook();
     Sheet sheet = wb.createSheet("수행로그 목록");
 
-    OperationLogPageableList listOutput =
+    Page<OperationLogElement> listOutput =
         operationLogListPortIn.connect(
             pageable,
             new OperationLogListFilterCommand(
-                paramDto.getSearchField(),
-                paramDto.getSearchValue(),
-                paramDto.getSearchAppType(),
-                paramDto.getSearchOperationType()));
+                statusVO.getSearchField(),
+                statusVO.getSearchValue(),
+                statusVO.getSearchAppType(),
+                statusVO.getSearchOperationType()));
 
-    if (CollectionUtils.isNotEmpty(listOutput.getContents())) {
+    if (CollectionUtils.isNotEmpty(listOutput.getContent())) {
       // Header
       Row headerRow = sheet.createRow(sheet.getPhysicalNumberOfRows());
       excelUtil.createCells(
@@ -53,7 +54,7 @@ public class OperationLogListExcelController {
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
       listOutput
-          .getContents()
+          .getContent()
           .forEach(
               item -> {
                 Row row = sheet.createRow(sheet.getPhysicalNumberOfRows());

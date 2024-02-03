@@ -9,13 +9,15 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.beizix.admin.usecase.exboard.list.adapter.web.ExBoardListFilterVO;
-import org.beizix.core.config.application.aop.PageDefault;
-import org.beizix.core.config.application.component.PageableInput;
-import org.beizix.core.usecase.exboard.list.application.domain.ExBoardListFilterCommand;
-import org.beizix.core.usecase.exboard.list.application.domain.ExBoardPageableList;
-import org.beizix.core.usecase.exboard.list.application.port.in.ExBoardListPortIn;
-import org.beizix.core.config.application.enums.OrderDir;
+import org.beizix.core.config.adapter.persistence.entity.ExBoard_;
 import org.beizix.core.config.application.util.ExcelUtil;
+import org.beizix.core.usecase.exboard.list.application.domain.ExBoardElement;
+import org.beizix.core.usecase.exboard.list.application.domain.ExBoardListFilterCommand;
+import org.beizix.core.usecase.exboard.list.application.port.in.ExBoardListPortIn;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -28,21 +30,19 @@ class ExBoardExcelController {
   @GetMapping("/board/exampleBoard/excel")
   public void excelDownload(
       HttpServletResponse response,
-      @PageDefault(orderBy = "orderNo", orderDir = OrderDir.DESC) PageableInput pageableInput,
-      ExBoardListFilterVO exBoardListFilterVO) {
+      @PageableDefault(sort = ExBoard_.ORDER_NO, direction = Direction.DESC) Pageable pageable,
+      ExBoardListFilterVO filterVO) {
 
     Workbook wb = new XSSFWorkbook();
     Sheet sheet = wb.createSheet("예제 게시판 목록");
 
-    ExBoardPageableList listOutput =
+    Page<ExBoardElement> listOutput =
         exBoardListPortIn.connect(
-            pageableInput,
+            pageable,
             new ExBoardListFilterCommand(
-                exBoardListFilterVO.getSearchField(),
-                exBoardListFilterVO.getSearchValue(),
-                exBoardListFilterVO.getSearchOpen()));
+                filterVO.getSearchField(), filterVO.getSearchValue(), filterVO.getSearchOpen()));
 
-    if (!listOutput.getContents().isEmpty()) {
+    if (!listOutput.getContent().isEmpty()) {
       // Header
       Row headerRow = sheet.createRow(sheet.getPhysicalNumberOfRows());
       excelUtil.createCells(headerRow, "번호", "제목", "내용", "공개여부", "게시일", "종료일", "수정자", "최근 수정일");
@@ -50,7 +50,7 @@ class ExBoardExcelController {
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
       listOutput
-          .getContents()
+          .getContent()
           .forEach(
               item -> {
                 Row row = sheet.createRow(sheet.getPhysicalNumberOfRows());
