@@ -167,6 +167,7 @@
     function goExcel() {
       const f = document.adminParamForm;
       f.action = '/settings/admins/excel';
+      f.sort.value = convertToPageableSortValue(f.sort.value);
       f.method = 'post';
       f.submit();
     }

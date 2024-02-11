@@ -180,6 +180,7 @@
     function goExcel() {
       const f = document.paramForm;
       f.action = '/board/exampleBoard/excel';
+      f.sort.value = convertToPageableSortValue(f.sort.value);
       f.method = 'get';
       f.submit();
     }
