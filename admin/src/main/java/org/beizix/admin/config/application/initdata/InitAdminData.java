@@ -3,7 +3,7 @@ package org.beizix.admin.config.application.initdata;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.beizix.admin.usecase.admin.save.application.port.in.AdminSavePortIn;
+import org.beizix.admin.usecase.admin.save.ports.AdminSavePortIn;
 import org.beizix.core.config.application.util.PropertyUtil;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

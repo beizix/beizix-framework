@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.beizix.admin.usecase.admin.view.application.port.in.AdminViewPortIn;
+import org.beizix.admin.usecase.admin.view.ports.AdminViewPortIn;
 
 @Controller
 @RequestMapping("/")

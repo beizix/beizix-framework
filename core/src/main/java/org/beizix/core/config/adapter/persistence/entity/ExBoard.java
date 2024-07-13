@@ -17,8 +17,13 @@ import org.hibernate.annotations.*;
 @NoArgsConstructor
 @Table(name = "example_board")
 @org.hibernate.annotations.Table(appliesTo = "example_board", comment = "예제게시판 테이블")
+/**
+ * https://www.baeldung.com/jpa-entity-graph
+ * The JPA documentation recommends using the FetchType.LAZY strategy whenever possible,
+ * and the Entity Graph when we need to load an association.
+ */
 @NamedEntityGraph(
-    name = "eg_exboard_view",
+    name = "fetch_attachments",
     attributeNodes = {@NamedAttributeNode(value = ExBoard_.ATTACHMENTS)})
 public class ExBoard extends AuditEntity {
   @Id

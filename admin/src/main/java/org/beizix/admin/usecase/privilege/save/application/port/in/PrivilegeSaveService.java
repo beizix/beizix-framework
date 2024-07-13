@@ -3,7 +3,7 @@ package org.beizix.admin.usecase.privilege.save.application.port.in;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.usecase.privilege.view.application.domain.PrivilegeView;
-import org.beizix.admin.usecase.privilege.view.application.port.out.PrivilegeViewPortOut;import org.beizix.admin.usecase.admin.save.application.domain.PrivilegeSaveCommand;
+import org.beizix.admin.usecase.privilege.view.application.port.out.PrivilegeViewPortOut;import org.beizix.admin.usecase.admin.save.ports.application.domain.PrivilegeSaveCommand;
 import org.beizix.admin.usecase.privilege.save.application.port.out.PrivilegeNextOrderNoPortOut;
 import org.beizix.admin.usecase.privilege.save.application.port.out.PrivilegeSavePortOut;
 import org.beizix.admin.config.application.exception.AlreadyExistsRoleException;

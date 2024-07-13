@@ -11,9 +11,9 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.beizix.admin.usecase.admin.view.application.domain.AdminView;
-import org.beizix.admin.usecase.admin.view.application.domain.RoleView;
-import org.beizix.admin.usecase.admin.view.application.port.in.AdminViewPortIn;
+import org.beizix.admin.usecase.admin.view.ports.application.domain.AdminView;
+import org.beizix.admin.usecase.admin.view.ports.application.domain.RoleView;
+import org.beizix.admin.usecase.admin.view.ports.AdminViewPortIn;
 import org.beizix.core.config.application.enums.AppType;
 import org.beizix.core.config.application.enums.OperationLogType;
 import org.beizix.core.usecase.operationlog.save.application.domain.OperationLogSaveCommand;
@@ -32,7 +32,7 @@ public class RoleUpdateAspect {
   private final CommonUtil commonUtil;
 
   @Around(
-      "execution(* org.beizix.admin.usecase.admin.save.application.port.in.AdminSaveService.connect(..))")
+      "execution(* org.beizix.admin.usecase.admin.save.ports.application.AdminSaveService.connect(..))")
   public Object operate(ProceedingJoinPoint joinPoint) throws Throwable {
     if (PropertyUtil.isAdminSingleRole()) return joinPoint.proceed();
 

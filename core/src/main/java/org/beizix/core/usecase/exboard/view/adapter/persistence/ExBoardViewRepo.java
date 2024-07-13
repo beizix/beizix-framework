@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ExBoardViewRepo extends JpaRepository<ExBoard, Long> {
   @Override
-  @EntityGraph(value = "eg_exboard_view")
+  @EntityGraph(value = "fetch_attachments")
   Optional<ExBoard> findById(Long aLong);
 }

@@ -5,7 +5,7 @@ import static org.springframework.security.test.web.servlet.response.SecurityMoc
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
 
 import java.util.Arrays;
-import org.beizix.admin.usecase.admin.save.application.port.in.AdminSavePortIn;
+import org.beizix.admin.usecase.admin.save.ports.AdminSavePortIn;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

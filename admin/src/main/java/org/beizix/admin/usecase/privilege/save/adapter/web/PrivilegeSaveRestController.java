@@ -4,7 +4,7 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.beizix.core.config.adapter.web.rest.response.RestResponse;
 import org.beizix.core.config.application.util.CoreUtil;
-import org.beizix.admin.usecase.admin.save.application.domain.PrivilegeSaveCommand;
+import org.beizix.admin.usecase.admin.save.ports.application.domain.PrivilegeSaveCommand;
 import org.beizix.admin.usecase.privilege.save.application.port.in.PrivilegeSavePortIn;
 import org.beizix.admin.config.application.exception.AlreadyExistsRoleException;
 import org.beizix.core.config.application.util.MessageUtil;
