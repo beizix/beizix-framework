@@ -41,7 +41,7 @@ EntityGraph 의 객체 그래프 선언은 JPA 가 페이징 처리를 하는데
 // Entity Graph 선언으로, AdminUser 와 연관된 엔티티들의 정보를 JOIN 쿼리문으로 효율적으로 가져오게 된다.
 
 @NamedEntityGraph(
-    name = "view_details_entity_graph",
+    name = "fetch_roles",
     attributeNodes = {@NamedAttributeNode(value = "withRoles", subgraph = "role_subgraph")},
     subgraphs = {
       @NamedSubgraph(
@@ -55,9 +55,9 @@ public class AdminUserEntity {
 공통 규칙에서 언급했듯이 Entity 자체로 조회하는건 관계가 복잡해질 수록 감당해야하는 비용이 커진다.
 
 ```java
-// AdminUserViewInfo 는 `projection`. `view_details_entity_graph`는 쿼리 수행시 이용할 entity graph 이름이다.
+// AdminUserViewInfo 는 `projection`. `fetch_roles`는 쿼리 수행시 이용할 entity graph 이름이다.
 
-@EntityGraph("view_details_entity_graph")
+@EntityGraph("fetch_roles")
 Optional<AdminUserViewInfo> findAdminUserById(String id);
 ```
 

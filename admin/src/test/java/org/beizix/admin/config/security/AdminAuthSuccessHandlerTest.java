@@ -6,8 +6,8 @@ import static org.springframework.security.test.web.servlet.response.SecurityMoc
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
 
 import java.util.Arrays;
-import org.beizix.admin.usecase.loggedinuser.view.application.domain.LoggedInUserIdView;
-import org.beizix.admin.usecase.loggedinuser.view.application.port.out.LoggedInUserViewPortOut;
+import org.beizix.admin.usecase.loggedinuser.view.ports.application.domain.LoggedInUserIdCmd;
+import org.beizix.admin.usecase.loggedinuser.view.ports.LoggedInUserViewPortOut;
 import org.beizix.core.config.application.enums.AppType;
 import org.beizix.admin.usecase.admin.save.ports.AdminSavePortIn;
 import org.beizix.admin.usecase.admin.view.ports.AdminViewPortIn;
@@ -75,7 +75,7 @@ class AdminAuthSuccessHandlerTest {
     if (maxSessionNum == 1) {
       assertNotNull(
           loggedInUserViewPortOut.connect(
-              LoggedInUserIdView.builder().appType(AppType.ADMIN).id(username).build()),
+              LoggedInUserIdCmd.builder().appType(AppType.ADMIN).id(username).build()),
           "maxSessionNum 이 1일때, 로그인 기록 레코드가 생성되어야 한다.");
     }
   }

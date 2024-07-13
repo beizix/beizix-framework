@@ -1,8 +1,8 @@
 package org.beizix.admin.usecase.loggedinuser.save.adapter.persistence;
 
 import lombok.RequiredArgsConstructor;
-import org.beizix.admin.usecase.loggedinuser.save.application.domain.LoggedInUserSaveCommand;
-import org.beizix.admin.usecase.loggedinuser.save.application.port.out.LoggedInUserSavePortOut;
+import org.beizix.admin.usecase.loggedinuser.save.ports.application.domain.LoggedInUserSaveCmd;
+import org.beizix.admin.usecase.loggedinuser.save.ports.LoggedInUserSavePortOut;
 import org.beizix.core.config.adapter.persistence.entity.LoggedInUserEmbeddable;
 import org.beizix.core.config.adapter.persistence.entity.LoggedInUser;
 import org.springframework.stereotype.Repository;
@@ -13,7 +13,7 @@ public class LoggedInUserSaveDao implements LoggedInUserSavePortOut {
   private final LoggedInUserSaveRepo loggedInUserSaveRepo;
 
   @Override
-  public void connect(LoggedInUserSaveCommand saveCommand) {
+  public void connect(LoggedInUserSaveCmd saveCommand) {
     loggedInUserSaveRepo.save(
         new LoggedInUser(
             new LoggedInUserEmbeddable(

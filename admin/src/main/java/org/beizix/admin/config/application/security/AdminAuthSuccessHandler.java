@@ -9,12 +9,12 @@ import lombok.RequiredArgsConstructor;
 import org.beizix.admin.config.application.aop.LoginSuccessOperateLog;
 import org.beizix.admin.usecase.admin.status.ports.AdminUpdateLoginFailPortIn;
 import org.beizix.admin.usecase.admin.view.ports.AdminViewPortIn;
-import org.beizix.admin.usecase.loggedinuser.view.application.domain.LoggedInUserIdView;
-import org.beizix.admin.usecase.loggedinuser.view.application.domain.LoggedInUserView;
-import org.beizix.admin.usecase.loggedinuser.view.application.port.in.LoggedInUserViewPortIn;
-import org.beizix.admin.usecase.loggedinuser.save.application.domain.LoggedInUserIdSaveCommand;
-import org.beizix.admin.usecase.loggedinuser.save.application.domain.LoggedInUserSaveCommand;
-import org.beizix.admin.usecase.loggedinuser.save.application.port.in.LoggedInUserSavePortIn;
+import org.beizix.admin.usecase.loggedinuser.view.ports.application.domain.LoggedInUserIdCmd;
+import org.beizix.admin.usecase.loggedinuser.view.ports.application.domain.LoggedInUserView;
+import org.beizix.admin.usecase.loggedinuser.view.ports.LoggedInUserViewPortIn;
+import org.beizix.admin.usecase.loggedinuser.save.ports.application.domain.LoggedInUserIdSaveCmd;
+import org.beizix.admin.usecase.loggedinuser.save.ports.application.domain.LoggedInUserSaveCmd;
+import org.beizix.admin.usecase.loggedinuser.save.ports.LoggedInUserSavePortIn;
 import org.beizix.core.config.application.enums.AppType;
 import org.beizix.core.config.application.util.CommonUtil;
 import org.beizix.core.config.application.util.MessageUtil;
@@ -75,9 +75,9 @@ public class AdminAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
 
       // 로그인 활성화 기록 생성
       loggedInUserSavePortIn.connect(
-          LoggedInUserSaveCommand.builder()
+          LoggedInUserSaveCmd.builder()
               .loggedInUserId(
-                  LoggedInUserIdSaveCommand.builder()
+                  LoggedInUserIdSaveCmd.builder()
                       .appType(AppType.ADMIN)
                       .id(authentication.getName())
                       .build())
@@ -92,7 +92,7 @@ public class AdminAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
   /** 사용자 로그인 여부 확인 */
   private boolean isAlreadyLoggedInSomewhere(String username, String currentIP) {
     LoggedInUserView loggedInUser =
-        loggedInUserViewPortIn.connect(new LoggedInUserIdView(AppType.ADMIN, username));
+        loggedInUserViewPortIn.connect(new LoggedInUserIdCmd(AppType.ADMIN, username));
     if (loggedInUser == null) return false;
 
     LocalDateTime lastLoggedInAt = loggedInUser.getLastLoggedInAt();

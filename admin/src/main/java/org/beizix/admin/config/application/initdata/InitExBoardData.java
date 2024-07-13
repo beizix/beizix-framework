@@ -3,7 +3,7 @@ package org.beizix.admin.config.application.initdata;
 import java.time.LocalDateTime;
 import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
-import org.beizix.admin.usecase.exboard.save.application.port.out.ExBoardSavePortOut;
+import org.beizix.admin.usecase.exboard.save.ports.ExBoardSavePortOut;
 import org.beizix.core.config.application.util.PropertyUtil;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

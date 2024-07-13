@@ -19,7 +19,7 @@ import org.hibernate.annotations.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @NamedEntityGraph(
-    name = "view_details_entity_graph",
+    name = "fetch_roles",
     attributeNodes = {@NamedAttributeNode(value = Admin_.WITH_ROLES, subgraph = "role_subgraph")},
     subgraphs = {
       @NamedSubgraph(

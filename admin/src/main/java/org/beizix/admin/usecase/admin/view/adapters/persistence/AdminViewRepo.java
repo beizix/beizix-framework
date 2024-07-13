@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AdminViewRepo extends JpaRepository<Admin, String> {
-  @EntityGraph("view_details_entity_graph")
+  @EntityGraph("fetch_roles")
   Optional<Admin> findAdminUserById(String id);
 }

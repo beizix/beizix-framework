@@ -43,7 +43,7 @@ public class ExBoard extends AuditEntity {
   @Comment("공개여부")
   private Boolean visible;
 
-  /** 게시글 대표 이미지: 1건 이기에 외부 엔티티가 아닌 @Embedded 로 처리한다. 공개여부 - public */
+  // 게시글 대표 이미지: 1건 이기에 외부 엔티티가 아닌 @Embedded 로 처리한다. 공개여부 - public
   @Embedded
   @AttributeOverrides({
     @AttributeOverride(name = "type", column = @Column(name = "repImgType")),
@@ -57,7 +57,7 @@ public class ExBoard extends AuditEntity {
   @Comment("대표 이미지 대체 텍스트")
   private String repImgAlt;
 
-  /** 비공개 파일: 1건 이기에 외부 엔티티가 아닌 @Embedded 로 처리한다. 공개여부 - private */
+  // 비공개 파일: 1건 이기에 외부 엔티티가 아닌 @Embedded 로 처리한다. 공개여부 - private
   @Embedded
   @AttributeOverrides({
     @AttributeOverride(name = "type", column = @Column(name = "prvAttachType")),
@@ -68,7 +68,7 @@ public class ExBoard extends AuditEntity {
   })
   private FileUploadInfoEmbeddable privateAttachment;
 
-  /** 첨부 파일: 다건 이기에 외부 엔티티로 1:N 관계를 맺는다. 공개여부 - public */
+  // 첨부 파일: 다건 이기에 외부 엔티티로 1:N 관계를 맺는다. 공개여부 - public
   @OneToMany(
       mappedBy = "exBoard",
       cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
