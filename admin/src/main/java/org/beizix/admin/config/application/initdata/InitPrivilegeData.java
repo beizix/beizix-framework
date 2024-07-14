@@ -1,7 +1,7 @@
 package org.beizix.admin.config.application.initdata;
 
 import lombok.RequiredArgsConstructor;
-import org.beizix.admin.usecase.privilege.save.adapter.persistence.PrivilegeSaveRepo;
+import org.beizix.admin.usecase.privilege.save.adapters.persistence.PrivilegeSaveRepo;
 import org.beizix.admin.config.adapter.persistence.entity.Privilege;
 import org.beizix.core.config.application.util.PropertyUtil;
 import org.springframework.boot.ApplicationArguments;
