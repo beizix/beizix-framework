@@ -6,7 +6,7 @@ import org.beizix.admin.usecase.admin.list.adapters.web.model.AdminListFilterVO;
 import org.beizix.admin.usecase.admin.save.adapters.web.model.AdminUpdateBindingVO;
 import org.beizix.admin.usecase.admin.save.adapters.web.validator.AdminUpdateValidator;
 import org.beizix.admin.usecase.admin.save.ports.AdminSavePortIn;
-import org.beizix.admin.usecase.role.list.application.port.in.RoleListPortIn;
+import org.beizix.admin.usecase.role.list.ports.RoleListPortIn;
 import org.beizix.core.config.application.util.MessageUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

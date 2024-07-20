@@ -1,4 +1,4 @@
-package org.beizix.admin.usecase.role.list.application.domain;
+package org.beizix.admin.usecase.role.list.ports.application.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

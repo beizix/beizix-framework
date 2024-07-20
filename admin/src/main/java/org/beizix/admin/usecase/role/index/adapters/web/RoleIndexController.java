@@ -1,4 +1,4 @@
-package org.beizix.admin.usecase.role.index.adapter.web;
+package org.beizix.admin.usecase.role.index.adapters.web;
 
 import groovy.util.logging.Slf4j;
 import lombok.RequiredArgsConstructor;

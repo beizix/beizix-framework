@@ -1,4 +1,4 @@
-package org.beizix.admin.usecase.role.list.application.domain;
+package org.beizix.admin.usecase.role.list.ports.application.domain;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -8,7 +8,7 @@ import org.beizix.admin.usecase.admin.save.adapters.web.model.AdminUpdateBinding
 import org.beizix.admin.usecase.admin.view.ports.application.domain.AdminView;
 import org.beizix.admin.usecase.admin.view.ports.application.domain.RoleView;
 import org.beizix.admin.usecase.admin.view.ports.AdminViewPortIn;
-import org.beizix.admin.usecase.role.list.application.port.in.RoleListPortIn;
+import org.beizix.admin.usecase.role.list.ports.RoleListPortIn;
 import org.beizix.core.config.application.component.ListPageableInfo;
 import org.beizix.core.config.application.util.MessageUtil;
 import org.springframework.stereotype.Controller;

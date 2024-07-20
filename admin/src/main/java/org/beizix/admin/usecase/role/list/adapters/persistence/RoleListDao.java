@@ -1,13 +1,13 @@
-package org.beizix.admin.usecase.role.list.adapter.persistence;
+package org.beizix.admin.usecase.role.list.adapters.persistence;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
-import org.beizix.admin.usecase.role.list.application.port.out.RoleListPortOut;
-import org.beizix.admin.usecase.role.list.application.domain.PrivilegeElement;
-import org.beizix.admin.usecase.role.list.application.domain.RoleElement;
+import org.beizix.admin.usecase.role.list.ports.RoleListPortOut;
+import org.beizix.admin.usecase.role.list.ports.application.domain.PrivilegeElement;
+import org.beizix.admin.usecase.role.list.ports.application.domain.RoleElement;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 

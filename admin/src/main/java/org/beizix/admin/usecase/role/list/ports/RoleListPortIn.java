@@ -1,4 +1,4 @@
-package org.beizix.admin.usecase.role.list.application.port.in;
+package org.beizix.admin.usecase.role.list.ports;
 
 import java.util.List;
 import org.beizix.core.config.application.component.AuditOutput;

@@ -2,7 +2,7 @@ package org.beizix.admin.usecase.admin.save.adapters.web;
 
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.usecase.admin.save.adapters.web.model.AdminCreateBindingVO;
-import org.beizix.admin.usecase.role.list.application.port.in.RoleListPortIn;
+import org.beizix.admin.usecase.role.list.ports.RoleListPortIn;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

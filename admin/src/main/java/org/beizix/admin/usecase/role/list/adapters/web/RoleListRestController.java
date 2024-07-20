@@ -1,11 +1,13 @@
-package org.beizix.admin.usecase.role.list.adapter.web;
+package org.beizix.admin.usecase.role.list.adapters.web;
 
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.beizix.admin.usecase.role.list.adapters.web.model.PrivilegeBindingVO;
+import org.beizix.admin.usecase.role.list.adapters.web.model.RoleBindingVO;
 import org.beizix.core.config.adapter.web.rest.response.RestResponse;
-import org.beizix.admin.usecase.role.list.application.domain.RoleElement;
-import org.beizix.admin.usecase.role.list.application.port.in.RoleListPortIn;
+import org.beizix.admin.usecase.role.list.ports.application.domain.RoleElement;
+import org.beizix.admin.usecase.role.list.ports.RoleListPortIn;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
