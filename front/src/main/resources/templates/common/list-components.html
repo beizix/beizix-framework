@@ -9,7 +9,7 @@
 ██      ██      ██    ██             ██ ██    ██ ██   ██    ██    ██ ██  ██ ██ ██    ██
 ███████ ██ ███████    ██        ███████  ██████  ██   ██    ██    ██ ██   ████  ██████
 -->
-<div th:fragment="listColumnOrder(pageable)">
+<div th:fragment="listColumnOrder(items)">
   <script>
     /**
      * 목록 칼럼 Sorting 기능 적용
@@ -17,11 +17,11 @@
      * @param {string} sort
      */
     function applyColumnOrdering(pagesize, sort) {
-      let curSortField = sort.split(':')[0],
+      var curSortField = sort.split(':')[0],
           curSortDir = sort.split(':')[1].trim();
 
       $('.orderable').each(function (i, el) {
-        let sortField = $(el).data('sort-field');
+        var sortField = $(el).data('sort-field');
 
         // 현재 sort 조건과 동일한 칼럼일 경우
         if (sortField === curSortField) {
@@ -55,25 +55,24 @@
 ██      ██   ██ ██    ██ ██ ██  ██ ██ ██   ██    ██    ██ ██    ██ ██  ██ ██
 ██      ██   ██  ██████  ██ ██   ████ ██   ██    ██    ██  ██████  ██   ████
 -->
-<div th:fragment="pagination(pageable)">
+<div th:fragment="pagination(items)">
   <div class="row">
     <nav aria-label="Page navigation example">
       <ul class="pagination justify-content-center">
-        <li class="page-item" th:classappend="${!pageable.previous} ? 'disabled'">
+        <li class="page-item" th:classappend="${!items.pageable.hasPrevious} ? 'disabled'">
           <a class="page-link"
-             th:href="|javascript:goPageable(${pageable.pageNumber - 1}, ${pageable.pageSize}, '${pageable.orderBy}', '${pageable.orderDir}')|">이전</a>
+             th:href="|javascript:goPageable(${items.pageable.pageNumber - 1}, ${items.pageable.pageSize}, '${items.pageable.sort}')|">이전</a>
         </li>
-        <li th:each="idx : ${#numbers.sequence(0, pageable.totalPages == 0 ? 0 :  pageable.totalPages - 1)}"
-            class="page-item"
-            th:classappend="${idx == pageable.pageNumber} ? 'disabled'">
+        <li th:each="idx : ${#numbers.sequence(0, items.totalPages == 0 ? 0 :  items.totalPages - 1)}" class="page-item"
+            th:classappend="${idx == items.pageable.pageNumber} ? 'disabled'">
           <a class="page-link"
-             th:href="|javascript:goPageable(${idx}, ${pageable.pageSize}, '${pageable.orderBy}', '${pageable.orderDir}')|"
+             th:href="|javascript:goPageable(${idx}, ${items.pageable.pageSize}, '${items.pageable.sort}')|"
              th:text="${idx+1}">페이지넘버</a>
         </li>
         <li class="page-item"
-            th:classappend="${!pageable.next} ? 'disabled'">
+            th:classappend="${items.pageable.pageNumber == items.totalPages - 1 or items.totalPages == 0 or items.totalPages == 0} ? 'disabled'">
           <a class="page-link"
-             th:href="|javascript:goPageable(${pageable.pageNumber + 1}, ${pageable.pageSize}, '${pageable.orderBy}', '${pageable.orderDir}')|">다음</a>
+             th:href="|javascript:goPageable(${items.pageable.pageNumber + 1}, ${items.pageable.pageSize}, '${items.pageable.sort}')|">다음</a>
         </li>
       </ul>
     </nav>
