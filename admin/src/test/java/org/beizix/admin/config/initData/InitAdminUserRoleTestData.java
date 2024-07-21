@@ -18,7 +18,7 @@ public class InitAdminUserRoleTestData implements ApplicationRunner {
   public void run(ApplicationArguments args) {
     if (!env.getProperty("beizix.initData.test", Boolean.class)) return;
 
-    roleRepo.save(Role.builder().id("ROLE_SUPER").build());
-    roleRepo.save(Role.builder().id("ROLE_STAFF").build());
+    roleRepo.save(new Role("ROLE_SUPER"));
+    roleRepo.save(new Role("ROLE_STAFF"));
   }
 }

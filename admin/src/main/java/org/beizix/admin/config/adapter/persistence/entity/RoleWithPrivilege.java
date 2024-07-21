@@ -8,7 +8,6 @@ import org.hibernate.annotations.Comment;
 @Getter
 @Setter
 @Entity
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "role_with_privilege")

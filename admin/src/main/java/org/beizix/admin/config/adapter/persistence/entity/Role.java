@@ -12,7 +12,6 @@ import org.hibernate.annotations.Comment;
 @org.hibernate.annotations.Table(appliesTo = "role", comment = "어드민 역할 테이블")
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Role extends AuditEntity {

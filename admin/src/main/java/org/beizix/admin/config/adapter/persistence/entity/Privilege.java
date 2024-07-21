@@ -13,7 +13,6 @@ import org.hibernate.annotations.Comment;
 @org.hibernate.annotations.Table(appliesTo = "privilege", comment = "어드민 권한 테이블")
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Privilege extends AuditEntity {
