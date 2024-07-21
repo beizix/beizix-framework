@@ -1,4 +1,4 @@
-package org.beizix.admin.config.application.initdata;
+package org.beizix.admin.config.adapter.persistence.initdata;
 
 import lombok.RequiredArgsConstructor;
 import org.beizix.admin.usecase.privilege.save.adapters.persistence.PrivilegeSaveRepo;

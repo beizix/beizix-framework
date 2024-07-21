@@ -1,4 +1,4 @@
-package org.beizix.admin.config.application.initdata;
+package org.beizix.admin.config.adapter.persistence.initdata;
 
 import java.time.LocalDateTime;
 import java.util.stream.IntStream;

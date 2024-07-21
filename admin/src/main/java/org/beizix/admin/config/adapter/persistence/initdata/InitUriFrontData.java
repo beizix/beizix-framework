@@ -1,4 +1,4 @@
-package org.beizix.admin.config.application.initdata;
+package org.beizix.admin.config.adapter.persistence.initdata;
 
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;

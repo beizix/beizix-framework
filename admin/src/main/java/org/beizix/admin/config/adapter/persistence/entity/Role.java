@@ -12,9 +12,9 @@ import org.hibernate.annotations.Comment;
 @org.hibernate.annotations.Table(appliesTo = "role", comment = "어드민 역할 테이블")
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 public class Role extends AuditEntity {
+  protected Role() {}
 
   public Role(String id) {
     this.id = id;
