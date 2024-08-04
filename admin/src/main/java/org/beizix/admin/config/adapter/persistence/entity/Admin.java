@@ -49,7 +49,7 @@ public class Admin extends AuditEntity {
   private LocalDateTime passwordUpdatedAt;
 
   @Column
-  @Comment("활성화")
+  @Comment("비활성화 여부")
   Boolean accountDisabled;
 
   @Column
@@ -57,7 +57,7 @@ public class Admin extends AuditEntity {
   Integer loginFailCnt;
 
   @Column
-  @Comment("잠금")
+  @Comment("잠금 여부")
   Boolean accountLocked;
 
   @OneToMany(

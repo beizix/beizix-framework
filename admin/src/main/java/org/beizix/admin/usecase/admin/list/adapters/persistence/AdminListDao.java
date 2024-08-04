@@ -11,19 +11,19 @@ import org.beizix.admin.config.adapter.persistence.entity.Admin_;
 import org.beizix.admin.config.adapter.persistence.entity.Privilege;
 import org.beizix.admin.config.adapter.persistence.entity.Role;
 import org.beizix.admin.config.adapter.persistence.entity.Role_;
+import org.beizix.admin.usecase.admin.list.ports.AdminListPortOut;
 import org.beizix.admin.usecase.admin.list.ports.application.domain.AdminElement;
 import org.beizix.admin.usecase.admin.list.ports.application.domain.AdminListCmd;
 import org.beizix.admin.usecase.admin.list.ports.application.domain.PrivilegeElement;
 import org.beizix.admin.usecase.admin.list.ports.application.domain.RoleElement;
-import org.beizix.admin.usecase.admin.list.ports.AdminListPortOut;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.thymeleaf.util.StringUtils;
 
-@Component
+@Repository
 @RequiredArgsConstructor
 class AdminListDao implements AdminListPortOut {
   private final AdminListRepo adminRepo;
