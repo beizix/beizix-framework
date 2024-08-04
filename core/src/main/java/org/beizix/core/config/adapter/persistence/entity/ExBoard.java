@@ -70,7 +70,7 @@ public class ExBoard extends AuditEntity {
 
   // 첨부 파일: 다건 이기에 외부 엔티티로 1:N 관계를 맺는다. 공개여부 - public
   @OneToMany(
-      mappedBy = "exBoard",
+      mappedBy = ExBoardAttachment_.EX_BOARD,
       cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
   @BatchSize(size = 100)
   @OrderBy("id asc")
