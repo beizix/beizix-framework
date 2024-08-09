@@ -1,0 +1,19 @@
+package #package;
+
+import java.util.Collections;
+import lombok.RequiredArgsConstructor;
+import #cmdPackage.#domainNm;
+import #cmdPackage.#domainNmCmd;
+import #portPackage.#domainNmPortOut;
+import java.util.List;
+import org.springframework.stereotype.Repository;
+
+@Repository
+@RequiredArgsConstructor
+public class #domainNmService implements #domainNmPortOut {
+
+  @Override
+  public List<#domainNm> operate(#domainNmCmd command) {
+    return Collections.emptyList();
+  }
+}

@@ -1,0 +1,10 @@
+package #package;
+
+import #cmdPackage.#domainNm;
+import #cmdPackage.#domainNmCmd;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+public interface #domainNmPortIn {
+  Page<#domainNm> operate(Pageable pageable, #domainNmCmd command);
+}

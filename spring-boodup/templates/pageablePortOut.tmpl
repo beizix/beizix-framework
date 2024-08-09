@@ -1,0 +1,10 @@
+package org.beizix.core.usecase.exboard.list.ports;
+
+import org.beizix.core.usecase.exboard.list.ports.ExBoardList;
+import org.beizix.core.usecase.exboard.list.ports.ExBoardListCmd;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+public interface ExBoardListPortOut {
+  Page<ExBoardList> connect(Pageable pageable, ExBoardListCmd command);
+}

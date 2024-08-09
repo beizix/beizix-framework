@@ -1,0 +1,21 @@
+package #package;
+
+import lombok.RequiredArgsConstructor;
+import #cmdPackage.#domainNm;
+import #cmdPackage.#domainNmCmd;
+import #portPackage.#domainNmPortIn;
+import #portPackage.#domainNmPortOut;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class #domainNmService implements #domainNmPortIn {
+  private final #domainNmPortOut portOut;
+
+  @Override
+  public Page<#domainNm> operate(Pageable pageable, #domainNmCmd command) {
+    return portOut.connect(pageable, listCmd);
+  }
+}

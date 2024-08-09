@@ -1,0 +1,9 @@
+package #package;
+
+import java.util.Optional;
+import #cmdPackage.#domainNm;
+import #cmdPackage.#domainNmCmd;
+
+public interface #domainNmPortIn {
+  Optional<#domainNm> operate(#domainNmCmd command);
+}

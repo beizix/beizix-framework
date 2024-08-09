@@ -1,0 +1,20 @@
+package #package;
+
+import lombok.RequiredArgsConstructor;
+import #cmdPackage.#domainNm;
+import #cmdPackage.#domainNmCmd;
+import #portPackage.#domainNmPortIn;
+import #portPackage.#domainNmPortOut;
+import java.util.Optional;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class #domainNmService implements #domainNmPortIn {
+  private final #domainNmPortOut portOut;
+
+  @Override
+  public Optional<#domainNm> operate(#domainNmCmd command) {
+    return portOut.operate(command);
+  }
+}
