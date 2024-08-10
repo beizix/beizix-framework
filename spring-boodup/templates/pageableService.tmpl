@@ -16,6 +16,6 @@ public class #domainNmService implements #domainNmPortIn {
 
   @Override
   public Page<#domainNm> operate(Pageable pageable, #domainNmCmd command) {
-    return portOut.connect(pageable, listCmd);
+    return portOut.operate(pageable, command);
   }
 }

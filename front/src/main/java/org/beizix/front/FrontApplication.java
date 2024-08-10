@@ -6,6 +6,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import th.co.geniustree.springdata.jpa.repository.support.JpaSpecificationExecutorWithProjectionImpl;
 
@@ -16,6 +17,7 @@ import th.co.geniustree.springdata.jpa.repository.support.JpaSpecificationExecut
  * specification-with-projection - https://github.com/pramoth/specification-with-projection
  */
 @EnableJpaRepositories(repositoryBaseClass = JpaSpecificationExecutorWithProjectionImpl.class)
+@EnableJpaAuditing
 public class FrontApplication extends SpringBootServletInitializer {
   public static void main(String[] args) {
     SpringApplication.run(FrontApplication.class, args);

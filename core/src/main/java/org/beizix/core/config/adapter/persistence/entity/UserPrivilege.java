@@ -13,10 +13,9 @@ import org.hibernate.annotations.Comment;
 @org.hibernate.annotations.Table(appliesTo = "user_privilege", comment = "사용자 권한 테이블")
 @Getter
 @Setter
+@NoArgsConstructor
 @AllArgsConstructor
 public class UserPrivilege extends AuditEntity {
-  protected UserPrivilege() {}
-
   @Id
   @Comment("사용자 권한")
   private String id;

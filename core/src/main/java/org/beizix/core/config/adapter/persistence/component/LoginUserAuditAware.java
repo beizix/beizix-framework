@@ -1,4 +1,4 @@
-package org.beizix.admin.config.adapter.persistence.component;
+package org.beizix.core.config.adapter.persistence.component;
 
 import java.util.Optional;
 import org.springframework.data.domain.AuditorAware;
