@@ -1,5 +1,8 @@
 package org.beizix.admin.config.application.security;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.sql.DataSource;
 import lombok.RequiredArgsConstructor;
 import org.beizix.core.config.application.enums.PublicAccess;
@@ -11,10 +14,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationEventPublisher;
 import org.springframework.security.authentication.DefaultAuthenticationEventPublisher;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,10 +24,6 @@ import org.springframework.security.web.authentication.rememberme.JdbcTokenRepos
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Configuration
 @EnableWebSecurity
@@ -49,11 +46,6 @@ public class AdminSecurityConfig {
     auth.setPasswordEncoder(passwordEncoder);
     return auth;
   }
-
-  //  @Override
-  //  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-  //    auth.authenticationProvider(authenticationProvider());
-  //  }
 
   @Bean
   public PersistentTokenRepository persistentTokenRepository() {
@@ -88,12 +80,12 @@ public class AdminSecurityConfig {
             .map(PublicAccess::getPath)
             .collect(Collectors.toList());
 
-    http.authorizeRequests()
-        .antMatchers(permitPaths.toArray(String[]::new))
-        .permitAll()
-        .anyRequest()
-        .authenticated()
-        .and()
+    http.authorizeRequests(
+            (auth) ->
+                auth.antMatchers(permitPaths.toArray(String[]::new))
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated())
         .formLogin()
         .loginPage("/login")
         .successHandler(adminAuthSuccessHandler)
@@ -109,7 +101,6 @@ public class AdminSecurityConfig {
         .invalidateHttpSession(true)
         .clearAuthentication(true)
         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-        // .logoutSuccessUrl("/login?logout")
         .permitAll()
         .and()
         .sessionManagement()

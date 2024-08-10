@@ -1,33 +1,28 @@
 package org.beizix.admin.config.adapter.web.interceptor;
 
-import java.io.IOException;
-import java.util.Set;
-import java.util.stream.Collectors;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.beizix.admin.config.adapter.web.interceptor.model.URITopTierVO;
-import org.beizix.core.usecase.uri.currentmatch.application.domain.URICurrentMatching;
-import org.beizix.core.usecase.uri.ancestry.application.port.in.URIAncestryPortIn;
-import org.beizix.core.usecase.uri.currentmatch.application.port.in.URICurrentMatchingPortIn;
 import org.beizix.core.config.application.enums.AppType;
-import org.beizix.core.usecase.uri.toptier.application.port.in.URITopTierPortIn;
-import org.beizix.core.usecase.uri.toptier.application.domain.URITopTier;
 import org.beizix.core.config.application.util.CommonUtil;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.beizix.core.usecase.uri.ancestry.application.port.in.URIAncestryPortIn;
+import org.beizix.core.usecase.uri.currentmatch.application.domain.URICurrentMatching;
+import org.beizix.core.usecase.uri.currentmatch.application.port.in.URICurrentMatchingPortIn;
+import org.beizix.core.usecase.uri.toptier.application.domain.URITopTier;
+import org.beizix.core.usecase.uri.toptier.application.port.in.URITopTierPortIn;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.stream.Collectors;
+
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class URIAndRoleInterceptor implements HandlerInterceptor {
+public class URIInterceptor implements HandlerInterceptor {
   private final CommonUtil commonUtil;
   private final URICurrentMatchingPortIn uriCurrentMatchingPortIn;
   private final URIAncestryPortIn uriAncestryPortIn;
@@ -35,11 +30,8 @@ public class URIAndRoleInterceptor implements HandlerInterceptor {
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-      throws ServletException, IOException {
+      throws Exception {
     String requestURI = request.getRequestURI();
-    if (requestURI.startsWith("/error/interceptor")) {
-      return true;
-    }
 
     URICurrentMatching currentURI = uriCurrentMatchingPortIn.connect(AppType.ADMIN, requestURI);
     if (currentURI == null) {
@@ -51,19 +43,6 @@ public class URIAndRoleInterceptor implements HandlerInterceptor {
 
     request.setAttribute("currentURI", currentURI);
 
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-    Set<String> currentUriRoles = currentURI.getRoles();
-
-    auth.getAuthorities().stream()
-        .filter(grantedAuthority -> currentUriRoles.contains(grantedAuthority.getAuthority()))
-        .findFirst()
-        .orElseThrow(
-            () ->
-                new AccessDeniedException(
-                    String.format(
-                        "[AccessDenied] %s to %s", auth.getName(), currentURI.getUri())));
-
     return true;
   }
 
@@ -72,8 +51,8 @@ public class URIAndRoleInterceptor implements HandlerInterceptor {
       HttpServletRequest request,
       HttpServletResponse response,
       Object handler,
-      ModelAndView modelAndView) {
-    log.info("POST_HANDLE_START");
+      ModelAndView modelAndView)
+      throws Exception {
 
     if (modelAndView == null) {
       log.info("POST_HANDLE_END::since modelAndView is null");
@@ -89,11 +68,8 @@ public class URIAndRoleInterceptor implements HandlerInterceptor {
       }
 
       modelAndView.addObject(
-          "menuHierarchy",
-          uriAncestryPortIn.connect(AppType.ADMIN, request.getRequestURI()));
+          "menuHierarchy", uriAncestryPortIn.connect(AppType.ADMIN, request.getRequestURI()));
     }
-
-    log.info("POST_HANDLE_END");
   }
 
   private URITopTierVO recursiveMapping(URITopTier output) {

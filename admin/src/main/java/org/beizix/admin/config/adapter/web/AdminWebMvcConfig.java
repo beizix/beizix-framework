@@ -2,13 +2,14 @@ package org.beizix.admin.config.adapter.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.navercorp.lucy.security.xss.servletfilter.XssEscapeServletFilter;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
-
 import lombok.RequiredArgsConstructor;
+import org.beizix.admin.config.adapter.web.interceptor.URIAuthorizeInterceptor;
+import org.beizix.admin.config.adapter.web.interceptor.URIInterceptor;
+import org.beizix.core.config.adapter.web.xss.HTMLCharacterEscapes;
 import org.beizix.core.config.application.enums.PublicAccess;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -22,8 +23,6 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-import org.beizix.admin.config.adapter.web.interceptor.URIAndRoleInterceptor;
-import org.beizix.core.config.adapter.web.xss.HTMLCharacterEscapes;
 
 @Configuration
 @RequiredArgsConstructor
@@ -31,12 +30,21 @@ public class AdminWebMvcConfig implements WebMvcConfigurer {
   @Value("${path.upload.public}")
   private String publicPath;
 
-  private final URIAndRoleInterceptor uriAndRoleInterceptor;
+  private final URIInterceptor uriInterceptor;
+  private final URIAuthorizeInterceptor uriAuthorizeInterceptor;
 
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
     registry
-        .addInterceptor(uriAndRoleInterceptor)
+        .addInterceptor(uriInterceptor)
+        .addPathPatterns("/**")
+        .excludePathPatterns(
+            Arrays.stream(PublicAccess.values())
+                .map(PublicAccess::getPath)
+                .collect(Collectors.toList()));
+
+    registry
+        .addInterceptor(uriAuthorizeInterceptor)
         .addPathPatterns("/**")
         .excludePathPatterns(
             Arrays.stream(PublicAccess.values())

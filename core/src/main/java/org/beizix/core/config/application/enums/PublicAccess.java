@@ -14,7 +14,8 @@ public enum PublicAccess {
   ERROR("에러 페이지", "/error"),
   FAVICON("파비콘", "/favicon.ico"),
   LOGIN("로그인 페이지", "/login"),
-  LOGOUT("로그아웃", "/logout");
+  LOGOUT("로그아웃", "/logout"),
+  INTERCEPTOR_ERROR("인터셉터 에러 포워딩", "/error/interceptor");
 
   private final String desc;
   private final String path;
