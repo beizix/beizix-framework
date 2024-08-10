@@ -1,4 +1,4 @@
-package org.beizix.front.config.application.security.enums;
+package org.beizix.core.config.application.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

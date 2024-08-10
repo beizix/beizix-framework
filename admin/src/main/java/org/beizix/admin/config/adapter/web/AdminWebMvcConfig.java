@@ -2,9 +2,14 @@ package org.beizix.admin.config.adapter.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.navercorp.lucy.security.xss.servletfilter.XssEscapeServletFilter;
+
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
+import org.beizix.core.config.application.enums.PublicAccess;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -33,15 +38,10 @@ public class AdminWebMvcConfig implements WebMvcConfigurer {
     registry
         .addInterceptor(uriAndRoleInterceptor)
         .addPathPatterns("/**")
-        .excludePathPatterns("/static/**")
-        .excludePathPatterns("/content-disposition/inline/public/**")
-        .excludePathPatterns("/content-disposition/attachment/**")
-        .excludePathPatterns("/api/**")
-        .excludePathPatterns("/refresh/cacheable/**")
-        .excludePathPatterns("/error")
-        .excludePathPatterns("/favicon.ico")
-        .excludePathPatterns("/login")
-        .excludePathPatterns("/logout");
+        .excludePathPatterns(
+            Arrays.stream(PublicAccess.values())
+                .map(PublicAccess::getPath)
+                .collect(Collectors.toList()));
 
     registry.addInterceptor(localeChangeInterceptor());
   }

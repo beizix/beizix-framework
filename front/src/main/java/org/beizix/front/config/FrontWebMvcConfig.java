@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.beizix.core.config.adapter.web.xss.HTMLCharacterEscapes;
 import org.beizix.front.config.adapter.web.interceptor.CurrentDeviceInterceptor;
 import org.beizix.front.config.adapter.web.interceptor.URIAndRoleInterceptor;
-import org.beizix.front.config.application.security.enums.PublicAccess;
+import org.beizix.core.config.application.enums.PublicAccess;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
