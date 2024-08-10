@@ -2,6 +2,7 @@ package org.beizix.core.config.adapter.persistence.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Comment;
@@ -15,10 +16,9 @@ import java.util.Set;
 @org.hibernate.annotations.Table(appliesTo = "user_role", comment = "사용자 역할 테이블")
 @Getter
 @Setter
+@NoArgsConstructor
 @AllArgsConstructor
 public class UserRole {
-  protected UserRole() {}
-
   public UserRole(String id) {
     this.id = id;
   }
@@ -36,9 +36,9 @@ public class UserRole {
   private Integer orderNo;
 
   @OneToMany(
-      fetch = FetchType.LAZY,
+      fetch = FetchType.EAGER,
       mappedBy = UserRoleWithUserPrivilege_.USER_ROLE,
-      cascade = {CascadeType.REMOVE})
+      cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
   @BatchSize(size = 100)
   private Set<UserRoleWithUserPrivilege> withUserPrivileges = new LinkedHashSet<>();
 }

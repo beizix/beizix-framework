@@ -16,6 +16,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.beizix</groupId>
+			<artifactId>aws</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.beizix</groupId>
 			<artifactId>core</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>

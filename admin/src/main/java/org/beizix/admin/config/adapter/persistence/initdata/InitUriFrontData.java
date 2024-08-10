@@ -1,6 +1,8 @@
 package org.beizix.admin.config.adapter.persistence.initdata;
 
 import java.io.IOException;
+import java.util.Set;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.beizix.admin.usecase.uri.save.application.port.in.URISavePortIn;
@@ -42,7 +44,7 @@ public class InitUriFrontData implements ApplicationRunner {
             "org.beizix 프론트 메인",
             "org.beizix,front",
             null,
-            null),
+            Set.of("ROLE_ANONYMOUS")),
         null,
         false);
 
@@ -60,7 +62,7 @@ public class InitUriFrontData implements ApplicationRunner {
             "org.beizix 예제 게시판 목록",
             "org.beizix,front",
             null,
-            null),
+            Set.of("ROLE_ANONYMOUS")),
         null,
         false);
 
@@ -77,7 +79,7 @@ public class InitUriFrontData implements ApplicationRunner {
             "org.beizix 예제 게시판 상세",
             "org.beizix,view",
             null,
-            null),
+            Set.of("ROLE_ANONYMOUS")),
         null,
         false);
   }

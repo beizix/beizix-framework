@@ -1,6 +1,7 @@
 package org.beizix.front.config.adapter.web.interceptor;
 
 import java.io.IOException;
+import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,6 +11,9 @@ import org.beizix.core.usecase.uri.ancestry.application.port.in.URIAncestryPortI
 import org.beizix.core.usecase.uri.currentmatch.application.port.in.URICurrentMatchingPortIn;
 import org.beizix.core.config.application.enums.AppType;
 import org.beizix.core.usecase.uri.toptier.application.port.in.URITopTierPortIn;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -38,6 +42,19 @@ public class URIAndRoleInterceptor implements HandlerInterceptor {
     }
 
     request.setAttribute("currentURI", currentURI);
+
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+    Set<String> currentUriRoles = currentURI.getRoles();
+
+    auth.getAuthorities().stream()
+        .filter(grantedAuthority -> currentUriRoles.contains(grantedAuthority.getAuthority()))
+        .findFirst()
+        .orElseThrow(
+            () ->
+                new AccessDeniedException(
+                    String.format("[AccessDenied] %s to %s", auth.getName(), currentURI.getUri())));
+
     return true;
   }
 

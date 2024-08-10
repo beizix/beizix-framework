@@ -2,12 +2,17 @@ package org.beizix.front.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.navercorp.lucy.security.xss.servletfilter.XssEscapeServletFilter;
+
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import org.beizix.core.config.adapter.web.xss.HTMLCharacterEscapes;
 import org.beizix.front.config.adapter.web.interceptor.CurrentDeviceInterceptor;
 import org.beizix.front.config.adapter.web.interceptor.URIAndRoleInterceptor;
+import org.beizix.front.config.application.security.enums.PublicAccess;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -38,40 +43,28 @@ public class FrontWebMvcConfig implements WebMvcConfigurer {
     registry
         .addInterceptor(uriAndRoleInterceptor)
         .addPathPatterns("/**")
-        .excludePathPatterns("/static/**")
-        .excludePathPatterns("/content-disposition/inline/public/**")
-        .excludePathPatterns("/content-disposition/attachment/**")
-        .excludePathPatterns("/refresh/cacheable/**")
-        .excludePathPatterns("/api/**")
-        .excludePathPatterns("/error")
-        .excludePathPatterns("/favicon.ico")
-        .excludePathPatterns("/login")
-        .excludePathPatterns("/logout");
+        .excludePathPatterns(
+            Arrays.stream(PublicAccess.values())
+                .map(PublicAccess::getPath)
+                .collect(Collectors.toList()));
 
     registry.addInterceptor(localeChangeInterceptor());
 
     registry
         .addInterceptor(deviceResolverHandlerInterceptor())
         .addPathPatterns("/**")
-        .excludePathPatterns("/static/**")
-        .excludePathPatterns("/content-disposition/inline/public/**")
-        .excludePathPatterns("/content-disposition/attachment/**")
-        .excludePathPatterns("/refresh/cacheable/**")
-        .excludePathPatterns("/error")
-        .excludePathPatterns("/favicon.ico")
-        .excludePathPatterns("/login")
-        .excludePathPatterns("/logout");
+        .excludePathPatterns(
+            Arrays.stream(PublicAccess.values())
+                .map(PublicAccess::getPath)
+                .collect(Collectors.toList()));
+
     registry
         .addInterceptor(currentDeviceInterceptor)
         .addPathPatterns("/**")
-        .excludePathPatterns("/static/**")
-        .excludePathPatterns("/content-disposition/inline/public/**")
-        .excludePathPatterns("/content-disposition/attachment/**")
-        .excludePathPatterns("/refresh/cacheable/**")
-        .excludePathPatterns("/error")
-        .excludePathPatterns("/favicon.ico")
-        .excludePathPatterns("/login")
-        .excludePathPatterns("/logout");
+        .excludePathPatterns(
+            Arrays.stream(PublicAccess.values())
+                .map(PublicAccess::getPath)
+                .collect(Collectors.toList()));
   }
 
   @Override
@@ -87,6 +80,7 @@ public class FrontWebMvcConfig implements WebMvcConfigurer {
   public DeviceResolverHandlerInterceptor deviceResolverHandlerInterceptor() {
     return new DeviceResolverHandlerInterceptor();
   }
+
   // spring-mobile-device: Argument Resolver
   @Bean
   public DeviceHandlerMethodArgumentResolver deviceHandlerMethodArgumentResolver() {

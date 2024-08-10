@@ -51,28 +51,18 @@ public class URIAndRoleInterceptor implements HandlerInterceptor {
 
     request.setAttribute("currentURI", currentURI);
 
-    // Home url 인 경우 권한체크 없음.
-    if (currentURI.getUri().equals("/")) {
-      return true;
-    }
-
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-    // ROLE_SUPER 권한이 없다면 URI 에 매핑된 권한체크 수행
-    if (auth.getAuthorities().stream()
-        .noneMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_SUPER"))) {
+    Set<String> currentUriRoles = currentURI.getRoles();
 
-      Set<String> currentUriRoles = currentURI.getRoles();
-
-      auth.getAuthorities().stream()
-          .filter(grantedAuthority -> currentUriRoles.contains(grantedAuthority.getAuthority()))
-          .findFirst()
-          .orElseThrow(
-              () ->
-                  new AccessDeniedException(
-                      String.format(
-                          "[AccessDenied] %s to %s", auth.getName(), currentURI.getUri())));
-    }
+    auth.getAuthorities().stream()
+        .filter(grantedAuthority -> currentUriRoles.contains(grantedAuthority.getAuthority()))
+        .findFirst()
+        .orElseThrow(
+            () ->
+                new AccessDeniedException(
+                    String.format(
+                        "[AccessDenied] %s to %s", auth.getName(), currentURI.getUri())));
 
     return true;
   }

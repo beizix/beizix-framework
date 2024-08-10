@@ -8,11 +8,10 @@ import org.hibernate.annotations.Comment;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "user_role_with_user_privilege")
 public class UserRoleWithUserPrivilege extends AuditEntity {
-  protected UserRoleWithUserPrivilege() {}
-
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "id", nullable = false)

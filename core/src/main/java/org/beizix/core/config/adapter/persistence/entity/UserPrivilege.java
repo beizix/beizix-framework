@@ -27,4 +27,8 @@ public class UserPrivilege extends AuditEntity {
   @Column
   @Comment("정렬순서")
   private Integer orderNo;
+
+  public UserPrivilege(String id) {
+    this.id = id;
+  }
 }

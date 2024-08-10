@@ -71,7 +71,7 @@ public class InitUriAdminData implements ApplicationRunner {
             "어드민 홈 페이지",
             "admin",
             null,
-            null),
+            Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF")),
         null,
         false);
 
