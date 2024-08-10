@@ -18,6 +18,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
@@ -30,7 +31,7 @@ import java.util.stream.Collectors;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
+public class AdminSecurityConfig {
 
   @Value("${org.beizix.session.maximum.num}")
   private Integer maxSessionNum;
@@ -49,10 +50,10 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
     return auth;
   }
 
-  @Override
-  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.authenticationProvider(authenticationProvider());
-  }
+  //  @Override
+  //  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+  //    auth.authenticationProvider(authenticationProvider());
+  //  }
 
   @Bean
   public PersistentTokenRepository persistentTokenRepository() {
@@ -80,8 +81,8 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
     return new DefaultAuthenticationEventPublisher(applicationEventPublisher);
   }
 
-  @Override
-  protected void configure(HttpSecurity http) throws Exception {
+  @Bean
+  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     List<String> permitPaths =
         Arrays.stream(PublicAccess.values())
             .map(PublicAccess::getPath)
@@ -114,5 +115,7 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
         .sessionManagement()
         .maximumSessions(maxSessionNum)
         .maxSessionsPreventsLogin(false);
+
+    return http.build();
   }
 }
