@@ -1,11 +1,12 @@
 package org.beizix.admin.config.adapter.web.interceptor;
 
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.beizix.admin.config.adapter.web.interceptor.model.URITopTierVO;
+import org.beizix.core.config.adapter.web.interceptor.model.URITopTierVO;
 import org.beizix.core.config.application.enums.AppType;
 import org.beizix.core.config.application.util.CommonUtil;
 import org.beizix.core.usecase.uri.ancestry.application.port.in.URIAncestryPortIn;
@@ -17,12 +18,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.stream.Collectors;
-
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class URIInterceptor implements HandlerInterceptor {
+public class AdminURIInterceptor implements HandlerInterceptor {
   private final CommonUtil commonUtil;
   private final URICurrentMatchingPortIn uriCurrentMatchingPortIn;
   private final URIAncestryPortIn uriAncestryPortIn;

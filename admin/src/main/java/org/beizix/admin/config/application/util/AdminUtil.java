@@ -1,7 +1,7 @@
 package org.beizix.admin.config.application.util;
 
 import java.util.List;
-import org.beizix.admin.config.adapter.web.interceptor.model.URITopTierVO;
+import org.beizix.core.config.adapter.web.interceptor.model.URITopTierVO;
 import org.springframework.stereotype.Component;
 
 @Component

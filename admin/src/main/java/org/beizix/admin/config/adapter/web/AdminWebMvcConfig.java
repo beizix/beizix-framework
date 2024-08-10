@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.beizix.admin.config.adapter.web.interceptor.URIAuthorizeInterceptor;
-import org.beizix.admin.config.adapter.web.interceptor.URIInterceptor;
+import org.beizix.admin.config.adapter.web.interceptor.AdminURIInterceptor;
+import org.beizix.core.config.adapter.web.interceptor.URIAuthorizeInterceptor;
 import org.beizix.core.config.adapter.web.xss.HTMLCharacterEscapes;
 import org.beizix.core.config.application.enums.PublicAccess;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,14 +29,13 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 public class AdminWebMvcConfig implements WebMvcConfigurer {
   @Value("${path.upload.public}")
   private String publicPath;
-
-  private final URIInterceptor uriInterceptor;
+  private final AdminURIInterceptor adminURIInterceptor;
   private final URIAuthorizeInterceptor uriAuthorizeInterceptor;
 
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
     registry
-        .addInterceptor(uriInterceptor)
+        .addInterceptor(adminURIInterceptor)
         .addPathPatterns("/**")
         .excludePathPatterns(
             Arrays.stream(PublicAccess.values())

@@ -1,4 +1,4 @@
-package org.beizix.admin.config.adapter.web.interceptor.model;
+package org.beizix.core.config.adapter.web.interceptor.model;
 
 import java.util.List;
 import lombok.AllArgsConstructor;

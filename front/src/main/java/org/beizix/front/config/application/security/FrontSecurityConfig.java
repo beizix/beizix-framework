@@ -1,7 +1,9 @@
 package org.beizix.front.config.application.security;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.beizix.core.config.application.enums.PublicAccess;
@@ -23,13 +25,17 @@ public class FrontSecurityConfig {
             .map(PublicAccess::getPath)
             .collect(Collectors.toList());
 
-    permitPaths.add("/");
+    // 자격증명 SKIP 허용 URI 등록
+    FrontPublicAccess.getInstance().setURIs(List.of("/"));
 
-    http.authorizeRequests()
-        .antMatchers(permitPaths.toArray(String[]::new))
-        .permitAll()
-        .anyRequest()
-        .authenticated();
+    permitPaths.addAll(FrontPublicAccess.getInstance().getURIs());
+
+    http.authorizeRequests(
+        (req) ->
+            req.antMatchers(permitPaths.toArray(String[]::new))
+                .permitAll()
+                .anyRequest()
+                .authenticated());
 
     return http.build();
   }

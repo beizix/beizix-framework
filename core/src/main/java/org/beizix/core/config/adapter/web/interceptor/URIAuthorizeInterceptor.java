@@ -1,4 +1,4 @@
-package org.beizix.admin.config.adapter.web.interceptor;
+package org.beizix.core.config.adapter.web.interceptor;
 
 import java.io.IOException;
 import java.util.Set;

@@ -2,17 +2,17 @@ package org.beizix.front.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.navercorp.lucy.security.xss.servletfilter.XssEscapeServletFilter;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
-
 import lombok.RequiredArgsConstructor;
+import org.beizix.core.config.adapter.web.interceptor.URIAuthorizeInterceptor;
 import org.beizix.core.config.adapter.web.xss.HTMLCharacterEscapes;
-import org.beizix.front.config.adapter.web.interceptor.CurrentDeviceInterceptor;
-import org.beizix.front.config.adapter.web.interceptor.URIAndRoleInterceptor;
 import org.beizix.core.config.application.enums.PublicAccess;
+import org.beizix.front.config.adapter.web.interceptor.CurrentDeviceInterceptor;
+import org.beizix.front.config.adapter.web.interceptor.FrontURIInterceptor;
+import org.beizix.front.config.application.security.FrontPublicAccess;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -35,18 +35,21 @@ public class FrontWebMvcConfig implements WebMvcConfigurer {
   @Value("${path.upload.public}")
   private String publicPath;
 
-  private final URIAndRoleInterceptor uriAndRoleInterceptor;
+  private final FrontURIInterceptor frontURIInterceptor;
+  private final URIAuthorizeInterceptor uriAuthorizeInterceptor;
   private final CurrentDeviceInterceptor currentDeviceInterceptor;
 
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
+    List<String> permitPaths =
+        Arrays.stream(PublicAccess.values())
+            .map(PublicAccess::getPath)
+            .collect(Collectors.toList());
+
     registry
-        .addInterceptor(uriAndRoleInterceptor)
+        .addInterceptor(frontURIInterceptor)
         .addPathPatterns("/**")
-        .excludePathPatterns(
-            Arrays.stream(PublicAccess.values())
-                .map(PublicAccess::getPath)
-                .collect(Collectors.toList()));
+        .excludePathPatterns(permitPaths);
 
     registry.addInterceptor(localeChangeInterceptor());
 
@@ -65,6 +68,14 @@ public class FrontWebMvcConfig implements WebMvcConfigurer {
             Arrays.stream(PublicAccess.values())
                 .map(PublicAccess::getPath)
                 .collect(Collectors.toList()));
+
+    // 자격증명 SKIP 허용 URI 등록
+    permitPaths.addAll(FrontPublicAccess.getInstance().getURIs());
+
+    registry
+        .addInterceptor(uriAuthorizeInterceptor)
+        .addPathPatterns("/**")
+        .excludePathPatterns(permitPaths);
   }
 
   @Override
