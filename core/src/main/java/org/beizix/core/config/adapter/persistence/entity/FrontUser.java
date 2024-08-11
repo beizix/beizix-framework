@@ -3,9 +3,9 @@ package org.beizix.core.config.adapter.persistence.entity;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import javax.persistence.*;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.beizix.core.config.adapter.persistence.component.AuditEntity;
 import org.hibernate.annotations.BatchSize;
@@ -15,9 +15,9 @@ import org.hibernate.annotations.Comment;
 @org.hibernate.annotations.Table(appliesTo = "front_user", comment = "사용자 테이블")
 @Getter
 @Setter
+@NoArgsConstructor
 @AllArgsConstructor
 public class FrontUser extends AuditEntity {
-  protected FrontUser() {}
 
   @Id
   @Comment("계정 아이디")
@@ -46,7 +46,11 @@ public class FrontUser extends AuditEntity {
   @OneToMany(
       fetch = FetchType.LAZY,
       mappedBy = UserWithUserRole_.FRONT_USER,
-      cascade = {CascadeType.REMOVE})
+      cascade = {CascadeType.MERGE, CascadeType.REMOVE})
   @BatchSize(size = 100)
   private Set<UserWithUserRole> withUserRoles = new LinkedHashSet<>();
+
+  public FrontUser(String id) {
+    this.id = id;
+  }
 }

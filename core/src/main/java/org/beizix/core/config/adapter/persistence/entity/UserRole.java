@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.beizix.core.config.adapter.persistence.component.AuditEntity;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Comment;
 
@@ -18,7 +19,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRole {
+public class UserRole extends AuditEntity {
   public UserRole(String id) {
     this.id = id;
   }
@@ -38,7 +39,7 @@ public class UserRole {
   @OneToMany(
       fetch = FetchType.EAGER,
       mappedBy = UserRoleWithUserPrivilege_.USER_ROLE,
-      cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+      cascade = {CascadeType.MERGE, CascadeType.REMOVE})
   @BatchSize(size = 100)
   private Set<UserRoleWithUserPrivilege> withUserPrivileges = new LinkedHashSet<>();
 }

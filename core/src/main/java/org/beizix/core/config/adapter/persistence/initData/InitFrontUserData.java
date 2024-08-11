@@ -2,9 +2,10 @@ package org.beizix.core.config.adapter.persistence.initData;
 
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.beizix.core.config.application.util.PropertyUtil;
-import org.beizix.core.usecase.user.createRole.ports.CreateRolePortIn;
-import org.beizix.core.usecase.user.createRole.ports.application.domain.CreateRoleCmd;
+import org.beizix.core.usecase.user.createUser.ports.CreateUserPortIn;
+import org.beizix.core.usecase.user.createUser.ports.application.domain.CreateUserCmd;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.annotation.Order;
@@ -12,19 +13,23 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-@Order(2)
-public class InitUserRoleData implements ApplicationRunner {
-  private final CreateRolePortIn createRolePortIn;
+@Slf4j
+@Order(3)
+public class InitFrontUserData implements ApplicationRunner {
+  private final CreateUserPortIn createUserPortIn;
 
   @Override
   public void run(ApplicationArguments args) throws Exception {
     if (!PropertyUtil.isCoreDataRequired()) return;
 
-    createRolePortIn.operate(
-        new CreateRoleCmd(
-            "ROLE_GENERAL",
-            "일반 사용자",
+    createUserPortIn.operate(
+        new CreateUserCmd(
+            "generalUser",
+            "generalUser1@#$",
+            "generalUser@test.com",
+            false,
             0,
-            Set.of("READ", "WRITE", "DELETE", "UPDATE", "DOWNLOAD", "PRIVATE_DOWNLOAD")));
+            false,
+            Set.of("ROLE_GENERAL")));
   }
 }
