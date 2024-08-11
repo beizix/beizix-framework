@@ -44,7 +44,7 @@ public class InitUriFrontData implements ApplicationRunner {
             "org.beizix 프론트 메인",
             "org.beizix,front",
             null,
-            Set.of("ROLE_ANONYMOUS")),
+            null),
         null,
         false);
 
@@ -62,7 +62,7 @@ public class InitUriFrontData implements ApplicationRunner {
             "org.beizix 예제 게시판 목록",
             "org.beizix,front",
             null,
-            Set.of("ROLE_ANONYMOUS")),
+            null),
         null,
         false);
 
@@ -79,7 +79,7 @@ public class InitUriFrontData implements ApplicationRunner {
             "org.beizix 예제 게시판 상세",
             "org.beizix,view",
             null,
-            Set.of("ROLE_ANONYMOUS")),
+            null),
         null,
         false);
   }

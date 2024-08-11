@@ -22,6 +22,10 @@ public class InitUserRoleData implements ApplicationRunner {
     if (!PropertyUtil.isCoreDataRequired()) return;
 
     createRolePortIn.operate(
-        new CreateRoleCmd("ROLE_ANONYMOUS", "익명 사용자", 0, Set.of("READ", "DOWNLOAD")));
+        new CreateRoleCmd(
+            "ROLE_GENERAL",
+            "일반 사용자",
+            0,
+            Set.of("READ", "WRITE", "DELETE", "UPDATE", "DOWNLOAD", "PRIVATE_DOWNLOAD")));
   }
 }
