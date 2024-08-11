@@ -36,7 +36,10 @@ class CreateRoleDao implements CreateRolePortOut {
                     .map(
                         s ->
                             new UserRoleWithUserPrivilege(
-                                null, new UserRole(command.getId()), new UserPrivilege(s)))
+                                null,
+                                // CascadeType.MERGE 이기에 가능하다.
+                                new UserRole(command.getId()),
+                                new UserPrivilege(s)))
                     .collect(Collectors.toSet())));
 
     return Optional.of(
@@ -44,10 +47,6 @@ class CreateRoleDao implements CreateRolePortOut {
             userRole.getId(),
             userRole.getDescription(),
             userRole.getOrderNo(),
-            userRole.getWithUserPrivileges().stream()
-                .map(
-                    userRoleWithUserPrivilege ->
-                        userRoleWithUserPrivilege.getUserPrivilege().getId())
-                .collect(Collectors.toSet())));
+            command.getPrivileges()));
   }
 }
