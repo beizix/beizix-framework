@@ -48,6 +48,24 @@ public class InitUriFrontData implements ApplicationRunner {
         null,
         false);
 
+    // 로그인
+    uriSavePortIn.connect(
+        new URISaveCommand(
+            FRONT + ".login",
+            FRONT,
+            AppType.FRONT,
+            "/login",
+            true,
+            "프론트",
+            null,
+            "로그인",
+            "로그인 페이지",
+            "org.beizix,front",
+            null,
+            null),
+        null,
+        false);
+
     // 예제 게시판
     uriSavePortIn.connect(
         new URISaveCommand(

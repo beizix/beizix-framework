@@ -44,7 +44,9 @@ public class URIAuthorizeInterceptor implements HandlerInterceptor {
         .orElseThrow(
             () ->
                 new AccessDeniedException(
-                    String.format("[AccessDenied] %s to %s", auth.getName(), currentURI.getUri())));
+                    String.format(
+                        "[URIAuthorizeInterceptor - AccessDenied] %s to %s",
+                        auth.getName(), currentURI.getUri())));
 
     return true;
   }

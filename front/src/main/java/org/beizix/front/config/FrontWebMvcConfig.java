@@ -41,15 +41,14 @@ public class FrontWebMvcConfig implements WebMvcConfigurer {
 
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
-    List<String> permitPaths =
-        Arrays.stream(PublicAccess.values())
-            .map(PublicAccess::getPath)
-            .collect(Collectors.toList());
-
     registry
         .addInterceptor(frontURIInterceptor)
-        .addPathPatterns("/**")
-        .excludePathPatterns(permitPaths);
+        .excludePathPatterns(
+            Arrays.stream(PublicAccess.values())
+                // 로그인 페이지의 경우, currentURI 정보를 얻기 위해 실행되야 한다.
+                .filter(publicAccess -> !publicAccess.getPath().equals("/login"))
+                .map(PublicAccess::getPath)
+                .collect(Collectors.toList()));
 
     registry.addInterceptor(localeChangeInterceptor());
 
@@ -69,7 +68,12 @@ public class FrontWebMvcConfig implements WebMvcConfigurer {
                 .map(PublicAccess::getPath)
                 .collect(Collectors.toList()));
 
-    // 자격증명 SKIP 허용 URI 등록
+    List<String> permitPaths =
+        Arrays.stream(PublicAccess.values())
+            .map(PublicAccess::getPath)
+            .collect(Collectors.toList());
+
+    // 익명 사용자 접근 허용 URI 등록
     permitPaths.addAll(FrontPublicAccess.getInstance().getURIs());
 
     registry

@@ -25,17 +25,21 @@ public class FrontSecurityConfig {
             .map(PublicAccess::getPath)
             .collect(Collectors.toList());
 
-    // 자격증명 SKIP 허용 URI 등록
+    // 익명 사용자 접근 허용 URI 등록
     FrontPublicAccess.getInstance().setURIs(List.of("/"));
 
-    permitPaths.addAll(FrontPublicAccess.getInstance().getURIs());
-
-    http.authorizeRequests(
-        (req) ->
-            req.antMatchers(permitPaths.toArray(String[]::new))
-                .permitAll()
-                .anyRequest()
-                .authenticated());
+    http.authorizeHttpRequests(
+            (auth) ->
+                auth.antMatchers(permitPaths.toArray(String[]::new))
+                    .permitAll()
+                    // 익명 사용자 접근 허용 URI 적용.
+                    .antMatchers(FrontPublicAccess.getInstance().getURIs().toArray(String[]::new))
+                    .hasRole("ANONYMOUS")
+                    .anyRequest()
+                    .authenticated())
+        .formLogin()
+        .loginPage("/login")
+        .permitAll();
 
     return http.build();
   }

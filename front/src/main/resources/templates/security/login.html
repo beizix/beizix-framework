@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/layout}">
+
+<section layout:fragment="content">
+  <form method="post" th:action="@{/login}">
+
+    <div th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']} != null" class="">
+      <div class="alert alert-danger fw-bold" th:utext="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}">
+      </div>
+    </div>
+
+    <div class="">
+      <label for="">ID</label>
+      <input type="text" class="" name="username" id="floatingInput" autofocus placeholder="ID를 입력해주세요">
+    </div>
+    <div class="">
+      <label for="floatingPassword">Password</label>
+      <input type="password" class="f" name="password" id="floatingPassword" placeholder="Password">
+    </div>
+
+    <div class="">
+      <div class="" roleDto="group" aria-label="Basic checkbox toggle button group">
+        <input type="checkbox" class="" id="btn_ck1" name="remember-me" autocomplete="off">
+        <label class="" for="btn_ck1">로그인 상태 유지하기</label>
+      </div>
+    </div>
+    <button class="" type="submit">Sign in</button>
+  </form>
+</section>
+
+
+</html>
