@@ -1,13 +1,13 @@
-package org.beizix.admin.usecase.uri.save.application.port.in;
+package org.beizix.core.usecase.uri.save.application.port.in;
 
 import java.io.IOException;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.beizix.admin.usecase.uri.save.application.domain.URISaveCommand;
+import org.beizix.core.usecase.uri.save.application.domain.URISaveCommand;
 import org.beizix.core.usecase.file.upload.application.port.in.FileUploadPortIn;
 import org.beizix.core.usecase.file.url.application.port.in.FileUrlPortIn;
-import org.beizix.admin.usecase.uri.save.application.port.out.URIMaxOrderNoPortOut;
-import org.beizix.admin.usecase.uri.save.application.port.out.URISavePortOut;
+import org.beizix.core.usecase.uri.save.application.port.out.URIMaxOrderNoPortOut;
+import org.beizix.core.usecase.uri.save.application.port.out.URISavePortOut;
 import org.beizix.core.config.application.enums.ContentDispositionType;
 import org.beizix.core.config.application.enums.FileUploadType;
 import org.beizix.core.config.application.exception.AlreadyExistItemException;

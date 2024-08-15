@@ -1,14 +1,13 @@
-package org.beizix.admin.config.adapter.persistence.initdata;
+package org.beizix.front.config.adapter.persistence.initData;
 
 import java.io.IOException;
 import java.util.Set;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.beizix.admin.usecase.uri.save.application.port.in.URISavePortIn;
-import org.beizix.admin.usecase.uri.save.application.domain.URISaveCommand;
 import org.beizix.core.config.application.enums.AppType;
 import org.beizix.core.config.application.util.PropertyUtil;
+import org.beizix.core.usecase.uri.save.application.domain.URISaveCommand;
+import org.beizix.core.usecase.uri.save.application.port.in.URISavePortIn;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.annotation.Order;
@@ -80,7 +79,7 @@ public class InitUriFrontData implements ApplicationRunner {
             "org.beizix 예제 게시판 목록",
             "org.beizix,front",
             null,
-            null),
+            Set.of("ROLE_GENERAL")),
         null,
         false);
 
@@ -97,7 +96,7 @@ public class InitUriFrontData implements ApplicationRunner {
             "org.beizix 예제 게시판 상세",
             "org.beizix,view",
             null,
-            null),
+            Set.of("ROLE_GENERAL")),
         null,
         false);
   }

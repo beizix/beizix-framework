@@ -75,9 +75,9 @@ public class FrontSecurityConfig {
             (auth) ->
                 auth.antMatchers(permitPaths.toArray(String[]::new))
                     .permitAll()
-                    // 익명 사용자 접근 허용 URI 적용.
+                    // 익명 사용자 + 인증 사용자 접근 허용 URI 적용.
                     .antMatchers(FrontPublicAccess.getInstance().getURIs().toArray(String[]::new))
-                    .hasRole("ANONYMOUS")
+                    .hasAnyRole("ANONYMOUS", "GENERAL")
                     .anyRequest()
                     .authenticated())
         .formLogin()
