@@ -1,12 +1,9 @@
 package org.beizix.admin.config.application.security;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.beizix.admin.config.application.aop.LoginSuccessOperateLog;
+import lombok.extern.slf4j.Slf4j;
 import org.beizix.admin.usecase.admin.status.ports.AdminUpdateLoginFailPortIn;
 import org.beizix.admin.usecase.admin.view.ports.AdminViewPortIn;
 import org.beizix.admin.usecase.loggedinuser.save.ports.LoggedInUserSavePortIn;
@@ -19,20 +16,18 @@ import org.beizix.core.config.application.enums.AppType;
 import org.beizix.core.config.application.util.CommonUtil;
 import org.beizix.core.config.application.util.MessageUtil;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.event.EventListener;
+import org.springframework.security.authentication.event.AbstractAuthenticationFailureEvent;
+import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Component
 @RequiredArgsConstructor
-public class AdminAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
-  private final MessageUtil messageUtil;
-  private final AdminViewPortIn adminViewPortIn;
-  private final AdminUpdateLoginFailPortIn updateLoginFailPortIn;
-  private final LoggedInUserViewPortIn loggedInUserViewPortIn;
-  private final LoggedInUserSavePortIn loggedInUserSavePortIn;
-  private final CommonUtil commonUtil;
-
+@Slf4j
+public class AdminAuthSuccessEvent {
   @Value("${app.admin.password.validity.period.days}")
   private long passwordValidPeriodDays;
 
@@ -45,12 +40,20 @@ public class AdminAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
   @Value("${app.admin.session.maximum.num}")
   private Integer maxSessionNum;
 
-  @Override
-  @LoginSuccessOperateLog
-  public void onAuthenticationSuccess(
-      HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-      throws IOException, ServletException {
-    AdminUserDetail adminUserDetail = (AdminUserDetail) authentication.getPrincipal();
+  private final MessageUtil messageUtil;
+  private final AdminViewPortIn adminViewPortIn;
+  private final AdminUpdateLoginFailPortIn updateLoginFailPortIn;
+  private final LoggedInUserViewPortIn loggedInUserViewPortIn;
+  private final LoggedInUserSavePortIn loggedInUserSavePortIn;
+  private final CommonUtil commonUtil;
+
+  @EventListener
+  public void handleAuthenticationSuccessEvent(AuthenticationSuccessEvent event) {
+    Authentication authentication = event.getAuthentication();
+    AdminUser adminUser = (AdminUser) authentication.getPrincipal();
+
+    HttpServletRequest request =
+        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 
     // 로그인 실패 회수 초기화
     adminViewPortIn
@@ -59,11 +62,11 @@ public class AdminAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
 
     // 패스워드 변경일 공지
     if (passwordValidPeriodDays != -1
-        && adminUserDetail.getRemainPasswordDays() <= passwordChangeNoticeDays) {
+        && adminUser.getRemainPasswordDays() <= passwordChangeNoticeDays) {
       commonUtil.addFlashAlertMessages(
           request.getSession(),
           messageUtil.getMessage(
-              "org.beizix.password.change.notify", adminUserDetail.getRemainPasswordDays()));
+              "org.beizix.password.change.notify", adminUser.getRemainPasswordDays()));
     }
 
     if (maxSessionNum == 1) {
@@ -85,8 +88,13 @@ public class AdminAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
               .lastLoggedInAt(LocalDateTime.now())
               .build());
     }
+  }
 
-    super.onAuthenticationSuccess(request, response, authentication);
+  @EventListener
+  public void handleAuthenticationFailureEvent(AbstractAuthenticationFailureEvent event) {
+    Exception e = event.getException();
+    Authentication authentication = event.getAuthentication();
+    log.warn("Unsuccessful authentication result: {}", authentication, e);
   }
 
   /** 사용자 로그인 여부 확인 */

@@ -1,6 +1,5 @@
 package org.beizix.admin.config.application.security;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
@@ -11,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.beizix.admin.usecase.admin.view.ports.application.domain.AdminView;
 import org.beizix.admin.usecase.admin.view.ports.application.domain.PrivilegeView;import org.beizix.admin.usecase.admin.view.ports.application.domain.RoleView;
 import org.beizix.admin.usecase.admin.view.ports.AdminViewPortIn;
-import org.beizix.core.config.application.util.PropertyUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -39,7 +37,7 @@ public class AdminDetailsService implements UserDetailsService {
     boolean accountLocked = Optional.ofNullable(adminUser.getAccountLocked()).orElse(false);
     boolean accountDisabled = Optional.ofNullable(adminUser.getAccountDisabled()).orElse(false);
 
-    return new AdminUserDetail(
+    return new AdminUser(
         adminUser.getId(),
         adminUser.getPassword(),
         !accountDisabled,

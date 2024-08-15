@@ -6,11 +6,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 @Getter
-public class AdminUserDetail extends User {
+public class AdminUser extends User {
 
   private long remainPasswordDays;
 
-  public AdminUserDetail(
+  public AdminUser(
       String username,
       String password,
       boolean enabled,

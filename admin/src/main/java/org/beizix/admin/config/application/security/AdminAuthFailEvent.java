@@ -1,30 +1,33 @@
 package org.beizix.admin.config.application.security;
 
-import java.io.IOException;
 import java.util.Optional;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.beizix.admin.config.application.aop.LoginFailOperateLog;
+import lombok.extern.slf4j.Slf4j;
 import org.beizix.admin.usecase.admin.status.ports.AdminUpdateAccountLockPortIn;
 import org.beizix.admin.usecase.admin.status.ports.AdminUpdateLoginFailPortIn;
 import org.beizix.admin.usecase.admin.view.ports.AdminViewPortIn;
 import org.beizix.core.config.application.enums.AppType;
 import org.beizix.core.config.application.enums.OperationLogType;
-import org.beizix.core.usecase.operationlog.save.application.domain.OperationLogSaveCommand;
-import org.beizix.core.usecase.operationlog.save.application.port.in.OperationLogSavePortIn;
 import org.beizix.core.config.application.util.CommonUtil;
 import org.beizix.core.config.application.util.MessageUtil;
+import org.beizix.core.usecase.operationlog.save.application.domain.OperationLogSaveCommand;
+import org.beizix.core.usecase.operationlog.save.application.port.in.OperationLogSavePortIn;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.event.EventListener;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.authentication.event.AbstractAuthenticationFailureEvent;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Component
 @RequiredArgsConstructor
-public class AdminAuthFailHandler extends SimpleUrlAuthenticationFailureHandler {
+@Slf4j
+public class AdminAuthFailEvent {
+  @Value("${app.admin.auth.fail.permit}")
+  private int failPermit;
+
   private final AdminViewPortIn adminViewPortIn;
   private final AdminUpdateLoginFailPortIn updateLoginFailPortIn;
   private final AdminUpdateAccountLockPortIn updateAccountLockPortIn;
@@ -32,17 +35,12 @@ public class AdminAuthFailHandler extends SimpleUrlAuthenticationFailureHandler 
   private final OperationLogSavePortIn operationLogSavePortIn;
   private final MessageUtil messageUtil;
 
-  @Value("${app.admin.auth.fail.permit}")
-  private int failPermit;
+  @EventListener
+  public void handleAuthenticationFailureEvent(AbstractAuthenticationFailureEvent event) {
+    HttpServletRequest request =
+        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 
-  @Override
-  @LoginFailOperateLog
-  public void onAuthenticationFailure(
-      HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
-      throws IOException, ServletException {
-
-    if (exception instanceof BadCredentialsException) {
-
+    if (event.getException() instanceof BadCredentialsException) {
       adminViewPortIn
           .connect(request.getParameter("username"))
           .filter(admin -> admin.getAccountLocked() == null || !admin.getAccountLocked())
@@ -74,8 +72,5 @@ public class AdminAuthFailHandler extends SimpleUrlAuthenticationFailureHandler 
                 }
               });
     }
-
-    setDefaultFailureUrl("/login?error");
-    super.onAuthenticationFailure(request, response, exception);
   }
 }

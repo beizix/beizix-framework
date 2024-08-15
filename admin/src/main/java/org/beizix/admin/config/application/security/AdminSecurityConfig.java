@@ -36,8 +36,6 @@ public class AdminSecurityConfig {
   private final AdminDetailsService adminDetailsService;
   private final DataSource dataSource;
   private final BCryptPasswordEncoder passwordEncoder;
-  private final AdminAuthSuccessHandler adminAuthSuccessHandler;
-  private final AdminAuthFailHandler adminAuthFailHandler;
 
   @Bean
   public DaoAuthenticationProvider authenticationProvider() {
@@ -88,8 +86,6 @@ public class AdminSecurityConfig {
                     .authenticated())
         .formLogin()
         .loginPage("/login")
-        .successHandler(adminAuthSuccessHandler)
-        .failureHandler(adminAuthFailHandler)
         .permitAll()
         .and()
         .rememberMe()
