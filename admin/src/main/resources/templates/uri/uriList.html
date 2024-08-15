@@ -199,11 +199,11 @@
 
           switchOgImage('ogImageText');
 
-          f.saveType.value = [[${T(org.beizix.core.config.application.enums.SaveType).CREATE}]];
+          f.saveType.value = [[${T(enums.application.config.app.module.core.SaveType).CREATE}]];
 
           return;
         } else {
-          f.saveType.value = [[${T(org.beizix.core.config.application.enums.SaveType).UPDATE}]];
+          f.saveType.value = [[${T(enums.application.config.app.module.core.SaveType).UPDATE}]];
         }
         getInfo(data);
       });

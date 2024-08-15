@@ -12,12 +12,12 @@
         <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>org.beizix</groupId>
-    <artifactId>org.beizix</artifactId>
+    <groupId>app.module</groupId>
+    <artifactId>app.module</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>org.beizix</name>
-    <description>org.beizix - starter project</description>
+    <name>app.module</name>
+    <description>app.module - starter project</description>
 
     <properties>
         <java.version>11</java.version>

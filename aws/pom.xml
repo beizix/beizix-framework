@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.beizix</groupId>
-        <artifactId>org.beizix</artifactId>
+        <groupId>app.module</groupId>
+        <artifactId>app.module</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>aws</artifactId>
@@ -14,7 +14,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.beizix</groupId>
+            <groupId>app.module</groupId>
             <artifactId>core</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
