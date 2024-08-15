@@ -36,7 +36,7 @@ class AdminAuthSuccessHandlerTest {
   @Autowired LoggedInUserViewPortOut loggedInUserViewPortOut;
   @Autowired AdminSavePortIn adminSavePortIn;
 
-  @Value("${org.beizix.session.maximum.num}")
+  @Value("${app.admin.session.maximum.num}")
   private Integer maxSessionNum;
 
   String username = "admin_for_initFailCnt_aspect_test";

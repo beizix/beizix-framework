@@ -1,5 +1,6 @@
 package org.beizix.core.usecase.user.createUser.adapters.persistence;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,7 @@ class CreateUserDao implements CreateUserPortOut {
                 command.getId(),
                 command.getPassword(),
                 command.getEmail(),
+                LocalDateTime.now(),
                 command.isAccountDisabled(),
                 command.getLoginFailCnt(),
                 command.getAccountLocked(),

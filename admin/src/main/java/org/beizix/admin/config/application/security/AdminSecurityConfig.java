@@ -30,7 +30,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @RequiredArgsConstructor
 public class AdminSecurityConfig {
 
-  @Value("${org.beizix.session.maximum.num}")
+  @Value("${app.admin.session.maximum.num}")
   private Integer maxSessionNum;
 
   private final AdminDetailsService adminDetailsService;

@@ -1,5 +1,6 @@
 package org.beizix.core.config.adapter.persistence.entity;
 
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import javax.persistence.*;
@@ -30,6 +31,10 @@ public class FrontUser extends AuditEntity {
   @Column(nullable = false)
   @Comment("이메일")
   private String email;
+
+  @Column(nullable = false)
+  @Comment("비밀번호 수정일")
+  private LocalDateTime passwordUpdatedAt;
 
   @Column
   @Comment("비활성화 여부")

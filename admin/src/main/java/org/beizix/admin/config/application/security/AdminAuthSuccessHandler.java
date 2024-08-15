@@ -9,12 +9,12 @@ import lombok.RequiredArgsConstructor;
 import org.beizix.admin.config.application.aop.LoginSuccessOperateLog;
 import org.beizix.admin.usecase.admin.status.ports.AdminUpdateLoginFailPortIn;
 import org.beizix.admin.usecase.admin.view.ports.AdminViewPortIn;
-import org.beizix.admin.usecase.loggedinuser.view.ports.application.domain.LoggedInUserIdCmd;
-import org.beizix.admin.usecase.loggedinuser.view.ports.application.domain.LoggedInUserView;
-import org.beizix.admin.usecase.loggedinuser.view.ports.LoggedInUserViewPortIn;
+import org.beizix.admin.usecase.loggedinuser.save.ports.LoggedInUserSavePortIn;
 import org.beizix.admin.usecase.loggedinuser.save.ports.application.domain.LoggedInUserIdSaveCmd;
 import org.beizix.admin.usecase.loggedinuser.save.ports.application.domain.LoggedInUserSaveCmd;
-import org.beizix.admin.usecase.loggedinuser.save.ports.LoggedInUserSavePortIn;
+import org.beizix.admin.usecase.loggedinuser.view.ports.LoggedInUserViewPortIn;
+import org.beizix.admin.usecase.loggedinuser.view.ports.application.domain.LoggedInUserIdCmd;
+import org.beizix.admin.usecase.loggedinuser.view.ports.application.domain.LoggedInUserView;
 import org.beizix.core.config.application.enums.AppType;
 import org.beizix.core.config.application.util.CommonUtil;
 import org.beizix.core.config.application.util.MessageUtil;
@@ -33,16 +33,16 @@ public class AdminAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandl
   private final LoggedInUserSavePortIn loggedInUserSavePortIn;
   private final CommonUtil commonUtil;
 
-  @Value("${org.beizix.password.validity.period.days}")
+  @Value("${app.admin.password.validity.period.days}")
   private long passwordValidPeriodDays;
 
-  @Value("${org.beizix.password.change.notice.period.days}")
+  @Value("${app.admin.password.change.notice.period.days}")
   private long passwordChangeNoticeDays;
 
-  @Value("${org.beizix.session.validity.period.seconds}")
+  @Value("${app.admin.session.validity.period.seconds}")
   private long sessionValidPeriodSeconds;
 
-  @Value("${org.beizix.session.maximum.num}")
+  @Value("${app.admin.session.maximum.num}")
   private Integer maxSessionNum;
 
   @Override

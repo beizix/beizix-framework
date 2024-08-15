@@ -34,8 +34,6 @@ public class RoleUpdateAspect {
   @Around(
       "execution(* org.beizix.admin.usecase.admin.save.ports.application.AdminSaveService.connect(..))")
   public Object operate(ProceedingJoinPoint joinPoint) throws Throwable {
-    if (PropertyUtil.isAdminSingleRole()) return joinPoint.proceed();
-
     Object[] args = joinPoint.getArgs();
 
     String adminId = (String) args[0];

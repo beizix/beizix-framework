@@ -24,16 +24,16 @@ org.beizix 은 스프링 시큐리티의 기본 정책 이외에 필드에서 �
 현재 구현된 항목은 아래와 같다.
 
 * 패스워드 유효기간 설정 (90일)  
-  - `org.beizix.password.validity.period.days=90`
+  - `app.admin.password.validity.period.days=90`
   - -1 을 줄 경우 유효기간 체크를 하지 않는다.
 * 패스워드 유효기간 만료 7일전 부터 안내 메시지 보이기
-  - `org.beizix.password.change.notice.period.days=7`
+  - `app.admin.password.change.notice.period.days=7`
 * 관리자는 disabled 필드를 이용해 특정 사용자의 비활성화 여부를 관리한다.
 * 패스워드 5회 이상 오류 시 locked 필드를 이용해 사용자는 잠김처리 된다.  
-  - `org.beizix.admin.auth.fail.permit=5`
+  - `app.admin.auth.fail.permit=5`
   - 잠김 처리 시 사용자가 패스워드를 초기화하는 기능은 아직 구현되지 않았다. 현재는 관리자에게 문의하라는 메세지를 보여준다.
 * 중복 로그인 허용 횟수는 유동적으로 조절이 가능하다. 
-  - `org.beizix.session.maximum.num=1`
+  - `app.admin.session.maximum.num=1`
   - max 가 1인 경우 중복 로그인이 발생하면 이전 세션을 차단하고 로그인 한다는 메세지가 사용자에게 보여진다. 
 * 로그인 세션 유지 기간 설정이 가능하다.  
-  - `org.beizix.session.validity.period.seconds=3600`
+  - `app.admin.session.validity.period.seconds=3600`

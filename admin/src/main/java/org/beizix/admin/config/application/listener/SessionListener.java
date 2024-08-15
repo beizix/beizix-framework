@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSessionListener;
  */
 @Component
 public class SessionListener implements HttpSessionListener {
-  @Value("${org.beizix.session.validity.period.seconds}")
+  @Value("${app.admin.session.validity.period.seconds}")
   Integer sessionValiditySeconds;
 
   @Override

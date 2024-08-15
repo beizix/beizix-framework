@@ -32,7 +32,7 @@ class AdminAuthFailHandlerTest {
   @Autowired AdminViewPortIn adminViewPortIn;
   @Autowired AdminSavePortIn adminSavePortIn;
 
-  @Value("${org.beizix.admin.auth.fail.permit}")
+  @Value("${app.admin.auth.fail.permit}")
   Integer loginFailPermit;
 
   String testUsername = "testUser";

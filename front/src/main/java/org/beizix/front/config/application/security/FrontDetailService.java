@@ -1,17 +1,16 @@
-package org.beizix.admin.config.application.security;
+package org.beizix.front.config.application.security;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.beizix.admin.usecase.admin.view.ports.application.domain.AdminView;
-import org.beizix.admin.usecase.admin.view.ports.application.domain.PrivilegeView;import org.beizix.admin.usecase.admin.view.ports.application.domain.RoleView;
-import org.beizix.admin.usecase.admin.view.ports.AdminViewPortIn;
-import org.beizix.core.config.application.util.PropertyUtil;
+import org.beizix.front.usecase.user.find.ports.FindUserPortIn;
+import org.beizix.front.usecase.user.find.ports.application.domain.FindUser;
+import org.beizix.front.usecase.user.find.ports.application.domain.FindUserCmd;
+import org.beizix.front.usecase.user.find.ports.application.domain.FindUserPrivilege;
+import org.beizix.front.usecase.user.find.ports.application.domain.FindUserRole;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,32 +21,31 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AdminDetailsService implements UserDetailsService {
-  private final AdminViewPortIn adminViewPortIn;
-
-  @Value("${app.admin.password.validity.period.days}")
+public class FrontDetailService implements UserDetailsService {
+  @Value("${app.front.password.validity.period.days}")
   private long passwordValidPeriodDays;
 
+  private final FindUserPortIn findUserPortIn;
+
   @Override
-  @Transactional
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    AdminView adminUser =
-        adminViewPortIn
-            .connect(username)
+    FindUser findUser =
+        findUserPortIn
+            .operate(new FindUserCmd(username))
             .orElseThrow(() -> new UsernameNotFoundException("Invalid username or password."));
 
-    boolean accountLocked = Optional.ofNullable(adminUser.getAccountLocked()).orElse(false);
-    boolean accountDisabled = Optional.ofNullable(adminUser.getAccountDisabled()).orElse(false);
+    boolean accountLocked = Optional.ofNullable(findUser.getAccountLocked()).orElse(false);
+    boolean accountDisabled = Optional.ofNullable(findUser.getAccountDisabled()).orElse(false);
 
-    return new AdminUserDetail(
-        adminUser.getId(),
-        adminUser.getPassword(),
+    return new FrontUser(
+        findUser.getId(),
+        findUser.getPassword(),
         !accountDisabled,
         true,
-        isCredentialsNonExpired(adminUser.getPasswordUpdatedAt()),
+        isCredentialsNonExpired(findUser.getPasswordUpdatedAt()),
         !accountLocked,
-        getAuthorities(adminUser.getRoles()),
-        passwordValidPeriodDays - getDaysPassedFrom(adminUser.getPasswordUpdatedAt()));
+        getAuthorities(findUser.getRoles()),
+        passwordValidPeriodDays - getDaysPassedFrom(findUser.getPasswordUpdatedAt()));
   }
 
   /**
@@ -80,19 +78,19 @@ public class AdminDetailsService implements UserDetailsService {
    * @param roles
    * @return authorities
    */
-  private Collection<? extends GrantedAuthority> getAuthorities(Collection<RoleView> roles) {
+  private Collection<? extends GrantedAuthority> getAuthorities(Collection<FindUserRole> roles) {
     return Stream.concat(getRoles(roles), getPrivileges(roles))
         .map(SimpleGrantedAuthority::new)
         .collect(Collectors.toList());
   }
 
-  private Stream<String> getRoles(Collection<RoleView> roles) {
-    return roles.stream().map(RoleView::getId);
+  private Stream<String> getRoles(Collection<FindUserRole> roles) {
+    return roles.stream().map(FindUserRole::getId);
   }
 
-  private Stream<String> getPrivileges(Collection<RoleView> roles) {
+  private Stream<String> getPrivileges(Collection<FindUserRole> roles) {
     return roles.stream()
         .flatMap(roleOutput -> roleOutput.getPrivileges().stream())
-        .map(PrivilegeView::getId);
+        .map(FindUserPrivilege::getId);
   }
 }

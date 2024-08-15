@@ -32,7 +32,7 @@ public class AdminAuthFailHandler extends SimpleUrlAuthenticationFailureHandler 
   private final OperationLogSavePortIn operationLogSavePortIn;
   private final MessageUtil messageUtil;
 
-  @Value("${org.beizix.admin.auth.fail.permit}")
+  @Value("${app.admin.auth.fail.permit}")
   private int failPermit;
 
   @Override

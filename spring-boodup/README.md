@@ -15,7 +15,6 @@ void scaffolding 실행
 ```
 
 기본(Optional) 반환 scaffolding 실행
-Optional 반환 scaffolding 실행
 ```shell
 ./spring-boodup.sh ../core/src/main/java/org/beizix/core/usecase/user/removeRoleWithPrivilege RemoveRoleWithPrivilege --impl --show
 ```
