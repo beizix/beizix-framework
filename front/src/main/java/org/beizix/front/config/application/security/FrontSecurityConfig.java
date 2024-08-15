@@ -68,7 +68,7 @@ public class FrontSecurityConfig {
             .map(PublicAccess::getPath)
             .collect(Collectors.toList());
 
-    // 익명 사용자 접근 허용 URI 등록
+    // 익명 사용자 + 인증 사용자 접근 허용 URI 등록
     FrontPublicAccess.getInstance().setURIs(List.of("/"));
 
     http.authorizeHttpRequests(
