@@ -22,9 +22,9 @@ application-local.properties
 # ╚═╝  ╚═╝╚═╝     ╚═╝         ╚══════╝ ╚═════╝  ╚═════╝  ╚═════╝ ╚═╝╚═╝  ╚═══╝ ╚═════╝
 logging.file.path=${user.home}/beizix/logs
 #
-# application 의 기본 패키지(org.beizix) 와 로깅 레벨(DEBUG) 설정
-# 기본 패키지 변경 시 org.beizix 부분을 반드시 치환해 주어야 application 로그가 출력되니 유의
-logging.level.org.beizix=DEBUG
+# application 의 기본 패키지(app.module) 와 로깅 레벨(DEBUG) 설정
+# 기본 패키지 변경 시 app.module 부분을 반드시 치환해 주어야 application 로그가 출력되니 유의
+logging.level.app.module=DEBUG
 ```
 
 * `logging.file.path` 로그파일이 생성될 위치
