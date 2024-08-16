@@ -50,6 +50,16 @@ public class FrontWebMvcConfig implements WebMvcConfigurer {
                 .map(PublicAccess::getPath)
                 .collect(Collectors.toList()));
 
+    registry
+        .addInterceptor(uriAuthorizeInterceptor)
+        .addPathPatterns("/**")
+        .excludePathPatterns(
+            Arrays.stream(PublicAccess.values())
+                .map(PublicAccess::getPath)
+                .collect(Collectors.toList()))
+        // 익명 사용자 + 인증 사용자 접근 허용 URI 는 인증체크 대상에서 제외
+        .excludePathPatterns(FrontPublicAccess.getInstance().getURIs());
+
     registry.addInterceptor(localeChangeInterceptor());
 
     registry
@@ -67,19 +77,6 @@ public class FrontWebMvcConfig implements WebMvcConfigurer {
             Arrays.stream(PublicAccess.values())
                 .map(PublicAccess::getPath)
                 .collect(Collectors.toList()));
-
-    List<String> permitPaths =
-        Arrays.stream(PublicAccess.values())
-            .map(PublicAccess::getPath)
-            .collect(Collectors.toList());
-
-    // 익명 사용자 접근 허용 URI 등록
-    permitPaths.addAll(FrontPublicAccess.getInstance().getURIs());
-
-    registry
-        .addInterceptor(uriAuthorizeInterceptor)
-        .addPathPatterns("/**")
-        .excludePathPatterns(permitPaths);
   }
 
   @Override

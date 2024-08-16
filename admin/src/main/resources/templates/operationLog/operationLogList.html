@@ -16,7 +16,7 @@
         <select class="form-select d-inline" th:field="*{searchAppType}" style="width: 110px;"
                 id="searchAppType">
           <option value="" selected>전체</option>
-          <option th:each="appType : ${T(org.beizix.core.config.application.enums.AppType).values()}"
+          <option th:each="appType : ${T(app.module.core.config.application.enums.AppType).values()}"
                   th:value="${appType.name}">
             [[${appType.name}]]
           </option>
@@ -29,7 +29,7 @@
                 id="searchOperationType">
           <option value="" selected>전체</option>
           <option
-              th:each="operationType : ${T(org.beizix.core.config.application.enums.OperationLogType).values()}"
+              th:each="operationType : ${T(app.module.core.config.application.enums.OperationLogType).values()}"
               th:value="${operationType.name}">[[${operationType.name}]] ([[${operationType.desc}]])
           </option>
         </select>

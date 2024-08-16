@@ -29,6 +29,7 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 public class AdminWebMvcConfig implements WebMvcConfigurer {
   @Value("${path.upload.public}")
   private String publicPath;
+
   private final AdminURIInterceptor adminURIInterceptor;
   private final URIAuthorizeInterceptor uriAuthorizeInterceptor;
 
@@ -40,7 +41,8 @@ public class AdminWebMvcConfig implements WebMvcConfigurer {
         .excludePathPatterns(
             Arrays.stream(PublicAccess.values())
                 .map(PublicAccess::getPath)
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList()))
+        .excludePathPatterns("/api/**"); // api 는 menu 정보가 없기에 skip
 
     registry
         .addInterceptor(uriAuthorizeInterceptor)
@@ -48,7 +50,8 @@ public class AdminWebMvcConfig implements WebMvcConfigurer {
         .excludePathPatterns(
             Arrays.stream(PublicAccess.values())
                 .map(PublicAccess::getPath)
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList()))
+        .excludePathPatterns("/api/**"); // api 는 menu 정보가 없기에 skip
 
     registry.addInterceptor(localeChangeInterceptor());
   }
