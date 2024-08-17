@@ -44,6 +44,11 @@ public class InitUriAdminData implements ApplicationRunner {
     final String ADMIN_SETTINGS_ADMIN_ROLE = "uri.admin.settings.adminRoles";
     final String ADMIN_SETTINGS_ADMIN_PRIVILEGE = "uri.admin.settings.adminPrivilege";
 
+    final String ADMIN_SETTINGS_USER_GROUP = "uri.admin.settings.user.group";
+    final String ADMIN_SETTINGS_USER = "uri.admin.settings.user";
+    final String ADMIN_SETTINGS_USER_ROLE = "uri.admin.settings.user.role";
+    final String ADMIN_SETTINGS_USER_PRIVILEGE = "uri.admin.settings.user.privilege";
+
     final String ADMIN_SETTINGS_URI_ADMIN = "uri.admin.settings.uri.admin";
     final String ADMIN_SETTINGS_URI_FRONT = "uri.admin.settings.uri.front";
     final String ADMIN_SETTINGS_CODE = "uri.admin.settings.uicode";
@@ -210,6 +215,76 @@ public class InitUriAdminData implements ApplicationRunner {
             Set.of("ROLE_SUPER", "ROLE_MANAGER")),
         null,
         false);
+
+    // 사용자 & 역할 - 시작
+    uriSavePortIn.connect(
+        new URISaveCommand(
+            ADMIN_SETTINGS_USER_GROUP,
+            ADMIN_SETTINGS,
+            AppType.ADMIN,
+            "/settings/userGroup",
+            true,
+            "사용자 & 역할",
+            null,
+            "사용자",
+            "사용자 목록 화면",
+            "",
+            null,
+            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
+        null,
+        false);
+
+    uriSavePortIn.connect(
+        new URISaveCommand(
+            ADMIN_SETTINGS_USER,
+            ADMIN_SETTINGS_USER_GROUP,
+            AppType.ADMIN,
+            "/settings/user",
+            true,
+            "사용자",
+            null,
+            "사용자",
+            "사용자 목록 화면",
+            "",
+            null,
+            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
+        null,
+        false);
+
+    uriSavePortIn.connect(
+        new URISaveCommand(
+            ADMIN_SETTINGS_USER_ROLE,
+            ADMIN_SETTINGS_USER_GROUP,
+            AppType.ADMIN,
+            "/settings/userRoles",
+            true,
+            "사용자 역할",
+            null,
+            "사용자 역할",
+            "사용자 역할 목록 화면",
+            "",
+            null,
+            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
+        null,
+        false);
+
+    uriSavePortIn.connect(
+        new URISaveCommand(
+            ADMIN_SETTINGS_USER_PRIVILEGE,
+            ADMIN_SETTINGS_USER_GROUP,
+            AppType.ADMIN,
+            "/settings/userPrivilege",
+            true,
+            "사용자 권한",
+            null,
+            "사용자 권한",
+            "사용자 권한 목록 화면",
+            "",
+            null,
+            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
+        null,
+        false);
+    // 사용자 & 역할 - 끝
 
     uriSavePortIn.connect(
         new URISaveCommand(
