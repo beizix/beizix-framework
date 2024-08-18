@@ -1,0 +1,32 @@
+package #package;
+
+import javax.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import #cmdPackage.#domainNmReqVO;
+
+@Controller
+@RequiredArgsConstructor
+class #domainNmController {
+
+  @PostMapping(path = "#url")
+  String operate(
+    @PageableDefault Pageable pageable,
+    Model model,
+    @Valid @ModelAttribute #domainNmReqVO reqVO,
+    BindingResult bindingResult) {
+
+    if (bindingResult.hasErrors()) {
+      // describe the page that will display the error message.
+      return "";
+    }
+
+    return "";
+  }
+}

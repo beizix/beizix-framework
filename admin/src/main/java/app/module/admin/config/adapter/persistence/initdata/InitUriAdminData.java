@@ -239,7 +239,7 @@ public class InitUriAdminData implements ApplicationRunner {
             ADMIN_SETTINGS_USER,
             ADMIN_SETTINGS_USER_GROUP,
             AppType.ADMIN,
-            "/settings/user",
+            "/settings/users",
             true,
             "사용자",
             null,
