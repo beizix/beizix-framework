@@ -120,6 +120,8 @@ function createEntity(){
     mv -f "${tmpl}" "${fullEntityPath}"
 
     echo -e "${fullEntityPath} is created."
+
+    showContent "${fullEntityPath}"
 }
 
 function createGetController() {
@@ -140,9 +142,15 @@ function createGetController() {
   sed -i "s/#cmdPackage/${cmdPkg}/g" "${tmpl}"
   sed -i "s@#url@${targetUrl}@g" "${tmpl}"
   sed -i "s@#page@${page}@g" "${tmpl}"
+
+  if ! $pageable; then
+    sed -i "/Pageable/d" "${tmpl}"
+  fi
+
   mv -f "${tmpl}" "${fullEntityPath}"
 
   echo "${fullEntityPath} is created."
+  showContent "${fullEntityPath}"
 
   createPage
 }
@@ -155,202 +163,51 @@ function createPage(){
   pagePath="${url%/*}"
   pageFile="${url##*/}${pageExt}"
 
-  echo "templateRoot=${templateRoot}"
-  echo "pagePath=${pagePath}"
-  echo "pageFile=${pageFile}"
+  echo -e "\n"
+  echo "Creating a web page"
 
   mkdir -p "${templateRoot}${pagePath}"
 
   cp -f "templates/web/templates/page.tmpl" ./
   sed -i "s@#url@${url}@g" ./page.tmpl
   mv -f ./page.tmpl "${templateRoot}${pagePath}/${pageFile}"
+
+  echo "${templateRoot}${pagePath}/${pageFile} is created."
+
+  showContent "${templateRoot}${pagePath}/${pageFile}"
+}
+
+function createPostController() {
+  tmpl=$1
+  pkg=$2
+  domainNm=$3
+  cmdPkg=$4
+  fullEntityPath=$5
+  targetUrl=$6
+
+  echo -e "\n"
+  echo "Creating a [post] controller that is mapped to '${targetUrl}'"
+
+  cp -f "templates/web/${tmpl}" ./
+  sed -i "s/#package/${pkg}/g" "${tmpl}"
+  sed -i "s/#domainNm/${domainNm}/g" "${tmpl}"
+  sed -i "s/#cmdPackage/${cmdPkg}/g" "${tmpl}"
+  sed -i "s@#url@${targetUrl}@g" "${tmpl}"
+
+  mv -f "${tmpl}" "${fullEntityPath}"
+
+  echo "${fullEntityPath} is created."
+  showContent "${fullEntityPath}"
 }
 
 createEntity reqVO.tmpl "${cmdPackage}" "${domainNm}" "${modelPath}/${domainNm}ReqVO.java"
-showContent "${modelPath}/${domainNm}ReqVO.java"
 
 if ! $rest; then
 
     if $get; then
       createGetController getController.tmpl "${webPackage}" "${domainNm}" "${cmdPackage}" "${path}/${domainNm}Controller.java" "${url}"
-      showContent "${path}/${domainNm}Controller.java"
-#    elif $post; then
-
+    elif $post; then
+      createPostController postController.tmpl "${webPackage}" "${domainNm}" "${cmdPackage}" "${path}/${domainNm}Controller.java" "${url}"
     fi
+
 fi
-
-
-
-
-#
-#function createInterface(){
-#    tmpl=$1
-#    pkg=$2
-#    domainNm=$3
-#    cmdPkg=$4
-#    fullEntityPath=$5
-#
-#    cp -f "templates/${tmpl}" ./
-#    sed -i "s/#package/${pkg}/g" "${tmpl}"
-#    sed -i "s/#domainNm/${domainNm}/g" "${tmpl}"
-#    sed -i "s/#cmdPackage/${cmdPkg}/g" "${tmpl}"
-#    mv -f "${tmpl}" "${fullEntityPath}"
-#
-#    echo "${fullEntityPath} is created."
-#}
-#
-#function createImpl(){
-#    tmpl=$1
-#    pkg=$2
-#    domainNm=$3
-#    cmdPkg=$4
-#    portPkg=$5
-#    fullEntityPath=$6
-#
-#    cp -f "templates/${tmpl}" ./
-#    sed -i "s/#package/${pkg}/g" "${tmpl}"
-#    sed -i "s/#domainNm/${domainNm}/g" "${tmpl}"
-#    sed -i "s/#portPackage/${portPkg}/g" "${tmpl}"
-#    sed -i "s/#cmdPackage/${cmdPkg}/g" "${tmpl}"
-#    mv -f "${tmpl}" "${fullEntityPath}"
-#
-#    echo "${fullEntityPath} is created."
-#}
-#
-#
-#
-#
-#
-#
-#echo -e "\n"
-#
-#echo "Creating a Command object.."
-#
-#createEntity classCommand.tmpl ${cmdPackage} ${domainNm} "${domainFullPath}/${domainNm}Cmd.java"
-#showContent "${domainFullPath}/${domainNm}Cmd.java"
-#
-#if ! $void; then
-#    echo -e "\n"
-#    echo "Creating a Domain object.."
-#
-#    createEntity classReturn.tmpl ${cmdPackage} ${domainNm} "${domainFullPath}/${domainNm}.java"
-#    showContent "${domainFullPath}/${domainNm}.java"
-#fi
-#
-#portCreatePath=$pkgPath$portPath
-#portPackage=${portCreatePath//\//\.}
-#applCreatePath=$portCreatePath$applicationPath
-#applPackage=${applCreatePath//\//\.}
-#daoCreatePath=$pkgPath$persistPath
-#daoPackage=${daoCreatePath//\//\.}
-#
-#echo -e "\n"
-#
-#if $pageable; then
-#    echo "Creating a PortIn interface that returns Pageable.."
-#
-#    createInterface pageablePortIn.tmpl ${portPackage} ${domainNm} ${cmdPackage} "${path}${portPath}/${domainNm}PortIn.java"
-#    showContent "${path}${portPath}/${domainNm}PortIn.java"
-#
-#    echo -e "\n"
-#
-#    echo "Creating a PortOut interface that returns Pageable.."
-#
-#    createInterface pageablePortOut.tmpl ${portPackage} ${domainNm} ${cmdPackage} "${path}${portPath}/${domainNm}PortOut.java"
-#    showContent "${path}${portPath}/${domainNm}PortOut.java"
-#
-#    if $implements; then
-#        echo -e "\n"
-#        echo "Creating a Service that implements ${domainNm}PortIn.."
-#
-#        createImpl pageableService.tmpl ${applPackage} ${domainNm} ${cmdPackage} ${portPackage} "${path}${portPath}${applicationPath}/${domainNm}Service.java"
-#        showContent "${path}${portPath}${applicationPath}/${domainNm}Service.java"
-#
-#        echo -e "\n"
-#        echo "Creating a DAO that implements ${domainNm}PortOut.."
-#
-#        createImpl pageableDao.tmpl ${daoPackage} ${domainNm} ${cmdPackage} ${portPackage} "${path}${persistPath}/${domainNm}Dao.java"
-#        showContent "${path}${persistPath}/${domainNm}Dao.java"
-#    fi
-#
-#elif $list; then
-#    echo "Creating a interface that returns List."
-#
-#    createInterface listPortIn.tmpl ${portPackage} ${domainNm} ${cmdPackage} "${path}${portPath}/${domainNm}PortIn.java"
-#    showContent "${path}${portPath}/${domainNm}PortIn.java"
-#
-#    echo -e "\n"
-#
-#    echo "Creating a PortOut interface that returns Pageable.."
-#
-#    createInterface listPortOut.tmpl ${portPackage} ${domainNm} ${cmdPackage} "${path}${portPath}/${domainNm}PortOut.java"
-#    showContent "${path}${portPath}/${domainNm}PortOut.java"
-#
-#    if $implements; then
-#        echo -e "\n"
-#        echo "Creating a Service that implements ${domainNm}PortIn.."
-#
-#        createImpl listService.tmpl ${applPackage} ${domainNm} ${cmdPackage} ${portPackage} "${path}${portPath}${applicationPath}/${domainNm}Service.java"
-#        showContent "${path}${portPath}${applicationPath}/${domainNm}Service.java"
-#
-#        echo -e "\n"
-#        echo "Creating a DAO that implements ${domainNm}PortOut.."
-#
-#        createImpl listDao.tmpl ${daoPackage} ${domainNm} ${cmdPackage} ${portPackage} "${path}${persistPath}/${domainNm}Dao.java"
-#        showContent "${path}${persistPath}/${domainNm}Dao.java"
-#    fi
-#
-#elif $void; then
-#    echo "Creating a PortIn interface that has no return."
-#
-#    createInterface voidPortIn.tmpl ${portPackage} ${domainNm} ${cmdPackage} "${path}${portPath}/${domainNm}PortIn.java"
-#    showContent "${path}${portPath}/${domainNm}PortIn.java"
-#
-#    echo -e "\n"
-#
-#    echo "Creating a PortOut interface that has no return."
-#
-#    createInterface voidPortOut.tmpl ${portPackage} ${domainNm} ${cmdPackage} "${path}${portPath}/${domainNm}PortOut.java"
-#    showContent "${path}${portPath}/${domainNm}PortOut.java"
-#
-#    if $implements; then
-#        echo -e "\n"
-#        echo "Creating a Service that implements ${domainNm}PortIn.."
-#
-#        createImpl voidService.tmpl ${applPackage} ${domainNm} ${cmdPackage} ${portPackage} "${path}${portPath}${applicationPath}/${domainNm}Service.java"
-#        showContent "${path}${portPath}${applicationPath}/${domainNm}Service.java"
-#
-#        echo -e "\n"
-#        echo "Creating a DAO that implements ${domainNm}PortOut.."
-#
-#        createImpl voidDao.tmpl ${daoPackage} ${domainNm} ${cmdPackage} ${portPackage} "${path}${persistPath}/${domainNm}Dao.java"
-#        showContent "${path}${persistPath}/${domainNm}Dao.java"
-#    fi
-#
-#else
-#    echo "Creating a PortIn interface that returns ${domainNm}."
-#
-#    createInterface portIn.tmpl ${portPackage} ${domainNm} ${cmdPackage} "${path}${portPath}/${domainNm}PortIn.java"
-#    showContent "${path}${portPath}/${domainNm}PortIn.java"
-#
-#    echo -e "\n"
-#
-#    echo "Creating a PortOut interface that returns ${domainNm}."
-#
-#    createInterface portOut.tmpl ${portPackage} ${domainNm} ${cmdPackage} "${path}${portPath}/${domainNm}PortOut.java"
-#    showContent "${path}${portPath}/${domainNm}PortOut.java"
-#
-#    if $implements; then
-#        echo -e "\n"
-#        echo "Creating a Service that implements ${domainNm}PortIn.."
-#
-#        createImpl service.tmpl ${applPackage} ${domainNm} ${cmdPackage} ${portPackage} "${path}${portPath}${applicationPath}/${domainNm}Service.java"
-#        showContent "${path}${portPath}${applicationPath}/${domainNm}Service.java"
-#
-#        echo -e "\n"
-#        echo "Creating a DAO that implements ${domainNm}PortOut.."
-#
-#        createImpl dao.tmpl ${daoPackage} ${domainNm} ${cmdPackage} ${portPackage} "${path}${persistPath}/${domainNm}Dao.java"
-#        showContent "${path}${persistPath}/${domainNm}Dao.java"
-#    fi
-#fi
