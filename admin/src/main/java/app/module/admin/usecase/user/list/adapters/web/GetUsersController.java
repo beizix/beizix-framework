@@ -30,7 +30,7 @@ class GetUsersController {
             pageable,
             new GetUsersCmd(reqVO.getSearchField(), reqVO.getSearchField(), reqVO.getSearchRole()));
 
-    model.addAttribute("pageableResult", result);
+    model.addAttribute("output", result);
 
     return "settings/users";
   }
