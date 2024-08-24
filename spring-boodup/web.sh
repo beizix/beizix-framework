@@ -44,8 +44,9 @@ showCnt=false
 get=false
 post=false
 rest=false
+clear=false
 
-set -- $(getopt -o psgour --long pageable,show,get,post,url,rest -- "$@")
+set -- $(getopt -o psgourc --long pageable,show,get,post,url,rest,clear -- "$@")
 for word in "$@"
 do
     case $word in
@@ -58,6 +59,7 @@ do
     case $word in
        -s | --show) showCnt=true; ;;
        -r | --rest) rest=true; ;;
+       -c | --clear) clear=true; ;;
     esac   
 done
 
@@ -93,7 +95,9 @@ pageRoot=$(prop 'web.page.root')
 pageExt=$(prop 'web.page.ext')
 # end - read config.properties
 
-rm -rf "${path}"
+if $clear; then
+  rm -rf "${path}"
+fi
 
 mkdir -p "${modelPath}"
 

@@ -1,4 +1,4 @@
-package app.module.front.config.adapter.persistence.initData;
+package app.module.core.config.adapter.persistence.initData;
 
 import java.io.IOException;
 import java.util.Set;

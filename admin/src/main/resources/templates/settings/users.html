@@ -122,7 +122,6 @@
     // 검색
     function goSearch() {
       const f = document.form;
-      f.action = '/settings/admins';
       f.page.value = 0;
       f.sort.value = convertToPageableSortValue(f.sort.value);
       f.method = 'get';
@@ -138,9 +137,9 @@
     }
 
     // 수정페이지 이동
-    function goUpdate(adminId) {
+    function goUpdate(id) {
       const f = document.form;
-      f.action = '/settings/admins/update/' + adminId;
+      f.action = '/settings/users/update/' + id;
       f.method = 'get';
       f.submit();
     }

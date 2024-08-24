@@ -1,13 +1,13 @@
 package app.module.admin.config.adapter.persistence.initdata;
 
+import app.module.core.config.application.enums.AppType;
+import app.module.core.config.application.util.PropertyUtil;
+import app.module.core.usecase.uri.save.application.domain.URISaveCommand;
+import app.module.core.usecase.uri.save.application.port.in.URISavePortIn;
 import java.io.IOException;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import app.module.core.usecase.uri.save.application.port.in.URISavePortIn;
-import app.module.core.usecase.uri.save.application.domain.URISaveCommand;
-import app.module.core.config.application.enums.AppType;
-import app.module.core.config.application.util.PropertyUtil;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.annotation.Order;
@@ -46,6 +46,7 @@ public class InitUriAdminData implements ApplicationRunner {
 
     final String ADMIN_SETTINGS_USER_GROUP = "uri.admin.settings.user.group";
     final String ADMIN_SETTINGS_USER = "uri.admin.settings.user";
+    final String ADMIN_SETTINGS_USER_UPDATE = "uri.admin.settings.user.update";
     final String ADMIN_SETTINGS_USER_ROLE = "uri.admin.settings.user.role";
     final String ADMIN_SETTINGS_USER_PRIVILEGE = "uri.admin.settings.user.privilege";
 
@@ -63,515 +64,291 @@ public class InitUriAdminData implements ApplicationRunner {
     final String ADMIN_ADD_ONS_SEND_EMAIL = "uri.admin.addons.email";
     final String ADMIN_ADD_ONS_SEND_EMAIL_CREATE = "uri.admin.addons.email.create";
 
-    uriSavePortIn.connect(
-        new URISaveCommand(
-            ADMIN,
-            null,
-            AppType.ADMIN,
-            "/",
-            true,
-            "관리자",
-            null,
-            "어드민 홈",
-            "어드민 홈 페이지",
-            "admin",
-            null,
-            Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF")),
+    // 최상위 URI 정보
+    appendURI(
+        AppType.ADMIN,
         null,
-        false);
+        ADMIN,
+        "메인",
+        "/",
+        true,
+        Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"));
 
-    uriSavePortIn.connect(
-        new URISaveCommand(
-            ADMIN_BOARD,
-            ADMIN,
-            AppType.ADMIN,
-            "/board",
-            true,
-            "게시판",
-            null,
-            null,
-            null,
-            null,
-            null,
-            Set.of("ROLE_SUPER")),
-        null,
-        false);
+    // `1` depth URI 정의 - 시작
+    appendURI(AppType.ADMIN, ADMIN, ADMIN_BOARD, "게시판", "/board", true, Set.of("ROLE_SUPER"));
 
-    uriSavePortIn.connect(
-        new URISaveCommand(
-            ADMIN_SETTINGS,
-            ADMIN,
-            AppType.ADMIN,
-            "/settings",
-            true,
-            "Settings",
-            null,
-            null,
-            null,
-            null,
-            null,
-            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
-        null,
-        false);
+    appendURI(
+        AppType.ADMIN,
+        ADMIN,
+        ADMIN_SETTINGS,
+        "Settings",
+        "/true",
+        true,
+        Set.of("ROLE_SUPER", "ROLE_MANAGER"));
 
-    uriSavePortIn.connect(
-        new URISaveCommand(
-            ADMIN_SETTINGS_ADMIN_GROUP,
-            ADMIN_SETTINGS,
-            AppType.ADMIN,
-            "/settings/adminGroup",
-            true,
-            "관리자 & 역할",
-            null,
-            "관리자",
-            "관리자 목록 화면",
-            "notice,list",
-            null,
-            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
-        null,
-        false);
+    appendURI(AppType.ADMIN, ADMIN, ADMIN_ANALYSIS, "분석", "/analysis", true, Set.of("ROLE_SUPER"));
 
-    uriSavePortIn.connect(
-        new URISaveCommand(
-            ADMIN_SETTINGS_ADMIN,
-            ADMIN_SETTINGS_ADMIN_GROUP,
-            AppType.ADMIN,
-            "/settings/admins",
-            true,
-            "관리자",
-            null,
-            "관리자",
-            "관리자 목록 화면",
-            "notice,list",
-            null,
-            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
-        null,
-        false);
+    appendURI(
+        AppType.ADMIN,
+        ADMIN,
+        ADMIN_ADD_ONS,
+        "Add-ons (부가기능)",
+        "/add-ons",
+        true,
+        Set.of("ROLE_SUPER"));
+    // `1` depth URI 정의 - 끝
 
-    uriSavePortIn.connect(
-        new URISaveCommand(
-            ADMIN_SETTINGS_ADMIN_CREATE,
-            ADMIN_SETTINGS_ADMIN,
-            AppType.ADMIN,
-            "/settings/admins/create",
-            false,
-            "등록",
-            null,
-            "관리자",
-            "관리자 등록 화면",
-            "notice,create",
-            null,
-            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
-        null,
-        false);
+    appendURI(
+        AppType.ADMIN,
+        ADMIN_SETTINGS,
+        ADMIN_SETTINGS_ADMIN_GROUP,
+        "관리자 & 역할",
+        "/settings/adminGroup",
+        true,
+        Set.of("ROLE_SUPER", "ROLE_MANAGER"));
 
-    uriSavePortIn.connect(
-        new URISaveCommand(
-            ADMIN_SETTINGS_ADMIN_UPDATE,
-            ADMIN_SETTINGS_ADMIN,
-            AppType.ADMIN,
-            "/settings/admins/update/{{pathVar}}",
-            false,
-            "수정",
-            null,
-            "관리자",
-            "관리자 수정 화면",
-            "notice,update",
-            null,
-            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
-        null,
-        false);
+    appendURI(
+        AppType.ADMIN,
+        ADMIN_SETTINGS_ADMIN_GROUP,
+        ADMIN_SETTINGS_ADMIN,
+        "관리자 목록",
+        "/settings/admins",
+        true,
+        Set.of("ROLE_SUPER", "ROLE_MANAGER"));
 
-    uriSavePortIn.connect(
-        new URISaveCommand(
-            ADMIN_SETTINGS_ADMIN_ROLE,
-            ADMIN_SETTINGS_ADMIN_GROUP,
-            AppType.ADMIN,
-            "/settings/adminRoles",
-            true,
-            "관리자 역할",
-            null,
-            "관리자 역할",
-            "관리자 역할 목록 화면",
-            "role,authorities",
-            null,
-            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
-        null,
-        false);
+    appendURI(
+        AppType.ADMIN,
+        ADMIN_SETTINGS_ADMIN,
+        ADMIN_SETTINGS_ADMIN_CREATE,
+        "관리자 등록",
+        "/settings/admins/create",
+        false,
+        Set.of("ROLE_SUPER", "ROLE_MANAGER"));
 
-    uriSavePortIn.connect(
-        new URISaveCommand(
-            ADMIN_SETTINGS_ADMIN_PRIVILEGE,
-            ADMIN_SETTINGS_ADMIN_GROUP,
-            AppType.ADMIN,
-            "/settings/adminPrivilege",
-            true,
-            "관리자 권한",
-            null,
-            "관리자 권한",
-            "관리자 권한 목록 화면",
-            "role,authorities",
-            null,
-            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
-        null,
-        false);
+    appendURI(
+        AppType.ADMIN,
+        ADMIN_SETTINGS_ADMIN,
+        ADMIN_SETTINGS_ADMIN_UPDATE,
+        "관리자 수정",
+        "/settings/admins/update/{{pathVar}}",
+        false,
+        Set.of("ROLE_SUPER", "ROLE_MANAGER"));
+
+    appendURI(
+        AppType.ADMIN,
+        ADMIN_SETTINGS_ADMIN,
+        ADMIN_SETTINGS_ADMIN_EXCEL,
+        "관리자 엑셀 다운로드",
+        "/settings/admins/excel",
+        false,
+        Set.of("ROLE_SUPER", "ROLE_MANAGER"));
+
+    appendURI(
+        AppType.ADMIN,
+        ADMIN_SETTINGS_ADMIN_GROUP,
+        ADMIN_SETTINGS_ADMIN_ROLE,
+        "관리자 역할",
+        "/settings/adminRoles",
+        true,
+        Set.of("ROLE_SUPER", "ROLE_MANAGER"));
+
+    appendURI(
+        AppType.ADMIN,
+        ADMIN_SETTINGS_ADMIN_GROUP,
+        ADMIN_SETTINGS_ADMIN_PRIVILEGE,
+        "관리자 권한",
+        "/settings/adminPrivilege",
+        true,
+        Set.of("ROLE_SUPER", "ROLE_MANAGER"));
 
     // 사용자 & 역할 - 시작
-    uriSavePortIn.connect(
-        new URISaveCommand(
-            ADMIN_SETTINGS_USER_GROUP,
-            ADMIN_SETTINGS,
-            AppType.ADMIN,
-            "/settings/userGroup",
-            true,
-            "사용자 & 역할",
-            null,
-            "사용자",
-            "사용자 목록 화면",
-            "",
-            null,
-            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
-        null,
-        false);
+    appendURI(
+        AppType.ADMIN,
+        ADMIN_SETTINGS,
+        ADMIN_SETTINGS_USER_GROUP,
+        "사용자 & 역할",
+        "/settings/userGroup",
+        true,
+        Set.of("ROLE_SUPER", "ROLE_MANAGER"));
 
-    uriSavePortIn.connect(
-        new URISaveCommand(
-            ADMIN_SETTINGS_USER,
-            ADMIN_SETTINGS_USER_GROUP,
-            AppType.ADMIN,
-            "/settings/users",
-            true,
-            "사용자",
-            null,
-            "사용자",
-            "사용자 목록 화면",
-            "",
-            null,
-            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
-        null,
-        false);
+    appendURI(
+        AppType.ADMIN,
+        ADMIN_SETTINGS_USER_GROUP,
+        ADMIN_SETTINGS_USER,
+        "사용자 목록",
+        "/settings/users",
+        true,
+        Set.of("ROLE_SUPER", "ROLE_MANAGER"));
 
-    uriSavePortIn.connect(
-        new URISaveCommand(
-            ADMIN_SETTINGS_USER_ROLE,
-            ADMIN_SETTINGS_USER_GROUP,
-            AppType.ADMIN,
-            "/settings/userRoles",
-            true,
-            "사용자 역할",
-            null,
-            "사용자 역할",
-            "사용자 역할 목록 화면",
-            "",
-            null,
-            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
-        null,
-        false);
+    appendURI(
+        AppType.ADMIN,
+        ADMIN_SETTINGS_USER,
+        ADMIN_SETTINGS_USER_UPDATE,
+        "사용자 수정",
+        "/settings/users/update/{{pathVar}}",
+        false,
+        Set.of("ROLE_SUPER", "ROLE_MANAGER"));
 
-    uriSavePortIn.connect(
-        new URISaveCommand(
-            ADMIN_SETTINGS_USER_PRIVILEGE,
-            ADMIN_SETTINGS_USER_GROUP,
-            AppType.ADMIN,
-            "/settings/userPrivilege",
-            true,
-            "사용자 권한",
-            null,
-            "사용자 권한",
-            "사용자 권한 목록 화면",
-            "",
-            null,
-            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
-        null,
-        false);
+    appendURI(
+        AppType.ADMIN,
+        ADMIN_SETTINGS_USER_GROUP,
+        ADMIN_SETTINGS_USER_ROLE,
+        "사용자 역할",
+        "/settings/userRoles",
+        true,
+        Set.of("ROLE_SUPER", "ROLE_MANAGER"));
+
+    appendURI(
+        AppType.ADMIN,
+        ADMIN_SETTINGS_USER_GROUP,
+        ADMIN_SETTINGS_USER_PRIVILEGE,
+        "사용자 권한",
+        "/settings/userPrivilege",
+        true,
+        Set.of("ROLE_SUPER", "ROLE_MANAGER"));
     // 사용자 & 역할 - 끝
 
-    uriSavePortIn.connect(
-        new URISaveCommand(
-            ADMIN_SETTINGS_URI_ADMIN,
-            ADMIN_SETTINGS,
-            AppType.ADMIN,
-            "/settings/uri/ADMIN",
-            true,
-            "URI 관리 (관리자)",
-            null,
-            "URI",
-            "URI 관리 화면",
-            "uri",
-            null,
-            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
-        null,
-        false);
+    appendURI(
+        AppType.ADMIN,
+        ADMIN_SETTINGS,
+        ADMIN_SETTINGS_URI_ADMIN,
+        "URI 관리 (관리자)",
+        "/settings/uri/ADMIN",
+        true,
+        Set.of("ROLE_SUPER", "ROLE_MANAGER"));
 
-    uriSavePortIn.connect(
-        new URISaveCommand(
-            ADMIN_BOARD_EXAMPLE,
-            ADMIN_BOARD,
-            AppType.ADMIN,
-            "/board/exampleBoard",
-            true,
-            "예제 게시판",
-            null,
-            "예제 게시판",
-            "예제 게시판 관리 페이지",
-            "notice",
-            null,
-            Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF")),
-        null,
-        false);
+    appendURI(
+        AppType.ADMIN,
+        ADMIN_SETTINGS,
+        ADMIN_SETTINGS_URI_FRONT,
+        "URI 관리 (FRONT)",
+        "/settings/uri/FRONT",
+        true,
+        Set.of("ROLE_SUPER", "ROLE_MANAGER"));
 
-    uriSavePortIn.connect(
-        new URISaveCommand(
-            ADMIN_BOARD_EXAMPLE_CREATE,
-            ADMIN_BOARD_EXAMPLE,
-            AppType.ADMIN,
-            "/board/exampleBoard/create",
-            false,
-            "등록",
-            null,
-            "예제 게시판",
-            "예제 게시판 등록 페이지",
-            "notice,create",
-            null,
-            Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF")),
-        null,
-        false);
+    appendURI(
+        AppType.ADMIN,
+        ADMIN_SETTINGS,
+        ADMIN_SETTINGS_CODE,
+        "UI 코드 (공통코드)",
+        "/settings/uicode",
+        true,
+        Set.of("ROLE_SUPER", "ROLE_MANAGER"));
 
-    uriSavePortIn.connect(
-        new URISaveCommand(
-            ADMIN_BOARD_EXAMPLE_UPDATE,
-            ADMIN_BOARD_EXAMPLE,
-            AppType.ADMIN,
-            "/board/exampleBoard/update/{{pathVar}}",
-            false,
-            "수정",
-            null,
-            "예제 게시판",
-            "예제 게시판 수정 페이지",
-            "notice,update",
-            null,
-            Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF")),
-        null,
-        false);
+    appendURI(
+        AppType.ADMIN,
+        ADMIN_BOARD,
+        ADMIN_BOARD_EXAMPLE,
+        "예제 게시판",
+        "/board/exampleBoard",
+        true,
+        Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"));
 
-    uriSavePortIn.connect(
-        new URISaveCommand(
-            ADMIN_BOARD_EXAMPLE_DELETE,
-            ADMIN_BOARD_EXAMPLE,
-            AppType.ADMIN,
-            "/board/exampleBoard/delete",
-            false,
-            "삭제",
-            null,
-            null,
-            null,
-            null,
-            null,
-            Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF")),
-        null,
-        false);
+    appendURI(
+        AppType.ADMIN,
+        ADMIN_BOARD,
+        ADMIN_BOARD_EXAMPLE_CREATE,
+        "예제 게시판 등록",
+        "/board/exampleBoard/create",
+        false,
+        Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"));
 
-    uriSavePortIn.connect(
-        new URISaveCommand(
-            ADMIN_SETTINGS_ADMIN_DELETE,
-            ADMIN_SETTINGS_ADMIN,
-            AppType.ADMIN,
-            "/settings/admins/delete",
-            false,
-            "삭제",
-            null,
-            null,
-            null,
-            null,
-            null,
-            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
-        null,
-        false);
+    appendURI(
+        AppType.ADMIN,
+        ADMIN_BOARD,
+        ADMIN_BOARD_EXAMPLE_UPDATE,
+        "예제 게시판 수정",
+        "/board/exampleBoard/update/{{pathVar}}",
+        false,
+        Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"));
 
-    uriSavePortIn.connect(
-        new URISaveCommand(
-            ADMIN_BOARD_EXAMPLE_EXCEL,
-            ADMIN_BOARD_EXAMPLE,
-            AppType.ADMIN,
-            "/board/exampleBoard/excel",
-            false,
-            "엑셀 다운로드",
-            null,
-            null,
-            null,
-            null,
-            null,
-            Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF")),
-        null,
-        false);
+    appendURI(
+        AppType.ADMIN,
+        ADMIN_BOARD,
+        ADMIN_BOARD_EXAMPLE_DELETE,
+        "예제 게시판 삭제",
+        "/board/exampleBoard/delete",
+        false,
+        Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"));
 
-    uriSavePortIn.connect(
-        new URISaveCommand(
-            ADMIN_SETTINGS_ADMIN_EXCEL,
-            ADMIN_SETTINGS_ADMIN,
-            AppType.ADMIN,
-            "/settings/admins/excel",
-            false,
-            "엑셀 다운로드",
-            null,
-            null,
-            null,
-            null,
-            null,
-            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
-        null,
-        false);
+    appendURI(
+        AppType.ADMIN,
+        ADMIN_BOARD_EXAMPLE,
+        ADMIN_BOARD_EXAMPLE_EXCEL,
+        "예제 게시판 엑셀 다운로드",
+        "/board/exampleBoard/excel",
+        false,
+        Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"));
 
-    uriSavePortIn.connect(
-        new URISaveCommand(
-            ADMIN_SETTINGS_URI_FRONT,
-            ADMIN_SETTINGS,
-            AppType.ADMIN,
-            "/settings/uri/FRONT",
-            true,
-            "URI 관리 (FRONT)",
-            null,
-            "URI",
-            "URI 관리 화면",
-            "uri",
-            null,
-            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
-        null,
-        false);
+    appendURI(
+        AppType.ADMIN,
+        ADMIN_ANALYSIS,
+        ADMIN_ANALYSIS_OPERATION_LOG,
+        "Operation Log (수행로그)",
+        "/analysis/operationlog",
+        true,
+        Set.of("ROLE_SUPER"));
 
-    uriSavePortIn.connect(
-        new URISaveCommand(
-            ADMIN_SETTINGS_CODE,
-            ADMIN_SETTINGS,
-            AppType.ADMIN,
-            "/settings/uicode",
-            true,
-            "UI 코드 관리",
-            null,
-            "UI 코드",
-            "UI 코드 관리 페이지",
-            "uicode",
-            null,
-            Set.of("ROLE_SUPER", "ROLE_MANAGER")),
-        null,
-        false);
+    appendURI(
+        AppType.ADMIN,
+        ADMIN_ANALYSIS,
+        ADMIN_ANALYSIS_OPERATION_LOG_UPDATE,
+        "수행로그 상세",
+        "/analysis/operationlog/{{pathVar}}",
+        false,
+        Set.of("ROLE_SUPER"));
 
-    uriSavePortIn.connect(
-        new URISaveCommand(
-            ADMIN_ANALYSIS,
-            ADMIN,
-            AppType.ADMIN,
-            "/analysis",
-            true,
-            "Analysis",
-            null,
-            "analysis",
-            "analysis",
-            " analysis",
-            null,
-            Set.of("ROLE_SUPER")),
-        null,
-        false);
+    appendURI(
+        AppType.ADMIN,
+        ADMIN_ANALYSIS_OPERATION_LOG,
+        ADMIN_ANALYSIS_OPERATION_LOG_EXCEL,
+        "수행로그 Excel",
+        "/analysis/operationlog/excel",
+        false,
+        Set.of("ROLE_SUPER"));
 
-    uriSavePortIn.connect(
-        new URISaveCommand(
-            ADMIN_ANALYSIS_OPERATION_LOG,
-            ADMIN_ANALYSIS,
-            AppType.ADMIN,
-            "/analysis/operationlog",
-            true,
-            "Operation Log (수행로그)",
-            null,
-            "Log",
-            "Log",
-            " Log",
-            null,
-            Set.of("ROLE_SUPER")),
-        null,
-        false);
+    appendURI(
+        AppType.ADMIN,
+        ADMIN_ADD_ONS,
+        ADMIN_ADD_ONS_SEND_EMAIL,
+        "Email 발송",
+        "/addons/email/form",
+        true,
+        Set.of("ROLE_SUPER"));
 
-    uriSavePortIn.connect(
-        new URISaveCommand(
-            ADMIN_ANALYSIS_OPERATION_LOG_UPDATE,
-            ADMIN_ANALYSIS_OPERATION_LOG,
-            AppType.ADMIN,
-            "/analysis/operationlog/{{pathVar}}",
-            false,
-            "수행로그 상세",
-            null,
-            "Log",
-            "Log",
-            " Log",
-            null,
-            Set.of("ROLE_SUPER")),
-        null,
-        false);
+    appendURI(
+        AppType.ADMIN,
+        ADMIN_ADD_ONS_SEND_EMAIL,
+        ADMIN_ADD_ONS_SEND_EMAIL_CREATE,
+        "Email 입력폼",
+        "/addons/email/form",
+        false,
+        Set.of("ROLE_SUPER"));
+  }
 
+  private void appendURI(
+      AppType appType,
+      String parentId,
+      String menuId,
+      String menuTitle,
+      String uri,
+      boolean showOnNavi,
+      Set<String> roles)
+      throws IOException {
     uriSavePortIn.connect(
         new URISaveCommand(
-            ADMIN_ANALYSIS_OPERATION_LOG_EXCEL,
-            ADMIN_ANALYSIS_OPERATION_LOG,
-            AppType.ADMIN,
-            "/analysis/operationlog/excel",
-            false,
-            "수행로그 Excel",
+            menuId,
+            parentId,
+            appType,
+            uri,
+            showOnNavi,
+            menuTitle,
             null,
-            "Log",
-            "Log",
-            " Log",
+            menuTitle,
+            menuTitle,
             null,
-            Set.of("ROLE_SUPER")),
-        null,
-        false);
-
-    uriSavePortIn.connect(
-        new URISaveCommand(
-            ADMIN_ADD_ONS,
-            ADMIN,
-            AppType.ADMIN,
-            "/add-ons",
-            true,
-            "Add-ons (부가기능)",
             null,
-            "Add-ons",
-            "Add-ons",
-            " Add-ons",
-            null,
-            Set.of("ROLE_SUPER")),
-        null,
-        false);
-
-    uriSavePortIn.connect(
-        new URISaveCommand(
-            ADMIN_ADD_ONS_SEND_EMAIL,
-            ADMIN_ADD_ONS,
-            AppType.ADMIN,
-            "/addons/email/form",
-            true,
-            "Email 발송",
-            null,
-            "Email",
-            "Email",
-            "email",
-            null,
-            Set.of("ROLE_SUPER")),
-        null,
-        false);
-
-    uriSavePortIn.connect(
-        new URISaveCommand(
-            ADMIN_ADD_ONS_SEND_EMAIL_CREATE,
-            ADMIN_ADD_ONS_SEND_EMAIL,
-            AppType.ADMIN,
-            "/addons/email/form",
-            false,
-            "Email 입력폼",
-            null,
-            "Email Form",
-            "Email Form",
-            "email",
-            null,
-            Set.of("ROLE_SUPER")),
+            roles),
         null,
         false);
   }

@@ -4,7 +4,10 @@ import app.module.admin.usecase.user.list.adapters.web.model.GetUsersReqVO;
 import app.module.admin.usecase.user.list.ports.GetUserListPortIn;
 import app.module.admin.usecase.user.list.ports.application.domain.GetUsers;
 import app.module.admin.usecase.user.list.ports.application.domain.GetUsersCmd;
+import app.module.admin.usecase.user.role.list.ports.GetRolesPortIn;
+import app.module.admin.usecase.user.role.list.ports.application.domain.GetRolesCmd;
 import app.module.core.config.adapter.persistence.entity.FrontUser_;
+import app.module.core.usecase.uicode.list.application.port.in.UICodeListPortIn;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,12 +21,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @RequiredArgsConstructor
 class GetUsersController {
   private final GetUserListPortIn getUserListPortIn;
+  private final UICodeListPortIn uiCodeListPortIn;
+  private final GetRolesPortIn getRolesPortIn;
 
   @GetMapping(path = "/settings/users")
   String operate(
       @PageableDefault(sort = FrontUser_.CREATED_AT) Pageable pageable,
       Model model,
-      @ModelAttribute GetUsersReqVO reqVO) {
+      @ModelAttribute("reqVO") GetUsersReqVO reqVO) {
 
     Page<GetUsers> result =
         getUserListPortIn.operate(
@@ -31,6 +36,9 @@ class GetUsersController {
             new GetUsersCmd(reqVO.getSearchField(), reqVO.getSearchField(), reqVO.getSearchRole()));
 
     model.addAttribute("output", result);
+
+    model.addAttribute("pageRows", uiCodeListPortIn.connect("code.pageable.rows"));
+    model.addAttribute("roles", getRolesPortIn.operate(new GetRolesCmd()));
 
     return "settings/users";
   }
