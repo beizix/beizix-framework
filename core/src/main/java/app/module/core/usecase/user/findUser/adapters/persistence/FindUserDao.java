@@ -1,14 +1,14 @@
-package app.module.front.usecase.user.find.adapters.persistence;
+package app.module.core.usecase.user.findUser.adapters.persistence;
 
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
-import app.module.front.usecase.user.find.ports.FindUserPortOut;
-import app.module.front.usecase.user.find.ports.application.domain.FindUser;
-import app.module.front.usecase.user.find.ports.application.domain.FindUserCmd;
-import app.module.front.usecase.user.find.ports.application.domain.FindUserPrivilege;
-import app.module.front.usecase.user.find.ports.application.domain.FindUserRole;
+import app.module.core.usecase.user.findUser.ports.FindUserPortOut;
+import app.module.core.usecase.user.findUser.ports.application.domain.FindUser;
+import app.module.core.usecase.user.findUser.ports.application.domain.FindUserCmd;
+import app.module.core.usecase.user.findUser.ports.application.domain.FindUserPrivilege;
+import app.module.core.usecase.user.findUser.ports.application.domain.FindUserRole;
 import lombok.RequiredArgsConstructor;
 import app.module.core.config.adapter.persistence.entity.FrontUser;
 import org.springframework.stereotype.Repository;
@@ -33,6 +33,10 @@ class FindUserDao implements FindUserPortOut {
                     frontUser.getAccountDisabled(),
                     frontUser.getLoginFailCnt(),
                     frontUser.getAccountLocked(),
+                    frontUser.getCreatedAt(),
+                    frontUser.getCreatedBy(),
+                    frontUser.getUpdatedAt(),
+                    frontUser.getUpdatedBy(),
                     frontUser.getWithUserRoles().stream()
                         .map(
                             withRole ->

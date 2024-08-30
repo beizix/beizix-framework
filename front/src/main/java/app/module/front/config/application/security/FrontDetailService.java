@@ -6,12 +6,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import app.module.front.usecase.user.find.ports.application.domain.FindUser;
-import app.module.front.usecase.user.find.ports.application.domain.FindUserCmd;
+import app.module.core.usecase.user.findUser.ports.application.domain.FindUser;
+import app.module.core.usecase.user.findUser.ports.application.domain.FindUserCmd;
 import lombok.RequiredArgsConstructor;
-import app.module.front.usecase.user.find.ports.FindUserPortIn;
-import app.module.front.usecase.user.find.ports.application.domain.FindUserPrivilege;
-import app.module.front.usecase.user.find.ports.application.domain.FindUserRole;
+import app.module.core.usecase.user.findUser.ports.FindUserPortIn;
+import app.module.core.usecase.user.findUser.ports.application.domain.FindUserPrivilege;
+import app.module.core.usecase.user.findUser.ports.application.domain.FindUserRole;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

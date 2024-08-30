@@ -17,7 +17,7 @@ class #domainNmController {
   String operate(
     @PageableDefault Pageable pageable,
     Model model,
-    @ModelAttribute #domainNmReqVO reqVO) {
+    @ModelAttribute("reqVO") #domainNmReqVO reqVO) {
 
     return "#page";
   }

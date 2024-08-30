@@ -18,7 +18,7 @@ class #domainNmController {
   String operate(
     Model model,
     RedirectAttributes redirectAttributes,
-    @Valid @ModelAttribute #domainNmReqVO reqVO,
+    @Valid @ModelAttribute("reqVO") #domainNmReqVO reqVO,
     BindingResult bindingResult) {
 
     if (bindingResult.hasErrors()) {

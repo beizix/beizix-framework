@@ -1,4 +1,4 @@
-package app.module.front.usecase.user.find.ports.application.domain;
+package app.module.core.usecase.user.findUser.ports.application.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

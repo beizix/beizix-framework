@@ -4,7 +4,7 @@
 
 <section layout:fragment="content">
 
-  <form method="post" name="form" th:action="${currentURI.uri}" th:object="${reqVO}"
+  <form method="post" name="form" th:action="@{/settings/users}" th:object="${reqVO}"
         onsubmit="goSearch();">
 
     <!-- hidden parameters -->

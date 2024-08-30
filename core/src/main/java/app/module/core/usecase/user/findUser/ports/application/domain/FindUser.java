@@ -1,4 +1,4 @@
-package app.module.front.usecase.user.find.ports.application.domain;
+package app.module.core.usecase.user.findUser.ports.application.domain;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -19,5 +19,9 @@ public class FindUser {
   Boolean accountDisabled;
   Integer loginFailCnt;
   Boolean accountLocked;
+  private LocalDateTime createdAt;
+  private String createdBy;
+  private LocalDateTime updatedAt;
+  private String updatedBy;
   private Set<FindUserRole> roles;
 }
