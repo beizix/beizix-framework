@@ -3,7 +3,6 @@
       layout:decorate="~{layout/layout}">
 
 <section layout:fragment="content" class="fw-bold">
-
   <form
       th:action="${bindingVO.id != null ? '/board/exampleBoard/update/' + bindingVO.id : '/board/exampleBoard/create'}"
       method="post"
@@ -14,7 +13,7 @@
 
     <div class="container">
 
-      <div class="row w-50">
+      <div class="row">
         <!-- audit area -->
         <div th:replace="common/components :: auditArea"></div>
       </div>
@@ -174,7 +173,9 @@
       <input type="hidden" name="sort" th:value="${pageable.sort}"/>
     </th:block>
   </form>
+</section>
 
+<section layout:fragment="script">
   <script>
     function gotoList() {
       if (document.prevParamForm) {
@@ -234,6 +235,7 @@
   <script id="fileInputTmpl" type="text/x-jsrender">
 		<input class="form-control w-50 mb-2" type="file" name="{{:name}}"/>
 
+
   </script>
 
   <!-- web editor - tinymce -->
@@ -260,9 +262,9 @@
 
     $(document).ready(() => {
       showAudit([[${bindingVO.title}]], [[${bindingVO.createdBy}]],
-          [[${#temporals.format(bindingVO.createdAt, "yyyy-MM-dd'T'HH:mm:ss")}]],
+          [[${#temporals.format(bindingVO.createdAt, "yyyy-MM-dd HH:mm:ss")}]],
           [[${bindingVO.updatedBy}]],
-          [[${#temporals.format(bindingVO.updatedAt, "yyyy-MM-dd'T'HH:mm:ss")}]]);
+          [[${#temporals.format(bindingVO.updatedAt, "yyyy-MM-dd HH:mm:ss")}]]);
     });
   </script>
 </section>

@@ -150,7 +150,9 @@ const showAudit = (auditItem, createdBy, createdAt, updatedBy, updatedAt) => {
   audit.find('.createdAt').text(createdAt);
   audit.find('.updatedBy').text(updatedBy);
   audit.find('.updatedAt').text(updatedAt);
-  audit.fadeIn();
+  audit.removeAttr('style');
+  audit.fadeOut(0);
+  audit.fadeIn(800);
 }
 
 /**

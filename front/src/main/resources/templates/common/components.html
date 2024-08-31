@@ -24,6 +24,11 @@
   <meta property="og:image" th:content="${currentURI.ogImage}"/>
 
   <script th:src="@{/static/library/jquery/jquery-3.6.0.min.js}"></script>
+  <script th:src="@{/static/library/jsUri/Uri.js}"></script>
+  <script th:src="@{/static/library/jsRender/jsrender.min.js}"></script>
+  <script th:src="@{/static/ui/uiUtil.js}"></script>
+  <script th:src="@{/static/library/jquery/jquery-serializeObject.min.js}"></script>
+
   <script th:inline="javascript" th:each="flashMsg : ${session.flashAlertMessages}"
           th:if="${session.flashAlertMessages != null}">
       $(function () {
@@ -149,20 +154,6 @@
 <div th:fragment="operationMessage" th:if="${not #strings.isEmpty(operationMessage)}" class="row">
   <div class="alert alert-info fw-bold" th:utext="${operationMessage}">
   </div>
-</div>
-
-<!--
-  ██ ███████  ██████ ██████  ██ ██████  ████████ ██
- ██  ██      ██      ██   ██ ██ ██   ██    ██     ██
-██   ███████ ██      ██████  ██ ██████     ██      ██
- ██       ██ ██      ██   ██ ██ ██         ██     ██
-  ██ ███████  ██████ ██   ██ ██ ██         ██    ██
--->
-<div th:fragment="script-block">
-  <script th:src="@{/static/library/jsUri/Uri.js}"></script>
-  <script th:src="@{/static/library/jsRender/jsrender.min.js}"></script>
-  <script th:src="@{/static/ui/uiUtil.js}"></script>
-  <script th:src="@{/static/library/jquery/jquery-serializeObject.min.js}"></script>
 </div>
 
 <!--

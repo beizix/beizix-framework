@@ -43,6 +43,12 @@
   <script th:src="@{/static/ui/navbar/recycle-navbar.js}"></script>
   <link rel="stylesheet" th:href="@{/static/ui/navbar/recycle-navbar.css}"/>
 
+  <script th:src="@{/static/library/jsUri/Uri.js}"></script>
+  <script th:src="@{/static/library/jsRender/jsrender.min.js}"></script>
+  <script th:src="@{/static/library/bootstrap/bootstrap.min.js}"></script>
+  <script th:src="@{/static/ui/uiUtil.js}"></script>
+  <script th:src="@{/static/library/jquery/jquery-serializeObject.min.js}"></script>
+
   <script th:inline="javascript" th:each="flashMsg : ${session.flashAlertMessages}"
           th:if="${session.flashAlertMessages != null}">
       $(function () {
@@ -188,21 +194,6 @@
 </div>
 
 <!--
-  ██ ███████  ██████ ██████  ██ ██████  ████████ ██
- ██  ██      ██      ██   ██ ██ ██   ██    ██     ██
-██   ███████ ██      ██████  ██ ██████     ██      ██
- ██       ██ ██      ██   ██ ██ ██         ██     ██
-  ██ ███████  ██████ ██   ██ ██ ██         ██    ██
--->
-<div th:fragment="script-block">
-  <script th:src="@{/static/library/jsUri/Uri.js}"></script>
-  <script th:src="@{/static/library/jsRender/jsrender.min.js}"></script>
-  <script th:src="@{/static/library/bootstrap/bootstrap.min.js}"></script>
-  <script th:src="@{/static/ui/uiUtil.js}"></script>
-  <script th:src="@{/static/library/jquery/jquery-serializeObject.min.js}"></script>
-</div>
-
-<!--
 ███████  ██████   ██████  ████████ ███████ ██████
 ██      ██    ██ ██    ██    ██    ██      ██   ██
 █████   ██    ██ ██    ██    ██    █████   ██████
@@ -218,7 +209,7 @@
 </div>
 
 <!-- AUDIT area -->
-<div class="alert alert-info audit-area" role="alert" style="display:none;" th:fragment="auditArea">
+<div class="alert alert-info audit-area" role="alert" style="visibility:hidden;" th:fragment="auditArea">
   <p class="mb-0">
     <mark class="audit-target">Role</mark>
     <small class="text-body-secondary">is</small>

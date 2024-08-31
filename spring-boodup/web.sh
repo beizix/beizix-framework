@@ -78,6 +78,7 @@ basePackage=${pkgPath//\//\.}
 
 echo "basePackage=$basePackage"
 echo "url=${url}"
+echo "rest=${rest}"
 
 webPackage=${pkgPath//\//\.}
 
@@ -204,14 +205,39 @@ function createPostController() {
   showContent "${fullEntityPath}"
 }
 
+function createPostRestController() {
+  tmpl=$1
+  pkg=$2
+  domainNm=$3
+  cmdPkg=$4
+  fullEntityPath=$5
+  targetUrl=$6
+
+  echo -e "\n"
+  echo "Creating a rest controller with 'post' method mapped to '${targetUrl}'"
+
+  cp -f "templates/web/${tmpl}" ./
+  sed -i "s/#package/${pkg}/g" "${tmpl}"
+  sed -i "s/#domainNm/${domainNm}/g" "${tmpl}"
+  sed -i "s/#cmdPackage/${cmdPkg}/g" "${tmpl}"
+  sed -i "s@#url@${targetUrl}@g" "${tmpl}"
+
+  mv -f "${tmpl}" "${fullEntityPath}"
+
+  echo "${fullEntityPath} is created."
+  showContent "${fullEntityPath}"
+}
+
 createEntity reqVO.tmpl "${cmdPackage}" "${domainNm}" "${modelPath}/${domainNm}ReqVO.java"
 
 if ! $rest; then
-
     if $get; then
       createGetController getController.tmpl "${webPackage}" "${domainNm}" "${cmdPackage}" "${path}/${domainNm}Controller.java" "${url}"
     elif $post; then
       createPostController postController.tmpl "${webPackage}" "${domainNm}" "${cmdPackage}" "${path}/${domainNm}Controller.java" "${url}"
     fi
-
+else
+  if $post; then
+    createPostRestController postRestController.tmpl "${webPackage}" "${domainNm}" "${cmdPackage}" "${path}/${domainNm}Controller.java" "${url}"
+  fi
 fi
