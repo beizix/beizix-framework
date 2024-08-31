@@ -72,19 +72,19 @@
                  type="checkbox" onchange="toggleCheckbox(this);"/></label>
         </th>
         <th scope="col" style="width:60px;"></th>
-        <th scope="col"><a href="#" class="orderable"
+        <th scope="col"><a href="#" class="order-able"
                            data-sort-field="title">제목</a></th>
-        <th scope="col"><a href="#" class="orderable"
+        <th scope="col"><a href="#" class="order-able text-center d-inline-block w-100"
                            data-sort-field="open">공개여부</a></th>
-        <th scope="col"><a href="#" class="orderable"
+        <th scope="col"><a href="#" class="order-able"
                            data-sort-field="boardStartDate">게시일</a></th>
-        <th scope="col"><a href="#" class="orderable"
+        <th scope="col"><a href="#" class="order-able"
                            data-sort-field="boardEndDate">종료일</a></th>
-        <th scope="col"><a href="#" class="orderable"
+        <th scope="col"><a href="#" class="order-able"
                            data-sort-field="createdBy">작성자</a></th>
-        <th scope="col"><a href="#" class="orderable"
+        <th scope="col"><a href="#" class="order-able"
                            data-sort-field="updatedAt">최근 수정일</a></th>
-        <th scope="col"><a href="#" class="orderable"
+        <th scope="col"><a href="#" class="order-able"
                            data-sort-field="orderNo">정렬번호</a></th>
       </tr>
       </thead>
@@ -104,9 +104,7 @@
             class="img-thumbnail" onerror="this.src='/static/ui/img/default-img.jpg'"/></td>
         <td><a th:href="|javascript:goUpdate('${item.id}')|"
                th:utext="${item.title}">Title</a></td>
-        <td class="text-secondary">
-          <i th:if="${item.visible}" class="bi bi-circle-fill"></i>
-          <i th:if="${!item.visible}" class="bi bi-slash-circle"></i>
+        <td class="text-secondary text-center" th:text="${item.visible ? 'Y' : 'N'}">
         </td>
         <td
             th:text="${#temporals.format(item.boardStartDate, 'yyyy-MM-dd HH:mm')}">게시일
@@ -138,7 +136,7 @@
               onclick="goSave();">등록
       </button>
       <button type="button" class="btn btn-danger" onclick="goRemove();">삭제</button>
-      <button type="button" class="btn btn-secondary" onclick="utilize.sortable.update();">정렬 변경
+      <button type="button" class="btn btn-secondary" onclick="uiUtil.sortable.update();">정렬 변경
       </button>
     </div>
   </div>
@@ -206,15 +204,14 @@
 
     // 정렬
     $(function () {
-      utilize.sortable.init(
+      uiUtil.sortable.init(
           '.sortable',
           '.handle',
           function getCurrentSortValue() {
-            return $('input[name=orderBy]').val() === 'orderNo' && $('input[name=orderDir]').val()
-                === 'DESC'
+            return $('input[name=sort]').val() === 'orderNo: DESC'
           },
           function initSortValue() {
-            goPageable(0, $('select[name=pageSize]').val(), 'orderNo', 'DESC');
+            goPageable(0, $('select[name=pageSize]').val(), convertToPageableSortValue($('input[name=sort]').val()));
           },
           function updateFunc(updateData) {
             $.ajax({

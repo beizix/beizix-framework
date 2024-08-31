@@ -25,10 +25,10 @@ function convertToPageableSortValue(sort) {
   return parsedSort[0].trim() + ',' + parsedSort[1].trim();
 }
 
-let utilize = {};
+let uiUtil = {};
 
-utilize.goPageable = goPageable;
-utilize.convertToPageableSortValue = convertToPageableSortValue;
+uiUtil.goPageable = goPageable;
+uiUtil.convertToPageableSortValue = convertToPageableSortValue;
 
 /**
  * Public image source 가져오기
@@ -36,7 +36,7 @@ utilize.convertToPageableSortValue = convertToPageableSortValue;
  * @param imageFilename
  * @param isCrop
  */
-utilize.getPublicImageSrc = function (imagePath, imageFilename, isCrop) {
+uiUtil.getPublicImageSrc = function (imagePath, imageFilename, isCrop) {
   if (!imagePath) {
     return "";
   }
@@ -50,11 +50,11 @@ utilize.getPublicImageSrc = function (imagePath, imageFilename, isCrop) {
   }
 }
 
-utilize.lineSeparatorToBr = function (contents) {
+uiUtil.lineSeparatorToBr = function (contents) {
   return contents.replaceAll('\r\n', '<br/>');
 }
 
-utilize.unescape = function (contents) {
+uiUtil.unescape = function (contents) {
   let ret = contents.replace(/&gt;/g, '>');
   ret = ret.replace(/&lt;/g, '<');
   ret = ret.replace(/&quot;/g, '"');
@@ -63,7 +63,10 @@ utilize.unescape = function (contents) {
   return ret;
 }
 
-utilize.sortable = function () {
+/**
+ * 정렬 변경 UI 구성 함수
+ */
+uiUtil.sortable = function () {
   let orderNoRange = [];
   let idRange = [];
   let updateData = [];
@@ -71,10 +74,12 @@ utilize.sortable = function () {
 
   function _init(parentSelector, handleSelector, conditionCheckFunc,
       initSortFunc, _updateFunc) {
+
     $(parentSelector).sortable({
       axis: 'y',
       placeholder: 'ui-state-highlight',
       handle: handleSelector,
+      opacity: 0.5,
       start: function () {
         if (!conditionCheckFunc()) {
           if (confirm(

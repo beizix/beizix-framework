@@ -147,7 +147,7 @@
       editor.on('init', function () {
         let content = [[${bindingVO.content}]];
         if (content) {
-          tinymce.activeEditor.setContent(utilize.unescape(content));
+          tinymce.activeEditor.setContent(uiUtil.unescape(content));
         }
       });
     });
