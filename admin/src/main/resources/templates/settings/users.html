@@ -116,7 +116,13 @@
     </div>
   </div>
 
-  <div th:replace="common/list-components :: listColumnOrder(${output})"></div>
+</section>
+
+<section layout:fragment="script">
+  <script th:inline="javascript">
+    // 목록 정렬 표기 및 갱신 기능 적용
+    uiUtil.applyListSortNotation([[${ listOutput.pageable.pageSize }]], [[${listOutput.pageable.sort.toString()}]]);
+  </script>
 
   <script th:inline="javascript">
     // 검색

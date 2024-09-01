@@ -140,9 +140,13 @@
       </button>
     </div>
   </div>
+</section>
 
-  <div th:replace="common/list-components :: listColumnOrder(${listOutput})"></div>
-
+<section layout:fragment="script">
+  <script th:inline="javascript">
+    // 목록 정렬 표기 및 갱신 기능 적용
+    uiUtil.applyListSortNotation([[${ listOutput.pageable.pageSize }]], [[${listOutput.pageable.sort.toString()}]]);
+  </script>
   <script th:inline="javascript">
     // 검색
     function goSearch() {
@@ -211,7 +215,7 @@
             return $('input[name=sort]').val() === 'orderNo: DESC'
           },
           function initSortValue() {
-            goPageable(0, $('select[name=pageSize]').val(), convertToPageableSortValue($('input[name=sort]').val()));
+            goPageable(0, $('select[name=pageSize]').val(), convertToPageableSortValue('orderNo: DESC'));
           },
           function updateFunc(updateData) {
             $.ajax({

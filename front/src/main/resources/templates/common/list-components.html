@@ -2,51 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 
-<!--
-██      ██ ███████ ████████     ███████  ██████  ██████  ████████ ██ ███    ██  ██████
-██      ██ ██         ██        ██      ██    ██ ██   ██    ██    ██ ████   ██ ██
-██      ██ ███████    ██        ███████ ██    ██ ██████     ██    ██ ██ ██  ██ ██   ███
-██      ██      ██    ██             ██ ██    ██ ██   ██    ██    ██ ██  ██ ██ ██    ██
-███████ ██ ███████    ██        ███████  ██████  ██   ██    ██    ██ ██   ████  ██████
--->
-<div th:fragment="listColumnOrder(items)">
-  <script>
-    /**
-     * 목록 칼럼 Sorting 기능 적용
-     * @param {int} pagesize
-     * @param {string} sort
-     */
-    function applyColumnOrdering(pagesize, sort) {
-      var curSortField = sort.split(':')[0],
-          curSortDir = sort.split(':')[1].trim();
-
-      $('.order-able').each(function (i, el) {
-        var sortField = $(el).data('sort-field');
-
-        // 현재 sort 조건과 동일한 칼럼일 경우
-        if (sortField === curSortField) {
-
-          $(el).parent().append(curSortDir === 'DESC' ?
-              $('<i class="bi bi-arrow-down-circle-fill ms-1"></i>') :
-              $('<i class="bi bi-arrow-up-circle-fill ms-1"></i>'));
-
-          $(el).click(function () {
-            goPageable(0, pagesize, curSortField + ': ' + (curSortDir === 'DESC' ? 'ASC' : 'DESC'));
-            return false;
-          });
-          $(el).css('color', 'black');
-        } else {
-          $(el).click(function () {
-            goPageable(0, pagesize, $(el).data('sort-field') + ': ' + 'DESC');
-            return false;
-          });
-        }
-      });
-    }
-
-    applyColumnOrdering([[${ items.pageable.pageSize }]], '[[${items.pageable.sort}]]');
-  </script>
-</div>
 
 <!--
 ██████   █████   ██████  ██ ███    ██  █████  ████████ ██  ██████  ███    ██

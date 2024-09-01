@@ -7,7 +7,7 @@
 function goPageable(page, size, sort) {
   let uri = new Uri(location.href);
   uri.replaceQueryParam('page', page).replaceQueryParam('size', size)
-  .replaceQueryParam('sort', convertToPageableSortValue(sort));
+    .replaceQueryParam('sort', convertToPageableSortValue(sort));
 
   location.href = uri.toString();
 }
@@ -25,7 +25,39 @@ function convertToPageableSortValue(sort) {
   return parsedSort[0].trim() + ',' + parsedSort[1].trim();
 }
 
-let uiUtil = {};
+let uiUtil = {
+  /**
+   * 목록 정렬 표기 및 갱신 기능 적용 - .order-able css class 기반으로 동작한다.
+   * @param pageSize
+   * @param sort
+   */
+  applyListSortNotation(pageSize, sort) {
+    let curSortField = sort.split(':')[0],
+      curSortDir = sort.split(':')[1].trim();
+
+    $('.order-able').each(function (i, el) {
+      let sortField = $(el).data('sort-field');
+      // 현재 sort 조건과 동일한 칼럼일 경우
+      if (sortField === curSortField) {
+
+        $(el).parent().append(curSortDir === 'DESC' ?
+          $('<i class="bi bi-arrow-down-circle-fill ms-1"></i>') :
+          $('<i class="bi bi-arrow-up-circle-fill ms-1"></i>'));
+
+        $(el).click(function () {
+          goPageable(0, pageSize, curSortField + ': ' + (curSortDir === 'DESC' ? 'ASC' : 'DESC'));
+          return false;
+        });
+        $(el).css('color', 'black');
+      } else {
+        $(el).click(function () {
+          goPageable(0, pageSize, $(el).data('sort-field') + ': ' + 'DESC');
+          return false;
+        });
+      }
+    });
+  }
+};
 
 uiUtil.goPageable = goPageable;
 uiUtil.convertToPageableSortValue = convertToPageableSortValue;
@@ -43,10 +75,10 @@ uiUtil.getPublicImageSrc = function (imagePath, imageFilename, isCrop) {
 
   if (imagePath.indexOf("/static") === 0) {
     return isCrop ? imagePath + '/crop/' + imageFilename : imagePath + '/'
-        + imageFilename;
+      + imageFilename;
   } else {
     return isCrop ? '/public' + imagePath + '/crop/' + imageFilename : '/public'
-        + imagePath + '/' + imageFilename;
+      + imagePath + '/' + imageFilename;
   }
 }
 
@@ -73,7 +105,7 @@ uiUtil.sortable = function () {
   let updateFunc;
 
   function _init(parentSelector, handleSelector, conditionCheckFunc,
-      initSortFunc, _updateFunc) {
+                 initSortFunc, _updateFunc) {
 
     $(parentSelector).sortable({
       axis: 'y',
@@ -83,7 +115,7 @@ uiUtil.sortable = function () {
       start: function () {
         if (!conditionCheckFunc()) {
           if (confirm(
-              'Sorting 을 하려면 우선 정렬번호 순으로 정렬되어야 합니다. 정렬 조건을 변경하시겠습니까?')) {
+            'Sorting 을 하려면 우선 정렬번호 순으로 정렬되어야 합니다. 정렬 조건을 변경하시겠습니까?')) {
             initSortFunc();
           } else {
             location.reload();
@@ -106,11 +138,8 @@ uiUtil.sortable = function () {
       orderNoRange.push($(elem).data('order-no'));
       idRange.push($(elem).data('id'));
     });
-    orderNoRange.sort(function (a, b) {
-      return b - a;
-    });
     $(idRange).each(function (idx, id) {
-      updateData.push({'id': id, 'orderNo': orderNoRange[idx]});
+      updateData.push({'id': id, 'orderNo': Math.max(...orderNoRange) - idx});
     });
   }
 
