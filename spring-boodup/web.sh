@@ -40,13 +40,12 @@ THE SOFTWARE.
 EOF
 
 pageable=false
-showCnt=false
 get=false
 post=false
 rest=false
 clear=false
 
-set -- $(getopt -o psgourc --long pageable,show,get,post,url,rest,clear -- "$@")
+set -- $(getopt -o pgourc --long pageable,get,post,url,rest,clear -- "$@")
 for word in "$@"
 do
     case $word in
@@ -57,7 +56,6 @@ done
 for word in "$@"
 do
     case $word in
-       -s | --show) showCnt=true; ;;
        -r | --rest) rest=true; ;;
        -c | --clear) clear=true; ;;
     esac   
@@ -103,11 +101,9 @@ fi
 mkdir -p "${modelPath}"
 
 function showContent() {
-    if $showCnt; then
-        echo -e "${GREEN}\n"
-        cat $1
-        echo -e "${NC}"
-    fi
+    echo -e "${GREEN}\n"
+    cat $1
+    echo -e "${NC}"
 }
 
 function createEntity(){

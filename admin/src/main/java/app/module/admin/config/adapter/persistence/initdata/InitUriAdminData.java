@@ -33,6 +33,12 @@ public class InitUriAdminData implements ApplicationRunner {
     final String ADMIN_BOARD_EXAMPLE_DELETE = "uri.admin.board.exampleBoard.delete";
     final String ADMIN_BOARD_EXAMPLE_EXCEL = "uri.admin.board.exampleBoard.excel";
 
+    final String ADMIN_ARTICLE = "uri.admin.board.article";
+    final String ADMIN_ARTICLE_CREATE = "uri.admin.board.article.create";
+    final String ADMIN_ARTICLE_UPDATE = "uri.admin.board.article.update.{{pathVar}}";
+    final String ADMIN_ARTICLE_DELETE = "uri.admin.board.article.delete";
+    final String ADMIN_ARTICLE_EXCEL = "uri.admin.board.article.excel";
+
     final String ADMIN_SETTINGS = "uri.admin.settings";
 
     final String ADMIN_SETTINGS_ADMIN_GROUP = "uri.admin.settings.admins.group";
@@ -235,6 +241,53 @@ public class InitUriAdminData implements ApplicationRunner {
         true,
         Set.of("ROLE_SUPER", "ROLE_MANAGER"));
 
+    // 예제 게시판 - 시작
+    //
+    appendURI(
+        AppType.ADMIN,
+        ADMIN_BOARD,
+        ADMIN_ARTICLE,
+        "예제 게시판",
+        "/board/article",
+        true,
+        Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"));
+
+    appendURI(
+        AppType.ADMIN,
+        ADMIN_ARTICLE,
+        ADMIN_ARTICLE_CREATE,
+        "예제 게시판 등록",
+        "/board/article/create",
+        false,
+        Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"));
+
+    appendURI(
+        AppType.ADMIN,
+        ADMIN_ARTICLE,
+        ADMIN_ARTICLE_UPDATE,
+        "예제 게시판 수정",
+        "/board/article/update/{{pathVar}}",
+        false,
+        Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"));
+
+    appendURI(
+        AppType.ADMIN,
+        ADMIN_ARTICLE,
+        ADMIN_ARTICLE_DELETE,
+        "예제 게시판 삭제",
+        "/board/article/delete",
+        false,
+        Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"));
+
+    appendURI(
+        AppType.ADMIN,
+        ADMIN_ARTICLE,
+        ADMIN_ARTICLE_EXCEL,
+        "예제 게시판 엑셀 다운로드",
+        "/board/article/excel",
+        false,
+        Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"));
+    //
     appendURI(
         AppType.ADMIN,
         ADMIN_BOARD,
@@ -279,6 +332,7 @@ public class InitUriAdminData implements ApplicationRunner {
         "/board/exampleBoard/excel",
         false,
         Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"));
+    // 예제 게시판 - 끝
 
     appendURI(
         AppType.ADMIN,

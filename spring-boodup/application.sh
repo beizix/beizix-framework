@@ -42,9 +42,8 @@ pageable=false
 list=false
 void=false
 implements=false
-showCnt=false
 
-set -- $(getopt -o plvis --long pageable,list,void,impl,show -- "$@")
+set -- $(getopt -o plvi --long pageable,list,void,impl -- "$@")
 for word in "$@"
 do
     case $word in
@@ -59,8 +58,7 @@ for word in "$@"
 do
     case $word in
        -i | --impl) implements=true; ;;
-       -s | --show) showCnt=true; ;;
-    esac   
+    esac
 done
 
 portPath="/ports"
@@ -126,12 +124,9 @@ function createImpl(){
 }
 
 function showContent() {
-    if $showCnt; then
-        
-        echo -e "${GREEN}\n"
-        cat $1
-        echo -e "${NC}"
-    fi    
+    echo -e "${GREEN}\n"
+    cat $1
+    echo -e "${NC}"
 }
 
 
