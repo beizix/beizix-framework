@@ -42,10 +42,15 @@ EOF
 pageable=false
 get=false
 post=false
+put=false
+patch=false
+delete=false
+acceptForm=true
+acceptJson=false
 rest=false
 clear=false
 
-set -- $(getopt -o pgourc --long pageable,get,post,url,rest,clear -- "$@")
+set -- $(getopt -o pgtadourcfj --long pageable,get,post,put,patch,delete,url,rest,clear,accept-form,accept-json -- "$@")
 for word in "$@"
 do
     case $word in
@@ -66,6 +71,16 @@ do
     case $word in
        -g | --get) get=true; break ;;
        -o | --post) post=true; break ;;
+       -t | --put) put=true; break ;;
+       -a | --patch) patch=true; break ;;
+       -d | --delete) delete=true; break ;;
+    esac
+done
+
+for word in "$@"
+do
+    case $word in
+       -j | --accept-json) acceptJson=true; acceptForm=false; break ;;
     esac
 done
 
@@ -210,13 +225,36 @@ function createPostRestController() {
   targetUrl=$6
 
   echo -e "\n"
-  echo "Creating a rest controller with 'post' method mapped to '${targetUrl}'"
+  echo "Creating a rest controller mapped to '${targetUrl}'"
 
   cp -f "templates/web/${tmpl}" ./
   sed -i "s/#package/${pkg}/g" "${tmpl}"
   sed -i "s/#domainNm/${domainNm}/g" "${tmpl}"
   sed -i "s/#cmdPackage/${cmdPkg}/g" "${tmpl}"
   sed -i "s@#url@${targetUrl}@g" "${tmpl}"
+
+  if $post; then
+    sed -i "/PutMapping/d" "${tmpl}"
+    sed -i "/PatchMapping/d" "${tmpl}"
+    sed -i "/DeleteMapping/d" "${tmpl}"
+  elif $put; then
+    sed -i "/PostMapping/d" "${tmpl}"
+    sed -i "/PatchMapping/d" "${tmpl}"
+    sed -i "/DeleteMapping/d" "${tmpl}"
+  elif $patch; then
+    sed -i "/PostMapping/d" "${tmpl}"
+    sed -i "/PutMapping/d" "${tmpl}"
+    sed -i "/DeleteMapping/d" "${tmpl}"
+  elif $delete; then
+    sed -i "/PostMapping/d" "${tmpl}"
+    sed -i "/PutMapping/d" "${tmpl}"
+    sed -i "/PatchMapping/d" "${tmpl}"
+  fi
+
+  if $acceptForm; then
+    sed -i "s/@RequestBody //g" "${tmpl}"
+    sed -i "/RequestBody/d" "${tmpl}"
+  fi
 
   mv -f "${tmpl}" "${fullEntityPath}"
 
@@ -233,7 +271,7 @@ if ! $rest; then
       createPostController postController.tmpl "${webPackage}" "${domainNm}" "${cmdPackage}" "${path}/${domainNm}Controller.java" "${url}"
     fi
 else
-  if $post; then
+  if $post || $put || $patch || $delete; then
     createPostRestController postRestController.tmpl "${webPackage}" "${domainNm}" "${cmdPackage}" "${path}/${domainNm}Controller.java" "${url}"
   fi
 fi
