@@ -1,4 +1,4 @@
-package app.module.admin.usecase.article.getListUI.adapters.web.model;
+package app.module.admin.usecase.article.getArticlesUI.adapters.web.model;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -9,5 +9,5 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @EqualsAndHashCode
-public class GetListUIReqVO {
+public class GetArticlesUIReqVO {
 }

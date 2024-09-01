@@ -1,5 +1,6 @@
 package app.module.admin.config.adapter.persistence.initdata;
 
+import app.module.admin.config.adapter.persistence.initdata.helper.RemoveAllArticleRepo;
 import app.module.admin.usecase.article.create.ports.CreateArticlePortIn;
 import app.module.admin.usecase.article.create.ports.application.domain.CreateArticleCmd;
 import app.module.core.config.application.util.PropertyUtil;
@@ -14,10 +15,14 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class InitArticleData implements ApplicationRunner {
   private final CreateArticlePortIn createArticlePortIn;
+  private final RemoveAllArticleRepo removeAllArticleRepo;
 
   @Override
   public void run(ApplicationArguments args) throws Exception {
     if (!PropertyUtil.isCoreDataRequired()) return;
+
+    // 전체 데이터 삭제
+    removeAllArticleRepo.deleteAll();
 
     IntStream.range(0, 25)
         .forEach(

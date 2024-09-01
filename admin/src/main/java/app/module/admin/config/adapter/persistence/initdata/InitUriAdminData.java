@@ -248,7 +248,7 @@ public class InitUriAdminData implements ApplicationRunner {
         ADMIN_BOARD,
         ADMIN_ARTICLE,
         "예제 게시판",
-        "/board/article",
+        "/board/articles",
         true,
         Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"));
 
@@ -257,7 +257,7 @@ public class InitUriAdminData implements ApplicationRunner {
         ADMIN_ARTICLE,
         ADMIN_ARTICLE_CREATE,
         "예제 게시판 등록",
-        "/board/article/create",
+        "/board/articles/create",
         false,
         Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"));
 
@@ -266,7 +266,7 @@ public class InitUriAdminData implements ApplicationRunner {
         ADMIN_ARTICLE,
         ADMIN_ARTICLE_UPDATE,
         "예제 게시판 수정",
-        "/board/article/update/{{pathVar}}",
+        "/board/articles/update/{{pathVar}}",
         false,
         Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"));
 
@@ -275,7 +275,7 @@ public class InitUriAdminData implements ApplicationRunner {
         ADMIN_ARTICLE,
         ADMIN_ARTICLE_DELETE,
         "예제 게시판 삭제",
-        "/board/article/delete",
+        "/board/articles/delete",
         false,
         Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"));
 
@@ -284,7 +284,7 @@ public class InitUriAdminData implements ApplicationRunner {
         ADMIN_ARTICLE,
         ADMIN_ARTICLE_EXCEL,
         "예제 게시판 엑셀 다운로드",
-        "/board/article/excel",
+        "/board/articles/excel",
         false,
         Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"));
     //

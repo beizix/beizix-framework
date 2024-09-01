@@ -3,6 +3,8 @@ package app.module.core.config.adapter.persistence.entity;
 import app.module.core.config.adapter.persistence.component.AuditEntity;
 import app.module.core.config.adapter.persistence.component.FileUploadInfoEmbeddable;
 import javax.persistence.*;
+
+import app.module.core.config.application.enums.FileUploadType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,5 +26,19 @@ public class UploadFile extends AuditEntity {
   @Comment("첨부 파일 아이디")
   private Long id;
 
-  @Embedded private FileUploadInfoEmbeddable fileUploadOutput;
+  @Enumerated(EnumType.STRING)
+  @Comment("파일타입")
+  private FileUploadType type;
+
+  @Comment("파일경로")
+  private String path;
+
+  @Comment("파일명")
+  private String name;
+
+  @Comment("원본파일명")
+  private String originName;
+
+  @Comment("파일크기")
+  private Long fileLength;
 }
