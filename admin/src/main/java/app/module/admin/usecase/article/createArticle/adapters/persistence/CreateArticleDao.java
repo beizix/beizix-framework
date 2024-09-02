@@ -1,8 +1,8 @@
-package app.module.admin.usecase.article.create.adapters.persistence;
+package app.module.admin.usecase.article.createArticle.adapters.persistence;
 
-import app.module.admin.usecase.article.create.ports.CreateArticlePortOut;
-import app.module.admin.usecase.article.create.ports.application.domain.CreateArticle;
-import app.module.admin.usecase.article.create.ports.application.domain.CreateArticleCmd;
+import app.module.admin.usecase.article.createArticle.ports.CreateArticlePortOut;
+import app.module.admin.usecase.article.createArticle.ports.application.domain.CreateArticle;
+import app.module.admin.usecase.article.createArticle.ports.application.domain.CreateArticleCmd;
 import app.module.core.config.adapter.persistence.entity.Article;
 import java.util.Optional;
 import javax.transaction.Transactional;

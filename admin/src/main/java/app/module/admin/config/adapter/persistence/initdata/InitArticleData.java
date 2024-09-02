@@ -1,8 +1,8 @@
 package app.module.admin.config.adapter.persistence.initdata;
 
 import app.module.admin.config.adapter.persistence.initdata.helper.RemoveAllArticleRepo;
-import app.module.admin.usecase.article.create.ports.CreateArticlePortIn;
-import app.module.admin.usecase.article.create.ports.application.domain.CreateArticleCmd;
+import app.module.admin.usecase.article.createArticle.ports.CreateArticlePortIn;
+import app.module.admin.usecase.article.createArticle.ports.application.domain.CreateArticleCmd;
 import app.module.core.config.application.util.PropertyUtil;
 import java.time.LocalDateTime;
 import java.util.stream.IntStream;

@@ -22,6 +22,17 @@ void scaffolding 실행
 
 ## Web
 
+| 순서  | Argument | 설명                                                                                                                                             |
+|:---:|----------|------------------------------------------------------------------------------------------------------------------------------------------------|
+|  1  | {생성 경로}  | Controller 와 VO 객체를 생성할 경로                                                                                                                     |
+|  2  | {주제 명칭}  | Controller 와 VO 네이밍 지정에 사용된다                                                                                                                   |
+|  3  | {URI}    | Controller 에 매핑될 URI 주소                                                                                                                        |
+|  .  | --get, --post, --put, <br/>--patch, --delete  | HTTP 메서드 지정                                                                                                                                    |
+| . | --rest | (Optional) Rest Controller 생성시 지정한다                                                                                                            
+| . | --pageable | (Optional) GET 방식일 경우, Controller 메서드에 pageable 인자를 추가한다.                                                                                      |
+| . | --accept-form, <br/>--accept-json | (Optional) POST 방식일 경우, 수용 content-type 을 지정한다.<br/>--accept-form: application/x-www-form-urlencoded (기본값)<br/>--accept-json: application/json |                                  
+| . | --clear | (Optional) {생성 경로}를 생성하기 전에 삭제를 먼저 수행한다 
+
 Get Controller 
 ```shell
 ./web.sh ../admin/src/main/java/app/module/admin/usecase/user/test/adapters/web GetUsers /settings/users --get

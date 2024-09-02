@@ -171,6 +171,35 @@ function createGetController() {
   createPage
 }
 
+function createGetRestController() {
+  tmpl=$1
+  pkg=$2
+  domainNm=$3
+  cmdPkg=$4
+  fullEntityPath=$5
+  targetUrl=$6
+  page=${targetUrl/\/}
+
+  echo -e "\n"
+  echo "Creating a rest controller mapped to '${targetUrl}'"
+
+  cp -f "templates/web/${tmpl}" ./
+  sed -i "s/#package/${pkg}/g" "${tmpl}"
+  sed -i "s/#domainNm/${domainNm}/g" "${tmpl}"
+  sed -i "s/#cmdPackage/${cmdPkg}/g" "${tmpl}"
+  sed -i "s@#url@${targetUrl}@g" "${tmpl}"
+  sed -i "s@#page@${page}@g" "${tmpl}"
+
+  if ! $pageable; then
+    sed -i "/Pageable/d" "${tmpl}"
+  fi
+
+  mv -f "${tmpl}" "${fullEntityPath}"
+
+  echo "${fullEntityPath} is created."
+  showContent "${fullEntityPath}"
+}
+
 function createPage(){
   # page template root 경로 얻기
   modulePath=${path%%/src/main/java/*}
@@ -271,7 +300,9 @@ if ! $rest; then
       createPostController postController.tmpl "${webPackage}" "${domainNm}" "${cmdPackage}" "${path}/${domainNm}Controller.java" "${url}"
     fi
 else
-  if $post || $put || $patch || $delete; then
+  if $get; then
+    createGetRestController getRestController.tmpl "${webPackage}" "${domainNm}" "${cmdPackage}" "${path}/${domainNm}Controller.java" "${url}"
+  elif $post || $put || $patch || $delete; then
     createPostRestController postRestController.tmpl "${webPackage}" "${domainNm}" "${cmdPackage}" "${path}/${domainNm}Controller.java" "${url}"
   fi
 fi
