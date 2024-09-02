@@ -10,4 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class GetArticlesReqVO {
+  private String searchField;
+  private String searchValue;
+  private String searchOpen;
 }

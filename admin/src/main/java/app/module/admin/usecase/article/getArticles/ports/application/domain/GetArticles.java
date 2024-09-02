@@ -15,6 +15,8 @@ import java.util.List;
 @EqualsAndHashCode
 public class GetArticles {
   private Long id;
+  private String updatedBy;
+  private LocalDateTime updatedAt;
   private String title;
   private String content;
   private Boolean visible;

@@ -38,6 +38,7 @@ public class FrontWebMvcConfig implements WebMvcConfigurer {
   private final FrontURIInterceptor frontURIInterceptor;
   private final URIAuthorizeInterceptor uriAuthorizeInterceptor;
   private final CurrentDeviceInterceptor currentDeviceInterceptor;
+  private final ObjectMapper objectMapper;
 
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
@@ -124,10 +125,11 @@ public class FrontWebMvcConfig implements WebMvcConfigurer {
     return lci;
   }
 
-  /** JSON 응답시 HTML Escape 처리를 위해 선언 */
+  /**
+   * content-type: application/json 으로 전달되는 요청값의 XSS 방지를 위해 선언
+   */
   @Bean
   public HttpMessageConverter escapingConverter() {
-    ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.getFactory().setCharacterEscapes(new HTMLCharacterEscapes());
 
     MappingJackson2HttpMessageConverter escapingConverter =
@@ -137,7 +139,9 @@ public class FrontWebMvcConfig implements WebMvcConfigurer {
     return escapingConverter;
   }
 
-  /** form-data 요청시 HTML Escape 처리를 위해 선언 */
+  /**
+   * content-type: application/x-www-form-urlencoded 으로 전달되는 요청값의 XSS 방지를 위해 선언
+   */
   @Bean
   public FilterRegistrationBean<XssEscapeServletFilter> filterRegistrationBean() {
     FilterRegistrationBean<XssEscapeServletFilter> filterRegistration =

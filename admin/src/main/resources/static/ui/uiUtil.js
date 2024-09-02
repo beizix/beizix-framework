@@ -56,6 +56,14 @@ let uiUtil = {
         });
       }
     });
+  },
+  /**
+   * ISO String 포맷을 YYYY-MM-DD HH:mm:ss 로 변환
+   * @param isoStr
+   * @returns {string}
+   */
+  isoStrToReadable(isoStr) {
+    return isoStr.replace(/T/, ' ').substring(0, 19);
   }
 };
 

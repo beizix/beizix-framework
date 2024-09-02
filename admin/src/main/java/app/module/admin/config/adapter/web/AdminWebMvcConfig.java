@@ -1,6 +1,9 @@
 package app.module.admin.config.adapter.web;
 
 import app.module.admin.config.adapter.web.interceptor.AdminURIInterceptor;
+import app.module.core.config.adapter.web.interceptor.URIAuthorizeInterceptor;
+import app.module.core.config.adapter.web.xss.HTMLCharacterEscapes;
+import app.module.core.config.application.enums.PublicAccess;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.navercorp.lucy.security.xss.servletfilter.XssEscapeServletFilter;
 import java.util.Arrays;
@@ -8,9 +11,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import app.module.core.config.adapter.web.interceptor.URIAuthorizeInterceptor;
-import app.module.core.config.adapter.web.xss.HTMLCharacterEscapes;
-import app.module.core.config.application.enums.PublicAccess;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -32,6 +32,7 @@ public class AdminWebMvcConfig implements WebMvcConfigurer {
 
   private final AdminURIInterceptor adminURIInterceptor;
   private final URIAuthorizeInterceptor uriAuthorizeInterceptor;
+  private final ObjectMapper objectMapper;
 
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
@@ -84,12 +85,9 @@ public class AdminWebMvcConfig implements WebMvcConfigurer {
     return lci;
   }
 
-  /**
-   * @RequestBody 로 전달되는 JSON 요청시 XSS 방지를 위해 선언
-   */
+  /** content-type: application/json 으로 전달되는 요청값의 XSS 방지를 위해 선언 */
   @Bean
   public HttpMessageConverter escapingConverter() {
-    ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.getFactory().setCharacterEscapes(new HTMLCharacterEscapes());
 
     MappingJackson2HttpMessageConverter escapingConverter =
@@ -99,7 +97,7 @@ public class AdminWebMvcConfig implements WebMvcConfigurer {
     return escapingConverter;
   }
 
-  /** form-data 요청시 XSS 방지를 위해 선언 */
+  /** content-type: application/x-www-form-urlencoded 으로 전달되는 요청값의 XSS 방지를 위해 선언 */
   @Bean
   public FilterRegistrationBean<XssEscapeServletFilter> filterRegistrationBean() {
     FilterRegistrationBean<XssEscapeServletFilter> filterRegistration =

@@ -54,6 +54,8 @@ class GetArticlesDao implements GetArticlesPortOut {
                 article ->
                     new GetArticles(
                         article.getId(),
+                        article.getUpdatedBy(),
+                        article.getUpdatedAt(),
                         article.getTitle(),
                         article.getContent(),
                         article.getVisible(),
