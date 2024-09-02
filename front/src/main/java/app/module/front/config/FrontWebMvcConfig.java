@@ -1,24 +1,19 @@
 package app.module.front.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.navercorp.lucy.security.xss.servletfilter.XssEscapeServletFilter;
+import app.module.core.config.adapter.web.interceptor.URIAuthorizeInterceptor;
+import app.module.core.config.application.enums.PublicAccess;
+import app.module.front.config.adapter.web.interceptor.CurrentDeviceInterceptor;
+import app.module.front.config.adapter.web.interceptor.FrontURIInterceptor;
+import app.module.front.config.application.security.FrontPublicAccess;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import app.module.core.config.adapter.web.interceptor.URIAuthorizeInterceptor;
-import app.module.core.config.adapter.web.xss.HTMLCharacterEscapes;
-import app.module.core.config.application.enums.PublicAccess;
-import app.module.front.config.adapter.web.interceptor.CurrentDeviceInterceptor;
-import app.module.front.config.adapter.web.interceptor.FrontURIInterceptor;
-import app.module.front.config.application.security.FrontPublicAccess;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mobile.device.DeviceHandlerMethodArgumentResolver;
 import org.springframework.mobile.device.DeviceResolverHandlerInterceptor;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -38,7 +33,7 @@ public class FrontWebMvcConfig implements WebMvcConfigurer {
   private final FrontURIInterceptor frontURIInterceptor;
   private final URIAuthorizeInterceptor uriAuthorizeInterceptor;
   private final CurrentDeviceInterceptor currentDeviceInterceptor;
-  private final ObjectMapper objectMapper;
+  private final HttpMessageConverter httpMessageConverter;
 
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
@@ -107,7 +102,7 @@ public class FrontWebMvcConfig implements WebMvcConfigurer {
 
   @Override
   public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-    converters.add(escapingConverter());
+    converters.add(httpMessageConverter);
   }
 
   @Bean
@@ -123,33 +118,5 @@ public class FrontWebMvcConfig implements WebMvcConfigurer {
     LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
     lci.setParamName("lang");
     return lci;
-  }
-
-  /**
-   * content-type: application/json 으로 전달되는 요청값의 XSS 방지를 위해 선언
-   */
-  @Bean
-  public HttpMessageConverter escapingConverter() {
-    objectMapper.getFactory().setCharacterEscapes(new HTMLCharacterEscapes());
-
-    MappingJackson2HttpMessageConverter escapingConverter =
-        new MappingJackson2HttpMessageConverter();
-    escapingConverter.setObjectMapper(objectMapper);
-
-    return escapingConverter;
-  }
-
-  /**
-   * content-type: application/x-www-form-urlencoded 으로 전달되는 요청값의 XSS 방지를 위해 선언
-   */
-  @Bean
-  public FilterRegistrationBean<XssEscapeServletFilter> filterRegistrationBean() {
-    FilterRegistrationBean<XssEscapeServletFilter> filterRegistration =
-        new FilterRegistrationBean<>();
-    filterRegistration.setFilter(new XssEscapeServletFilter());
-    filterRegistration.setOrder(1);
-    filterRegistration.addUrlPatterns("/*");
-
-    return filterRegistration;
   }
 }
