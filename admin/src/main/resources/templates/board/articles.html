@@ -185,6 +185,50 @@
             f.sort.value = targetSort;
             getArticles(targetPage);
           });
+
+          // sort 기능 적용
+          uiUtil.sortable.init(
+              '.sortable',
+              '.handle',
+              // 현재 정렬이 orderNo,DESC 여부 검사 로직
+              () => {
+                return $('input[name=sort]').val() === INIT_SORT
+              },
+              // orderNo,DESC 로 정렬 변경 로직
+              () => {
+                f.sort.value = INIT_SORT;
+                getArticles(0);
+              },
+              // 정렬변경 수행 로직
+              (updateData) => {
+                // $.ajax({
+                //   type: 'POST',
+                //   url: '/api/exBoard/update/orderNo',
+                //   data: JSON.stringify(updateData),
+                //   contentType: "application/json; charset=utf-8;",
+                //   dataType: "json",
+                //   beforeSend: function (xhr) {
+                //     xhr.setRequestHeader(
+                //         $("meta[name='_csrf_header']").attr("content"),
+                //         $("meta[name='_csrf']").attr("content"));
+                //   },
+                //   success: function (response) {
+                //     alert(response.message);
+                //     location.reload();
+                //   },
+                //   statusCode: {
+                //     // error
+                //     400: function (response) {
+                //       const resJson = response.responseJSON;
+                //       alert(resJson.message);
+                //     },
+                //     // validation fail
+                //     422: function (response) {
+                //     }
+                //   }
+                // })
+              }
+          );
         }
       })
     }
@@ -244,47 +288,7 @@
 
     // 정렬
     $(function () {
-      uiUtil.sortable.init(
-          '.sortable',
-          '.handle',
-          // 현재 정렬이 orderNo,DESC 여부 검사 로직
-          () => {
-            return $('input[name=sort]').val() === INIT_SORT
-          },
-          // orderNo,DESC 로 정렬 변경 로직
-          () => {
-            goPageable(0, $('select[name=size]').val(), INIT_SORT);
-          },
-          // 정렬변경 수행 로직
-          (updateData) => {
-            $.ajax({
-              type: 'POST',
-              url: '/api/exBoard/update/orderNo',
-              data: JSON.stringify(updateData),
-              contentType: "application/json; charset=utf-8;",
-              dataType: "json",
-              beforeSend: function (xhr) {
-                xhr.setRequestHeader(
-                    $("meta[name='_csrf_header']").attr("content"),
-                    $("meta[name='_csrf']").attr("content"));
-              },
-              success: function (response) {
-                alert(response.message);
-                location.reload();
-              },
-              statusCode: {
-                // error
-                400: function (response) {
-                  const resJson = response.responseJSON;
-                  alert(resJson.message);
-                },
-                // validation fail
-                422: function (response) {
-                }
-              }
-            })
-          }
-      );
+
     })
   </script>
 </section>

@@ -42,7 +42,7 @@ let uiUtil = {
    * @param totalPages
    * @returns {jQuery|HTMLElement|*}
    */
-  getPagingUI(curPageNo, size, totalPages, moveHandler){
+  getPagingUI(curPageNo, size, totalPages, moveHandler) {
     curPageNo = parseInt(curPageNo);
 
     let frag1 =
@@ -91,7 +91,7 @@ let uiUtil = {
 
     return el;
   },
-  addSortNotation(sort, sortHandler){
+  addSortNotation(sort, sortHandler) {
     let curSortField = sort.split(',')[0],
       curSortDir = sort.split(',')[1];
 
@@ -212,8 +212,6 @@ uiUtil.sortable = function () {
           if (confirm(
             'Sorting 을 하려면 우선 정렬번호 순으로 정렬되어야 합니다. 정렬 조건을 변경하시겠습니까?')) {
             initSortFunc();
-          } else {
-            location.reload();
           }
         }
       },
