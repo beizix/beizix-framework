@@ -42,8 +42,9 @@ pageable=false
 list=false
 void=false
 implements=false
+clear=false
 
-set -- $(getopt -o plvi --long pageable,list,void,impl -- "$@")
+set -- $(getopt -o plvic --long pageable,list,void,impl,clear -- "$@")
 for word in "$@"
 do
     case $word in
@@ -58,6 +59,7 @@ for word in "$@"
 do
     case $word in
        -i | --impl) implements=true; ;;
+       -c | --clear) clear=true; ;;
     esac
 done
 
@@ -67,7 +69,9 @@ domainPath="/domain"
 persistPath="/adapters/persistence"
 domainFullPath=$path$portPath$applicationPath$domainPath
 
-rm -rf "${path}"
+if $clear; then
+  rm -rf "${path}"
+fi
 
 mkdir -p "${path}${portPath}"
 mkdir -p "${domainFullPath}"

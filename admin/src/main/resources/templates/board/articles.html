@@ -201,32 +201,32 @@
               },
               // 정렬변경 수행 로직
               (updateData) => {
-                // $.ajax({
-                //   type: 'POST',
-                //   url: '/api/exBoard/update/orderNo',
-                //   data: JSON.stringify(updateData),
-                //   contentType: "application/json; charset=utf-8;",
-                //   dataType: "json",
-                //   beforeSend: function (xhr) {
-                //     xhr.setRequestHeader(
-                //         $("meta[name='_csrf_header']").attr("content"),
-                //         $("meta[name='_csrf']").attr("content"));
-                //   },
-                //   success: function (response) {
-                //     alert(response.message);
-                //     location.reload();
-                //   },
-                //   statusCode: {
-                //     // error
-                //     400: function (response) {
-                //       const resJson = response.responseJSON;
-                //       alert(resJson.message);
-                //     },
-                //     // validation fail
-                //     422: function (response) {
-                //     }
-                //   }
-                // })
+                $.ajax({
+                  type: 'PATCH',
+                  url: '/api/board/articles/sort',
+                  data: JSON.stringify(updateData),
+                  contentType: "application/json; charset=utf-8;",
+                  dataType: "json",
+                  beforeSend: function (xhr) {
+                    xhr.setRequestHeader(
+                        $("meta[name='_csrf_header']").attr("content"),
+                        $("meta[name='_csrf']").attr("content"));
+                  },
+                  success: function () {
+                    alert('[[#{operation.orderNo.updated}]]');
+                    getArticles(pageNo);
+                  },
+                  statusCode: {
+                    // error
+                    400: function (response) {
+                      const resJson = response.responseJSON;
+                      alert(resJson.message);
+                    },
+                    // validation fail
+                    422: function (response) {
+                    }
+                  }
+                })
               }
           );
         }
