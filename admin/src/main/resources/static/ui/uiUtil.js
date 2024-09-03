@@ -27,6 +27,71 @@ function convertToPageableSortValue(sort) {
 
 let uiUtil = {
   /**
+   * ISO String 포맷을 YYYY-MM-DD HH:mm:ss 로 변환
+   * @param isoStr
+   * @returns {string}
+   */
+  isoStrToReadable(isoStr) {
+    return isoStr.replace(/T/, ' ').substring(0, 19);
+  },
+  /**
+   * Pagination UI 생성 함수
+   * @param curPageNo
+   * @param size
+   * @param sort
+   * @param totalPages
+   * @returns {jQuery|HTMLElement|*}
+   */
+  getPagingUI(curPageNo, size, totalPages, moveHandler){
+    curPageNo = parseInt(curPageNo);
+
+    let frag1 =
+      `
+        <div class="row">
+          <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+              <li class="page-item ${curPageNo === 0 ? 'disabled' : ''}">
+                <a class="page-link" data-target-page="${curPageNo === 0 ? null : curPageNo - 1}">이전</a>
+              </li>
+     `;
+
+    let loopNum = totalPages === 0 ? 0 : totalPages - 1;
+    let frag2 = ``;
+    for (let i = 0; i <= loopNum; i++) {
+      frag2 +=
+        `
+              <li class="page-item ${i === curPageNo ? 'disabled' : ''}">
+                <a class="page-link" data-target-page="${i === curPageNo ? null : i}">
+                  ${i + 1}
+                </a>
+              </li>
+        `;
+    }
+
+    let frag3 =
+      `
+              <li class="page-item ${curPageNo == totalPages - 1 || totalPages == 0 ? 'disabled' : ''}">
+                <a class="page-link"
+                   data-target-page="${curPageNo == totalPages - 1 || totalPages == 0 ? null : curPageNo + 1}">다음</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      `;
+
+    let el = $(frag1 + frag2 + frag3);
+    el.find('.page-link').on('click', (evt) => {
+      let _this = evt.target;
+      let targetPage = $(_this).data('target-page');
+      if (targetPage.toString() === 'null') {
+        return false;
+      }
+      moveHandler(targetPage);
+    });
+
+    return el;
+  },
+  /**
    * 목록 정렬 표기 및 갱신 기능 적용 - .order-able css class 기반으로 동작한다.
    * @param pageSize
    * @param sort
@@ -57,14 +122,7 @@ let uiUtil = {
       }
     });
   },
-  /**
-   * ISO String 포맷을 YYYY-MM-DD HH:mm:ss 로 변환
-   * @param isoStr
-   * @returns {string}
-   */
-  isoStrToReadable(isoStr) {
-    return isoStr.replace(/T/, ' ').substring(0, 19);
-  }
+
 };
 
 uiUtil.goPageable = goPageable;

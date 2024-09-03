@@ -24,7 +24,7 @@
              th:text="${idx+1}">페이지넘버</a>
         </li>
         <li class="page-item"
-            th:classappend="${items.pageable.pageNumber == items.totalPages - 1 or items.totalPages == 0 or items.totalPages == 0} ? 'disabled'">
+            th:classappend="${items.pageable.pageNumber == items.totalPages - 1 or items.totalPages == 0} ? 'disabled'">
           <a class="page-link"
              th:href="|javascript:goPageable(${items.pageable.pageNumber + 1}, ${items.pageable.pageSize}, '${items.pageable.sort}')|">다음</a>
         </li>

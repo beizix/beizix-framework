@@ -8,7 +8,6 @@
         th:object="${reqVO}">
 
     <!-- hidden parameters -->
-    <input type="hidden" name="page"/>
     <input type="hidden" name="sort"/>
 
     <div class="row bg-secondary p-2 mb-2" style="--bs-bg-opacity: .2;">
@@ -36,7 +35,7 @@
       </div>
       <div class="col text-end">
         <button type="button" class="btn btn-secondary"
-                onclick="getArticles();">검색
+                onclick="getArticles(0);">검색
         </button>
         <button type="button" class="btn btn-light" onclick="goInit();">초기화
         </button>
@@ -53,7 +52,7 @@
         <i class="bi bi-list-ol"></i> <label>
         <select
             class="form-select form-select-sm" name="size" id="pageSize"
-            onchange="getArticles()">
+            onchange="getArticles(0)">
           <option
               th:each="item : ${pageRows}"
               th:value="${item.codeValue}" th:text="${item.codeText}"></option>
@@ -102,6 +101,7 @@
 
   </form>
 
+  <div class="row paging"></div>
   <!--  <div th:replace="common/list-components :: pagination(${listOutput})"></div>-->
 
   <div class="row">
@@ -123,20 +123,23 @@
   <script>
     const INIT_SORT = 'orderNo,DESC';
 
-    const getArticles = () => {
+    const getArticles = (pageNo) => {
       const f = document.reqForm;
       f.sort.value = f.sort.value ? f.sort.value : INIT_SORT;
-      f.page.value = f.page.value ? f.page.value : '0';
+
+      let dataOj = $(f).serializeObject();
+      dataOj.page = pageNo;
 
       $.ajax({
         method: 'GET',
         url: '/api/board/articles',
-        data: $(f).serialize(),
+        data: dataOj,
         success(response) {
           console.log(response);
 
           $('#totalElements').text(response.totalElements);
 
+          // List 구성하기
           const tbody = $('#listTBody');
           tbody.empty();
 
@@ -146,7 +149,7 @@
                     <tr data-order-no="${ct.orderNo}"
                         data-id="${ct.id}">
                       <th
-                          scope="row">${idx + (f.page.value * f.size.value) + 1}</th>
+                          scope="row">${idx + (pageNo * f.size.value) + 1}</th>
                       <td><label>
                         <input class="form-check-input"
                                name="selectedItemIds" type="checkbox" value="${ct.id}"/></label></td>
@@ -166,12 +169,21 @@
                     </tr>
                 `
             );
-          })
+          });
+
+          // Pagination 구성하기
+          const paging = $('.paging');
+          paging.empty();
+          paging.append(
+              uiUtil.getPagingUI(pageNo, f.size.value, response.totalPages,
+                  (movePageNo) => {
+                    getArticles(movePageNo);
+                  }));
         }
       })
     }
 
-    getArticles();
+    getArticles(0);
   </script>
 
   <script th:inline="javascript">
@@ -229,13 +241,16 @@
       uiUtil.sortable.init(
           '.sortable',
           '.handle',
-          function getCurrentSortValue() {
+          // 현재 정렬이 orderNo,DESC 여부 검사 로직
+          () => {
             return $('input[name=sort]').val() === INIT_SORT
           },
-          function initSortValue() {
+          // orderNo,DESC 로 정렬 변경 로직
+          () => {
             goPageable(0, $('select[name=size]').val(), INIT_SORT);
           },
-          function updateFunc(updateData) {
+          // 정렬변경 수행 로직
+          (updateData) => {
             $.ajax({
               type: 'POST',
               url: '/api/exBoard/update/orderNo',
@@ -243,7 +258,6 @@
               contentType: "application/json; charset=utf-8;",
               dataType: "json",
               beforeSend: function (xhr) {
-                // csrf 토큰
                 xhr.setRequestHeader(
                     $("meta[name='_csrf_header']").attr("content"),
                     $("meta[name='_csrf']").attr("content"));
