@@ -76,13 +76,13 @@
         </th>
         <th scope="col">
           <a href="#" class="order-able text-center d-inline-block w-100"
-             data-sort-field="open">공개여부</a></th>
+             data-sort-field="visible">공개여부</a></th>
         <th scope="col">
           <a href="#" class="order-able"
-             data-sort-field="boardStartDate">게시일</a></th>
+             data-sort-field="startDate">게시일</a></th>
         <th scope="col">
           <a href="#" class="order-able"
-             data-sort-field="boardEndDate">종료일</a></th>
+             data-sort-field="endDate">종료일</a></th>
         <th scope="col">
           <a href="#" class="order-able"
              data-sort-field="createdBy">최근 수정자</a></th>
@@ -179,6 +179,12 @@
                   (movePageNo) => {
                     getArticles(movePageNo);
                   }));
+
+          // 리스트 상단 정렬 notation 및 갱신 기능 적용
+          uiUtil.addSortNotation(f.sort.value, (targetPage, targetSort) => {
+            f.sort.value = targetSort;
+            getArticles(targetPage);
+          });
         }
       })
     }

@@ -91,6 +91,35 @@ let uiUtil = {
 
     return el;
   },
+  addSortNotation(sort, sortHandler){
+    let curSortField = sort.split(',')[0],
+      curSortDir = sort.split(',')[1];
+
+    $('.sortNotation').remove();
+
+    $('.order-able').each(function (i, el) {
+      $(el).removeClass('text-dark');
+
+      let sortField = $(el).data('sort-field');
+      // 현재 sort 조건과 동일한 칼럼일 경우
+      if (sortField === curSortField) {
+        $(el).parent().append(curSortDir === 'DESC' ?
+          $('<i class="bi bi-arrow-down-circle-fill ms-1 sortNotation"></i>') :
+          $('<i class="bi bi-arrow-up-circle-fill ms-1 sortNotation"></i>'));
+
+        $(el).click(function () {
+          sortHandler(0, curSortField + ',' + (curSortDir === 'DESC' ? 'ASC' : 'DESC'));
+          return false;
+        });
+        $(el).addClass('text-dark');
+      } else {
+        $(el).click(function () {
+          sortHandler(0, $(el).data('sort-field') + ',' + 'DESC');
+          return false;
+        });
+      }
+    });
+  },
   /**
    * 목록 정렬 표기 및 갱신 기능 적용 - .order-able css class 기반으로 동작한다.
    * @param pageSize
