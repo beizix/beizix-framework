@@ -1,6 +1,7 @@
 package app.module.core.config.application.beans;
 
 import app.module.core.config.adapter.web.xss.HTMLCharacterEscapes;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -26,7 +27,10 @@ public class CoreBeans {
     objectMapper.registerModule(new JavaTimeModule());
     // LocalDateTime 타입을 JSON 으로 직렬화하는 과정에서 ISO string 타입으로 변환하기 위한 선언.
     objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    // 값이 없는 텅빈 객체도 파싱할 수 있도록 선언.
     objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+    // 자바 객체 속성에 없는 필드가 있어도 역직렬화가 진행되도록 선언.
+    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     return objectMapper;
   }
 
