@@ -1,27 +1,20 @@
-package #package;
+package app.module.admin.usecase.article.createArticle.adapters.web;
 
 import javax.validation.Valid;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.validation.BindingResult;
-import #cmdPackage.#domainNmReqVO;
+import app.module.admin.usecase.article.createArticle.adapters.web.model.CreateArticleReqVO;
 
 @RestController
 @RequiredArgsConstructor
-class #domainNmController {
-  @PostMapping(path = "#url")
-  @PutMapping(path = "#url")
-  @PatchMapping(path = "#url")
-  @DeleteMapping(path = "#url")
-  ResponseEntity<?> operate(@Valid @RequestBody #domainNmReqVO reqVO, BindingResult bindingResult) {
+class CreateArticleController {
+  @PostMapping(path = "/api/board/articles/create")
+  ResponseEntity<?> operate(@Valid CreateArticleReqVO reqVO, BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
       return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
         .body(bindingResult.getFieldErrors());

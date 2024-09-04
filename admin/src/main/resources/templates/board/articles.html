@@ -188,7 +188,9 @@
 
           // sort 기능 적용
           uiUtil.sortable.init(
+              // 드래그 가능 범위 지정 셀렉터
               '.sortable',
+              // 드래그 핸들바 지정 셀렉터
               '.handle',
               // 현재 정렬이 orderNo,DESC 여부 검사 로직
               () => {
@@ -248,7 +250,7 @@
 
     // 저장페이지 이동
     function goSave() {
-      location.href = '/board/exampleBoard/create';
+      location.href = '/board/articles/create';
     }
 
     // 수정페이지 이동
@@ -285,11 +287,6 @@
         f.submit();
       }
     }
-
-    // 정렬
-    $(function () {
-
-    })
   </script>
 </section>
 

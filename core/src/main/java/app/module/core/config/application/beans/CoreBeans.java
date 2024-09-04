@@ -26,6 +26,7 @@ public class CoreBeans {
     objectMapper.registerModule(new JavaTimeModule());
     // LocalDateTime 타입을 JSON 으로 직렬화하는 과정에서 ISO string 타입으로 변환하기 위한 선언.
     objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
     return objectMapper;
   }
 

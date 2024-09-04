@@ -11,22 +11,22 @@
 
 Pageable 반환 scaffolding 실행
 ```shell
-./application.sh ../core/src/main/java/org/beizix/core/usecase/user/removeRoleWithPrivilege RemoveRoleWithPrivilege --pageable --impl
+$ ./application.sh ../core/src/main/java/org/beizix/core/usecase/user/removeRoleWithPrivilege RemoveRoleWithPrivilege --pageable --impl
 ```
 
 List 반환 scaffolding 실행
 ```shell
-./application.sh ../core/src/main/java/org/beizix/core/usecase/user/removeRoleWithPrivilege RemoveRoleWithPrivilege --list --impl
+$ ./application.sh ../core/src/main/java/org/beizix/core/usecase/user/removeRoleWithPrivilege RemoveRoleWithPrivilege --list --impl
 ```
 
 void scaffolding 실행
 ```shell
-./application.sh ../core/src/main/java/org/beizix/core/usecase/user/removeRoleWithPrivilege RemoveRoleWithPrivilege --void --impl
+$ ./application.sh ../core/src/main/java/org/beizix/core/usecase/user/removeRoleWithPrivilege RemoveRoleWithPrivilege --void --impl
 ```
 
 기본(Optional) 반환 scaffolding 실행
 ```shell
-./application.sh ../core/src/main/java/org/beizix/core/usecase/user/removeRoleWithPrivilege RemoveRoleWithPrivilege --impl
+$ ./application.sh ../core/src/main/java/org/beizix/core/usecase/user/removeRoleWithPrivilege RemoveRoleWithPrivilege --impl
 ```
 
 ## Web
@@ -44,15 +44,22 @@ void scaffolding 실행
 
 Get Controller 
 ```shell
-./web.sh ../admin/src/main/java/app/module/admin/usecase/user/test/adapters/web GetUsers /settings/users --get
+$ ./web.sh ../admin/src/main/java/app/module/admin/usecase/article/getArticleCreateUI/adapters/web CreateArticl
+eUI /board/articles/create --get --clear
 ```
 
 Get Controller (with Pageable)
 ```shell
-./web.sh ../admin/src/main/java/app/module/admin/usecase/user/test/adapters/web GetUsers /settings/users --get --pageable
+$ ./web.sh ../admin/src/main/java/app/module/admin/usecase/user/test/adapters/web GetUsers /settings/users --get --pageable
 ```
 
 Post Controller
 ```shell
-./web.sh ../admin/src/main/java/app/module/admin/usecase/user/test/adapters/web CreateUser /settings/users/create --post
+$ ./web.sh ../admin/src/main/java/app/module/admin/usecase/user/test/adapters/web CreateUser /settings/users/create --post
+```
+
+Post Rest Controller
+```shell
+$ ./web.sh ../admin/src/main/java/app/module/admin/usecase/article/createArticle/adapters/web CreateArticle /ap
+i/board/articles/create --post --rest
 ```
