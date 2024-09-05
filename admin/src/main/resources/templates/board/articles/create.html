@@ -9,8 +9,8 @@
 
     <div class="container">
       <div class="row mb-3">
-        <label class="col-sm-2 col-form-label" for="title">Title *</label>
-        <div class="col-sm-6">
+        <label class="form-label" for="title">제목 *</label>
+        <div class="input-group w-50">
           <input id="title" class="form-control unescapeText" name="title"/>
           <div class="invalid-feedback fw-bold">
             에러 메세지
@@ -19,15 +19,15 @@
       </div>
 
       <div class="row mb-3">
-        <label class="col-sm-2 col-form-label" for="boardStartDate">게시일 *</label>
-        <div class="col-sm-3 ">
+        <label class="form-label" for="boardStartDate">게시일 *</label>
+        <div class="input-group w-25">
           <input id="boardStartDate" class="form-control flatpickr" name="startDate"
                  type="text" placeholder="게시일을 선택하세요"/>
           <div class="invalid-feedback fw-bold">
             에러 메세지
           </div>
         </div>
-        <div class="col-sm-3">
+        <div class="input-group w-25">
           <input id="boardEndDate" class="form-control flatpickr" name="endDate"
                  type="text" placeholder="종료일을 선택하세요"/>
           <div class="invalid-feedback fw-bold">
@@ -37,9 +37,9 @@
       </div>
 
       <div class="row mb-3">
-        <label class="col-sm-2 col-form-label" for="open">공개여부</label>
-        <div class="col-sm-4">
-          <select class="form-select d-inline w-25" name="visible" id="open">
+        <label class="form-label" for="open">공개여부</label>
+        <div class="input-group w-25">
+          <select class="form-select" name="visible" id="open">
             <option value="true">Y</option>
             <option value="false">N</option>
           </select>
@@ -47,19 +47,8 @@
       </div>
 
       <div class="mb-3">
-        <label for="representImgFile" class="form-label d-block">대표 이미지</label>
-        <input class="form-control w-50 d-inline-block" type="file" id="representImgFile"
-               name="representImgFile">
-        <div class="invalid-feedback fw-bold">
-          에러 메세지
-        </div>
-        <input type="text" class="form-control w-50 mt-2" name="repImgAlt"
-               placeholder="alt text"/>
-      </div>
-
-      <div class="mb-3">
-        <label class="col-sm-2 col-form-label" for="content">내용 *</label>
-        <div class="col-sm-10">
+        <label class="form-label" for="content">내용 *</label>
+        <div class="input-group w-75">
           <textarea class="form-control" id="content" rows="10" name="content"></textarea>
           <div class="invalid-feedback fw-bold">
             에러 메세지
@@ -67,29 +56,47 @@
         </div>
       </div>
 
-      <hr/>
-
-      <div class="mb-3 publicFileInputs">
-        <label for="formFile1" class="form-label d-block">다건 파일 첨부</label>
-        <input class="form-control w-50 d-inline-block mb-2" type="file" name="multipartAttachments"
-               id="formFile1">
-        <button type="button" class="btn btn-success d-inline-block align-top"
-                onclick="addFileInput('public');">추가
-        </button>
-        <div class="invalid-feedback fw-bold">
-          에러 메세지
+      <div class="mb-3 mt-4">
+        <label for="representImgFile" class="form-label d-block">대표 이미지</label>
+        <div class="input-group w-50">
+          <input class="form-control" type="file" id="representImgFile"
+                 name="representImgFile">
+          <div class="invalid-feedback fw-bold">
+            에러 메세지
+          </div>
+        </div>
+        <div class="input-group w-50 mt-2">
+          <input type="text" class="form-control" name="repImgAlt"
+                 placeholder="alt text"/>
         </div>
       </div>
 
-      <hr/>
+      <div class="mb-3 mt-4 publicFileInputs">
+        <label for="formFile1" class="form-label d-block">다건 파일 첨부</label>
+        <div class="input-group w-50" style="float:left;">
+          <input class="form-control mb-2" type="file" name="multipartAttachments"
+                 id="formFile1">
+          <div class="invalid-feedback fw-bold">
+            에러 메세지
+          </div>
+        </div>
+        <div class="input-group w-50" style="float:right;padding-left:10px;">
+          <button type="button" class="btn btn-success d-inline-block align-top"
+                  onclick="addFileInput('public');">추가
+          </button>
+        </div>
+        <div style="clear: both;"></div>
+      </div>
 
-      <div class="mb-3 privateFileInputs">
+      <div class="mb-3 mt-4 privateFileInputs">
         <label for="filePrivate" class="form-label d-block">private 파일 첨부 (외부 비공개)</label>
-        <input class="form-control w-50 d-inline-block mb-2" type="file"
-               name="multipartPrivateAttachment"
-               id="filePrivate">
-        <div class="invalid-feedback fw-bold">
-          에러 메세지
+        <div class="input-group w-50">
+          <input class="form-control" type="file"
+                 name="multipartPrivateAttachment"
+                 id="filePrivate">
+          <div class="invalid-feedback fw-bold">
+            에러 메세지
+          </div>
         </div>
       </div>
     </div>
@@ -122,7 +129,7 @@
           // validation fail
           422: function (response) {
             $(response.responseJSON).each((idx, oj) => {
-              let target = $(f).find('[name=' + oj.field  + ']');
+              let target = $(f).find('[name=' + oj.field + ']');
               target.addClass('is-invalid');
 
               if (target[0].nodeName === 'TEXTAREA') {
@@ -158,6 +165,13 @@
 
   <script id="fileInputTmpl" type="text/x-jsrender">
 		<input class="form-control w-50 mb-2" type="file" name="{{:name}}"/>
+
+
+
+
+
+
+
 
   </script>
 
