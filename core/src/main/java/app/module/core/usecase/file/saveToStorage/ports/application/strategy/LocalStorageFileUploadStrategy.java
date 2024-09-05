@@ -1,4 +1,4 @@
-package app.module.core.usecase.file.upload.strategy;
+package app.module.core.usecase.file.saveToStorage.ports.application.strategy;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import app.module.core.config.adapter.web.rest.response.RestResponse;
 import app.module.core.config.application.enums.ContentDispositionType;
 import app.module.core.config.application.enums.FileUploadType;
-import app.module.core.usecase.file.upload.application.port.in.FileUploadPortIn;
+import app.module.core.usecase.file.saveToStorage.ports.SaveToStoragePortIn;
 import app.module.core.usecase.file.url.application.port.in.FileUrlPortIn;
 
 import java.io.IOException;
@@ -17,7 +17,7 @@ import java.io.IOException;
 @Controller
 @RequiredArgsConstructor
 public class EditorImageUploadController {
-  private final FileUploadPortIn fileUploadPortIn;
+  private final SaveToStoragePortIn saveToStoragePortIn;
   private final FileUrlPortIn fileUrlPortIn;
 
   @PostMapping(path = "/api/editorImage/upload")
@@ -28,8 +28,8 @@ public class EditorImageUploadController {
                 .message(
                     fileUrlPortIn.connect(
                         ContentDispositionType.INLINE,
-                        fileUploadPortIn
-                            .connect(FileUploadType.EDITOR_IMAGE, editorImage)
+                        saveToStoragePortIn
+                            .operate(FileUploadType.EDITOR_IMAGE, editorImage)
                             .orElse(null)))
                 .build());
   }

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
+
+import app.module.core.usecase.file.saveToStorage.ports.application.domain.SaveToStorage;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import app.module.admin.usecase.exboard.save.ports.ExBoardSavePortIn;
@@ -15,8 +17,7 @@ import app.module.admin.usecase.exboard.save.ports.ExBoardAttachmentRemovePortOu
 import app.module.admin.usecase.exboard.save.ports.ExBoardNextOrderNoPortOut;
 import app.module.admin.usecase.exboard.save.ports.ExBoardSavePortOut;
 import app.module.core.config.application.enums.FileUploadType;
-import app.module.core.usecase.file.upload.application.port.in.FileUploadPortIn;
-import app.module.core.usecase.file.upload.application.domain.FileUploadOutput;
+import app.module.core.usecase.file.saveToStorage.ports.SaveToStoragePortIn;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,7 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 class ExBoardSaveService implements ExBoardSavePortIn {
   private final ExBoardSavePortOut exBoardSavePortOut;
-  private final FileUploadPortIn fileUploadPortIn;
+  private final SaveToStoragePortIn saveToStoragePortIn;
   private final ExBoardAttachmentRemovePortOut exBoardAttachmentRemovePortOut;
   private final ExBoardNextOrderNoPortOut exBoardNextOrderNoPortOut;
   private final ExBoardViewPortIn<ExBoardView> exBoardViewPortIn;
@@ -54,17 +55,17 @@ class ExBoardSaveService implements ExBoardSavePortIn {
     Integer orderNum = Optional.ofNullable(orderNo).orElse(exBoardNextOrderNoPortOut.connect());
 
     // 대표 이미지 파일 저장
-    FileUploadOutput repImg =
+    SaveToStorage repImg =
         representImgFile.isEmpty()
             ? viewOpt.map(ExBoardView::getRepresentImage).orElse(null)
-            : fileUploadPortIn.connect(FileUploadType.EXAMPLE_REP, representImgFile).orElse(null);
+            : saveToStoragePortIn.operate(FileUploadType.EXAMPLE_REP, representImgFile).orElse(null);
 
     // 외부 비공개 파일 저장
-    FileUploadOutput privateFile =
+    SaveToStorage privateFile =
         privateAttachment.isEmpty()
             ? viewOpt.map(ExBoardView::getPrivateAttachment).orElse(null)
-            : fileUploadPortIn
-                .connect(FileUploadType.EXAMPLE_PRIVATE, privateAttachment)
+            : saveToStoragePortIn
+                .operate(FileUploadType.EXAMPLE_PRIVATE, privateAttachment)
                 .orElse(null);
 
     // 삭제해야 할 `다건 첨부 파일` 정보가 있다면 삭제
@@ -72,13 +73,13 @@ class ExBoardSaveService implements ExBoardSavePortIn {
         .forEach(exBoardAttachmentRemovePortOut::connect);
 
     // `다건 첨부 파일` 저장
-    List<FileUploadOutput> attachInputs =
+    List<SaveToStorage> attachInputs =
         CollectionUtils.emptyIfNull(publicAttachments).stream()
             .filter(multipartFile -> !multipartFile.isEmpty())
             .map(
                 at -> {
                   try {
-                    return fileUploadPortIn.connect(FileUploadType.EXAMPLE_PUBLIC, at).orElse(null);
+                    return saveToStoragePortIn.operate(FileUploadType.EXAMPLE_PUBLIC, at).orElse(null);
                   } catch (IOException e) {
                     throw new RuntimeException(e);
                   }

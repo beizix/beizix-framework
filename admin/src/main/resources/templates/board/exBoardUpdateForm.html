@@ -105,8 +105,8 @@
         <label class="col-sm-2 col-form-label" style="padding-top: 0;">다건 파일 첨부</label>
         <div class="col-sm-6">
           <div th:each="item, status : ${bindingVO.attachments}">
-            <a th:href="${@fileUrlService.connect('ATTACHMENT', item.fileUploadOutput)}"
-               th:text="${item.fileUploadOutput.originName}"
+            <a th:href="${@fileUrlService.connect('ATTACHMENT', item.saveToStorage)}"
+               th:text="${item.saveToStorage.originName}"
                th:attr="data-file-seq=${item.id}"
                data-posting-type='public'
                class="text-decoration-none"></a>

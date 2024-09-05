@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import app.module.core.config.application.component.AuditOutput;
-import app.module.core.usecase.file.upload.application.domain.FileUploadOutput;
+import app.module.core.usecase.file.saveToStorage.ports.application.domain.SaveToStorage;
 
 @Getter
 @Setter
@@ -16,5 +16,5 @@ public class ExBoardViewAttach implements AuditOutput {
   private String updatedBy;
   private LocalDateTime updatedAt;
   private Long id;
-  private FileUploadOutput fileUploadOutput;
+  private SaveToStorage saveToStorage;
 }

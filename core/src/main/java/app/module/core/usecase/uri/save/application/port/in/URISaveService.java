@@ -7,7 +7,7 @@ import app.module.core.usecase.uri.save.application.domain.URISaveCommand;
 import app.module.core.usecase.uri.save.application.port.out.URIMaxOrderNoPortOut;
 import app.module.core.usecase.uri.save.application.port.out.URISavePortOut;
 import lombok.RequiredArgsConstructor;
-import app.module.core.usecase.file.upload.application.port.in.FileUploadPortIn;
+import app.module.core.usecase.file.saveToStorage.ports.SaveToStoragePortIn;
 import app.module.core.usecase.file.url.application.port.in.FileUrlPortIn;
 import app.module.core.config.application.enums.ContentDispositionType;
 import app.module.core.config.application.enums.FileUploadType;
@@ -25,7 +25,7 @@ class URISaveService implements URISavePortIn {
   private final URISavePortOut uriSavePortOut;
   private final URIViewPortIn uriViewPortIn;
   private final MessageUtil messageUtil;
-  private final FileUploadPortIn fileUploadPortIn;
+  private final SaveToStoragePortIn saveToStoragePortIn;
   private final FileUrlPortIn fileUrlPortIn;
 
   @Transactional
@@ -51,8 +51,8 @@ class URISaveService implements URISavePortIn {
       uri.setOrderNo(uriMaxOrderNoPortOut.connect(uri.getParentId()) + 1);
 
     // og image 파일 업로드
-    fileUploadPortIn
-        .connect(FileUploadType.OG_IMAGE, ogImageFile)
+    saveToStoragePortIn
+        .operate(FileUploadType.OG_IMAGE, ogImageFile)
         .ifPresent(
             postingFile ->
                 uri.setOgImage(fileUrlPortIn.connect(ContentDispositionType.INLINE, postingFile)));

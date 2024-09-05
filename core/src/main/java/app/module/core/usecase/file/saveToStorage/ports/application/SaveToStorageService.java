@@ -1,10 +1,11 @@
-package app.module.core.usecase.file.upload.application.port.in;
+package app.module.core.usecase.file.saveToStorage.ports.application;
 
 import app.module.core.config.application.exception.UnAcceptableFileException;
-import app.module.core.usecase.file.upload.application.domain.FileUploadOutput;
+import app.module.core.usecase.file.saveToStorage.ports.SaveToStoragePortIn;
+import app.module.core.usecase.file.saveToStorage.ports.application.domain.SaveToStorage;
 import lombok.RequiredArgsConstructor;
 import org.apache.tika.Tika;
-import app.module.core.usecase.file.upload.strategy.FileUploadStrategy;
+import app.module.core.usecase.file.saveToStorage.ports.application.strategy.FileUploadStrategy;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import app.module.core.config.application.util.CommonUtil;
@@ -21,14 +22,14 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-public class FileUploadService implements FileUploadPortIn {
+public class SaveToStorageService implements SaveToStoragePortIn {
   private final MessageUtil messageUtil;
   private final Tika tika;
   private final CommonUtil commonUtil;
   private final Set<FileUploadStrategy> fileUploadStrategies;
 
   @Override
-  public Optional<FileUploadOutput> connect(
+  public Optional<SaveToStorage> operate(
       FileUploadType fileUploadType, MultipartFile multipartFile) throws IOException {
     if (multipartFile == null || multipartFile.isEmpty()) {
       return Optional.empty();
@@ -44,7 +45,7 @@ public class FileUploadService implements FileUploadPortIn {
         .operate(multipartFile, fileUploadType.isPubic(), subPath, createFilename);
 
     return Optional.of(
-        new FileUploadOutput(
+        new SaveToStorage(
             fileUploadType, subPath, createFilename, originalFilename, multipartFile.getSize()));
   }
 

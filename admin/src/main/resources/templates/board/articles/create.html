@@ -58,16 +58,19 @@
 
       <div class="mb-3 mt-4">
         <label for="representImgFile" class="form-label d-block">대표 이미지</label>
-        <div class="input-group w-50">
+        <div class="input-group w-50" style="float: left">
           <input class="form-control" type="file" id="representImgFile"
-                 name="representImgFile">
+                 name="representImgFile" onchange="uploadFile('EXAMPLE_REP', this);">
           <div class="invalid-feedback fw-bold">
             에러 메세지
           </div>
         </div>
-        <div class="input-group w-50 mt-2">
+        <div class="input-group w-50" style="float: right; padding-left:10px;">
           <input type="text" class="form-control" name="repImgAlt"
-                 placeholder="alt text"/>
+                 placeholder="이미지 대체 텍스트를 입력해주세요"/>
+        </div>
+        <div style="clear: both" class="row w-25">
+          <img src="" class="preview_EXAMPLE_REP mt-3" style="display: none"/>
         </div>
       </div>
 
@@ -106,6 +109,51 @@
 </section>
 
 <section layout:fragment="script">
+  <script>
+    const uploadFile = (fileUploadType, _this) => {
+      if (!fileUploadType) {
+        alert('fileUploadType 을 명시해주세요.');
+        return;
+      }
+
+      let formData = new FormData();
+      formData.append('file', _this.files[0]);
+
+      // fileUploadType 을 formData 에 append 한다.
+      formData.append('reqVO', new Blob([JSON.stringify({
+        fileUploadType
+      })], {type: "application/json"}));
+
+      $.ajax({
+        method: 'POST',
+        url: '/api/file/create',
+        data: formData,
+        contentType: false,               // * 중요 *
+        processData: false,               // * 중요 *
+        enctype: 'multipart/form-data',   // * 중요 *
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader(
+              $("meta[name='_csrf_header']").attr("content"),
+              $("meta[name='_csrf']").attr("content"));
+        },
+        success(res) {
+          console.log(res);
+
+          // 매칭되는 preview 앨리먼트가 있다면 이미지를 보여준다.
+          const previewImg = $('.preview_' + fileUploadType);
+          if (previewImg.length) {
+            previewImg.attr('src', '/content-disposition/inline/public' + res.path + '/' + res.name);
+            previewImg.fadeIn();
+          }
+
+
+        },
+        fail(res) {
+          console.log('fail', res);
+        }
+      });
+    }
+  </script>
   <script>
     const goSave = () => {
       const f = document.reqForm;
@@ -165,6 +213,7 @@
 
   <script id="fileInputTmpl" type="text/x-jsrender">
 		<input class="form-control w-50 mb-2" type="file" name="{{:name}}"/>
+
 
 
 

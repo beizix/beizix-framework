@@ -2,7 +2,7 @@ package app.module.admin.usecase.exboard.save.ports;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import app.module.core.usecase.file.upload.application.domain.FileUploadOutput;
+import app.module.core.usecase.file.saveToStorage.ports.application.domain.SaveToStorage;
 
 public interface ExBoardSavePortOut {
   Long connect(
@@ -12,9 +12,9 @@ public interface ExBoardSavePortOut {
       Boolean visible,
       LocalDateTime boardStartDate,
       LocalDateTime boardEndDate,
-      FileUploadOutput representImage,
+      SaveToStorage representImage,
       String repImgAlt,
-      List<FileUploadOutput> attachments,
-      FileUploadOutput privateAttachment,
+      List<SaveToStorage> attachments,
+      SaveToStorage privateAttachment,
       Integer orderNo);
 }

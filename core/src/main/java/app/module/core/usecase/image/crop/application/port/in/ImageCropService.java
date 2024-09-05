@@ -7,11 +7,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import javax.imageio.ImageIO;
+
+import app.module.core.usecase.file.saveToStorage.ports.application.domain.SaveToStorage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import app.module.core.usecase.file.upload.application.domain.FileUploadOutput;
 import app.module.core.config.application.util.CommonUtil;
 import app.module.core.config.application.util.ImageUtil;
 
@@ -25,11 +26,11 @@ class ImageCropService implements ImageCropPortIn {
 
   @Override
   public void operate(
-          FileUploadOutput fileUploadOutput, MultipartFile multipartFile, int maxWidth, double xyRatio)
+      SaveToStorage saveToStorage, MultipartFile multipartFile, int maxWidth, double xyRatio)
       throws IOException {
-    if (fileUploadOutput == null) return;
+    if (saveToStorage == null) return;
 
-    Path directoryPath = Paths.get(publicPath, fileUploadOutput.getPath(), "crop");
+    Path directoryPath = Paths.get(publicPath, saveToStorage.getPath(), "crop");
     Files.createDirectories(directoryPath);
 
     try (InputStream inputStream = multipartFile.getInputStream()) {
@@ -39,8 +40,8 @@ class ImageCropService implements ImageCropPortIn {
 
       ImageIO.write(
           croppedImage,
-          commonUtil.getFileExtension(fileUploadOutput.getName()),
-          directoryPath.resolve(fileUploadOutput.getName()).toFile());
+          commonUtil.getFileExtension(saveToStorage.getName()),
+          directoryPath.resolve(saveToStorage.getName()).toFile());
     }
   }
 }

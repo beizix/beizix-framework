@@ -1,11 +1,12 @@
 package app.module.core.usecase.exboard.list.application.domain;
 
 import java.time.LocalDateTime;
+
+import app.module.core.usecase.file.saveToStorage.ports.application.domain.SaveToStorage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import app.module.core.config.application.component.AuditOutput;
-import app.module.core.usecase.file.upload.application.domain.FileUploadOutput;
 
 @Getter
 @Setter
@@ -22,7 +23,7 @@ public class ExBoardElement implements AuditOutput {
   private LocalDateTime boardStartDate;
   private LocalDateTime boardEndDate;
   // 대표 이미지 - 조회용
-  private FileUploadOutput representImage;
+  private SaveToStorage representImage;
   // 대표 이미지 - 대체 텍스트
   private String repImgAlt;
   private Integer orderNo;

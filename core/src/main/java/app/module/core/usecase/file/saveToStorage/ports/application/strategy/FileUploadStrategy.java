@@ -1,4 +1,4 @@
-package app.module.core.usecase.file.upload.strategy;
+package app.module.core.usecase.file.saveToStorage.ports.application.strategy;
 
 import org.springframework.web.multipart.MultipartFile;
 import app.module.core.config.application.enums.FileStorageType;

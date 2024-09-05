@@ -1,6 +1,6 @@
 package app.module.core.usecase.file.url.application.port.in;
 
-import app.module.core.usecase.file.upload.application.domain.FileUploadOutput;
+import app.module.core.usecase.file.saveToStorage.ports.application.domain.SaveToStorage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import app.module.core.config.application.enums.ContentDispositionType;
@@ -18,8 +18,8 @@ public class FileUrlService implements FileUrlPortIn {
 
   @Override
   public String connect(
-      ContentDispositionType contentDispositionType, FileUploadOutput fileUploadOutput) {
-    return Optional.ofNullable(fileUploadOutput)
+      ContentDispositionType contentDispositionType, SaveToStorage saveToStorage) {
+    return Optional.ofNullable(saveToStorage)
         .map(
             uploadInfo ->
                 getFileUrlStrategy(uploadInfo.getType().getFileStorageType())
@@ -28,9 +28,9 @@ public class FileUrlService implements FileUrlPortIn {
   }
 
   @Override
-  public String connect(String contentDispositionTypeName, FileUploadOutput fileUploadOutput) {
+  public String connect(String contentDispositionTypeName, SaveToStorage saveToStorage) {
     return this.connect(ContentDispositionType.valueOf(contentDispositionTypeName),
-        fileUploadOutput);
+        saveToStorage);
   }
 
   private FileUrlStrategy getFileUrlStrategy(FileStorageType fileStorageType) {

@@ -4,7 +4,7 @@ import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import lombok.RequiredArgsConstructor;
-import app.module.core.usecase.file.upload.application.domain.FileUploadOutput;
+import app.module.core.usecase.file.saveToStorage.ports.application.domain.SaveToStorage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -28,7 +28,7 @@ public class ContentDispositionAttachController {
   private String privatePath;
 
   @GetMapping(value = "/content-disposition/attachment/{disclosure}")
-  ResponseEntity<Resource> operate(@PathVariable String disclosure, FileUploadOutput fileUploadOutput)
+  ResponseEntity<Resource> operate(@PathVariable String disclosure, SaveToStorage saveToStorage)
       throws MalformedURLException {
     boolean isPrivate = "private".equals(disclosure);
 
@@ -47,14 +47,14 @@ public class ContentDispositionAttachController {
     String filePath =
         Paths.get(
                 isPrivate ? privatePath : publicPath,
-                fileUploadOutput.getPath(),
-                fileUploadOutput.getName())
+                saveToStorage.getPath(),
+                saveToStorage.getName())
             .toString();
 
     UrlResource resource = new UrlResource("file:" + filePath);
 
     String encodedUploadFileName =
-        UriUtils.encode(fileUploadOutput.getOriginName(), StandardCharsets.UTF_8);
+        UriUtils.encode(saveToStorage.getOriginName(), StandardCharsets.UTF_8);
     String contentDisposition = "attachment; filename=\"" + encodedUploadFileName + "\"";
 
     return ResponseEntity.ok()

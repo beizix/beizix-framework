@@ -10,7 +10,7 @@ import app.module.admin.usecase.exboard.save.ports.ExBoardSavePortOut;
 import app.module.core.config.adapter.persistence.component.FileUploadInfoEmbeddable;
 import app.module.core.config.adapter.persistence.entity.ExBoard;
 import app.module.core.config.adapter.persistence.entity.ExBoardAttachment;
-import app.module.core.usecase.file.upload.application.domain.FileUploadOutput;
+import app.module.core.usecase.file.saveToStorage.ports.application.domain.SaveToStorage;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -26,10 +26,10 @@ class ExBoardSaveDao implements ExBoardSavePortOut {
       Boolean visible,
       LocalDateTime boardStartDate,
       LocalDateTime boardEndDate,
-      FileUploadOutput representImage,
+      SaveToStorage representImage,
       String repImgAlt,
-      List<FileUploadOutput> attachments,
-      FileUploadOutput privateAttachment,
+      List<SaveToStorage> attachments,
+      SaveToStorage privateAttachment,
       Integer orderNo) {
 
     ExBoard entity =

@@ -5,9 +5,9 @@ import java.util.stream.Collectors;
 import app.module.core.usecase.exboard.list.application.domain.ExBoardElement;
 import app.module.core.usecase.exboard.list.application.domain.ExBoardListFilterCommand;
 import app.module.core.usecase.exboard.list.application.port.out.ExBoardListPortOut;
+import app.module.core.usecase.file.saveToStorage.ports.application.domain.SaveToStorage;
 import lombok.RequiredArgsConstructor;
 import app.module.core.config.adapter.persistence.entity.ExBoard;
-import app.module.core.usecase.file.upload.application.domain.FileUploadOutput;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -61,7 +61,7 @@ class ExBoardListDao implements ExBoardListPortOut {
                         item.getBoardStartDate(),
                         item.getBoardEndDate(),
                         item.getRepresentImage() != null
-                            ? new FileUploadOutput(
+                            ? new SaveToStorage(
                                 item.getRepresentImage().getType(),
                                 item.getRepresentImage().getPath(),
                                 item.getRepresentImage().getName(),

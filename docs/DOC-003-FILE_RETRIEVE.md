@@ -27,11 +27,11 @@ N/A
 ## How to use
 ```javascript
 // HTML 사용 예
-<a th:href="${@fileUrlService.operate('ATTACHMENT', item.fileUploadOutput)}">
+<a th:href="${@fileUrlService.operate('ATTACHMENT', item.saveToStorage)}">
 ```
 
 ```java
 // Java 사용 예
-fileUrlService.operate(ContentDispositionType.ATTACHMENT, item.fileUploadOutput);
+fileUrlService.operate(ContentDispositionType.ATTACHMENT, item.saveToStorage);
 ```
 

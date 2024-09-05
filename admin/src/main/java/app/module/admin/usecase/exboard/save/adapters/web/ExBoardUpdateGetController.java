@@ -43,7 +43,7 @@ class ExBoardUpdateGetController {
             output.getBoardEndDate(),
             output.getRepresentImage(),
             output.getAttachments().stream()
-                .map(at -> new ExBoardUpdateAttachVO(at.getId(), at.getFileUploadOutput()))
+                .map(at -> new ExBoardUpdateAttachVO(at.getId(), at.getSaveToStorage()))
                 .collect(Collectors.toList()),
             output.getPrivateAttachment(),
             null,

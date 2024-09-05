@@ -1,7 +1,7 @@
 package app.module.aws.usecase.file.url.strategy;
 
+import app.module.core.usecase.file.saveToStorage.ports.application.domain.SaveToStorage;
 import lombok.RequiredArgsConstructor;
-import app.module.core.usecase.file.upload.application.domain.FileUploadOutput;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import app.module.core.config.application.enums.ContentDispositionType;
@@ -26,8 +26,8 @@ public class S3FileUrlStrategy implements FileUrlStrategy {
 
   @Override
   public String operate(
-      ContentDispositionType contentDispositionType, FileUploadOutput fileUploadOutput) {
-    return Optional.ofNullable(fileUploadOutput)
+      ContentDispositionType contentDispositionType, SaveToStorage saveToStorage) {
+    return Optional.ofNullable(saveToStorage)
         .map(
             uploadInfo ->
                 "https://"

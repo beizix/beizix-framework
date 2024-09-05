@@ -6,10 +6,10 @@ import java.util.stream.Collectors;
 import app.module.core.usecase.exboard.view.application.domain.ExBoardView;
 import app.module.core.usecase.exboard.view.application.domain.ExBoardViewAttach;
 import app.module.core.usecase.exboard.view.application.port.out.ExBoardViewPortOut;
+import app.module.core.usecase.file.saveToStorage.ports.application.domain.SaveToStorage;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import app.module.core.config.adapter.persistence.entity.ExBoard;
-import app.module.core.usecase.file.upload.application.domain.FileUploadOutput;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -36,7 +36,7 @@ class ExBoardViewDao implements ExBoardViewPortOut<ExBoardView> {
                 Optional.ofNullable(item.getRepresentImage())
                     .map(
                         repImg ->
-                            new FileUploadOutput(
+                            new SaveToStorage(
                                 repImg.getType(),
                                 repImg.getPath(),
                                 repImg.getName(),
@@ -53,7 +53,7 @@ class ExBoardViewDao implements ExBoardViewPortOut<ExBoardView> {
                                 a.getUpdatedBy(),
                                 a.getUpdatedAt(),
                                 a.getId(),
-                                new FileUploadOutput(
+                                new SaveToStorage(
                                     a.getFileUploadOutput().getType(),
                                     a.getFileUploadOutput().getPath(),
                                     a.getFileUploadOutput().getName(),
@@ -63,7 +63,7 @@ class ExBoardViewDao implements ExBoardViewPortOut<ExBoardView> {
                 Optional.ofNullable(item.getPrivateAttachment())
                     .map(
                         at ->
-                            new FileUploadOutput(
+                            new SaveToStorage(
                                 at.getType(),
                                 at.getPath(),
                                 at.getName(),
