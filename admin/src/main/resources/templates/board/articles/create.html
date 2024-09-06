@@ -122,18 +122,19 @@
         'method': 'POST',
         'url': '/api/board/articles/create',
         'data': obj,
-        success: (response) => {
-
+        success: (res) => {
+          alert(`'${res.title}' 게시물이 생성되었습니다.\n이전 화면으로 이동합니다.`);
+          history.back();
         },
         statusCode: {
           // error
-          400: function (response) {
-            const resJson = response.responseJSON;
+          400: function (res) {
+            const resJson = res.responseJSON;
             alert(resJson.message);
           },
           // validation fail
-          422: function (response) {
-            $(response.responseJSON).each((idx, oj) => {
+          422: function (res) {
+            $(res.responseJSON).each((idx, oj) => {
               let target = $(f).find('[name=' + oj.field + ']');
               target.addClass('is-invalid');
 

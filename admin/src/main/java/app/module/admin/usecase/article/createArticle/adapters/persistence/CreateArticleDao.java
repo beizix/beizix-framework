@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 
 import app.module.core.config.adapter.persistence.entity.UploadFile;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -30,7 +31,7 @@ class CreateArticleDao implements CreateArticlePortOut {
                 command.getStartDate(),
                 command.getEndDate(),
                 createArticleRepo.getMaxOrderNo().orElse(-1) + 1,
-                command.getFileMappingId().stream()
+                CollectionUtils.emptyIfNull(command.getFileMappingId()).stream()
                     .map(mappingId -> new UploadFile(Long.parseLong(mappingId)))
                     .collect(Collectors.toList())));
 

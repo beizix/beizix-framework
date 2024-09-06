@@ -20,6 +20,7 @@ const initEditor = (_selector, _setup) => {
     valid_children: '+a[div|span]',
     // https://www.tiny.cloud/docs/tinymce/6/content-filtering/#extended_valid_elements
     extended_valid_elements: '#span[*]',
+    autosave_ask_before_unload: false,
   });
 }
 
