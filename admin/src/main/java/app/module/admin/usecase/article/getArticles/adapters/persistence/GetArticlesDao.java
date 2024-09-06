@@ -76,7 +76,8 @@ class GetArticlesDao implements GetArticlesPortOut {
                                         uploadFile.getName(),
                                         uploadFile.getOriginName(),
                                         uploadFile.getFileLength()))
-                            .collect(Collectors.toList())))
+                            .findFirst()
+                            .orElse(null)))
             .collect(Collectors.toList()),
         pageable,
         result.getTotalElements());

@@ -1,13 +1,10 @@
 package app.module.admin.usecase.article.getArticles.ports.application.domain;
 
-import app.module.core.config.adapter.persistence.entity.UploadFile;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
@@ -23,5 +20,5 @@ public class GetArticles {
   private LocalDateTime startDate;
   private LocalDateTime endDate;
   Integer orderNo;
-  private List<GetArticleFiles> uploadFiles;
+  private GetArticleFiles uploadFile;
 }

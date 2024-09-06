@@ -26,22 +26,11 @@ function convertToPageableSortValue(sort) {
 }
 
 let uiUtil = {
-  /**
-   * ISO String 포맷을 YYYY-MM-DD HH:mm:ss 로 변환
-   * @param isoStr
-   * @returns {string}
-   */
+  // ISO String 포맷을 YYYY-MM-DD HH:mm:ss 로 변환
   isoStrToReadable(isoStr) {
     return isoStr.replace(/T/, ' ').substring(0, 19);
   },
-  /**
-   * Pagination UI 생성 함수
-   * @param curPageNo
-   * @param size
-   * @param sort
-   * @param totalPages
-   * @returns {jQuery|HTMLElement|*}
-   */
+  // Pagination UI 생성 함수
   getPagingUI(curPageNo, size, totalPages, moveHandler) {
     curPageNo = parseInt(curPageNo);
 
@@ -91,6 +80,7 @@ let uiUtil = {
 
     return el;
   },
+  // 리스트 상단 정렬 notation 및 갱신 기능 적용
   addSortNotation(sort, sortHandler) {
     let curSortField = sort.split(',')[0],
       curSortDir = sort.split(',')[1];
@@ -119,6 +109,10 @@ let uiUtil = {
         });
       }
     });
+  },
+  // 파일 참조 URL 생성
+  getFileReferURL(referType, accessType, uploadFile){
+    return `/content-disposition/${referType}/${accessType}${uploadFile.path}/${uploadFile.name}`;
   },
   /**
    * 목록 정렬 표기 및 갱신 기능 적용 - .order-able css class 기반으로 동작한다.
