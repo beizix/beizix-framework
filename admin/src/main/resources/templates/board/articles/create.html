@@ -60,7 +60,7 @@
         <label for="representImgFile" class="form-label d-block">대표 이미지</label>
         <div class="input-group w-50" style="float: left">
           <input class="form-control" type="file" id="representImgFile"
-                 name="representImgFile" onchange="uploadFile('EXAMPLE_REP', this);">
+                 name="representImgFile" onchange="uiUtil.uploadFile('EXAMPLE_REP', this);">
           <div class="invalid-feedback fw-bold">
             에러 메세지
           </div>
@@ -78,6 +78,7 @@
         <label for="formFile1" class="form-label d-block">다건 파일 첨부</label>
         <div class="input-group w-50" style="float:left;">
           <input class="form-control mb-2" type="file" name="multipartAttachments"
+                 onchange="uiUtil.uploadFile('EXAMPLE_PUBLIC', this);"
                  id="formFile1">
           <div class="invalid-feedback fw-bold">
             에러 메세지
@@ -85,7 +86,7 @@
         </div>
         <div class="input-group w-50" style="float:right;padding-left:10px;">
           <button type="button" class="btn btn-success d-inline-block align-top"
-                  onclick="addFileInput('public');">추가
+                  onclick="addFileInput();">추가
           </button>
         </div>
         <div style="clear: both;"></div>
@@ -96,6 +97,7 @@
         <div class="input-group w-50">
           <input class="form-control" type="file"
                  name="multipartPrivateAttachment"
+                 onchange="uiUtil.uploadFile('EXAMPLE_PRIVATE', this);"
                  id="filePrivate">
           <div class="invalid-feedback fw-bold">
             에러 메세지
@@ -109,64 +111,6 @@
 </section>
 
 <section layout:fragment="script">
-  <script>
-    const uploadFile = (fileUploadType, _this) => {
-      if (!fileUploadType) {
-        alert('fileUploadType 을 명시해주세요.');
-        return;
-      }
-
-      let formData = new FormData();
-      formData.append('file', _this.files[0]);
-
-      // fileUploadType 을 formData 에 append 한다.
-      formData.append('reqVO', new Blob([JSON.stringify({
-        fileUploadType
-      })], {type: "application/json"}));
-
-      $.ajax({
-        method: 'POST',
-        url: '/api/file/create',
-        data: formData,
-        contentType: false,               // * 중요 *
-        processData: false,               // * 중요 *
-        enctype: 'multipart/form-data',   // * 중요 *
-        beforeSend: function (xhr) {
-          xhr.setRequestHeader(
-              $("meta[name='_csrf_header']").attr("content"),
-              $("meta[name='_csrf']").attr("content"));
-        },
-        success(res) {
-          console.log(res);
-
-          // 에러 메세지가 있었다면 초기화
-          $(_this).removeClass('is-invalid');
-          $(_this).parent().find('.invalid-feedback').text('');
-
-          // 기존 mappingId 가 있다면 초기화
-          $(_this).parent().find('input[name=fileMappingId]').remove();
-
-          // 신규 mappingId 추가
-          $(_this).parent().append(`<input type="hidden" name="fileMappingId" value="${res.id}"/>`);
-
-          // 매칭되는 preview 앨리먼트가 있다면 이미지를 보여준다.
-          const previewImg = $('.preview_' + fileUploadType);
-          if (previewImg.length) {
-            previewImg.attr('src', '/content-disposition/inline/public' + res.path + '/' + res.name);
-            previewImg.fadeIn();
-          }
-        },
-        statusCode: {
-          // 실패 - validation fail
-          422: (res) => {
-            const resJson = res.responseJSON;
-            $(_this).parent().find('.invalid-feedback').text(resJson.message);
-            $(_this).addClass('is-invalid');
-          }
-        }
-      });
-    }
-  </script>
   <script>
     const goSave = () => {
       const f = document.reqForm;
@@ -193,12 +137,7 @@
               let target = $(f).find('[name=' + oj.field + ']');
               target.addClass('is-invalid');
 
-              if (target[0].nodeName === 'TEXTAREA') {
-                // textarea 의 경우, tinymce 가 중간에 삽입되기에 한단계 더 이동해야한다.
-                target.next().next().text(oj.defaultMessage);
-              } else {
-                target.next().text(oj.defaultMessage);
-              }
+              target.parent().find('.invalid-feedback').text(oj.defaultMessage);
             });
           }
         }
@@ -211,31 +150,17 @@
           : location.href = '/board/exampleBoard';
     }
 
-    function addFileInput(type) {
-      let tmpl = $.templates('#fileInputTmpl');
-      switch (type) {
-        case 'public':
-          $('.publicFileInputs').append(tmpl.render({'name': 'multipartAttachments'}));
-          break;
-        case 'private':
-          $('.privateFileInputs').append(tmpl.render({'name': 'privateFiles'}));
-          break;
-      }
+    function addFileInput() {
+      $('.publicFileInputs').append(`
+            <div class="input-group w-50">
+              <input class="form-control mb-2" type="file" name="multipartAttachments"
+                onchange="uiUtil.uploadFile('EXAMPLE_PUBLIC', this);">
+              <div class="invalid-feedback fw-bold">
+                에러 메세지
+              </div>
+            </div>
+          `);
     }
-  </script>
-
-  <script id="fileInputTmpl" type="text/x-jsrender">
-		<input class="form-control w-50 mb-2" type="file" name="{{:name}}"/>
-
-
-
-
-
-
-
-
-
-
   </script>
 
   <!-- web editor - tinymce -->

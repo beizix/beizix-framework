@@ -72,7 +72,7 @@ public class SaveToStorageService implements SaveToStoragePortIn {
 
     // step.3 - 파일 mime-type 체크
     try (InputStream is = multipartFile.getInputStream()) {
-      String fileMimeType = tika.detect(is);
+      String fileMimeType = tika.detect(is, originalFilename);
       getMimeType(fileType, fileMimeType)
           .orElseThrow(
               () ->

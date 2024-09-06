@@ -111,7 +111,7 @@ let uiUtil = {
     });
   },
   // 파일 참조 URL 생성
-  getFileReferURL(referType, accessType, uploadFile){
+  getFileReferURL(referType, accessType, uploadFile) {
     return `/content-disposition/${referType}/${accessType}${uploadFile.path}/${uploadFile.name}`;
   },
   /**
@@ -150,6 +150,69 @@ let uiUtil = {
 
 uiUtil.goPageable = goPageable;
 uiUtil.convertToPageableSortValue = convertToPageableSortValue;
+
+/**
+ * 공용 ajax 파일 업로드 함수
+ * @param fileUploadType FileUploadType name
+ * @param _this file input 객체
+ */
+uiUtil.uploadFile = (fileUploadType, _this) => {
+  if (!fileUploadType) {
+    alert('fileUploadType 을 명시해주세요.');
+    return;
+  }
+
+  let formData = new FormData();
+  formData.append('file', _this.files[0]);
+
+  // fileUploadType 을 formData 에 append 한다.
+  formData.append('reqVO', new Blob([JSON.stringify({
+    fileUploadType
+  })], {type: "application/json"}));
+
+  $.ajax({
+    method: 'POST',
+    url: '/api/file/create',
+    data: formData,
+    contentType: false,               // * 중요 *
+    processData: false,               // * 중요 *
+    enctype: 'multipart/form-data',   // * 중요 *
+    beforeSend: function (xhr) {
+      xhr.setRequestHeader(
+        $("meta[name='_csrf_header']").attr("content"),
+        $("meta[name='_csrf']").attr("content"));
+    },
+    success(res) {
+      console.log(res);
+
+      // 에러 메세지가 있었다면 초기화
+      $(_this).removeClass('is-invalid');
+      $(_this).parent().find('.invalid-feedback').text('');
+
+      // 기존 mappingId 가 있다면 초기화
+      $(_this).parent().find('input[name=fileMappingId]').remove();
+
+      // 신규 mappingId 추가
+      $(_this).parent().append(`<input type="hidden" name="fileMappingId" value="${res.id}"/>`);
+
+      // 매칭되는 preview 앨리먼트가 있다면 이미지를 보여준다.
+      const previewImg = $('.preview_' + fileUploadType);
+      if (previewImg.length) {
+        const referUrl = uiUtil.getFileReferURL('inline', 'public', {path: res.path, name: res.name});
+        previewImg.attr('src', referUrl);
+        previewImg.fadeIn();
+      }
+    },
+    statusCode: {
+      // 실패 - validation fail
+      422: (res) => {
+        const resJson = res.responseJSON;
+        $(_this).parent().find('.invalid-feedback').text(resJson.message);
+        $(_this).addClass('is-invalid');
+      }
+    }
+  });
+}
 
 /**
  * Public image source 가져오기

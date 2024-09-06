@@ -27,6 +27,7 @@ public enum AcceptableFileType {
           "application/x-excel",
           "application/x-tika-ooxml",
           "application/x-tika-msoffice",
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
           "application/x-msexcel")),
   // Office - Power Point
   PPT(
