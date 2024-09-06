@@ -112,7 +112,12 @@ let uiUtil = {
   },
   // 파일 참조 URL 생성
   getFileReferURL(referType, accessType, uploadFile) {
-    return `/content-disposition/${referType}/${accessType}${uploadFile.path}/${uploadFile.name}`;
+    switch (referType) {
+      case 'inline':
+        return `/content-disposition/${referType}/${accessType}${uploadFile.path}/${uploadFile.name}`;
+      case 'attachment':
+        return `/content-disposition/${referType}/${accessType}${uploadFile.path}/${uploadFile.name}?originalFilename=${uploadFile.originName}`;
+    }
   },
   /**
    * 목록 정렬 표기 및 갱신 기능 적용 - .order-able css class 기반으로 동작한다.
@@ -198,7 +203,7 @@ uiUtil.uploadFile = (fileUploadType, _this) => {
       // 매칭되는 preview 앨리먼트가 있다면 이미지를 보여준다.
       const previewImg = $('.preview_' + fileUploadType);
       if (previewImg.length) {
-        const referUrl = uiUtil.getFileReferURL('inline', 'public', {path: res.path, name: res.name});
+        const referUrl = uiUtil.getFileReferURL('inline', 'public', res);
         previewImg.attr('src', referUrl);
         previewImg.fadeIn();
       }
