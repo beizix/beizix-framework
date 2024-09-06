@@ -8,7 +8,8 @@
         th:object="${reqVO}">
 
     <!-- hidden parameters -->
-    <input type="hidden" name="sort"/>
+    <input type="hidden" name="sort" th:field="*{sort}"/>
+    <input type="hidden" name="page" th:field="*{page}"/>
 
     <div class="row bg-secondary p-2 mb-2" style="--bs-bg-opacity: .2;">
       <div class="col-5">
@@ -35,7 +36,7 @@
       </div>
       <div class="col text-end">
         <button type="button" class="btn btn-secondary"
-                onclick="getArticles(0);">검색
+                onclick="goSearch();">검색
         </button>
         <button type="button" class="btn btn-light" onclick="goInit();">초기화
         </button>
@@ -52,7 +53,8 @@
         <i class="bi bi-list-ol"></i> <label>
         <select
             class="form-select form-select-sm" name="size" id="pageSize"
-            onchange="getArticles(0)">
+            th:field="*{size}"
+            onchange="goSearch()">
           <option
               th:each="item : ${pageRows}"
               th:value="${item.codeValue}" th:text="${item.codeText}"></option>
@@ -125,10 +127,9 @@
 
     const getArticles = (pageNo) => {
       const f = document.reqForm;
-      f.sort.value = f.sort.value ? f.sort.value : INIT_SORT;
+      f.page.value = pageNo;
 
       let dataOj = $(f).serializeObject();
-      dataOj.page = pageNo;
 
       $.ajax({
         method: 'GET',
@@ -177,13 +178,15 @@
           paging.append(
               uiUtil.getPagingUI(pageNo, f.size.value, response.totalPages,
                   (movePageNo) => {
-                    getArticles(movePageNo);
+                    f.page.value = movePageNo;
+                    goSearch();
                   }));
 
           // 리스트 상단 정렬 notation 및 갱신 기능 적용
           uiUtil.addSortNotation(f.sort.value, (targetPage, targetSort) => {
+            f.page.value = targetPage;
             f.sort.value = targetSort;
-            getArticles(targetPage);
+            goSearch();
           });
 
           // sort 기능 적용
@@ -216,7 +219,7 @@
                   },
                   success: function () {
                     alert('[[#{operation.orderNo.updated}]]');
-                    getArticles(pageNo);
+                    getArticles(f.page.value);
                   },
                   statusCode: {
                     // error
@@ -235,10 +238,16 @@
       })
     }
 
-    getArticles(0);
+    // 최초 리스트 로드
+    getArticles(document.reqForm.page.value);
   </script>
 
   <script th:inline="javascript">
+    const goSearch = () => {
+      const f = document.reqForm;
+      f.method = 'GET';
+      f.submit();
+    }
 
     // 초기화
     function goInit() {

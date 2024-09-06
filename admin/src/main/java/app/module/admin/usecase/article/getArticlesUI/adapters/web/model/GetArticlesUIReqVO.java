@@ -10,6 +10,12 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class GetArticlesUIReqVO {
+  // 페이지 당 아이템 수
+  private Integer size;
+  // 정렬 값
+  private String sort;
+  // 요청 페이지 넘버
+  private Integer page;
   private String searchField;
   private String searchValue;
   private String searchOpen;
