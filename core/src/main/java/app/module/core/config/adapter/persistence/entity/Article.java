@@ -52,5 +52,6 @@ public class Article extends AuditEntity {
 
   @ManyToMany
   @JoinTable(name = "article_with_upload_file")
+  @BatchSize(size = 100)
   private List<UploadFile> uploadFiles = Collections.emptyList();
 }

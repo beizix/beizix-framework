@@ -41,4 +41,8 @@ public class UploadFile extends AuditEntity {
 
   @Comment("파일크기")
   private Long fileLength;
+
+  public UploadFile(Long id) {
+    this.id = id;
+  }
 }

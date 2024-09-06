@@ -139,17 +139,30 @@
         success(res) {
           console.log(res);
 
+          // 에러 메세지가 있었다면 초기화
+          $(_this).removeClass('is-invalid');
+          $(_this).parent().find('.invalid-feedback').text('');
+
+          // 기존 mappingId 가 있다면 초기화
+          $(_this).parent().find('input[name=fileMappingId]').remove();
+
+          // 신규 mappingId 추가
+          $(_this).parent().append(`<input type="hidden" name="fileMappingId" value="${res.id}"/>`);
+
           // 매칭되는 preview 앨리먼트가 있다면 이미지를 보여준다.
           const previewImg = $('.preview_' + fileUploadType);
           if (previewImg.length) {
             previewImg.attr('src', '/content-disposition/inline/public' + res.path + '/' + res.name);
             previewImg.fadeIn();
           }
-
-
         },
-        fail(res) {
-          console.log('fail', res);
+        statusCode: {
+          // 실패 - validation fail
+          422: (res) => {
+            const resJson = res.responseJSON;
+            $(_this).parent().find('.invalid-feedback').text(resJson.message);
+            $(_this).addClass('is-invalid');
+          }
         }
       });
     }
@@ -213,6 +226,7 @@
 
   <script id="fileInputTmpl" type="text/x-jsrender">
 		<input class="form-control w-50 mb-2" type="file" name="{{:name}}"/>
+
 
 
 

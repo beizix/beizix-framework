@@ -29,8 +29,8 @@ public class SaveToStorageService implements SaveToStoragePortIn {
   private final Set<FileUploadStrategy> fileUploadStrategies;
 
   @Override
-  public Optional<SaveToStorage> operate(
-      FileUploadType fileUploadType, MultipartFile multipartFile) throws IOException {
+  public Optional<SaveToStorage> operate(FileUploadType fileUploadType, MultipartFile multipartFile)
+      throws IOException, UnAcceptableFileException {
     if (multipartFile == null || multipartFile.isEmpty()) {
       return Optional.empty();
     }

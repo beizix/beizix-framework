@@ -5,7 +5,10 @@ import app.module.admin.usecase.article.createArticle.ports.application.domain.C
 import app.module.admin.usecase.article.createArticle.ports.application.domain.CreateArticleCmd;
 import app.module.core.config.adapter.persistence.entity.Article;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.transaction.Transactional;
+
+import app.module.core.config.adapter.persistence.entity.UploadFile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -26,8 +29,10 @@ class CreateArticleDao implements CreateArticlePortOut {
                 command.getVisible(),
                 command.getStartDate(),
                 command.getEndDate(),
-                command.getOrderNo(),
-                command.getUploadFiles()));
+                createArticleRepo.getMaxOrderNo().orElse(-1) + 1,
+                command.getFileMappingId().stream()
+                    .map(mappingId -> new UploadFile(Long.parseLong(mappingId)))
+                    .collect(Collectors.toList())));
 
     return Optional.of(
         new CreateArticle(

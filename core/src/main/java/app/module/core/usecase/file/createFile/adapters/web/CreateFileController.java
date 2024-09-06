@@ -1,5 +1,6 @@
 package app.module.core.usecase.file.createFile.adapters.web;
 
+import app.module.core.config.application.exception.UnAcceptableFileException;
 import app.module.core.usecase.file.createFile.adapters.web.model.CreateFileReqVO;
 import app.module.core.usecase.file.createFile.ports.CreateFilePortIn;
 import app.module.core.usecase.file.createFile.ports.application.domain.CreateFile;
@@ -7,6 +8,8 @@ import app.module.core.usecase.file.createFile.ports.application.domain.CreateFi
 import app.module.core.usecase.file.saveToStorage.ports.SaveToStoragePortIn;
 import app.module.core.usecase.file.saveToStorage.ports.application.domain.SaveToStorage;
 import java.io.IOException;
+import java.util.Optional;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,17 +30,22 @@ class CreateFileController {
       @RequestPart(value = "file") MultipartFile multipartFile)
       throws IOException {
 
-    SaveToStorage saveToStorage =
-        saveToStoragePortIn.operate(reqVO.getFileUploadType(), multipartFile).orElseThrow();
+    Optional<SaveToStorage> optSaveToStorage =
+        saveToStoragePortIn.operate(reqVO.getFileUploadType(), multipartFile);
 
-    CreateFile createFile = createFilePortIn.operate(
-        new CreateFileCmd(
-            saveToStorage.getType(),
-            saveToStorage.getPath(),
-            saveToStorage.getName(),
-            saveToStorage.getOriginName(),
-            saveToStorage.getFileLength())).orElseThrow();
+    Optional<CreateFile> createFile =
+        optSaveToStorage
+            .map(
+                saveToStorage ->
+                    createFilePortIn.operate(
+                        new CreateFileCmd(
+                            saveToStorage.getType(),
+                            saveToStorage.getPath(),
+                            saveToStorage.getName(),
+                            saveToStorage.getOriginName(),
+                            saveToStorage.getFileLength())))
+            .orElseThrow();
 
-    return ResponseEntity.status(HttpStatus.OK).body(createFile);
+    return ResponseEntity.status(HttpStatus.OK).body(createFile.orElse(null));
   }
 }

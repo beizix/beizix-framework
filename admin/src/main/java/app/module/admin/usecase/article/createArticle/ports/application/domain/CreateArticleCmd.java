@@ -1,9 +1,7 @@
 package app.module.admin.usecase.article.createArticle.ports.application.domain;
 
-import app.module.core.config.adapter.persistence.entity.UploadFile;
 import java.time.LocalDateTime;
 import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -19,6 +17,5 @@ public class CreateArticleCmd {
   private Boolean visible;
   private LocalDateTime startDate;
   private LocalDateTime endDate;
-  Integer orderNo;
-  private List<UploadFile> uploadFiles;
+  private List<String> fileMappingId;
 }

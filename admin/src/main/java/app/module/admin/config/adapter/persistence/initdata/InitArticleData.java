@@ -34,7 +34,6 @@ public class InitArticleData implements ApplicationRunner {
                         true,
                         LocalDateTime.now(),
                         LocalDateTime.now().plusMonths(2),
-                        idx,
                         null)));
   }
 }
