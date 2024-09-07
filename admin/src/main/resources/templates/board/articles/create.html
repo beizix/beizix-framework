@@ -23,6 +23,9 @@
         <div class="input-group w-25">
           <input id="boardStartDate" class="form-control flatpickr" name="startDate"
                  type="text" placeholder="게시일을 선택하세요"/>
+          <a class="input-button" title="toggle" data-toggle>
+            <i class="icon-calendar"></i>
+          </a>
           <div class="invalid-feedback fw-bold">
             에러 메세지
           </div>
@@ -60,6 +63,7 @@
         <label for="representImgFile" class="form-label d-block">대표 이미지</label>
         <div class="input-group w-50" style="float: left">
           <input class="form-control" type="file" id="representImgFile"
+                 accept="image/*"
                  name="representImgFile" onchange="uiUtil.uploadFile('EXAMPLE_REP', this);">
           <div class="invalid-feedback fw-bold">
             에러 메세지
@@ -69,9 +73,7 @@
           <input type="text" class="form-control" name="repImgAlt"
                  placeholder="이미지 대체 텍스트를 입력해주세요"/>
         </div>
-        <div style="clear: both" class="row w-25">
-          <img src="" class="preview_EXAMPLE_REP mt-3" style="display: none"/>
-        </div>
+        <div style="clear: both"></div>
       </div>
 
       <div class="mb-3 mt-4 publicFileInputs">
@@ -95,7 +97,7 @@
       <div class="mb-3 mt-4 privateFileInputs">
         <label for="filePrivate" class="form-label d-block">private 파일 첨부 (외부 비공개)</label>
         <div class="input-group w-50">
-          <input class="form-control" type="file"
+          <input class="form-control mb-2" type="file"
                  name="multipartPrivateAttachment"
                  onchange="uiUtil.uploadFile('EXAMPLE_PRIVATE', this);"
                  id="filePrivate">
@@ -111,6 +113,10 @@
 </section>
 
 <section layout:fragment="script">
+  <!-- web editor - tinymce -->
+  <script src="/static/library/tinymce/6.0.3/tinymce.min.js" referrerpolicy="origin"></script>
+  <script src="/static/ui/editorImageUpload.js"></script>
+
   <script>
     const goSave = () => {
       const f = document.reqForm;
@@ -164,9 +170,7 @@
     }
   </script>
 
-  <!-- web editor - tinymce -->
-  <script src="/static/library/tinymce/6.0.3/tinymce.min.js" referrerpolicy="origin"></script>
-  <script src="/static/ui/editorImageUpload.js"></script>
+
   <script th:inline="javascript">
     // init tinymce editor
     initEditor('#content', (editor) => {
@@ -178,11 +182,16 @@
       });
     });
 
+  </script>
+
+  <script>
     // date time picker
     $(".flatpickr").flatpickr({
-      enableTime: true,
       dateFormat: "Y-m-d\\TH:i",
+      // altInput: true,
+      // altFormat: "Y-m-d H:i",
       monthSelectorType: 'static',
+      enableTime: true,
       time_24hr: true
     });
   </script>

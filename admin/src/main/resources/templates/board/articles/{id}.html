@@ -65,8 +65,11 @@
       <div class="mb-3 mt-4">
         <label for="representImgFile" class="form-label d-block">대표 이미지</label>
         <div class="input-group w-50" style="float: left">
-          <input class="form-control" type="file" id="representImgFile"
-                 name="representImgFile" onchange="uiUtil.uploadFile('EXAMPLE_REP', this);">
+          <input class="form-control" type="file"
+                 accept="image/*"
+                 id="representImgFile"
+                 name="representImgFile"
+                 onchange="uiUtil.uploadFile('EXAMPLE_REP', this);">
           <div class="invalid-feedback fw-bold">
             에러 메세지
           </div>
@@ -75,9 +78,7 @@
           <input type="text" class="form-control" name="repImgAlt"
                  placeholder="이미지 대체 텍스트를 입력해주세요"/>
         </div>
-        <div style="clear: both" class="row w-25">
-          <img src="" class="preview_EXAMPLE_REP mt-3" style="display: none"/>
-        </div>
+        <div style="clear: both;"></div>
       </div>
 
       <div class="mb-3 mt-4 publicFileInputs">
@@ -101,7 +102,7 @@
       <div class="mb-3 mt-4 privateFileInputs">
         <label for="filePrivate" class="form-label d-block">private 파일 첨부 (외부 비공개)</label>
         <div class="input-group w-50">
-          <input class="form-control" type="file"
+          <input class="form-control mb-2" type="file"
                  name="multipartPrivateAttachment"
                  onchange="uiUtil.uploadFile('EXAMPLE_PRIVATE', this);"
                  id="filePrivate">
@@ -158,6 +159,7 @@
         url: '/api/board/articles/' + f.id.value,
         success(res) {
           console.log(res);
+          window.xx = res;
 
           showAudit(res.title, res.createdBy, uiUtil.isoStrToReadable(res.createdAt)
               , res.updateBy, uiUtil.isoStrToReadable(res.updatedAt));
@@ -174,6 +176,18 @@
           f.startDate.value = res.startDate.substring(0,16);
           f.endDate.value = res.endDate.substring(0,16);
           f.visible.value = res.visible;
+
+          res.uploadFiles.forEach((uploadFile) => {
+            switch (uploadFile.type) {
+              // 대표 이미지
+              case 'EXAMPLE_REP':
+                const input = $(f.representImgFile);
+                input.parent().append(`<input type="hidden" name="fileMappingId" value="${uploadFile.id}"/>`);
+
+                uiUtil.showFileInfo(input, uploadFile, true);
+                break;
+            }
+          });
         }
       });
     }

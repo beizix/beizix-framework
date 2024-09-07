@@ -159,16 +159,22 @@ uiUtil.convertToPageableSortValue = convertToPageableSortValue;
 /**
  * 공용 ajax 파일 업로드 함수
  * @param fileUploadType FileUploadType name
- * @param _this file input 객체
+ * @param input file input 객체
  */
-uiUtil.uploadFile = (fileUploadType, _this) => {
+uiUtil.uploadFile = (fileUploadType, input) => {
   if (!fileUploadType) {
-    alert('fileUploadType 을 명시해주세요.');
+    alert('fileUploadType 을 명시해야 uiUtil.uploadFile 메서드를 실행할 수 있습니다.');
+    return;
+  }
+
+  const inputGroup = $(input).parent('.input-group');
+  if (!inputGroup.length) {
+    alert(`${input.name} 앨리먼트의 부모가 input-group 클래스를 가져야 uiUtil.uploadFile 메서드를 실행할 수 있습니다.`);
     return;
   }
 
   let formData = new FormData();
-  formData.append('file', _this.files[0]);
+  formData.append('file', input.files[0]);
 
   // fileUploadType 을 formData 에 append 한다.
   formData.append('reqVO', new Blob([JSON.stringify({
@@ -191,32 +197,56 @@ uiUtil.uploadFile = (fileUploadType, _this) => {
       console.log(res);
 
       // 에러 메세지가 있었다면 초기화
-      $(_this).removeClass('is-invalid');
-      $(_this).parent().find('.invalid-feedback').text('');
+      $(input).removeClass('is-invalid');
+      inputGroup.find('.invalid-feedback').text('');
 
       // 기존 mappingId 가 있다면 초기화
-      $(_this).parent().find('input[name=fileMappingId]').remove();
+      inputGroup.find('input[name=fileMappingId]').remove();
 
       // 신규 mappingId 추가
-      $(_this).parent().append(`<input type="hidden" name="fileMappingId" value="${res.id}"/>`);
+      inputGroup.append(`<input type="hidden" name="fileMappingId" value="${res.id}"/>`);
 
-      // 매칭되는 preview 앨리먼트가 있다면 이미지를 보여준다.
-      const previewImg = $('.preview_' + fileUploadType);
-      if (previewImg.length) {
-        const referUrl = uiUtil.getFileReferURL('inline', 'public', res);
-        previewImg.attr('src', referUrl);
-        previewImg.fadeIn();
-      }
+      // 업로드 파일 정보 보이기
+      uiUtil.showFileInfo(input, res, $(input).attr('accept') === 'image/*');
     },
     statusCode: {
       // 실패 - validation fail
       422: (res) => {
         const resJson = res.responseJSON;
-        $(_this).parent().find('.invalid-feedback').text(resJson.message);
-        $(_this).addClass('is-invalid');
+        $(input).parent().find('.invalid-feedback').text(resJson.message);
+        $(input).addClass('is-invalid');
       }
     }
   });
+}
+
+uiUtil.showFileInfo = (input, uploadFile, showImg) => {
+  const inputGroup = $(input).parent('.input-group');
+  if (!inputGroup.length) {
+    alert(`${input.name} 앨리먼트의 부모가 input-group 클래스를 가져야 showFileInfo 메서드를 실행할 수 있습니다.`);
+    return;
+  }
+
+  inputGroup.find('.fileInfo').remove();
+
+  inputGroup.append(`
+    <div class="fileInfo row text-muted fw-normal" style="display: none">
+      <img src="${showImg ? uiUtil.getFileReferURL('inline', 'public', uploadFile) : ''}" class="w-75 mt-3 mb-3"/>
+      <ul class="row" style="margin-left: 10px;">
+        <li class="name">${uploadFile.name}</li>
+        <li class="originName">원본 파일명 (${uploadFile.originName})</li>
+        <li class="fileLength">${Math.ceil(uploadFile.fileLength / 1024)}KB</li>
+        <li class="id">File ID (${uploadFile.id})</li>
+      </ul>
+    </div>
+  `);
+
+  const fileInfo = inputGroup.find('.fileInfo');
+  if (!showImg) {
+    fileInfo.find('img').remove();
+  }
+
+  fileInfo.fadeIn();
 }
 
 /**
