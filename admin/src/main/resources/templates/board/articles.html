@@ -264,10 +264,7 @@
 
     // 수정페이지 이동
     function goUpdate(itemId) {
-      const f = document.paramForm;
-      f.action = '/board/exampleBoard/update/' + itemId;
-      f.method = 'get';
-      f.submit();
+      location.href = '/board/articles/' + itemId;
     }
 
     function goExcel() {

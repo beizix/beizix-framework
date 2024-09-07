@@ -266,7 +266,7 @@ public class InitUriAdminData implements ApplicationRunner {
         ADMIN_ARTICLE,
         ADMIN_ARTICLE_UPDATE,
         "예제 게시판 수정",
-        "/board/articles/update/{{pathVar}}",
+        "/board/articles/{{pathVar}}",
         false,
         Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"));
 
