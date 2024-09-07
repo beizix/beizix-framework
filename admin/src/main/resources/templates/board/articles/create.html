@@ -78,20 +78,9 @@
 
       <div class="mb-3 mt-4 publicFileInputs">
         <label for="formFile1" class="form-label d-block">다건 파일 첨부</label>
-        <div class="input-group w-50" style="float:left;">
-          <input class="form-control mb-2" type="file" name="multipartAttachments"
-                 onchange="uiUtil.uploadFile('EXAMPLE_PUBLIC', this);"
-                 id="formFile1">
-          <div class="invalid-feedback fw-bold">
-            에러 메세지
-          </div>
-        </div>
-        <div class="input-group w-50" style="float:right;padding-left:10px;">
-          <button type="button" class="btn btn-success d-inline-block align-top"
-                  onclick="addFileInput();">추가
-          </button>
-        </div>
-        <div style="clear: both;"></div>
+        <button type="button" class="btn btn-success d-inline-block align-top mb-2"
+                onclick="addFileInput();">첨부 파일 추가
+        </button>
       </div>
 
       <div class="mb-3 mt-4 privateFileInputs">
