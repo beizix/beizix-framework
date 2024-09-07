@@ -14,7 +14,9 @@ class GetArticleUpdateUIController {
 
   @GetMapping(path = "/board/articles/{id}")
   String operate(
-      Model model, @PathVariable Long id, @ModelAttribute("reqVO") GetArticleUpdateUIReqVO reqVO) {
+      Model model,
+      @PathVariable @ModelAttribute("id") Long id,
+      @ModelAttribute("reqVO") GetArticleUpdateUIReqVO reqVO) {
 
     return "board/articles/{id}";
   }

@@ -244,11 +244,11 @@ uiUtil.lineSeparatorToBr = function (contents) {
 }
 
 uiUtil.unescape = function (contents) {
-  let ret = contents.replace(/&gt;/g, '>');
+  let ret = contents.replace(/&amp;/g, '&');
+  ret = ret.replace(/&gt;/g, '>');
   ret = ret.replace(/&lt;/g, '<');
   ret = ret.replace(/&quot;/g, '"');
   ret = ret.replace(/&apos;/g, "'");
-  ret = ret.replace(/&amp;/g, '&');
   return ret;
 }
 

@@ -4,10 +4,16 @@
 
 <section layout:fragment="content">
   <form
-      th:action="@{/board/articles/create}"
+      th:action="@{/board/articles/update}"
       method="post" class="fw-bold" name="reqForm">
+    <input type="hidden" name="id" th:value="${id}">
 
     <div class="container">
+      <div class="row">
+        <!-- audit area -->
+        <div th:replace="common/components :: auditArea"></div>
+      </div>
+
       <div class="row mb-3">
         <label class="form-label" for="title">제목 *</label>
         <div class="input-group w-50">
@@ -108,6 +114,73 @@
     <button type="button" class="btn btn-primary float-end" onclick="goSave();">저장</button>
     <button type="button" class="btn btn-light" onclick="gotoList();return false;">목록으로 이동</button>
   </form>
+</section>
+
+<section layout:fragment="script">
+  <!-- web editor - tinymce -->
+  <script src="/static/library/tinymce/6.0.3/tinymce.min.js" referrerpolicy="origin"></script>
+  <script src="/static/ui/editorImageUpload.js"></script>
+
+  <script>
+    function gotoList() {
+
+    }
+
+    function addFileInput() {
+      $('.publicFileInputs').append(`
+            <div class="input-group w-50">
+              <input class="form-control mb-2" type="file" name="multipartAttachments"
+                onchange="uiUtil.uploadFile('EXAMPLE_PUBLIC', this);">
+              <div class="invalid-feedback fw-bold">
+                에러 메세지
+              </div>
+            </div>
+          `);
+    }
+  </script>
+
+  <script th:inline="javascript">
+    // date time picker
+    $(".flatpickr").flatpickr({
+      enableTime: true,
+      dateFormat: "Y-m-d\\TH:i",
+      monthSelectorType: 'static',
+      time_24hr: true
+    });
+  </script>
+
+  <script>
+    const getArticle = () => {
+      const f = document.reqForm;
+
+      $.ajax({
+        method: 'GET',
+        url: '/api/board/articles/' + f.id.value,
+        success(res) {
+          console.log(res);
+
+          showAudit(res.title, res.createdBy, uiUtil.isoStrToReadable(res.createdAt)
+              , res.updateBy, uiUtil.isoStrToReadable(res.updatedAt));
+
+          initEditor('#content', (editor) => {
+            editor.on('init', function () {
+              setTimeout(() => {
+                tinymce.get('content').setContent(uiUtil.unescape(res.content));
+              }, 0);
+            });
+          });
+
+          f.title.value = res.title;
+          f.startDate.value = res.startDate.substring(0,16);
+          f.endDate.value = res.endDate.substring(0,16);
+          f.visible.value = res.visible;
+        }
+      });
+    }
+
+    // 상세정보 얻기
+    getArticle();
+  </script>
 </section>
 
 </html>
