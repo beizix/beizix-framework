@@ -2,6 +2,7 @@ package app.module.admin.usecase.article.createArticle.adapters.web;
 
 import app.module.admin.usecase.article.createArticle.adapters.web.model.CreateArticleReqVO;
 import app.module.admin.usecase.article.createArticle.ports.CreateArticlePortIn;
+import app.module.admin.usecase.article.createArticle.ports.application.domain.CreateArticle;
 import app.module.admin.usecase.article.createArticle.ports.application.domain.CreateArticleCmd;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,15 +24,18 @@ class CreateArticleController {
           .body(bindingResult.getFieldErrors());
     }
 
-    createArticlePortIn.operate(
-        new CreateArticleCmd(
-            reqVO.getTitle(),
-            reqVO.getContent(),
-            reqVO.getVisible(),
-            reqVO.getStartDate(),
-            reqVO.getEndDate(),
-            reqVO.getFileMappingId()));
+    CreateArticle article =
+        createArticlePortIn
+            .operate(
+                new CreateArticleCmd(
+                    reqVO.getTitle(),
+                    reqVO.getContent(),
+                    reqVO.getVisible(),
+                    reqVO.getStartDate(),
+                    reqVO.getEndDate(),
+                    reqVO.getFileMappingId()))
+            .orElseThrow();
 
-    return ResponseEntity.status(HttpStatus.OK).body(reqVO);
+    return ResponseEntity.status(HttpStatus.OK).body(article);
   }
 }

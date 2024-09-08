@@ -15,11 +15,5 @@ import java.util.List;
 @EqualsAndHashCode
 public class CreateArticle {
   private Long id;
-  private String title;
-  private String content;
-  private Boolean visible;
-  private LocalDateTime startDate;
-  private LocalDateTime endDate;
   Integer orderNo;
-  private List<UploadFile> uploadFiles;
 }

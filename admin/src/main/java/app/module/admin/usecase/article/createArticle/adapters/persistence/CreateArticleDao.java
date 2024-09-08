@@ -35,15 +35,6 @@ class CreateArticleDao implements CreateArticlePortOut {
                     .map(mappingId -> new UploadFile(Long.parseLong(mappingId)))
                     .collect(Collectors.toList())));
 
-    return Optional.of(
-        new CreateArticle(
-            article.getId(),
-            article.getTitle(),
-            article.getContent(),
-            article.getVisible(),
-            article.getStartDate(),
-            article.getEndDate(),
-            article.getOrderNo(),
-            article.getUploadFiles()));
+    return Optional.of(new CreateArticle(article.getId(), article.getOrderNo()));
   }
 }

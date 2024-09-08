@@ -7,6 +7,7 @@
       th:action="@{/board/articles/update}"
       method="post" class="fw-bold" name="reqForm">
     <input type="hidden" name="id" th:value="${id}">
+    <input type="hidden" name="orderNo">
 
     <div class="container">
       <div class="row">
@@ -101,7 +102,7 @@
         </div>
       </div>
     </div>
-    <button type="button" class="btn btn-primary float-end" onclick="goSave();">저장</button>
+    <button type="button" class="btn btn-primary float-end" onclick="goUpdate();">저장</button>
     <button type="button" class="btn btn-light" onclick="gotoList();return false;">목록으로 이동</button>
   </form>
 </section>
@@ -168,6 +169,7 @@
           f.startDate.value = res.startDate.substring(0, 16);
           f.endDate.value = res.endDate.substring(0, 16);
           f.visible.value = res.visible;
+          f.orderNo.value = res.orderNo;
 
           res.uploadFiles.forEach((uploadFile) => {
             switch (uploadFile.type) {
@@ -197,6 +199,42 @@
 
     // 상세정보 얻기
     getArticle();
+  </script>
+
+  <script>
+    const goUpdate = () => {
+      const f = document.reqForm;
+      f.content.value = tinymce.get('content').getContent();
+
+      const obj = $(f).serializeObject();
+
+      $.ajax({
+        'method': 'PUT',
+        'url': '/api/board/articles/update',
+        'data': obj,
+        success: (res) => {
+          if (confirm(`'${res.title}' 게시물이 수정되었습니다.\n이전 화면으로 이동하시겠습니까?`)) {
+            history.back();
+          }
+        },
+        statusCode: {
+          // error
+          400: function (res) {
+            const resJson = res.responseJSON;
+            alert(resJson.message);
+          },
+          // validation fail
+          422: function (res) {
+            $(res.responseJSON).each((idx, oj) => {
+              let target = $(f).find('[name=' + oj.field + ']');
+              target.addClass('is-invalid');
+
+              target.parent().find('.invalid-feedback').text(oj.defaultMessage);
+            });
+          }
+        }
+      });
+    }
   </script>
 </section>
 
