@@ -162,15 +162,7 @@
 
   <script th:inline="javascript">
     // init tinymce editor
-    initEditor('#content', (editor) => {
-      editor.on('init', function () {
-        let content = '';
-        if (content) {
-          tinymce.activeEditor.setContent(uiUtil.unescape(content));
-        }
-      });
-    });
-
+    initEditor('#content');
   </script>
 
   <script>

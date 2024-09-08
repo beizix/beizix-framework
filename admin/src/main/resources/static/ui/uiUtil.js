@@ -220,6 +220,13 @@ uiUtil.uploadFile = (fileUploadType, input) => {
   });
 }
 
+/**
+ * 업로드 파일정보 보여주기
+ *
+ * @param {element} input file input 앨리먼트
+ * @param {object} uploadFile 업로드 파일 정보
+ * @param {boolean} showImg 미리보기 이미지 노출 여부
+ */
 uiUtil.showFileInfo = (input, uploadFile, showImg) => {
   const inputGroup = $(input).parent('.input-group');
   if (!inputGroup.length) {
@@ -233,7 +240,7 @@ uiUtil.showFileInfo = (input, uploadFile, showImg) => {
     <div class="fileInfo row text-muted fw-normal" style="display: none">
       <img src="${showImg ? uiUtil.getFileReferURL('inline', 'public', uploadFile) : ''}" class="w-75 mt-3 mb-3"/>
       <ul class="row" style="margin-left: 10px;">
-        <li class="name">${uploadFile.name}</li>
+        <li class="name">파일명 - ${uploadFile.name}</li>
         <li class="originName">원본 파일명 (${uploadFile.originName})</li>
         <li class="fileLength">${Math.ceil(uploadFile.fileLength / 1024)}KB</li>
         <li class="id">File ID (${uploadFile.id})</li>
@@ -273,13 +280,19 @@ uiUtil.lineSeparatorToBr = function (contents) {
   return contents.replaceAll('\r\n', '<br/>');
 }
 
-uiUtil.unescape = function (contents) {
-  let ret = contents.replace(/&amp;/g, '&');
-  ret = ret.replace(/&gt;/g, '>');
-  ret = ret.replace(/&lt;/g, '<');
-  ret = ret.replace(/&quot;/g, '"');
-  ret = ret.replace(/&apos;/g, "'");
-  return ret;
+/**
+ * HTML escape 처리된 문자열을 unescape 처리 후 반환
+ *
+ * @param {string} escapedText (HTML escape 처리된 텍스트)
+ * @returns {string} unescape 처리된 테스트
+ */
+uiUtil.unescapeHtml = function (escapedText) {
+  let unescapedTxt = escapedText.replace(/&amp;/g, '&');
+  unescapedTxt = unescapedTxt.replace(/&gt;/g, '>');
+  unescapedTxt = unescapedTxt.replace(/&lt;/g, '<');
+  unescapedTxt = unescapedTxt.replace(/&quot;/g, '"');
+  unescapedTxt = unescapedTxt.replace(/&apos;/g, "'");
+  return unescapedTxt;
 }
 
 /**

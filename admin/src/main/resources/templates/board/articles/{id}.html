@@ -117,15 +117,19 @@
     }
 
     function addFileInput() {
-      $('.publicFileInputs').append(`
-            <div class="input-group w-50">
-              <input class="form-control mb-2" type="file" name="multipartAttachments"
-                onchange="uiUtil.uploadFile('EXAMPLE_PUBLIC', this);">
-              <div class="invalid-feedback fw-bold">
-                에러 메세지
-              </div>
-            </div>
-          `);
+      const inputGroup = $(`
+        <div class="input-group w-50">
+          <input class="form-control mb-2" type="file" name="multipartAttachments"
+            onchange="uiUtil.uploadFile('EXAMPLE_PUBLIC', this);">
+          <div class="invalid-feedback fw-bold">
+            에러 메세지
+          </div>
+        </div>
+      `);
+
+      $('.publicFileInputs').append(inputGroup);
+
+      return inputGroup;
     }
   </script>
 
@@ -148,7 +152,6 @@
         url: '/api/board/articles/' + f.id.value,
         success(res) {
           console.log(res);
-          window.xx = res;
 
           showAudit(res.title, res.createdBy, uiUtil.isoStrToReadable(res.createdAt)
               , res.updateBy, uiUtil.isoStrToReadable(res.updatedAt));
@@ -156,24 +159,35 @@
           initEditor('#content', (editor) => {
             editor.on('init', function () {
               setTimeout(() => {
-                tinymce.get('content').setContent(uiUtil.unescape(res.content));
+                tinymce.get('content').setContent(uiUtil.unescapeHtml(res.content));
               }, 0);
             });
           });
 
-          f.title.value = res.title;
-          f.startDate.value = res.startDate.substring(0,16);
-          f.endDate.value = res.endDate.substring(0,16);
+          f.title.value = uiUtil.unescapeHtml(res.title);
+          f.startDate.value = res.startDate.substring(0, 16);
+          f.endDate.value = res.endDate.substring(0, 16);
           f.visible.value = res.visible;
 
           res.uploadFiles.forEach((uploadFile) => {
             switch (uploadFile.type) {
-              // 대표 이미지
+                // 대표 이미지
               case 'EXAMPLE_REP':
                 const input = $(f.representImgFile);
                 input.parent().append(`<input type="hidden" name="fileMappingId" value="${uploadFile.id}"/>`);
-
                 uiUtil.showFileInfo(input, uploadFile, true);
+                break;
+                // 다건 첨부 파일
+              case 'EXAMPLE_PUBLIC':
+                let inputGroup = addFileInput();
+                inputGroup.append(`<input type="hidden" name="fileMappingId" value="${uploadFile.id}"/>`);
+                uiUtil.showFileInfo(inputGroup.find('input[type=file]'), uploadFile, false);
+                break;
+                // 비공개 첨부 파일
+              case 'EXAMPLE_PRIVATE':
+                let privateInput = $(f.multipartPrivateAttachment);
+                privateInput.parent().append(`<input type="hidden" name="fileMappingId" value="${uploadFile.id}"/>`);
+                uiUtil.showFileInfo(privateInput, uploadFile, false);
                 break;
             }
           });
