@@ -78,8 +78,8 @@
 
       <div class="mb-3 mt-4 publicFileInputs">
         <label for="formFile1" class="form-label d-block">다건 파일 첨부</label>
-        <button type="button" class="btn btn-success d-inline-block align-top mb-2"
-                onclick="addFileInput();">첨부 파일 추가
+        <button type="button" class="btn btn-outline-secondary d-inline-block align-top mb-2"
+                onclick="addFileInput();"><i class="bi bi-plus-circle"></i> 파일 추가
         </button>
       </div>
 
@@ -96,9 +96,23 @@
         </div>
       </div>
     </div>
-    <button type="button" class="btn btn-primary float-end" onclick="goSave();">저장</button>
-    <button type="button" class="btn btn-light" onclick="gotoList();return false;">목록으로 이동</button>
   </form>
+
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-outline-secondary" title="이전 화면으로 이동" onclick="goPrev();">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+      <button class="btn btn-outline-secondary" title="목록 화면으로 이동" onclick="gotoList();">
+        <i class="bi bi-justify"></i>
+      </button>
+    </div>
+    <div class="col">
+      <button type="button" class="btn btn-primary float-end" onclick="goSave();">
+        <i class="bi bi-save2"></i> 저장
+      </button>
+    </div>
+  </div>
 </section>
 
 <section layout:fragment="script">
@@ -141,11 +155,6 @@
     }
   </script>
   <script>
-    function gotoList() {
-      document.prevParamForm ? document.prevParamForm.submit()
-          : location.href = '/board/exampleBoard';
-    }
-
     function addFileInput() {
       $('.publicFileInputs').append(`
             <div class="input-group w-50">
@@ -176,6 +185,18 @@
       time_24hr: true
     });
   </script>
+
+  <script>
+    const goPrev = () => {
+      history.back();
+    }
+
+    const gotoList = () => {
+      location.href = '/board/articles';
+    }
+  </script>
+
+
 </section>
 
 </html>

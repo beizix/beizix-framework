@@ -178,7 +178,7 @@
 ██      ██   ██  ██████  ███████     ██   ██ ███████ ██   ██ ██████  ██ ██   ████  ██████
 -->
 <div th:fragment="pageHeading" class="bd-title mb-3 row fs-3">
-  <div class="col"><i class="bi bi-list"></i> <span th:text="${#messages.msg(currentURI.id)}"></span></div>
+  <div class="col"><i class="bi bi-list"></i> <span class="text-muted" th:text="${#messages.msg(currentURI.id)}"></span></div>
 </div>
 
 <!--
@@ -211,18 +211,18 @@
 <!-- AUDIT area -->
 <div class="alert alert-info audit-area" role="alert" style="visibility:hidden;" th:fragment="auditArea">
   <p class="mb-0">
+    <i class="bi bi-info-circle-fill"></i>
     <mark class="audit-target">Role</mark>
     <small class="text-body-secondary">is</small>
-    <br/>
     <small class="text-body-secondary">created by</small> <u class="createdBy">beizix</u>
     <small
         class="text-body-secondary">at</small> <small
-      class="text-body-secondary createdAt">2023-02-01 13:12</small></p>
-  <p class="mb-0">
+      class="text-body-secondary createdAt">2023-02-01 13:12</small>
     <small class="text-body-secondary">and lastly updated by</small> <u class="updatedBy">beizix</u>
     <small
         class="text-body-secondary">at</small> <small
-      class="text-body-secondary updatedAt">2023-02-01 13:12</small></p>
+      class="text-body-secondary updatedAt">2023-02-01 13:12</small>
+  </p>
 </div>
 
 </body>
