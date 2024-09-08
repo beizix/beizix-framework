@@ -243,7 +243,7 @@ uiUtil.showFileInfo = (input, uploadFile, showImg) => {
         <li class="name">파일명 - ${uploadFile.name}</li>
         <li class="originName">원본 파일명 (${uploadFile.originName})</li>
         <li class="fileLength">${Math.ceil(uploadFile.fileLength / 1024)}KB</li>
-        <li class="id">File ID (${uploadFile.id})</li>
+        <li class="id">File ID (${uploadFile.id})<span class="btn-sm btn-link fw-bold resetFile" style="cursor:pointer;">삭제</span> </li>
       </ul>
     </div>
   `);
@@ -252,6 +252,26 @@ uiUtil.showFileInfo = (input, uploadFile, showImg) => {
   if (!showImg) {
     fileInfo.find('img').remove();
   }
+
+  // 파일 삭제 함수 정의
+  inputGroup.find('.resetFile').on('click', () => {
+    let fileInput = inputGroup.find('input[type=file]');
+    fileInput.replaceWith(`
+      <input type="file" 
+        id="${fileInput.attr('id')}"
+        class="${fileInput.attr('class')}" 
+        accept="${fileInput.attr('accept')}"
+        name="${fileInput.attr('name')}" 
+        onchange="${fileInput.attr('onchange')}">
+    `);
+
+    inputGroup.find('input[name=fileMappingId]').remove();
+    inputGroup.find('.fileInfo').fadeOut((evt) => {
+      $(evt.target).remove();
+    });
+
+    return false;
+  });
 
   fileInfo.fadeIn();
 }
