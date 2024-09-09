@@ -11,7 +11,7 @@
     <input type="hidden" name="sort" th:field="*{sort}"/>
     <input type="hidden" name="page" th:field="*{page}"/>
 
-    <div class="row bg-secondary p-2 mb-2" style="--bs-bg-opacity: .2;">
+    <div class="row p-2 mb-2 border-secondary border-top border-bottom border-1">
       <div class="col-5">
         <label class="col-sm-2 col-form-label" for="searchField">검색필드</label>
         <select class="form-select d-inline w-25" th:field="*{searchField}"
@@ -35,10 +35,12 @@
         </select>
       </div>
       <div class="col text-end">
-        <button type="button" class="btn btn-secondary"
-                onclick="goSearch();">검색
+        <button type="button" class="btn btn-outline-secondary"
+                onclick="goSearch();">
+          <i class="bi bi-search"></i>
         </button>
-        <button type="button" class="btn btn-light" onclick="goInit();">초기화
+        <button type="button" class="btn btn-outline-secondary" onclick="goInit();">
+          초기화
         </button>
       </div>
     </div>
@@ -46,7 +48,7 @@
     <div class="row">
       <div class="col text-start">
         <div class="fw-bolder text-muted">
-          Total: <span id="totalElements"></span>
+          TOTAL: <span id="totalElements"></span>
         </div>
       </div>
       <div class="col text-end">
@@ -108,14 +110,20 @@
 
   <div class="row">
     <div class="col text-start">
-      <button type="button" class="btn btn-success" onclick="goExcel();">엑셀 다운로드</button>
+      <button type="button" class="btn btn-outline-secondary" onclick="goExcel();">
+        <i class="bi bi-file-earmark-spreadsheet"></i> 엑셀 다운로드
+      </button>
     </div>
     <div class="col text-end">
-      <button type="button" class="btn btn-primary"
-              onclick="goSave();">등록
+      <button type="button" class="btn btn-outline-secondary"
+              onclick="goSave();">
+        <i class="bi bi-save2"></i> 등록
       </button>
-      <button type="button" class="btn btn-danger" onclick="goRemove();">삭제</button>
-      <button type="button" class="btn btn-secondary" onclick="uiUtil.sortable.update();">정렬 변경
+      <button type="button" class="btn btn-outline-secondary" onclick="goRemove();">
+        <i class="bi bi-ui-checks-grid"></i> 삭제
+      </button>
+      <button type="button" class="btn btn-outline-secondary" onclick="uiUtil.sortable.update();">
+        <i class="bi bi-distribute-vertical"></i> 정렬 변경
       </button>
     </div>
   </div>
