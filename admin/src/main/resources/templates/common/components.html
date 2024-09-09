@@ -178,7 +178,7 @@
 ██      ██   ██  ██████  ███████     ██   ██ ███████ ██   ██ ██████  ██ ██   ████  ██████
 -->
 <div th:fragment="pageHeading" class="bd-title mb-3 row fs-3">
-  <div class="col"><i class="bi bi-list"></i> <span class="text-muted" th:text="${#messages.msg(currentURI.id)}"></span></div>
+  <div class="col"><i class="bi bi-list"></i> <span th:text="${#messages.msg(currentURI.id)}"></span></div>
 </div>
 
 <!--

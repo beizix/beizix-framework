@@ -161,7 +161,7 @@
                           scope="row">${idx + (pageNo * f.size.value) + 1}</th>
                       <td><label>
                         <input class="form-check-input"
-                               name="selectedItemIds" type="checkbox" value="${ct.id}"/></label></td>
+                               name="selectIds" type="checkbox" value="${ct.id}"/></label></td>
                       <td><img
                           src="${ct.uploadFile ? uiUtil.getFileReferURL('inline', 'public', ct.uploadFile) : '/static/ui/img/default-img.jpg'}"
                           style="width: 25px;"
@@ -285,20 +285,32 @@
 
     // 체크박스 선택/해제
     function toggleCheckbox(oj) {
-      $('input[name=selectedItemIds]').prop("checked", oj.checked);
+      $('input[name=selectIds]').prop("checked", oj.checked);
     }
 
     function goRemove() {
-      if (!$('input[name=selectedItemIds]').is(':checked')) {
+      if (!$('input[name=selectIds]').is(':checked')) {
         alert(/*[[#{operation.common.remove.choose}]]*/);
         return;
       }
 
       if (confirm(/*[[#{operation.common.remove.ask}]]*/)) {
-        const f = document.paramForm;
-        f.action = '/board/exampleBoard/delete';
-        f.method = 'post';
-        f.submit();
+        const f = document.reqForm;
+        const data = $(f).serializeObject();
+
+        $.ajax({
+          'method': 'DELETE',
+          'url': '/api/board/articles/remove',
+          'data': {
+            'selectIds': data.selectIds,
+            '_csrf': data._csrf
+          },
+          success(res){
+            alert('선택한 아이템이 삭제되었습니다.');
+            f.method = 'GET';
+            f.submit();
+          }
+        });
       }
     }
   </script>
