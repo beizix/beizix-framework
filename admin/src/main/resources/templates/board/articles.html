@@ -276,11 +276,13 @@
     }
 
     function goExcel() {
-      const f = document.paramForm;
-      f.action = '/board/exampleBoard/excel';
-      f.sort.value = convertToPageableSortValue(f.sort.value);
-      f.method = 'get';
-      f.submit();
+      const f = document.reqForm;
+      const data = $(f).serializeObject();
+
+      // size 를 제거하면 전체 목록을 가져온다.
+      delete data.size;
+
+      location.href = '/api/board/articles/excel?' + new URLSearchParams(data).toString();
     }
 
     // 체크박스 선택/해제
