@@ -1,4 +1,4 @@
-package app.module.admin.usecase.user.list.ports.application.domain;
+package app.module.admin.usecase.user.getUsers.ports.application.domain;
 
 import java.time.LocalDateTime;
 import java.util.Set;

@@ -104,24 +104,12 @@
 
   <div th:replace="common/list-components :: pagination(${output})"></div>
 
-  <div class="row">
-    <div class="col text-start">
-      <button type="button" class="btn btn-success" onclick="goExcel();">엑셀 다운로드</button>
-    </div>
-    <div class="col text-end mb-2">
-      <button type="button" class="btn btn-primary"
-              onclick="location.href='/settings/admins/create';">등록
-      </button>
-      <button type="button" class="btn btn-danger" onclick="goRemove();">삭제</button>
-    </div>
-  </div>
-
 </section>
 
 <section layout:fragment="script">
   <script th:inline="javascript">
     // 목록 정렬 표기 및 갱신 기능 적용
-    uiUtil.applyListSortNotation([[${ listOutput.pageable.pageSize }]], [[${listOutput.pageable.sort.toString()}]]);
+    uiUtil.applyListSortNotation([[${ output.pageable.pageSize }]], [[${output.pageable.sort.toString()}]]);
   </script>
 
   <script th:inline="javascript">

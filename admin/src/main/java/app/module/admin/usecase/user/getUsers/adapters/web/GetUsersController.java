@@ -1,9 +1,9 @@
-package app.module.admin.usecase.user.list.adapters.web;
+package app.module.admin.usecase.user.getUsers.adapters.web;
 
-import app.module.admin.usecase.user.list.adapters.web.model.GetUsersReqVO;
-import app.module.admin.usecase.user.list.ports.GetUserListPortIn;
-import app.module.admin.usecase.user.list.ports.application.domain.GetUsers;
-import app.module.admin.usecase.user.list.ports.application.domain.GetUsersCmd;
+import app.module.admin.usecase.user.getUsers.adapters.web.model.GetUsersReqVO;
+import app.module.admin.usecase.user.getUsers.ports.GetUserListPortIn;
+import app.module.admin.usecase.user.getUsers.ports.application.domain.GetUsers;
+import app.module.admin.usecase.user.getUsers.ports.application.domain.GetUsersCmd;
 import app.module.admin.usecase.user.role.list.ports.GetRolesPortIn;
 import app.module.admin.usecase.user.role.list.ports.application.domain.GetRolesCmd;
 import app.module.core.config.adapter.persistence.entity.FrontUser_;

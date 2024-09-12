@@ -1,4 +1,4 @@
-package app.module.admin.usecase.user.list.adapters.persistence;
+package app.module.admin.usecase.user.getUsers.adapters.persistence;
 
 import app.module.core.config.adapter.persistence.entity.FrontUser;
 import org.springframework.data.jpa.repository.JpaRepository;

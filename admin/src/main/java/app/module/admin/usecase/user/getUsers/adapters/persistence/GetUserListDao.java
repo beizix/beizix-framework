@@ -1,10 +1,10 @@
-package app.module.admin.usecase.user.list.adapters.persistence;
+package app.module.admin.usecase.user.getUsers.adapters.persistence;
 
-import app.module.admin.usecase.user.list.ports.GetUserListPortOut;
-import app.module.admin.usecase.user.list.ports.application.domain.GetUsers;
-import app.module.admin.usecase.user.list.ports.application.domain.GetUsersCmd;
-import app.module.admin.usecase.user.list.ports.application.domain.GetUsersPrivilege;
-import app.module.admin.usecase.user.list.ports.application.domain.GetUsersRole;
+import app.module.admin.usecase.user.getUsers.ports.GetUserListPortOut;
+import app.module.admin.usecase.user.getUsers.ports.application.domain.GetUsers;
+import app.module.admin.usecase.user.getUsers.ports.application.domain.GetUsersCmd;
+import app.module.admin.usecase.user.getUsers.ports.application.domain.GetUsersPrivilege;
+import app.module.admin.usecase.user.getUsers.ports.application.domain.GetUsersRole;
 import app.module.core.config.adapter.persistence.entity.FrontUser;
 import app.module.core.config.adapter.persistence.entity.FrontUser_;
 import app.module.core.config.adapter.persistence.entity.UserRole_;

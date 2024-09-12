@@ -1,4 +1,4 @@
-package app.module.admin.usecase.user.list.adapters.web.model;
+package app.module.admin.usecase.user.getUsers.adapters.web.model;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
