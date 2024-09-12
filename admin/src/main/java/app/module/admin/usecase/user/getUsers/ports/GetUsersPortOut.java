@@ -5,6 +5,6 @@ import app.module.admin.usecase.user.getUsers.ports.application.domain.GetUsersC
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface GetUserListPortOut {
+public interface GetUsersPortOut {
   Page<GetUsers> operate(Pageable pageable, GetUsersCmd command);
 }

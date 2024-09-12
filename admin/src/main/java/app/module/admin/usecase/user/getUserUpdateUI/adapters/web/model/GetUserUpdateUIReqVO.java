@@ -1,4 +1,4 @@
-package app.module.admin.usecase.user.update.adapters.web.model;
+package app.module.admin.usecase.user.getUserUpdateUI.adapters.web.model;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -9,5 +9,5 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @EqualsAndHashCode
-public class UpdateUserReqVO {
+public class GetUserUpdateUIReqVO {
 }

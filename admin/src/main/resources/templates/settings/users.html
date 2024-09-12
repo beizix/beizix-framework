@@ -4,14 +4,13 @@
 
 <section layout:fragment="content">
 
-  <form method="post" name="form" th:action="@{/settings/users}" th:object="${reqVO}"
-        onsubmit="goSearch();">
+  <form method="post" name="reqForm" th:action="@{/settings/users}" th:object="${reqVO}">
 
     <!-- hidden parameters -->
-    <input type="hidden" name="page" th:value="${output.pageable.pageNumber}"/>
-    <input type="hidden" name="sort" th:value="${output.pageable.sort}"/>
+    <input type="hidden" name="sort" th:field="*{sort}"/>
+    <input type="hidden" name="page" th:field="*{page}"/>
 
-    <div class="row bg-secondary p-2 mb-2" style="--bs-bg-opacity: .2;">
+    <div class="row p-2 mb-2 border-secondary border-top border-bottom border-1">
       <div class="col-5">
         <label class="col-sm-2 col-form-label" for="searchField">검색필드</label>
         <select class="form-select d-inline w-25" th:field="*{searchField}" id="searchField">
@@ -28,15 +27,16 @@
         <label class="col-sm-2 col-form-label" for="searchRole">권한</label>
         <select class="form-select d-inline w-50" th:field="*{searchRole}" id="searchRole">
           <option value="" selected>전체</option>
-          <option th:each="adminRole : ${roles}" th:value="${adminRole.id}"
-                  th:text="${adminRole.id}"></option>
+          <option th:each="role : ${roles}" th:value="${role.id}"
+                  th:text="${role.id}"></option>
         </select>
       </div>
       <div class="col text-end">
-        <button type="button" class="btn btn-secondary"
-                onclick="goSearch();">검색
+        <button type="button" class="btn btn-outline-secondary"
+                onclick="goSearch();">
+          <i class="bi bi-search"></i>
         </button>
-        <button type="button" class="btn btn-light"
+        <button type="button" class="btn btn-outline-secondary"
                 onclick="goInit();">초기화
         </button>
       </div>
@@ -44,18 +44,19 @@
 
     <div class="row">
       <div class="col text-start">
-        <div class="fw-bolder text-muted">Total: <span
-            th:text="${output.totalElements}"></span></div>
+        <div class="fw-bolder text-muted">
+          TOTAL. <span id="totalElements"></span>
+        </div>
       </div>
       <div class="col text-end">
         <i class="bi bi-list-ol"></i>
         <label>
-          <select class="form-select form-select-sm" name="pageSize" id="pageSize"
+          <select class="form-select form-select-sm" name="size" id="pageSize"
+                  th:field="*{size}"
                   onchange="goSearch()">
             <option
                 th:each="item : ${pageRows}"
-                th:value="${item.codeValue}" th:text="${item.codeText}"
-                th:selected="${#strings.toString(output.pageable.pageSize) eq item.codeValue}"></option>
+                th:value="${item.codeValue}" th:text="${item.codeText}"></option>
           </select>
         </label>
       </div>
@@ -65,9 +66,6 @@
       <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">
-          <label><input class="form-check-input" type="checkbox" onchange="toggleCheckbox(this);"/></label>
-        </th>
         <th scope="col"><a href="#" class="order-able" data-sort-field="id">ID</a></th>
         <th scope="col" class="text-secondary">권한</th>
         <th scope="col"><a href="#" class="order-able" data-sort-field="email">Email</a></th>
@@ -77,54 +75,102 @@
         <th scope="col"><a href="#" class="order-able" data-sort-field="updatedAt">수정일</a></th>
       </tr>
       </thead>
-      <tbody>
-      <tr th:each="item, status : ${output.content}">
-        <th th:text="${status.count + (output.pageable.pageNumber * output.pageable.pageSize)}"
-            scope="row">
-          게시물번호
-        </th>
-        <td><label><input class="form-check-input" name="checkedIds" type="checkbox"
-                          th:value="${item.id}"/></label>
-        </td>
-        <td><a th:href="|javascript:goUpdate('${item.id}')|" th:text="${item.id}">아이디</a></td>
-        <td>
-                <span th:each="role, status : ${item.roles}"
-                      th:text="${role.getId()} + ${!status.last ? ', ': ''}"></span>
-        </td>
-        <td th:text="${item.email}">이메일</td>
-        <td th:text="${item.accountDisabled == null || !item.accountDisabled ? 'Y' : 'N' }"></td>
-        <td th:text="${item.accountLocked == null || !item.accountLocked ? 'N' : 'Y' }"></td>
-        <td th:text="${#temporals.format(item.createdAt, 'yyyy-MM-dd hh:mm')}">등록일</td>
-        <td th:text="${#temporals.format(item.updatedAt, 'yyyy-MM-dd hh:mm')}">수정일</td>
-      </tr>
+      <tbody id="listTBody">
+
       </tbody>
     </table>
 
   </form>
 
-  <div th:replace="common/list-components :: pagination(${output})"></div>
+  <div class="row paging"></div>
 
 </section>
 
 <section layout:fragment="script">
-  <script th:inline="javascript">
-    // 목록 정렬 표기 및 갱신 기능 적용
-    uiUtil.applyListSortNotation([[${ output.pageable.pageSize }]], [[${output.pageable.sort.toString()}]]);
+  <script>
+    const getUsers = (pageNo) => {
+      const f = document.reqForm;
+      f.page.value = pageNo;
+
+      let dataOj = $(f).serializeObject();
+
+      $.ajax({
+        method: 'GET',
+        url: '/api/settings/users',
+        data: dataOj,
+        success(response) {
+          console.log(response);
+
+          $('#totalElements').text(response.totalElements);
+
+          // List 구성하기
+          const tbody = $('#listTBody');
+          tbody.empty();
+
+          $(response.content).each((idx, ct) => {
+            tbody.append(
+                `
+                    <tr data-id="${ct.id}">
+                      <th scope="row">
+                        ${idx + (pageNo * f.size.value) + 1}
+                      </th>
+                      <td><a href="javascript:goUpdate('${ct.id}')">${ct.id}</a></td>
+                      <td>
+                        ${ct.roles[0].id}
+                      </td>
+                      <td>${ct.email}</td>
+                      <td>${ct.accountDisabled ? 'N' : 'Y' }</td>
+                      <td>${ct.accountLocked ? 'N' : 'Y' }</td>
+                      <td>${uiUtil.isoStrToReadable(ct.createdAt)}</td>
+                      <td>${uiUtil.isoStrToReadable(ct.updatedAt)}</td>
+                    </tr>
+                `
+            );
+          });
+
+          if (!$(response.content).length) {
+            tbody.append(`
+              <tr>
+                <td colspan="8" class="text-center text-muted">게시물이 존재하지 않습니다.</td>
+              </tr>
+            `);
+          }
+
+          // Pagination 구성하기
+          const paging = $('.paging');
+          paging.empty();
+          paging.append(
+              uiUtil.getPagingUI(pageNo, f.size.value, response.totalPages,
+                  (movePageNo) => {
+                    f.page.value = movePageNo;
+                    goSearch();
+                  }));
+
+          // 리스트 상단 정렬 notation 및 갱신 기능 적용
+          uiUtil.addSortNotation(f.sort.value, (targetPage, targetSort) => {
+            f.page.value = targetPage;
+            f.sort.value = targetSort;
+            goSearch();
+          });
+        }
+      })
+    }
+
+    // 최초 리스트 로드
+    getUsers(0);
   </script>
 
   <script th:inline="javascript">
     // 검색
     function goSearch() {
-      const f = document.form;
-      f.page.value = 0;
-      f.sort.value = convertToPageableSortValue(f.sort.value);
-      f.method = 'get';
+      const f = document.reqForm;
+      f.method = 'GET';
       f.submit();
     }
 
     // 초기화
     function goInit() {
-      const f = document.form;
+      const f = document.reqForm;
       f.searchField.value = '';
       f.searchValue.value = '';
       f.searchRole.value = '';
@@ -132,7 +178,7 @@
 
     // 수정페이지 이동
     function goUpdate(id) {
-      const f = document.form;
+      const f = document.reqForm;
       f.action = '/settings/users/update/' + id;
       f.method = 'get';
       f.submit();
@@ -150,7 +196,7 @@
       }
 
       if (confirm(/*[[#{operation.common.remove.ask}]]*/)) {
-        const f = document.form;
+        const f = document.reqForm;
         f.action = '/settings/admins/delete';
         f.method = 'post';
         f.submit();
@@ -158,7 +204,7 @@
     }
 
     function goExcel() {
-      const f = document.form;
+      const f = document.reqForm;
       f.action = '/settings/admins/excel';
       f.sort.value = convertToPageableSortValue(f.sort.value);
       f.method = 'post';

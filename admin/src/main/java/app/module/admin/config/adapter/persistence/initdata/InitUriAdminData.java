@@ -191,7 +191,7 @@ public class InitUriAdminData implements ApplicationRunner {
         ADMIN_SETTINGS_USER,
         ADMIN_SETTINGS_USER_UPDATE,
         "사용자 수정",
-        "/settings/users/update/{{pathVar}}",
+        "/settings/users/{{pathVar}}",
         false,
         Set.of("ROLE_SUPER", "ROLE_MANAGER"));
 

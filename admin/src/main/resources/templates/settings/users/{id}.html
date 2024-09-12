@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/layout}">
+
+<section layout:fragment="content">
+
+  <form
+      th:action="@{/settings/users/update}"
+      class="fw-bold"
+      th:object="${user}">
+
+    <input type="hidden" name="id" th:value="${id}">
+
+    <div class="container">
+      <div class="row">
+        <!-- audit area -->
+        <div th:replace="common/components :: auditArea"></div>
+      </div>
+
+      <div class="row mb-3">
+        <label class="form-label" for="id">ID *</label>
+        <div class="input-group w-50">
+          <input id="id" class="form-control" th:field="*{id}"
+                 readonly="readonly"/>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <label class="form-label" for="email">Email *</label>
+        <div class="input-group w-50">
+          <input id="email" type="email" class="form-control" th:field="*{email}"
+                 th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'"/>
+          <div class="invalid-feedback fw-bold" th:if="${#fields.hasErrors('email')}"
+               th:errors="*{email}">
+            에러 메세지
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <label class="form-label" for="roleIds">권한 *</label>
+        <div class="input-group w-50">
+          <select class="form-control" multiple th:field="*{roles}" id="roleIds"
+                  th:classappend="${#fields.hasErrors('roles')} ? 'is-invalid'">
+            <option th:each="role : ${roles}" th:value="${role.id}"
+                    th:text="${role.id}"></option>
+          </select>
+          <div class="invalid-feedback fw-bold" th:if="${#fields.hasErrors('roles')}"
+               th:errors="*{roles}">
+            에러 메세지
+          </div>
+        </div>
+      </div>
+
+      <!-- 활성화 -->
+      <div class="row mb-3">
+        <label class="col-sm-2 col-form-label" for="inlineRadio1">비활성화 여부 *</label>
+        <div class="col-sm-4 pt-1">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" th:field="*{accountDisabled}"
+                   id="inlineRadio1" value="true">
+            <label class="form-check-label" for="inlineRadio1">비활성화</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" th:field="*{accountDisabled}"
+                   id="inlineRadio2" value="false">
+            <label class="form-check-label" for="inlineRadio2">활성화</label>
+          </div>
+          <div class="invalid-feedback fw-bold" th:if="${#fields.hasErrors('accountDisabled')}"
+               th:errors="*{accountDisabled}">
+            에러 메세지
+          </div>
+        </div>
+      </div>
+
+      <!-- 계정잠김 -->
+      <div class="row mb-3">
+        <label class="col-sm-2 col-form-label" for="accountLocked1">계정잠김 여부*</label>
+        <div class="col-sm-4 pt-1">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" th:field="*{accountLocked}"
+                   id="accountLocked1" value="true">
+            <label class="form-check-label" for="accountLocked1">Locked</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" th:field="*{accountLocked}"
+                   id="accountLocked2" value="false">
+            <label class="form-check-label" for="accountLocked2">Unlocked</label>
+          </div>
+          <div class="invalid-feedback fw-bold" th:if="${#fields.hasErrors('accountLocked')}"
+               th:errors="*{accountLocked}">
+            에러 메세지
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary float-end">저장</button>
+      <button type="button" class="btn btn-light" onclick="gotoList();return false;">목록으로 이동</button>
+    </div>
+  </form>
+</section>
+
+<section layout:fragment="script">
+
+</section>
+
+</html>

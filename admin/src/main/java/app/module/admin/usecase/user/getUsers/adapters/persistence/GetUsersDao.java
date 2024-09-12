@@ -1,6 +1,6 @@
 package app.module.admin.usecase.user.getUsers.adapters.persistence;
 
-import app.module.admin.usecase.user.getUsers.ports.GetUserListPortOut;
+import app.module.admin.usecase.user.getUsers.ports.GetUsersPortOut;
 import app.module.admin.usecase.user.getUsers.ports.application.domain.GetUsers;
 import app.module.admin.usecase.user.getUsers.ports.application.domain.GetUsersCmd;
 import app.module.admin.usecase.user.getUsers.ports.application.domain.GetUsersPrivilege;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
-class GetUserListDao implements GetUserListPortOut {
+class GetUsersDao implements GetUsersPortOut {
   private final GetUserListRepo getUserListRepo;
 
   @Override

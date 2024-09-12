@@ -48,7 +48,7 @@
     <div class="row">
       <div class="col text-start">
         <div class="fw-bolder text-muted">
-          TOTAL: <span id="totalElements"></span>
+          TOTAL. <span id="totalElements"></span>
         </div>
       </div>
       <div class="col text-end">
@@ -106,7 +106,6 @@
   </form>
 
   <div class="row paging"></div>
-  <!--  <div th:replace="common/list-components :: pagination(${listOutput})"></div>-->
 
   <div class="row">
     <div class="col text-start">
@@ -179,6 +178,14 @@
                 `
             );
           });
+
+          if (!$(response.content).length) {
+            tbody.append(`
+              <tr>
+                <td colspan="10" class="text-center text-muted">게시물이 존재하지 않습니다.</td>
+              </tr>
+            `);
+          }
 
           // Pagination 구성하기
           const paging = $('.paging');

@@ -35,7 +35,7 @@ public class AdminURIInterceptor implements HandlerInterceptor {
     URICurrentMatching currentURI = uriCurrentMatchingPortIn.connect(AppType.ADMIN, requestURI);
     if (currentURI == null) {
       request.setAttribute("message", String.format("매핑되는 않은 URI - %s", requestURI));
-      request.setAttribute("exception", "AdminURIInterceptor - NoMatchingURIException");
+      request.setAttribute("exception", "NoMatchingURIException");
       request.getRequestDispatcher("/error/interceptor").forward(request, response);
       return false;
     }
