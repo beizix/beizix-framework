@@ -1,4 +1,4 @@
-package app.module.admin.usecase.user.role.list.adapters.persistence;
+package app.module.admin.usecase.user.getRoles.adapters.persistence;
 
 import app.module.core.config.adapter.persistence.entity.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,10 +1,9 @@
-package app.module.admin.usecase.user.role.list.adapters.persistence;
+package app.module.admin.usecase.user.getRoles.adapters.persistence;
 
-import java.util.Collections;
 import lombok.RequiredArgsConstructor;
-import app.module.admin.usecase.user.role.list.ports.application.domain.GetRoles;
-import app.module.admin.usecase.user.role.list.ports.application.domain.GetRolesCmd;
-import app.module.admin.usecase.user.role.list.ports.GetRolesPortOut;
+import app.module.admin.usecase.user.getRoles.ports.application.domain.GetRoles;
+import app.module.admin.usecase.user.getRoles.ports.application.domain.GetRolesCmd;
+import app.module.admin.usecase.user.getRoles.ports.GetRolesPortOut;
 import java.util.List;
 import java.util.stream.Collectors;
 

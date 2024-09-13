@@ -178,10 +178,7 @@
 
     // 수정페이지 이동
     function goUpdate(id) {
-      const f = document.reqForm;
-      f.action = '/settings/users/update/' + id;
-      f.method = 'get';
-      f.submit();
+      location.href = '/settings/users/' + id;
     }
 
     // 체크박스 선택/해제

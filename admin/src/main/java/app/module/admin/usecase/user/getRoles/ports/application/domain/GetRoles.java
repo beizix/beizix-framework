@@ -1,4 +1,4 @@
-package app.module.admin.usecase.user.role.list.ports.application.domain;
+package app.module.admin.usecase.user.getRoles.ports.application.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
