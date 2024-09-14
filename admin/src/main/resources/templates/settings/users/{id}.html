@@ -5,9 +5,9 @@
 <section layout:fragment="content">
 
   <form name="reqForm"
-      th:action="@{/settings/users/update}"
-      class="fw-bold"
-      th:object="${user}">
+        th:action="@{/settings/users/update}"
+        class="fw-bold"
+        th:object="${user}">
 
     <div class="container">
       <div class="row">
@@ -49,17 +49,11 @@
       <!-- 활성화 -->
       <div class="row mb-3">
         <label class="form-label" for="inlineRadio1">비활성화 여부 *</label>
-        <div class="input-group w-50 fw-normal">
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="accountDisabled"
-                   id="inlineRadio1" value="true">
-            <label class="form-check-label" for="inlineRadio1">비활성화</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="accountDisabled"
-                   id="inlineRadio2" value="false">
-            <label class="form-check-label" for="inlineRadio2">활성화</label>
-          </div>
+        <div class="input-group w-25">
+          <select class="form-select" name="accountDisabled">
+            <option value="true">비활성화</option>
+            <option value="false">활성화</option>
+          </select>
           <div class="invalid-feedback fw-bold">
             에러 메세지
           </div>
@@ -69,17 +63,11 @@
       <!-- 계정잠김 -->
       <div class="row mb-3">
         <label class="form-label" for="accountLocked1">계정잠김 여부 *</label>
-        <div class="input-group w-50 fw-normal">
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="accountLocked"
-                   id="accountLocked1" value="true">
-            <label class="form-check-label" for="accountLocked1">Locked</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="accountLocked"
-                   id="accountLocked2" value="false">
-            <label class="form-check-label" for="accountLocked2">Unlocked</label>
-          </div>
+        <div class="input-group w-25">
+          <select class="form-select" name="accountLocked">
+            <option value="true">Locked</option>
+            <option value="false">Unlocked</option>
+          </select>
           <div class="invalid-feedback fw-bold">
             에러 메세지
           </div>
@@ -108,7 +96,7 @@
       </button>
     </div>
     <div class="col">
-      <button type="button" class="btn btn-primary float-end" onclick="goSave();">
+      <button type="button" class="btn btn-primary float-end" onclick="updateUser();">
         <i class="bi bi-save2"></i> 저장
       </button>
     </div>
@@ -123,7 +111,7 @@
       $.ajax({
         'method': 'GET',
         'url': '/api/settings/users/' + f.id.value,
-        success(res){
+        success(res) {
           console.log(res);
 
           showAudit(res.id, res.createdBy, uiUtil.isoStrToReadable(res.createdAt)
@@ -140,6 +128,34 @@
 
     // 상세정보 얻기
     getUser();
+  </script>
+
+  <script>
+    const updateUser = () => {
+      const f = document.reqForm;
+      const obj = $(f).serializeObject();
+
+      $.ajax({
+        'method': 'PUT',
+        'url': '/api/settings/users/update',
+        'data': obj,
+        success(res) {
+          if (confirm(`'${res.id}' 정보가 수정되었습니다.\n이전 화면으로 이동하시겠습니까?`)) {
+            history.back();
+          }
+        },
+        statusCode: {
+          '402': (res) => {
+            $(res.responseJSON).each((idx, oj) => {
+              let target = $(f).find('[name=' + oj.field + ']');
+              target.addClass('is-invalid');
+
+              target.parent().find('.invalid-feedback').text(oj.defaultMessage);
+            });
+          }
+        }
+      })
+    }
   </script>
 </section>
 
