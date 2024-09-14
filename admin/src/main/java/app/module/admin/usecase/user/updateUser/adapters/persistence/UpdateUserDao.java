@@ -13,15 +13,18 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 class UpdateUserDao implements UpdateUserPortOut {
   private final UpdateUserRepo updateUserRepo;
+  private final GetUserPwdRepo getUserPwdRepo;
 
   @Override
   public void operate(UpdateUserCmd command) {
+    FrontUser getUser = getUserPwdRepo.findById(command.getId()).orElseThrow();
+
     updateUserRepo.save(
         new FrontUser(
             command.getId(),
-            command.getPassword(),
+            getUser.getPassword(),
             command.getEmail(),
-            command.getPasswordUpdatedAt(),
+            getUser.getPasswordUpdatedAt(),
             command.getAccountDisabled(),
             command.getLoginFailCnt(),
             command.getAccountLocked(),
