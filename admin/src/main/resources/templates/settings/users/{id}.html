@@ -6,8 +6,8 @@
 
   <form name="reqForm"
         th:action="@{/settings/users/update}"
-        class="fw-bold"
-        th:object="${user}">
+        method="post"
+        class="fw-bold">
 
     <div class="container">
       <div class="row">
@@ -135,6 +135,9 @@
       const f = document.reqForm;
       const obj = $(f).serializeObject();
 
+      // 기존 에러 메세지 초기화
+      $('.is-invalid').removeClass('is-invalid');
+
       $.ajax({
         'method': 'PUT',
         'url': '/api/settings/users/update',
@@ -145,7 +148,7 @@
           }
         },
         statusCode: {
-          '402': (res) => {
+          '422': (res) => {
             $(res.responseJSON).each((idx, oj) => {
               let target = $(f).find('[name=' + oj.field + ']');
               target.addClass('is-invalid');

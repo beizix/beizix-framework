@@ -226,6 +226,9 @@
 
       const obj = $(f).serializeObject();
 
+      // 기존 에러 메세지 초기화
+      $('.is-invalid').removeClass('is-invalid');
+
       $.ajax({
         'method': 'PUT',
         'url': '/api/board/articles/update',
