@@ -26,7 +26,7 @@ class CreateUserDao implements CreateUserPortOut {
   @Override
   @Transactional
   public Optional<CreateUser> operate(CreateUserCmd command) {
-    removeUserWithRolePortIn.operate(new RemoveUserWithRoleCmd("generalUser"));
+    removeUserWithRolePortIn.operate(new RemoveUserWithRoleCmd(command.getId()));
 
     FrontUser frontUser =
         createUserRepo.save(

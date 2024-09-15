@@ -1,6 +1,5 @@
 package app.module.admin.usecase.user.updateUser.ports.application.domain;
 
-import java.time.LocalDateTime;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -17,5 +16,5 @@ public class UpdateUserCmd {
   private Boolean accountDisabled;
   private Integer loginFailCnt;
   private Boolean accountLocked;
-  private Set<UpdateUserRoleCmd> roles;
+  private Set<String> roles;
 }
