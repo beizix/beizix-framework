@@ -1,23 +1,22 @@
 package app.module.admin.usecase.user.updateUser.adapters.web;
 
-import javax.validation.Valid;
-
+import app.module.admin.usecase.user.updateUser.adapters.web.model.UpdateUserReqVO;
 import app.module.admin.usecase.user.updateUser.ports.UpdateUserPortIn;
 import app.module.admin.usecase.user.updateUser.ports.application.domain.UpdateUserCmd;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.validation.BindingResult;
-import app.module.admin.usecase.user.updateUser.adapters.web.model.UpdateUserReqVO;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
 class UpdateUserController {
   private final UpdateUserPortIn updateUserPortIn;
 
-  @PutMapping(path = "/api/settings/users/update")
+  @PatchMapping(path = "/api/settings/users/update")
   ResponseEntity<?> operate(@Valid UpdateUserReqVO reqVO, BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
       return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)

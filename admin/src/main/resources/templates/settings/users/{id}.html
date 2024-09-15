@@ -139,7 +139,7 @@
       $('.is-invalid').removeClass('is-invalid');
 
       $.ajax({
-        'method': 'PUT',
+        'method': 'PATCH',
         'url': '/api/settings/users/update',
         'data': obj,
         success(res) {

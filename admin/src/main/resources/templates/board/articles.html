@@ -222,7 +222,7 @@
               // 정렬변경 수행 로직
               (updateData) => {
                 $.ajax({
-                  type: 'PATCH',
+                  method: 'PATCH',
                   url: '/api/board/articles/sort',
                   data: JSON.stringify(updateData),
                   contentType: "application/json; charset=utf-8;",
