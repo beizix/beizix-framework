@@ -1,5 +1,6 @@
 package app.module.core.config.adapter.persistence.entity;
 
+import app.module.core.config.adapter.persistence.component.AuditEntity;
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -8,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import app.module.core.config.adapter.persistence.component.AuditEntity;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Comment;
 
