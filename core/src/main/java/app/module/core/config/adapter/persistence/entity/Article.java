@@ -17,6 +17,7 @@ import org.hibernate.mapping.Collection;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "article")

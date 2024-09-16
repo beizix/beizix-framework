@@ -329,16 +329,17 @@ uiUtil.sortable = function () {
 
     $(parentSelector).sortable({
       axis: 'y',
-      placeholder: 'ui-state-highlight',
       handle: handleSelector,
       opacity: 0.5,
-      start: function () {
+      start: function (e, ui) {
         if (!conditionCheckFunc()) {
           if (confirm(
             'Sorting 을 하려면 우선 정렬번호 순으로 정렬되어야 합니다. 정렬 조건을 변경하시겠습니까?')) {
             initSortFunc();
           }
         }
+        ui.placeholder.height(ui.item.height());
+        ui.placeholder.css({ 'background': '#eee', 'visibility': 'visible' });
       },
       update: function (event, ui) {
         _order(parentSelector);
