@@ -1,11 +1,8 @@
 package app.module.core.usecase.file.url.application.port.in;
 
-import app.module.core.config.application.enums.ContentDispositionType;
 import app.module.core.config.application.enums.FileStorageType;
-import app.module.core.usecase.file.saveToStorage.ports.application.domain.SaveToStorage;
 import app.module.core.usecase.file.url.strategy.FileUrlStrategy;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,13 +13,8 @@ public class FileUrlService implements FileUrlPortIn {
   private final Set<FileUrlStrategy> fileUrlStrategies;
 
   @Override
-  public String getInline(SaveToStorage saveToStorage) {
-    return Optional.ofNullable(saveToStorage)
-        .map(
-            uploadInfo ->
-                getFileUrlStrategy(uploadInfo.getType().getFileStorageType())
-                    .getInlineURL(uploadInfo.getPath(), uploadInfo.getName()))
-        .orElse(null);
+  public String getInline(FileStorageType storageType, String subPath, String filename) {
+    return getFileUrlStrategy(storageType).getInlineURL(subPath, filename);
   }
 
   @Override

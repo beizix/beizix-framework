@@ -1,5 +1,6 @@
 package app.module.admin.usecase.editor.adapters.web;
 
+import app.module.core.usecase.file.saveToStorage.ports.application.domain.SaveToStorage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,14 +23,14 @@ public class EditorImageUploadController {
 
   @PostMapping(path = "/api/editorImage/upload")
   ResponseEntity<?> editorImageUpload(MultipartFile editorImage) throws IOException {
+    SaveToStorage saveToStorage =
+        saveToStoragePortIn.operate(FileUploadType.EDITOR_IMAGE, editorImage).orElseThrow();
+
     return ResponseEntity.status(HttpStatus.OK)
         .body(
-            RestResponse.builder()
-                .message(
-                    fileUrlPortIn.getInline(
-                        saveToStoragePortIn
-                            .operate(FileUploadType.EDITOR_IMAGE, editorImage)
-                            .orElse(null)))
-                .build());
+            fileUrlPortIn.getInline(
+                saveToStorage.getType().getFileStorageType(),
+                saveToStorage.getPath(),
+                saveToStorage.getName()));
   }
 }

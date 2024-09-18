@@ -51,7 +51,7 @@ const editorImageUpload = (blobInfo, progress) => new Promise(
         },
         success: function (response) {
           // alert(response.message);
-          resolve(response.message);
+          resolve(response);
         },
         statusCode: {
           // error

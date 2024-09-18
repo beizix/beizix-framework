@@ -3,6 +3,7 @@ package app.module.core.usecase.uri.save.application.port.in;
 import java.io.IOException;
 import javax.transaction.Transactional;
 
+import app.module.core.usecase.file.saveToStorage.ports.application.domain.SaveToStorage;
 import app.module.core.usecase.uri.save.application.domain.URISaveCommand;
 import app.module.core.usecase.uri.save.application.port.out.URIMaxOrderNoPortOut;
 import app.module.core.usecase.uri.save.application.port.out.URISavePortOut;
@@ -51,11 +52,12 @@ class URISaveService implements URISavePortIn {
       uri.setOrderNo(uriMaxOrderNoPortOut.connect(uri.getParentId()) + 1);
 
     // og image 파일 업로드
-    saveToStoragePortIn
-        .operate(FileUploadType.OG_IMAGE, ogImageFile)
-        .ifPresent(
-            postingFile ->
-                uri.setOgImage(fileUrlPortIn.getInline(postingFile)));
+    SaveToStorage ogImg =
+        saveToStoragePortIn.operate(FileUploadType.OG_IMAGE, ogImageFile).orElseThrow();
+
+    uri.setOgImage(
+        fileUrlPortIn.getInline(
+            ogImg.getType().getFileStorageType(), ogImg.getPath(), ogImg.getName()));
 
     return uriSavePortOut.connect(uri);
   }
