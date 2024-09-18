@@ -15,7 +15,7 @@ public enum FileUploadType {
   // WEB Editor 이미지 파일
   EDITOR_IMAGE(FileStorageType.LOCAL, true, "/editorImage", Set.of(AcceptableFileType.IMAGE)),
   // 예제 게시판 대표 이미지
-  EXAMPLE_REP(FileStorageType.S3, true, "/exampleBoard", Set.of(AcceptableFileType.IMAGE)),
+  EXAMPLE_REP(FileStorageType.LOCAL, true, "/exampleBoard", Set.of(AcceptableFileType.IMAGE)),
   // 예제 게시판 PUBLIC 다건 파일 업로드
   EXAMPLE_PUBLIC(
       FileStorageType.LOCAL,
