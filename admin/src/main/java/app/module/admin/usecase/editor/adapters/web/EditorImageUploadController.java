@@ -26,8 +26,7 @@ public class EditorImageUploadController {
         .body(
             RestResponse.builder()
                 .message(
-                    fileUrlPortIn.connect(
-                        ContentDispositionType.INLINE,
+                    fileUrlPortIn.getInline(
                         saveToStoragePortIn
                             .operate(FileUploadType.EDITOR_IMAGE, editorImage)
                             .orElse(null)))

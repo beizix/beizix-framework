@@ -55,7 +55,7 @@ class URISaveService implements URISavePortIn {
         .operate(FileUploadType.OG_IMAGE, ogImageFile)
         .ifPresent(
             postingFile ->
-                uri.setOgImage(fileUrlPortIn.connect(ContentDispositionType.INLINE, postingFile)));
+                uri.setOgImage(fileUrlPortIn.getInline(postingFile)));
 
     return uriSavePortOut.connect(uri);
   }

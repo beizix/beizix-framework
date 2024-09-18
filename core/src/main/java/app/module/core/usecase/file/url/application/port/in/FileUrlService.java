@@ -1,15 +1,14 @@
 package app.module.core.usecase.file.url.application.port.in;
 
-import app.module.core.usecase.file.saveToStorage.ports.application.domain.SaveToStorage;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import app.module.core.config.application.enums.ContentDispositionType;
 import app.module.core.config.application.enums.FileStorageType;
+import app.module.core.usecase.file.saveToStorage.ports.application.domain.SaveToStorage;
 import app.module.core.usecase.file.url.strategy.FileUrlStrategy;
-
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service(value = "fileUrlService")
 @RequiredArgsConstructor
@@ -17,20 +16,18 @@ public class FileUrlService implements FileUrlPortIn {
   private final Set<FileUrlStrategy> fileUrlStrategies;
 
   @Override
-  public String connect(
-      ContentDispositionType contentDispositionType, SaveToStorage saveToStorage) {
+  public String getInline(SaveToStorage saveToStorage) {
     return Optional.ofNullable(saveToStorage)
         .map(
             uploadInfo ->
                 getFileUrlStrategy(uploadInfo.getType().getFileStorageType())
-                    .operate(contentDispositionType, uploadInfo))
+                    .getInlineURL(uploadInfo.getPath(), uploadInfo.getName()))
         .orElse(null);
   }
 
   @Override
-  public String connect(String contentDispositionTypeName, SaveToStorage saveToStorage) {
-    return this.connect(ContentDispositionType.valueOf(contentDispositionTypeName),
-        saveToStorage);
+  public String getAttachment(FileStorageType storageType, Long fileId) {
+    return getFileUrlStrategy(storageType).getAttachmentURL(fileId);
   }
 
   private FileUrlStrategy getFileUrlStrategy(FileStorageType fileStorageType) {

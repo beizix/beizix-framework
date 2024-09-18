@@ -99,7 +99,7 @@
           <input class="form-check-input"
                  name="selectedItemIds" type="checkbox" th:value="${item.id}"/></label></td>
         <td><img
-            th:src="${@fileUrlService.connect('INLINE', item.representImage)}"
+            th:src="${@fileUrlService.getInline('INLINE', item.representImage)}"
             style="width: 25px;"
             class="img-thumbnail" onerror="this.src='/static/ui/img/default-img.jpg'"/></td>
         <td><a th:href="|javascript:goUpdate('${item.id}')|"

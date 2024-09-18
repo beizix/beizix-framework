@@ -1,14 +1,10 @@
 package app.module.aws.usecase.file.url.strategy;
 
-import app.module.core.usecase.file.saveToStorage.ports.application.domain.SaveToStorage;
+import app.module.core.config.application.enums.FileStorageType;
+import app.module.core.usecase.file.url.strategy.FileUrlStrategy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import app.module.core.config.application.enums.ContentDispositionType;
-import app.module.core.config.application.enums.FileStorageType;
-import app.module.core.usecase.file.url.strategy.FileUrlStrategy;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,17 +21,12 @@ public class S3FileUrlStrategy implements FileUrlStrategy {
   }
 
   @Override
-  public String operate(
-      ContentDispositionType contentDispositionType, SaveToStorage saveToStorage) {
-    return Optional.ofNullable(saveToStorage)
-        .map(
-            uploadInfo ->
-                "https://"
-                    + cloudFrontDomain
-                    + bucketFolder
-                    + uploadInfo.getPath()
-                    + "/"
-                    + uploadInfo.getName())
-        .orElse(null);
+  public String getInlineURL(String subPath, String filename) {
+    return "https://" + cloudFrontDomain + bucketFolder + subPath + "/" + filename;
+  }
+
+  @Override
+  public String getAttachmentURL(Long fileId) {
+    return String.format("/content-disposition/attachment/%s", fileId);
   }
 }

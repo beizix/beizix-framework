@@ -81,7 +81,7 @@
                class="text-decoration-none"></a>
           </div>
           <div class="mt-2">
-            <img th:src="${@fileUrlService.connect('INLINE', repImg)}"
+            <img th:src="${@fileUrlService.getInline('INLINE', repImg)}"
                  style="max-width: 100%"/>
           </div>
         </div>
@@ -105,7 +105,7 @@
         <label class="col-sm-2 col-form-label" style="padding-top: 0;">다건 파일 첨부</label>
         <div class="col-sm-6">
           <div th:each="item, status : ${bindingVO.attachments}">
-            <a th:href="${@fileUrlService.connect('ATTACHMENT', item.saveToStorage)}"
+            <a th:href="${@fileUrlService.getAttachment(item.getSaveToStorage().getType().getFileStorageType(), item.getId())}"
                th:text="${item.saveToStorage.originName}"
                th:attr="data-file-seq=${item.id}"
                data-posting-type='public'
@@ -141,7 +141,7 @@
         <label for="filePrivate" class="form-label d-block">private 파일 첨부 (외부 비공개)</label>
         <div class="row mb-2">
           <a th:if="${bindingVO.privateAttachment != null && bindingVO.privateAttachment.path != null}"
-             th:href="${@fileUrlService.connect('ATTACHMENT', bindingVO.privateAttachment)}"
+             th:href="${@fileUrlService.getAttachment('ATTACHMENT', bindingVO.privateAttachment)}"
              th:text="${bindingVO.privateAttachment.originName}"
              class="text-decoration-none"></a>
         </div>

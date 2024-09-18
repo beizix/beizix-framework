@@ -1,9 +1,7 @@
 package app.module.core.usecase.file.url.strategy;
 
-import app.module.core.usecase.file.saveToStorage.ports.application.domain.SaveToStorage;
-import org.springframework.stereotype.Service;
-import app.module.core.config.application.enums.ContentDispositionType;
 import app.module.core.config.application.enums.FileStorageType;
+import org.springframework.stereotype.Service;
 
 @Service
 public class LocalFileUrlStrategy implements FileUrlStrategy {
@@ -13,29 +11,12 @@ public class LocalFileUrlStrategy implements FileUrlStrategy {
   }
 
   @Override
-  public String operate(
-      ContentDispositionType contentDispositionType, SaveToStorage saveToStorage) {
-    String fileUrl = null;
+  public String getInlineURL(String subPath, String filename) {
+    return String.format("/content-disposition/inline%s/%s", subPath, filename);
+  }
 
-    if (contentDispositionType.equals(ContentDispositionType.INLINE)) {
-      fileUrl =
-          String.format(
-              "/content-disposition/inline/%s%s/%s",
-              saveToStorage.getType().isPubic() ? "public" : "private",
-              saveToStorage.getPath(),
-              saveToStorage.getName());
-    }
-
-    if (contentDispositionType.equals(ContentDispositionType.ATTACHMENT)) {
-      fileUrl =
-          String.format(
-              "/content-disposition/attachment/%s?path=%s&name=%s&originName=%s",
-              saveToStorage.getType().isPubic() ? "public" : "private",
-              saveToStorage.getPath(),
-              saveToStorage.getName(),
-              saveToStorage.getOriginName());
-    }
-
-    return fileUrl;
+  @Override
+  public String getAttachmentURL(Long fileId) {
+    return String.format("/content-disposition/attachment/%s", fileId);
   }
 }
