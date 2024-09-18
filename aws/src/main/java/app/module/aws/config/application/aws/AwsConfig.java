@@ -11,10 +11,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 //@Profile(value = {"local", "dev", "prod"})
 public class AwsConfig {
-  @Value("${beizix.aws.s3.accessKey}")
+  @Value("${app.aws.s3.accessKey}")
   private String s3AccessKey;
 
-  @Value("${beizix.aws.s3.secretKey}")
+  @Value("${app.aws.s3.secretKey}")
   private String s3SecretKey;
 
   @Value("${cloud.aws.region.static}")

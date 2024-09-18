@@ -19,10 +19,10 @@ import java.io.InputStream;
 public class S3FileUploadStrategy implements FileUploadStrategy {
   private final AmazonS3Client amazonS3Client;
 
-  @Value("${beizix.aws.s3.bucketName}")
+  @Value("${app.aws.s3.bucketName}")
   private String bucket;
 
-  @Value("${beizix.aws.s3.bucketFolder}")
+  @Value("${app.aws.s3.bucketFolder}")
   private String bucketFolder;
 
   @Override

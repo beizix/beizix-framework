@@ -37,7 +37,7 @@ S3와 CloudFront 를 이용하기 위한 설정 정보를 기입해야 한다.
 
 | 공개 범위 | Content-Disposition | URL | 
 |---|---|---|
-| `Public` | `INLINE` | ${beizix.aws.cloudfront.domain}/파일경로/파일명.확장자
+| `Public` | `INLINE` | ${app.aws.cloudfront.domain}/파일경로/파일명.확장자
 |  | `ATTACHMENT` | X
 | `Private` | `INLINE` | X
 |  | `ATTACHMENT` | X 

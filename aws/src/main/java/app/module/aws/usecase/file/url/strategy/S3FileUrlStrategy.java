@@ -13,10 +13,10 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class S3FileUrlStrategy implements FileUrlStrategy {
-  @Value("${beizix.aws.cloudfront.domain}")
+  @Value("${app.aws.cloudfront.domain}")
   private String cloudFrontDomain;
 
-  @Value("${beizix.aws.s3.bucketFolder}")
+  @Value("${app.aws.s3.bucketFolder}")
   private String bucketFolder;
 
   @Override

@@ -28,7 +28,7 @@ class GetAttachmentController {
   @GetMapping(path = "/content-disposition/attachment/{publicOrPrivate}/**")
   ResponseEntity<?> operate(
       @PathVariable String publicOrPrivate,
-      @RequestParam(required = false) String originalFilename,
+      @RequestParam(required = false) String originName,
       HttpServletRequest request)
       throws MalformedURLException {
 
@@ -58,8 +58,8 @@ class GetAttachmentController {
     UrlResource resource = new UrlResource("file:" + filePath);
 
     String fileName =
-        StringUtils.isNotEmpty(originalFilename)
-            ? originalFilename
+        StringUtils.isNotEmpty(originName)
+            ? originName
             : subFilePaths[subFilePaths.length - 1];
 
     String encodedUploadFileName = UriUtils.encode(fileName, StandardCharsets.UTF_8);

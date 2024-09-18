@@ -116,8 +116,9 @@ let uiUtil = {
       case 'inline':
         return `/content-disposition/${referType}/${accessType}${uploadFile.path}/${uploadFile.name}`;
       case 'attachment':
-        return `/content-disposition/${referType}/${accessType}${uploadFile.path}/${uploadFile.name}?originalFilename=${uploadFile.originName}`;
+        return `/content-disposition/${referType}/${accessType}${uploadFile.path}/${uploadFile.name}?originName=${uploadFile.originName}`;
     }
+
   },
   /**
    * 목록 정렬 표기 및 갱신 기능 적용 - .order-able css class 기반으로 동작한다.
@@ -240,7 +241,7 @@ uiUtil.showFileInfo = (input, uploadFile, showImg) => {
     <div class="fileInfo row text-muted fw-normal" style="display: none">
       <img src="${showImg ? uiUtil.getFileReferURL('inline', 'public', uploadFile) : ''}" class="w-75 mt-3 mb-3"/>
       <ul class="row" style="margin-left: 10px;">
-        <li class="name">파일명 - ${uploadFile.name}</li>
+        <li class="name">파일명 - <a href="${uiUtil.getFileReferURL('attachment', 'public', uploadFile)}">${uploadFile.name}</a></li>
         <li class="originName">원본 파일명 (${uploadFile.originName})</li>
         <li class="fileLength">${Math.ceil(uploadFile.fileLength / 1024)}KB</li>
         <li class="id">File ID (${uploadFile.id})<span class="btn-sm btn-link fw-bold resetFile" style="cursor:pointer;">삭제</span> </li>
