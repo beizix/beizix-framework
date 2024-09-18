@@ -1,14 +1,11 @@
 package app.module.core.usecase.file.createFile.adapters.web;
 
-import app.module.core.config.application.enums.ContentDispositionType;
 import app.module.core.usecase.file.createFile.adapters.web.model.CreateFileReqVO;
-import app.module.core.usecase.file.createFile.adapters.web.model.CreateFileResVO;
 import app.module.core.usecase.file.createFile.ports.CreateFilePortIn;
 import app.module.core.usecase.file.createFile.ports.application.domain.CreateFile;
 import app.module.core.usecase.file.createFile.ports.application.domain.CreateFileCmd;
 import app.module.core.usecase.file.saveToStorage.ports.SaveToStoragePortIn;
 import app.module.core.usecase.file.saveToStorage.ports.application.domain.SaveToStorage;
-import app.module.core.usecase.file.url.application.port.in.FileUrlPortIn;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 class CreateFileController {
   private final SaveToStoragePortIn saveToStoragePortIn;
   private final CreateFilePortIn createFilePortIn;
-  private final FileUrlPortIn fileUrlPortIn;
 
   @PostMapping(path = "/api/file/create")
   ResponseEntity<?> operate(
@@ -49,18 +45,6 @@ class CreateFileController {
                     saveToStorage.getFileLength()))
             .orElseThrow(() -> new RuntimeException("업로드 파일정보 DB 저장에 실패했습니다."));
 
-    // 참조 URL 정보 얻기. `LOCAL` or `S3`
-    String referURL = fileUrlPortIn.connect(ContentDispositionType.INLINE, saveToStorage);
-
-    return ResponseEntity.status(HttpStatus.OK)
-        .body(
-            new CreateFileResVO(
-                createFile.getId(),
-                createFile.getType(),
-                createFile.getPath(),
-                createFile.getName(),
-                createFile.getOriginName(),
-                createFile.getFileLength(),
-                referURL));
+    return ResponseEntity.status(HttpStatus.OK).body(createFile);
   }
 }
