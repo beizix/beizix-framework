@@ -114,9 +114,9 @@ let uiUtil = {
   getFileReferURL(referType, accessType, uploadFile) {
     switch (referType) {
       case 'inline':
-        return `/content-disposition/${referType}/${accessType}${uploadFile.path}/${uploadFile.name}`;
+        return `/content-disposition/inline/${accessType}${uploadFile.path}/${uploadFile.name}`;
       case 'attachment':
-        return `/content-disposition/${referType}/${accessType}${uploadFile.path}/${uploadFile.name}?originName=${uploadFile.originName}`;
+        return `/content-disposition/attachment/${uploadFile.id}`;
     }
 
   },
