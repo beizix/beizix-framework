@@ -26,11 +26,16 @@ class GetAttachmentController {
   @Value("${path.upload.private}")
   private String privatePath;
 
+  @Value("${app.aws.cloudfront.domain:null}")
+  private String cloudFrontDomain;
+
+  @Value("${app.aws.s3.bucketFolder:null}")
+  private String bucketFolder;
+
   private final GetFilePortIn getFilePortIn;
 
   @GetMapping(path = "/content-disposition/attachment/{fileId}")
-  ResponseEntity<?> operate(@PathVariable Long fileId)
-      throws MalformedURLException {
+  ResponseEntity<?> operate(@PathVariable Long fileId) throws MalformedURLException {
 
     GetFile getFile =
         getFilePortIn
@@ -39,7 +44,7 @@ class GetAttachmentController {
                 () -> new RuntimeException(String.format("파일을 찾을 수 없습니다. ID: %s", fileId)));
 
     boolean isPrivate = !getFile.getType().isPubic();
-    
+
     if (isPrivate) {
       Authentication auth = SecurityContextHolder.getContext().getAuthentication();
       auth.getAuthorities().stream()
@@ -52,11 +57,27 @@ class GetAttachmentController {
               () -> new AccessDeniedException("[AccessDenied] Private 파일 리소스 접근 권한이 없습니다."));
     }
 
-    String filePath =
-        Paths.get(isPrivate ? privatePath : publicPath, getFile.getPath(), getFile.getName())
-            .toString();
+    UrlResource resource = null;
 
-    UrlResource resource = new UrlResource("file:" + filePath);
+    switch (getFile.getType().getFileStorageType()) {
+      case LOCAL:
+        String filePath =
+            Paths.get(isPrivate ? privatePath : publicPath, getFile.getPath(), getFile.getName())
+                .toString();
+
+        resource = new UrlResource("file:" + filePath);
+        break;
+      case S3:
+        resource =
+            new UrlResource(
+                "https://"
+                    + cloudFrontDomain
+                    + bucketFolder
+                    + getFile.getPath()
+                    + "/"
+                    + getFile.getName());
+        break;
+    }
 
     String encodedUploadFileName = UriUtils.encode(getFile.getOriginName(), StandardCharsets.UTF_8);
 

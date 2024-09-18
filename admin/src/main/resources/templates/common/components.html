@@ -62,6 +62,11 @@
   <script th:inline="javascript" th:if="${session.flashAlertMessages != null}">
       [[${#session.removeAttribute('flashAlertMessages')}]]
   </script>
+
+  <script th:inline="javascript" th:if="${S3URL != null}">
+    // AWS - S3 Bucket 을 사용하는 경우, 인라인 경로 참조를 위해 선언
+    const S3URL = [[${S3URL}]];
+  </script>
 </head>
 
 <body>

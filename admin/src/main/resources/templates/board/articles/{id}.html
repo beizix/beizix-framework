@@ -190,7 +190,7 @@
           f.orderNo.value = res.orderNo;
 
           res.uploadFiles.forEach((uploadFile) => {
-            switch (uploadFile.type) {
+            switch (uploadFile.type.name) {
                 // 대표 이미지
               case 'EXAMPLE_REP':
                 const input = $(f.representImgFile);

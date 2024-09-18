@@ -112,9 +112,14 @@ let uiUtil = {
   },
   // 파일 참조 URL 생성
   getFileReferURL(referType, uploadFile) {
+    const storageType = uploadFile.type.fileStorageType;
     switch (referType) {
       case 'inline':
-        return `/content-disposition/inline${uploadFile.path}/${uploadFile.name}`;
+        if (storageType === 'S3') {
+          return `${S3URL}${uploadFile.path}/${uploadFile.name}`;
+        } else if (storageType === 'LOCAL') {
+          return `/content-disposition/inline${uploadFile.path}/${uploadFile.name}`;
+        }
       case 'attachment':
         return `/content-disposition/attachment/${uploadFile.id}`;
     }

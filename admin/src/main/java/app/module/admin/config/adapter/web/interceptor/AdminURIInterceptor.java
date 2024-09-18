@@ -14,6 +14,7 @@ import app.module.core.usecase.uri.currentmatch.application.domain.URICurrentMat
 import app.module.core.usecase.uri.currentmatch.application.port.in.URICurrentMatchingPortIn;
 import app.module.core.usecase.uri.toptier.application.domain.URITopTier;
 import app.module.core.usecase.uri.toptier.application.port.in.URITopTierPortIn;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,6 +27,12 @@ public class AdminURIInterceptor implements HandlerInterceptor {
   private final URICurrentMatchingPortIn uriCurrentMatchingPortIn;
   private final URIAncestryPortIn uriAncestryPortIn;
   private final URITopTierPortIn topTierPortIn;
+
+  @Value("${app.aws.cloudfront.domain:null}")
+  private String cloudFrontDomain;
+
+  @Value("${app.aws.s3.bucketFolder:null}")
+  private String bucketFolder;
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -68,6 +75,10 @@ public class AdminURIInterceptor implements HandlerInterceptor {
 
       modelAndView.addObject(
           "menuHierarchy", uriAncestryPortIn.connect(AppType.ADMIN, request.getRequestURI()));
+
+      if (cloudFrontDomain != null && bucketFolder != null) {
+        modelAndView.addObject("S3URL", "https://" + cloudFrontDomain + bucketFolder);
+      }
     }
   }
 
