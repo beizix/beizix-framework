@@ -1,5 +1,6 @@
 package app.module.admin.config.adapter.persistence.initdata;
 
+import app.module.admin.config.adapter.persistence.initdata.helper.RemoveAllAdminURIRepo;
 import app.module.core.config.application.enums.AppType;
 import app.module.core.config.application.util.PropertyUtil;
 import app.module.core.usecase.uri.save.application.domain.URISaveCommand;
@@ -13,25 +14,26 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
+
 @Component
 @RequiredArgsConstructor
 @Slf4j
 @Order(2)
 public class InitUriAdminData implements ApplicationRunner {
   private final URISavePortIn uriSavePortIn;
+  private final RemoveAllAdminURIRepo removeAllAdminURIRepo;
 
   @Override
+  @Transactional
   public void run(ApplicationArguments args) throws IOException {
     if (!PropertyUtil.isCoreDataRequired()) return;
+
+    removeAllAdminURIRepo.deleteAllByAppType(AppType.ADMIN);
 
     final String ADMIN = "uri.admin";
 
     final String ADMIN_BOARD = "uri.admin.board";
-    final String ADMIN_BOARD_EXAMPLE = "uri.admin.board.exampleBoard";
-    final String ADMIN_BOARD_EXAMPLE_CREATE = "uri.admin.board.exampleBoard.create";
-    final String ADMIN_BOARD_EXAMPLE_UPDATE = "uri.admin.board.exampleBoard.update.{{pathVar}}";
-    final String ADMIN_BOARD_EXAMPLE_DELETE = "uri.admin.board.exampleBoard.delete";
-    final String ADMIN_BOARD_EXAMPLE_EXCEL = "uri.admin.board.exampleBoard.excel";
 
     final String ADMIN_ARTICLE = "uri.admin.board.article";
     final String ADMIN_ARTICLE_CREATE = "uri.admin.board.article.create";
@@ -285,51 +287,6 @@ public class InitUriAdminData implements ApplicationRunner {
         ADMIN_ARTICLE_EXCEL,
         "예제 게시판 엑셀 다운로드",
         "/board/articles/excel",
-        false,
-        Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"));
-    //
-    appendURI(
-        AppType.ADMIN,
-        ADMIN_BOARD,
-        ADMIN_BOARD_EXAMPLE,
-        "예제 게시판",
-        "/board/exampleBoard",
-        true,
-        Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"));
-
-    appendURI(
-        AppType.ADMIN,
-        ADMIN_BOARD,
-        ADMIN_BOARD_EXAMPLE_CREATE,
-        "예제 게시판 등록",
-        "/board/exampleBoard/create",
-        false,
-        Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"));
-
-    appendURI(
-        AppType.ADMIN,
-        ADMIN_BOARD,
-        ADMIN_BOARD_EXAMPLE_UPDATE,
-        "예제 게시판 수정",
-        "/board/exampleBoard/update/{{pathVar}}",
-        false,
-        Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"));
-
-    appendURI(
-        AppType.ADMIN,
-        ADMIN_BOARD,
-        ADMIN_BOARD_EXAMPLE_DELETE,
-        "예제 게시판 삭제",
-        "/board/exampleBoard/delete",
-        false,
-        Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"));
-
-    appendURI(
-        AppType.ADMIN,
-        ADMIN_BOARD_EXAMPLE,
-        ADMIN_BOARD_EXAMPLE_EXCEL,
-        "예제 게시판 엑셀 다운로드",
-        "/board/exampleBoard/excel",
         false,
         Set.of("ROLE_SUPER", "ROLE_MANAGER", "ROLE_STAFF"));
     // 예제 게시판 - 끝
