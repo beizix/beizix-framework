@@ -162,7 +162,7 @@
                         <input class="form-check-input"
                                name="selectIds" type="checkbox" value="${ct.id}"/></label></td>
                       <td><img
-                          src="${ct.uploadFile ? uiUtil.getFileReferURL('inline', 'public', ct.uploadFile) : '/static/ui/img/default-img.jpg'}"
+                          src="${ct.uploadFile ? uiUtil.getFileReferURL('inline', ct.uploadFile) : '/static/ui/img/default-img.jpg'}"
                           style="width: 25px;"
                           class="img-thumbnail"/></td>
                       <td><a href="javascript:goUpdate(${ct.id})">${ct.title}</a></td>

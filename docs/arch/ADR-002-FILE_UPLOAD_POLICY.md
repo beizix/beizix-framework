@@ -60,7 +60,7 @@ org.beizix 은 `Public` 공개 범위의 `INLINE` 업로드 경로를 리소스 
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
     registry
-        .addResourceHandler("/content-disposition/inline/public/**")
+        .addResourceHandler("/content-disposition/inline/**")
         .addResourceLocations("file:///" + publicPath + "/")
         .setCachePeriod(20);
   }
@@ -69,12 +69,12 @@ org.beizix 은 `Public` 공개 범위의 `INLINE` 업로드 경로를 리소스 
 * 웹서버가 없는 로컬 개발환경에서 테스트하기 적합하다.
 
 ### 웹서버의 `Public` `INLINE` 참조 방식 설정
-웹서버의 경우, 가상 호스트 설정에서 Alias 를 이용해 `/content-disposition/inline/public` 경로와 `Public` 업로드 경로를 
+웹서버의 경우, 가상 호스트 설정에서 Alias 를 이용해 `/content-disposition/inline` 경로와 `Public` 업로드 경로를 
 연결해주면 된다. `<Directory/>` 선언을 추가해서 웹서버가 해당 디렉토리로 접근할 수 있는 권한을 부여한다.
   
 ```
-JkUnMount /content-disposition/inline/public/* [워커 이름]
-Alias /content-disposition/inline/public "[Public 업로드 경로]"
+JkUnMount /content-disposition/inline/* [워커 이름]
+Alias /content-disposition/inline "[Public 업로드 경로]"
 
 <Directory "[Public 업로드 경로]">
     Options FollowSymLinks

@@ -55,7 +55,7 @@ public class AdminWebMvcConfig implements WebMvcConfigurer {
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
     registry
-        .addResourceHandler("/content-disposition/inline/public/**")
+        .addResourceHandler("/content-disposition/inline/**")
         .addResourceLocations("file:///" + publicPath + "/")
         .setCachePeriod(20);
   }

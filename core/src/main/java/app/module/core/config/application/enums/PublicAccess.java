@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum PublicAccess {
   STATIC("정적 자원", "/static/**"),
-  PUBLIC_INLINE("공개파일 inline 참조", "/content-disposition/inline/public/**"),
+  PUBLIC_INLINE("공개파일 inline 참조", "/content-disposition/inline/**"),
   PUBLIC_ATTACH("공개파일 attachment 참조", "/content-disposition/attachment/**"),
   CACHE_REFRESH("캐시 리프레시", "/refresh/cacheable/**"),
   PUBLIC_API("공개 API", "/api/public/**"),
