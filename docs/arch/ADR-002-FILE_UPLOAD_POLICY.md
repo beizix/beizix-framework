@@ -13,7 +13,6 @@
 path.upload.public=${user.home}/beizix/upload/public
 ```
 
-
 INLINE 파일 참조 URL 은 아래 형식으로 구성된다. 
 ```
 /content-disposition/inline/파일경로/파일명.확장자
