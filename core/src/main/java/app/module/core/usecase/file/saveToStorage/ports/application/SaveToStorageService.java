@@ -42,7 +42,7 @@ public class SaveToStorageService implements SaveToStoragePortIn {
     String createFilename = getUUIDFilename(getFileExtension(originalFilename).orElse(null));
 
     getFileUploadStrategy(fileUploadType.getFileStorageType())
-        .operate(multipartFile, fileUploadType.isPubic(), subPath, createFilename);
+        .operate(multipartFile, subPath, createFilename);
 
     return Optional.of(
         new SaveToStorage(

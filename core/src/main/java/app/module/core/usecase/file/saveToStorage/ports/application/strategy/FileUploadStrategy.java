@@ -9,5 +9,5 @@ public interface FileUploadStrategy {
   FileStorageType getStorageType();
 
   void operate(
-      MultipartFile multipartFile, Boolean isPublic, String createSubPath, String createFilename) throws IOException;
+      MultipartFile multipartFile, String createSubPath, String createFilename) throws IOException;
 }

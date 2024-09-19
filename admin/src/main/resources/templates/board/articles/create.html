@@ -83,18 +83,6 @@
         </button>
       </div>
 
-      <div class="mb-3 mt-4 privateFileInputs">
-        <label for="filePrivate" class="form-label d-block">private 파일 첨부 (외부 비공개)</label>
-        <div class="input-group w-50">
-          <input class="form-control mb-2" type="file"
-                 name="multipartPrivateAttachment"
-                 onchange="uiUtil.uploadFile('EXAMPLE_PRIVATE', this);"
-                 id="filePrivate">
-          <div class="invalid-feedback fw-bold">
-            에러 메세지
-          </div>
-        </div>
-      </div>
     </div>
   </form>
 
@@ -132,7 +120,7 @@
         'url': '/api/board/articles/create',
         'data': obj,
         success: (res) => {
-          alert(`'${res.title}' 게시물이 생성되었습니다.\n이전 화면으로 이동합니다.`);
+          alert(`'${f.title.value}' 게시물이 생성되었습니다.\n이전 화면으로 이동합니다.`);
           history.back();
         },
         statusCode: {

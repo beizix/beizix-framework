@@ -1,18 +1,17 @@
 package app.module.aws.usecase.file.upload.strategy;
 
+import app.module.core.config.application.enums.FileStorageType;
+import app.module.core.usecase.file.saveToStorage.ports.application.strategy.FileUploadStrategy;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import java.io.IOException;
+import java.io.InputStream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import app.module.core.config.application.enums.FileStorageType;
-import app.module.core.usecase.file.saveToStorage.ports.application.strategy.FileUploadStrategy;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 @Service
 @RequiredArgsConstructor
@@ -31,15 +30,10 @@ public class S3FileUploadStrategy implements FileUploadStrategy {
   }
 
   @Override
-  public void operate(
-      MultipartFile multipartFile, Boolean isPublic, String createSubPath, String createFilename)
+  public void operate(MultipartFile multipartFile, String createSubPath, String createFilename)
       throws IOException {
     if (multipartFile == null || multipartFile.isEmpty())
       throw new RuntimeException("Failed to store empty file.");
-
-    if (!isPublic)
-      throw new RuntimeException(
-          "Argument `isPublic` is not true. It should be true to use S3FileUploadStrategy");
 
     String bucketPath = bucket + bucketFolder;
     String createPath = createSubPath + "/" + createFilename;

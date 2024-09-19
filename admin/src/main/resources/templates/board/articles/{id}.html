@@ -89,18 +89,6 @@
         </button>
       </div>
 
-      <div class="mb-3 mt-4 privateFileInputs">
-        <label for="filePrivate" class="form-label d-block">private 파일 첨부 (외부 비공개)</label>
-        <div class="input-group w-50">
-          <input class="form-control mb-2" type="file"
-                 name="multipartPrivateAttachment"
-                 onchange="uiUtil.uploadFile('EXAMPLE_PRIVATE', this);"
-                 id="filePrivate">
-          <div class="invalid-feedback fw-bold">
-            에러 메세지
-          </div>
-        </div>
-      </div>
     </div>
   </form>
 
@@ -202,12 +190,6 @@
                 let inputGroup = addFileInput();
                 inputGroup.append(`<input type="hidden" name="fileMappingId" value="${uploadFile.id}"/>`);
                 uiUtil.showFileInfo(inputGroup.find('input[type=file]'), uploadFile, false);
-                break;
-                // 비공개 첨부 파일
-              case 'EXAMPLE_PRIVATE':
-                let privateInput = $(f.multipartPrivateAttachment);
-                privateInput.parent().append(`<input type="hidden" name="fileMappingId" value="${uploadFile.id}"/>`);
-                uiUtil.showFileInfo(privateInput, uploadFile, false);
                 break;
             }
           });

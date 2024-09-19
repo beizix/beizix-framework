@@ -1,28 +1,24 @@
 package app.module.core.usecase.file.saveToStorage.ports.application.strategy;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-import app.module.core.config.application.util.CommonUtil;
 import app.module.core.config.application.enums.FileStorageType;
-
-import javax.annotation.PostConstruct;
+import app.module.core.config.application.util.CommonUtil;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import javax.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class LocalStorageFileUploadStrategy implements FileUploadStrategy {
-  @Value("${path.upload.private}")
-  private String privatePath;
-
   @Value("${path.upload.public}")
   private String publicPath;
 
@@ -33,12 +29,10 @@ public class LocalStorageFileUploadStrategy implements FileUploadStrategy {
 
   @PostConstruct
   public void initialize() throws Exception {
-    log.info(String.format("FileIoService - initialize : path.upload.private is %s", privatePath));
     log.info(String.format("FileIoService - initialize : path.upload.public is %s", publicPath));
     log.info(String.format("FileIoService - initialize : path.upload.tmpdir is %s", tmpPath));
 
     try {
-      Files.createDirectories(Paths.get(privatePath));
       Files.createDirectories(Paths.get(publicPath));
       Files.createDirectories(Paths.get(tmpPath));
     } catch (IOException e) {
@@ -52,15 +46,13 @@ public class LocalStorageFileUploadStrategy implements FileUploadStrategy {
   }
 
   @Override
-  public void operate(
-      MultipartFile multipartFile, Boolean isPublic, String createSubPath, String createFilename)
+  public void operate(MultipartFile multipartFile, String createSubPath, String createFilename)
       throws IOException {
     if (multipartFile == null || multipartFile.isEmpty()) {
       throw new RuntimeException("Failed to store empty file.");
     }
 
-    String targetPath = isPublic ? publicPath : privatePath;
-    Path path = Paths.get(commonUtil.removeLastChar(targetPath, "/"), createSubPath);
+    Path path = Paths.get(commonUtil.removeLastChar(publicPath, "/"), createSubPath);
     Files.createDirectories(path);
 
     Path destinationFile = (path.resolve(Paths.get(createFilename)).normalize().toAbsolutePath());

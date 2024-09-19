@@ -11,9 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriUtils;
 
@@ -22,9 +19,6 @@ import org.springframework.web.util.UriUtils;
 class GetAttachmentController {
   @Value("${path.upload.public}")
   private String publicPath;
-
-  @Value("${path.upload.private}")
-  private String privatePath;
 
   @Value("${app.aws.cloudfront.domain:null}")
   private String cloudFrontDomain;
@@ -43,26 +37,28 @@ class GetAttachmentController {
             .orElseThrow(
                 () -> new RuntimeException(String.format("파일을 찾을 수 없습니다. ID: %s", fileId)));
 
-    boolean isPrivate = !getFile.getType().isPubic();
+// TODO - private 업로드 기능을 일단 mute
 
-    if (isPrivate) {
-      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-      auth.getAuthorities().stream()
-          .filter(
-              grantedAuthority ->
-                  grantedAuthority.getAuthority().equals("ROLE_SUPER")
-                      || grantedAuthority.getAuthority().equals("PRIVATE_DOWNLOAD"))
-          .findFirst()
-          .orElseThrow(
-              () -> new AccessDeniedException("[AccessDenied] Private 파일 리소스 접근 권한이 없습니다."));
-    }
+//    boolean isPrivate = !getFile.getType().isPubic();
+//
+//    if (isPrivate) {
+//      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//      auth.getAuthorities().stream()
+//          .filter(
+//              grantedAuthority ->
+//                  grantedAuthority.getAuthority().equals("ROLE_SUPER")
+//                      || grantedAuthority.getAuthority().equals("PRIVATE_DOWNLOAD"))
+//          .findFirst()
+//          .orElseThrow(
+//              () -> new AccessDeniedException("[AccessDenied] Private 파일 리소스 접근 권한이 없습니다."));
+//    }
 
     UrlResource resource = null;
 
     switch (getFile.getType().getFileStorageType()) {
       case LOCAL:
         String filePath =
-            Paths.get(isPrivate ? privatePath : publicPath, getFile.getPath(), getFile.getName())
+            Paths.get(publicPath, getFile.getPath(), getFile.getName())
                 .toString();
 
         resource = new UrlResource("file:" + filePath);
