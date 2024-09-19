@@ -7,7 +7,7 @@
 
 ## Decision
 
-org.beizix 은 **@ControllerAdvice** 를 이용해 모든 `@Controller`와 `@RestController`에서 발생하는 예외를 처리한다.  
+**@ControllerAdvice** 를 이용해 모든 `@Controller`와 `@RestController`에서 발생하는 예외를 처리한다.  
 동기식 요청일 경우 500 에러 페이지로, 비동기 요청일 경우 규격화된 JSON 포맷으로 예외 메세지를 전달한다. 
 
 ## Status

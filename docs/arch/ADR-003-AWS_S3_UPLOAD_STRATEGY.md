@@ -7,7 +7,7 @@
 
 ## Decision
 
-org.beizix 은 AWS S3 파일 업로드 기능 제공을 위해 새로운 전략을 구현한다. 
+AWS S3 파일 업로드 기능 제공을 위해 새로운 전략을 구현한다. 
 새로운 전략은 기존과 동일한 파일 업로드 서비스 인터페이스를 이용하며, 
 `Public`, `Private` 공개범위를 가진다.
 
@@ -38,8 +38,4 @@ S3와 CloudFront 를 이용하기 위한 설정 정보를 기입해야 한다.
 | 공개 범위 | Content-Disposition | URL | 
 |---|---|---|
 | `Public` | `INLINE` | ${app.aws.cloudfront.domain}/파일경로/파일명.확장자
-|  | `ATTACHMENT` | X
-| `Private` | `INLINE` | X
-|  | `ATTACHMENT` | X 
-
-* 추후 실제 수요가 있을 때 나머지 방식들을 구현할 예정이다.
+|  | `ATTACHMENT` | /content-disposition/attachment/{파일아이디}

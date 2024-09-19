@@ -8,7 +8,7 @@
 
 ## Interface
 
-**FileUploadService** 의 operate 메서드를 호출해 파일 업로드를 수행한다.
+**SaveToStorageService** 의 operate 메서드를 호출해 파일 업로드를 수행한다.
 
 |Arguments|Description
 |---|---
@@ -18,7 +18,7 @@
 
 |반환 타입|설명
 |---|---
-|Optional\<FileUploadInfo\>| ...
+|Optional\<SaveToStorage\>| ...
 
 
 ## Set up
@@ -35,9 +35,8 @@ spring.servlet.multipart.file-size-threshold=1MB
 
 (예) core-local.properties
 ```properties
-# `Public`, `Private` 공개범위별 업로드 경로
+# `Public` 업로드 경로
 path.upload.public=${user.home}/beizix/upload/public
-path.upload.private=${user.home}/beizix/upload/private
 
 # file-size-threshold 용량이 넘는 파일 업로드시 사용할 임시 디렉토리
 path.upload.tmpdir=${user.home}/beizix/upload/tmpdir
@@ -50,10 +49,10 @@ spring.servlet.multipart.location=${path.upload.tmpdir}
 
 ## How to use
 
-파일 업로드는 `FileUploadService` 를 이용한다.
+파일 업로드는 `SaveToStorageService` 를 이용한다.
 ```java
 // 예제 게시판 업로드
-FileUploadService.operate(FileUploadType.EXAMPLE_PUBLIC, multipartFile);
+SaveToStorageService.operate(FileUploadType.EXAMPLE_PUBLIC, multipartFile);
 ```
 
 * `FileUploadType` 은 파일 업로드 타입과 저장 경로, 그리고 외부 공개여부에 대한 정보를 정의한 enum 객체이다.
@@ -68,7 +67,6 @@ FileUploadType 객체는 파일 업로드와 관한 필수 정보를 담고 있�
 ...
 EXAMPLE_PUBLIC(
   FileStorageType.LOCAL,    // fileStorageType
-  true,                     // public 여부 boolean
   "/exampleBoard",          // sub 디렉토리
   Set.of(                   // 허용 타입
     AcceptableFileType.IMAGE,
@@ -83,13 +81,12 @@ EXAMPLE_PUBLIC(
 ```
 
 * `fileStorageType`은 파일이 저장될 공간. `LOCAL`과 `S3`가 제공된다.
-* `public` 이 true 면 공개 파일로, false 면 private 파일로 인식.  
 * `subPath`는 게시판에 따른 분류 등으로 사용할 때 이용. 공지사항 게시물의 업로드 파일이기에 /exampleBoard 서브 경로에 담도록 지정했다.  
 * `acceptableFileTypes` 에 허용할 파일 타입을 명시. 지정된 파일 타입과 다른 파일이 업로드 될때 `UnAcceptableFileExceoption` 이 발생한다.
 
 
 ### acceptableFileTypes
-`FileUploadService`는 `acceptableFileTypes` 에 기술된 
+`SaveToStorageService`는 `acceptableFileTypes` 에 기술된 
 FileType 을 기준으로 검증작업을 수행한다. multipartFile 을 inputstream 으로 읽어 MIME Type 적합성 여부를 판단한다.
 
 ## References
