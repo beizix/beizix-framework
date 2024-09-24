@@ -6,7 +6,7 @@ logback-spring.xml
 ```xml
 <configuration>
     ...
-    <property name="APP_LOG_FILE" value="admin-beizix"/>
+    <property name="APP_LOG_FILE" value="admin-app"/>
     ...
 </configuration>
 ```
@@ -20,7 +20,7 @@ application-local.properties
 # ██╔══██║██╔═══╝ ██╔═══╝     ██║     ██║   ██║██║   ██║██║   ██║██║██║╚██╗██║██║   ██║
 # ██║  ██║██║     ██║         ███████╗╚██████╔╝╚██████╔╝╚██████╔╝██║██║ ╚████║╚██████╔╝
 # ╚═╝  ╚═╝╚═╝     ╚═╝         ╚══════╝ ╚═════╝  ╚═════╝  ╚═════╝ ╚═╝╚═╝  ╚═══╝ ╚═════╝
-logging.file.path=${user.home}/beizix/logs
+logging.file.path=${user.home}/logs
 #
 # application 의 기본 패키지(app.module) 와 로깅 레벨(DEBUG) 설정
 # 기본 패키지 변경 시 app.module 부분을 반드시 치환해 주어야 application 로그가 출력되니 유의
@@ -28,7 +28,7 @@ logging.level.app.module=DEBUG
 ```
 
 * `logging.file.path` 로그파일이 생성될 위치
-* `logging.level`.org.beizix 여러분의 어플리케이션 기본 패키지. 해당 패키지 하부의 로그 출력 Level을 설정합니다. org.beizix 은 프레임워크 기본 패키지이기에 반드시 변경이 필요합니다.
+* `logging.level`.app.module 여러분의 어플리케이션 기본 패키지. 해당 패키지 하부의 로그 출력 Level을 설정합니다.
 
 ### 생성 로그 파일
 `logging.file.path` 경로에 두가지 파일이 생성됩니다.

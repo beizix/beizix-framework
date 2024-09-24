@@ -11,7 +11,7 @@
     <artifactId>admin</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>admin</name>
-    <description>Admin project for org.beizix</description>
+    <description>Admin project</description>
     <packaging>${packaging.type}</packaging>
 
     <dependencies>

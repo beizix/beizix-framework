@@ -10,7 +10,7 @@
 
 `path.upload.public` 설정을 통해 업로드 경로를 지정한다. 
 ```properties
-path.upload.public=${user.home}/beizix/upload/public
+path.upload.public=${user.home}/upload/public
 ```
 
 INLINE 파일 참조 URL 은 아래 형식으로 구성된다. 
@@ -29,7 +29,7 @@ ATTACHMENT 파일 참조 URL 은 아래 형식으로 구성된다.
 ## Consequence
 
 ### WAS 의 `Public` `INLINE` 참조 방식 설정
-org.beizix 은 `Public` 공개 범위의 `INLINE` 업로드 경로를 리소스 핸들러로 지정했다. 
+`Public` 공개 범위의 `INLINE` 업로드 경로를 리소스 핸들러로 지정했다. 
 
 ```java
   @Override

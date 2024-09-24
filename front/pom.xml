@@ -10,7 +10,7 @@
 	<artifactId>front</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>front</name>
-	<description>Front project for org.beizix</description>
+	<description>Front project</description>
 	<packaging>${packaging.type}</packaging>
 
 	<dependencies>

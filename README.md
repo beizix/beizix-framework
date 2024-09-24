@@ -35,7 +35,7 @@
 
 ## VM Options
 
-beizix 실행 시 필요한 자바 VM 옵션은 아래와 같다.
+프레임워크 실행 시 필요한 자바 VM 옵션은 아래와 같다.
 
 | VM 변수                                                     | 설명                         | 설정 값                    | 필수여부 |
 |-----------------------------------------------------------|----------------------------|-------------------------|------|
@@ -55,7 +55,7 @@ beizix 실행 시 필요한 자바 VM 옵션은 아래와 같다.
 | **-Dspring.datasource.password** (2023-03-25 추가)          | DB Password                | DB 패스워드                 | Y    |
 
 * **spring.profiles.active**  
-  org.beizix 은 `local`, `dev`, `prod` 등 세가지 환경에 대한 프로파일이 미리 생성되어있다.
+  `local`, `dev`, `prod` 등 세가지 환경에 대한 프로파일이 미리 생성되어있다.
 
 
 * **app.initData.core**  
@@ -98,7 +98,7 @@ beizix 실행 시 필요한 자바 VM 옵션은 아래와 같다.
 -Dserver.forward-headers-strategy=native
 -Dlogging.level.org.springframework.security=DEBUG
 -Dspring.datasource.driver-class-name=org.h2.Driver
--Dspring.datasource.url=jdbc:h2:~/beizix/h2/beizix-h2;AUTO_SERVER=TRUE
+-Dspring.datasource.url=jdbc:h2:~/h2/app-h2;AUTO_SERVER=TRUE
 -Dspring.datasource.username=sa
 -Dspring.datasource.password=
 ```
@@ -118,14 +118,14 @@ beizix 실행 시 필요한 자바 VM 옵션은 아래와 같다.
 -Dserver.forward-headers-strategy=native
 -Dlogging.level.org.springframework.security=DEBUG
 -Dspring.datasource.driver-class-name=org.h2.Driver
--Dspring.datasource.url=jdbc:h2:~/beizix/h2/beizix-h2;AUTO_SERVER=TRUE
+-Dspring.datasource.url=jdbc:h2:~/h2/app-h2;AUTO_SERVER=TRUE
 -Dspring.datasource.username=sa
 -Dspring.datasource.password=
 ```
 
 ## PACKAGING
 
-beizix 는 배포방식 설정을 위해 두가지 maven 프로파일을 제공한다.
+배포방식 설정을 위해 두가지 maven 프로파일을 제공한다.
 * `jar` (default)
 * `war` Jeus, WebLogic, Tomcat 등 별도 외장 컨테이너 이용시 사용
 
@@ -137,15 +137,15 @@ $ mvn --projects admin --also-make clean package -DskipTests -P war
 
 # 빌드 후, admin/target 디렉토리에 war 가 생성된걸 확인할 수 있다.
 $ ll admin/target
--rw-r--r-- 1 beizix 197121 94905770  4월 22 09:59 admin-0.0.1-SNAPSHOT.war
+-rw-r--r-- 1 user 197121 94905770  4월 22 09:59 admin-0.0.1-SNAPSHOT.war
 ```
 
 
 ## JDBC
 
-beizix 는 스프링부트의 JDBC 설정 방식을 그대로 이용한다. JDBC 연결을 맺을 DB Vendor 와 JNDI 이용여부 등은 프로젝트 상황에 맞게 설정하면 된다.
+스프링부트의 JDBC 설정 방식을 그대로 이용한다. JDBC 연결을 맺을 DB Vendor 와 JNDI 이용여부 등은 프로젝트 상황에 맞게 설정하면 된다.
 
-별도 설정이 없다면 beizix 는 기본 탑재된 `H2` 데이터베이스를 이용해 구동된다. `H2` 를 이용하면 로컬 개발환경에서 아래와 같은 장점을 얻는다.
+별도 설정이 없다면 기본 탑재된 `H2` 데이터베이스를 이용해 구동된다. `H2` 를 이용하면 로컬 개발환경에서 아래와 같은 장점을 얻는다.
 
 * 설치 과정이 필요없다. (Maven dependency 에 기술되어 각자 환경에 이미 탑재됨)
 * 가볍고 빠르며 JDBC API 를 지원하는 오픈소스이다.
@@ -154,10 +154,10 @@ beizix 는 스프링부트의 JDBC 설정 방식을 그대로 이용한다. JDBC
 `embedded`는 어플리케이션 종료와 함께 휘발되기에 영속성 유지를 위해서는 `server` 모드를 이용해야 한다.
 
 ```properties
-# /home 디렉토리/beizix/h2 경로에 beizix-h2.mv.db 파일이 생성된다
+# /home 디렉토리/h2 경로에 app-h2.mv.db 파일이 생성된다
 # AUTO_SERVER 속성을 이용해 server mode 로 동작한다.
 # 기본 구동시 username 은 sa, 패스워드는 없다.
--Dspring.datasource.url=jdbc:h2:~/beizix/h2/beizix-h2;AUTO_SERVER=TRUE
+-Dspring.datasource.url=jdbc:h2:~/h2/app-h2;AUTO_SERVER=TRUE
 -Dspring.datasource.username=sa
 -Dspring.datasource.password=
 ```
@@ -180,8 +180,8 @@ JPA 메타모델은 이러한 단점을 피하고 관리되는 엔터티 클래�
 ```
 $ tree core/target/generated-sources/annotations/
 core/target/generated-sources/annotations/
-`-- org
-    `-- beizix
+`-- app
+    `-- module
         `-- core
             `-- config
                 `-- adapter
@@ -221,25 +221,25 @@ private Set<ExBoardAttachment> attachments;
 
 ### 사용자 계정 및 권한 (Spring Security & Roles)
 
-beizix 가 선택한 Spring Security 정책과 추가 기능들을 아래 문서에서 확인할 수 있다.
+프레임워크가 선택한 Spring Security 정책과 추가 기능들을 아래 문서에서 확인할 수 있다.
 
 [ADR-001-AUTHENTICATION_POLICY.md](./docs/arch/ADR-001-AUTHENTICATION_POLICY.md)  
 
 ### 예외처리 정책
 
-고의적이고 명시적인 예외 발생은 사용자에게 명확한 정보를 전달합니다. beizix 는 정보전달을 목적으로 예외를 발생시키는 것을 적극 권장합니다. 효율적인 예외처리 방법이 아래 문서에 담겨 있습니다.  
+고의적이고 명시적인 예외 발생은 사용자에게 명확한 정보를 전달합니다. 정보전달을 목적으로 예외를 발생시키는 것을 적극 권장합니다. 효율적인 예외처리 방법이 아래 문서에 담겨 있습니다.  
 [예외처리 가이드](./docs/DOC-004-HANDLE_EXCEPTION.md)
 
 ### Validation 정책
 
-beizix 는 일반 요청과 Ajax 요청에 관한 Validation 을 통합하여 동일한 방식으로 처리될 수 있게 설계되었습니다.
+일반 요청과 Ajax 요청에 관한 Validation 을 통합하여 동일한 방식으로 처리될 수 있게 설계되었습니다.
 Front 화면이 아닌 서버 사이드 한곳에서만 사용자 입력값을 검증하는 정책을 권장합니다. 서버 사이드에서 손쉽게
 사용자 입력값을 검증하는 방법이 아래 기술되어 있습니다.  
 [Validation 가이드](./docs/validation.md)
 
 ### 파일 업로드
 
-beizix 의 파일 업로드 정책과 전략, 실 사용 방법을 담은 가이드 문서입니다.
+파일 업로드 정책과 전략, 실 사용 방법을 담은 가이드 문서입니다.
 
 [ADR-002-FILE_UPLOAD_POLICY.md](./docs/arch/ADR-002-FILE_UPLOAD_POLICY.md)  
 [ADR-003-AWS_S3_UPLOAD_STRATEGY.md](./docs/arch/ADR-003-AWS_S3_UPLOAD_STRATEGY.md)  

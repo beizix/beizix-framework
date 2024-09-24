@@ -36,10 +36,10 @@ spring.servlet.multipart.file-size-threshold=1MB
 (예) core-local.properties
 ```properties
 # `Public` 업로드 경로
-path.upload.public=${user.home}/beizix/upload/public
+path.upload.public=${user.home}/upload/public
 
 # file-size-threshold 용량이 넘는 파일 업로드시 사용할 임시 디렉토리
-path.upload.tmpdir=${user.home}/beizix/upload/tmpdir
+path.upload.tmpdir=${user.home}/upload/tmpdir
 spring.servlet.multipart.location=${path.upload.tmpdir}
 ```
 

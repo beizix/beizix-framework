@@ -12,6 +12,6 @@
   <artifactId>core</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>core</name>
-  <description>core module for org.beizix</description>
+  <description>core module</description>
 
 </project>

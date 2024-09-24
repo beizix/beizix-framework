@@ -59,7 +59,7 @@ public class AdminAuthFailEvent {
                   // 계정 잠금 메세지 전달
                   commonUtil.addFlashAlertMessages(
                       request.getSession(),
-                      messageUtil.getMessage("org.beizix.auth.fail.exceed", failPermit));
+                      messageUtil.getMessage("security.auth.fail.exceed", failPermit));
 
                   // 계정 잠금 로그 기록
                   operationLogSavePortIn.connect(

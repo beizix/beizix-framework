@@ -24,7 +24,7 @@ AWS S3 파일 업로드 기능 제공을 위해 새로운 전략을 구현한다
 S3 업로드가 필요하다면 `aws` 모듈을 종속성에 추가해주면 된다.
 ```xml
 <dependency>
-    <groupId>org.beizix</groupId>
+    <groupId>app.module</groupId>
     <artifactId>aws</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 </dependency>

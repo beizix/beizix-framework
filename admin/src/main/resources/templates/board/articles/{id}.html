@@ -161,7 +161,7 @@
           console.log(res);
 
           showAudit(res.title, res.createdBy, uiUtil.isoStrToReadable(res.createdAt)
-              , res.updateBy, uiUtil.isoStrToReadable(res.updatedAt));
+              , res.updatedBy, uiUtil.isoStrToReadable(res.updatedAt));
 
           initEditor('#content', (editor) => {
             editor.on('init', function () {

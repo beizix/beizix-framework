@@ -10,7 +10,7 @@
     </parent>
     <artifactId>aws</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <description>aws module for org.beizix</description>
+    <description>aws module</description>
 
     <dependencies>
         <dependency>

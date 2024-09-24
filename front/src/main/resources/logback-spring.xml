@@ -13,7 +13,7 @@ https://goddaehee.tistory.com/206
 <!--    <springProperty scope="context" name="ACTIVE_PROFILE" source="spring.profiles.active"/>-->
 <!--    <property resource="application-${ACTIVE_PROFILE}.properties"/>-->
 
-    <property name="APP_LOG_FILE" value="front-beizix"/>
+    <property name="APP_LOG_FILE" value="front-app"/>
 
     <property name="LOG_FILE" value="${LOG_PATH}/${APP_LOG_FILE}.log"/>
     <property name="LOGBACK_ROLLINGPOLICY_FILE_NAME_PATTERN" value="${LOG_PATH}/${APP_LOG_FILE}.%d{yyyy-MM-dd}.%i.log"/>

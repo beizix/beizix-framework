@@ -23,25 +23,25 @@ public class InitAdminData implements ApplicationRunner {
     if (!PropertyUtil.isCoreDataRequired()) return;
 
     adminSavePortIn.connect(
-        "beizix-super",
-        "beizix-framework",
-        "super@beizix.org",
+        "superuser",
+        "super1@#$",
+        "super@framework.org",
         false,
         false,
         List.of("ROLE_SUPER"));
 
     adminSavePortIn.connect(
-        "beizix-manager",
-        "beizix-framework",
-        "manager@beizix.org",
+        "manager",
+        "manager1@#$",
+        "manager@framework.org",
         false,
         false,
         List.of("ROLE_MANAGER"));
 
     adminSavePortIn.connect(
-        "beizix-staff",
-        "beizix-framework",
-        "staff@beizix.org",
+        "staff",
+        "staff1@#$",
+        "staff@framework.org",
         false,
         false,
         List.of("ROLE_STAFF"));

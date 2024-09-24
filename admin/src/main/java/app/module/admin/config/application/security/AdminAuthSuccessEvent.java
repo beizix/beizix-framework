@@ -67,14 +67,14 @@ public class AdminAuthSuccessEvent {
       commonUtil.addFlashAlertMessages(
           request.getSession(),
           messageUtil.getMessage(
-              "org.beizix.password.change.notify", adminUser.getRemainPasswordDays()));
+              "security.password.change.notify", adminUser.getRemainPasswordDays()));
     }
 
     if (maxSessionNum == 1) {
       // 동시 접속 (중복 로그인) 여부 판단 후 사용자에게 메세지 보이기
       if (isAlreadyLoggedInSomewhere(authentication.getName(), commonUtil.getClientIP(request))) {
         commonUtil.addFlashAlertMessages(
-            request.getSession(), messageUtil.getMessage("org.beizix.auth.duplicate.login"));
+            request.getSession(), messageUtil.getMessage("security.auth.duplicate.login"));
       }
 
       // 로그인 활성화 기록 생성
