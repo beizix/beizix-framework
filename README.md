@@ -123,24 +123,6 @@
 -Dspring.datasource.password=
 ```
 
-## PACKAGING
-
-배포방식 설정을 위해 두가지 maven 프로파일을 제공한다.
-* `jar` (default)
-* `war` Jeus, WebLogic, Tomcat 등 별도 외장 컨테이너 이용시 사용
-
-maven 빌드 시 프로파일을 지정하지 않으면 기본 `jar` 프로파일로 동작하고, `war` 의 경우 명시적인 지정이 필요하다.
-
-아래는 admin 빌드시 `war` 프로파일을 지정한 예시이다.
-```shell
-$ mvn --projects admin --also-make clean package -DskipTests -P war
-
-# 빌드 후, admin/target 디렉토리에 war 가 생성된걸 확인할 수 있다.
-$ ll admin/target
--rw-r--r-- 1 user 197121 94905770  4월 22 09:59 admin-0.0.1-SNAPSHOT.war
-```
-
-
 ## JDBC
 
 스프링부트의 JDBC 설정 방식을 그대로 이용한다. JDBC 연결을 맺을 DB Vendor 와 JNDI 이용여부 등은 프로젝트 상황에 맞게 설정하면 된다.
@@ -166,7 +148,61 @@ $ ll admin/target
 
 `server` 모드로 구동되면 각자 편한 DB 클라이언트 툴을 이용해 접속할 수 있다.
 
-## JPA Metamodel 도입 
+## 코드 작성 규칙 (coding conventions)
+
+기본 패키지 구조는 [포트 앤 어댑터 패턴](https://en.wikipedia.org/wiki/Hexagonal_architecture_(software))에 기반해 구성됩니다. 
+
+![img](./docs/img/port-adapter.jpg)
+
+
+getArticles 라는 주제(subject) 패키지 하부를 구성하는 ports 와 adapters 패키지를 주의깊게 봐주세요. 
+```
+getArticles
+|-- adapters
+|   |-- persistence
+|   |   |-- GetArticlesDao.java # 포트아웃 구현체
+|   `-- web
+|       |-- GetArticlesController.java
+|       `-- model
+|           `-- GetArticlesReqVO.java
+`-- ports
+    |-- GetArticlesPortIn.java  # 포트인 인터페이스
+    |-- GetArticlesPortOut.java # 포트아웃 인터페이스
+    `-- application
+        |-- GetArticlesService.java # 포트인 구현체
+        `-- domain
+            |-- GetArticles.java
+            `-- GetArticlesCmd.java 
+```
+
+* ports 는 비지니스 로직을 담는 application 레이어가 위치한 곳입니다. application 은 `포트인` 인터페이스를 통해 호출되며 `포트아웃` 인터페이스를 호출해 결과를 얻습니다. 
+* application 은 누가 `포트인`을 호출하는지 신경쓰지 않습니다. **자신이 호출하는 `포트아웃`의 구현체에 대해서도 모릅니다.** 이를 통해 application 은 다른 계층(web, persistence)과 관계없는 독립적인 레이어가 됩니다.
+* adapters/web 은 사용자 요청을 처리하는 controller 레이어가 위치한 곳입니다. `포트인` 인터페이스를 호출하는 클라이언트로 해당 규격을 맞춘 어뎁터(adapter) 이며, **application 에 종속적입니다.** 
+* adapters/persistence 는 영속화(persistence) 레이어가 위치한 곳입니다. mybatis, jpa 등 다양한 ORM 기술을 이용하여 `포트아웃` 인터페이스를 구현합니다. `포트아웃` 규격을 맞춘 어뎁터이며, **application 에 종속적입니다.** 
+
+### 자동화 스캐폴딩 (scaffolding) 도구 소개
+위 패키지 구조와 인터페이스 및 구현체를 일일이 타이핑하며 생성할 필요는 없습니다. [spring-boodup](https://github.com/beizix/spring-boodup) 스캐폴팅 도구가 자동생성 해줍니다.
+
+### Best Practices
+
+코드 작성 규칙에 맞게 구현된 가장 좋은 예는 관리자의 **예제 게시판**입니다. 새로운 버전에 맞춰 모든 코드들이 재작성되었고 아래 고민들에 대한 해법이 녹아있습니다.
+1. 패키지 구조 및 클래스 명칭을 어떻게 잡아야 할까? 
+2. form submit 과 ajax 호출. 어떤 방식이 더 이상적일까?
+3. 브라우저 history 를 잘 유지하면서 back 버튼 이슈를 발생시키지 않는 구현방식은 무엇일까? 
+4. 어떻게 restfull 한 서비스를 구현할 수 있을까? (GET/POST/PUT/PATCH/DELETE)
+5. 새로운 파일 업로드 방식
+
+### model mapper 에서 생성자 패턴으로의 전환
+> "자바를 보다 더 컴파일 언어스럽게" 
+
+컴파일 언어의 가장 큰 장점은 compile 시점에 발생할 수 있는 모든 오류를 작성자에게 알려주어 runtime 시 사용자가 마주하게 되는 버그를 최소화 시켜 준다는 점입니다. 
+엔티티 속성이 변경되거나 추가될 때 이를 사용하는 모든 곳에서 컴파일 에러가 발생한다면 코드 수정자의 입장에서 가장 이상적인 환경이됩니다. 
+
+model mapper 는 이러한 변경의 파급효과를 runtime 시점으로 미뤄버리기에 수정 및 리펙토링 환경에서 매우 해로운 기술입니다. JPA 관점에서도 연관 엔티티간의 조회 및 참조에서 원치않은 동작을 유발시키며 이를 제어하기는 무척 까다롭습니다. 
+
+새로운 프레임워크 버전 부터 model mapper 가 제거되었고, 생성자 패턴을 이용해 엔티티 및 인자, 결과 객체를 교환합니다. 생성자 패턴 적용예는 **예제 게시판**에서 확인 가능합니다.
+
+### JPA Metamodel 도입 
 
 JPA 를 이용할 때 엔터티 클래스의 속성을 문자열로 참조해야 하는 경우가 발생합니다 (예: mappedBy="속성명").
 프로젝트 진행 과정에서 해당 속성이 변경(혹은 삭제)되는 경우, 컴파일러는 이를 인지하지 못합니다. 즉, type safe 하지 않습니다.
@@ -216,6 +252,24 @@ private Set<ExBoardAttachment> attachments;
 생성된 모델을 참조하기 위해서는 `target/generated-sources` 경로가 IDE 의 **classpath** 에 추가되어야 합니다.
 
 인텔리제이의 경우, File > Project Structure > Modules > target\generated-sources 우클릭 후 Sources 체크 해주면 됩니다.
+
+## PACKAGING
+
+배포방식 설정을 위해 두가지 maven 프로파일을 제공한다.
+* `jar` (default)
+* `war` Jeus, WebLogic, Tomcat 등 별도 외장 컨테이너 이용시 사용
+
+maven 빌드 시 프로파일을 지정하지 않으면 기본 `jar` 프로파일로 동작하고, `war` 의 경우 명시적인 지정이 필요하다.
+
+아래는 admin 빌드시 `war` 프로파일을 지정한 예시이다.
+```shell
+$ mvn --projects admin --also-make clean package -DskipTests -P war
+
+# 빌드 후, admin/target 디렉토리에 war 가 생성된걸 확인할 수 있다.
+$ ll admin/target
+-rw-r--r-- 1 user 197121 94905770  4월 22 09:59 admin-0.0.1-SNAPSHOT.war
+```
+
 
 ## Documents
 
